@@ -25,6 +25,10 @@ android {
 
 
 dependencies {
+    projects.apply {
+        implementation(core.designSystem)
+        implementation(core.data)
+    }
 
     libs.apply {
         implementation(androidx.appcompat)

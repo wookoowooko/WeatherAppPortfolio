@@ -12,7 +12,6 @@ class JvmLibraryConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("org.jetbrains.kotlin.jvm")
                 apply("java-library")
-                apply("org.jetbrains.kotlin.plugin.serialization")
                 applyDependencies()
             }
 
@@ -25,7 +24,6 @@ class JvmLibraryConventionPlugin : Plugin<Project> {
 
     private fun Project.applyDependencies() {
         dependencies {
-            add("implementation", libs.findLibrary("kotlinx-serialization").get())
             add("implementation", libs.findLibrary("kotlinx-coroutines-core").get())
         }
     }

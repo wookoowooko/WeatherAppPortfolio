@@ -11,8 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import io.wookoo.weatherappportfolio.ui.theme.WeatherAppPortfolioTheme
+import dagger.hilt.android.AndroidEntryPoint
+import io.wookoo.design_system.ui.theme.WeatherAppPortfolioTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

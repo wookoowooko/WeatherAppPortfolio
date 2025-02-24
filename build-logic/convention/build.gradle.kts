@@ -65,5 +65,9 @@ gradlePlugin {
             id = "weather.app.hilt"
             implementationClass = "HiltConventionPlugin"
         }
+        register("room") {
+            id = "weather.app.room"
+            implementationClass = "AndroidRoomConventionPlugin"
+        }
     }
 }
