@@ -12,18 +12,18 @@ suspend inline fun <reified T> safeCall(execute: () -> Response<T>)
         : AppResult<T, DataError.Remote> {
     val response = try {
         execute()
-    } catch (e: SocketTimeoutException) {
+    } catch (se: SocketTimeoutException) {
         return AppResult.Error(DataError.Remote.REQUEST_TIMEOUT).also {
-            println(e)
+            println("SocketTimeoutException$se")
         }
-    } catch (e: UnresolvedAddressException) {
+    } catch (ue: UnresolvedAddressException) {
         return AppResult.Error(DataError.Remote.NO_INTERNET).also {
-            println(e)
+            println("UnresolvedAddressException$ue")
         }
     } catch (e: Exception) {
         coroutineContext.ensureActive()
         return AppResult.Error(DataError.Remote.UNKNOWN).also {
-            println(e)
+            println("Exception$e")
         }
     }
     return responseToResult(response)
