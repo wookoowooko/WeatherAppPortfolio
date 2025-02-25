@@ -10,4 +10,5 @@ android {
 
 dependencies {
     api(libs.bundles.network)
+    implementation(projects.core.domain)
 }

@@ -33,5 +33,6 @@ dependencies {
     libs.apply {
         implementation(androidx.appcompat)
         implementation(bundles.material)
+        implementation(hilt.android)
     }
 }
