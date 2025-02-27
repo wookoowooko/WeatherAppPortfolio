@@ -15,4 +15,6 @@ data class CurrentWeatherResponseDto(
     val current: CurrentWeatherDto,
     @SerialName("hourly")
     val hourly: HourlyDto,
+    @SerialName("daily")
+    val daily: DailyDto
 )

@@ -6,4 +6,5 @@ data class CurrentWeatherResponseModel(
     val timezone: String,
     val current: CurrentDayModel,
     val hourly: HourlyModel,
+    val daily: DailyModel
 )

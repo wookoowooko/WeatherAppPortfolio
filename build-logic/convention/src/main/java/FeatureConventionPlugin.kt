@@ -14,8 +14,8 @@ class FeatureConventionPlugin : Plugin<Project> {
 
     private fun Project.applyPlugins() {
         pluginManager.apply {
-            apply("tt.android.library")
-            apply("tt.android.library.compose")
+            apply("weather.app.android.library")
+            apply("weather.app.android.library.compose")
             apply("org.jetbrains.kotlin.plugin.serialization")
         }
     }
@@ -25,7 +25,8 @@ class FeatureConventionPlugin : Plugin<Project> {
             add("implementation", libs.findBundle("material").get())
             add("implementation", libs.findLibrary("navigation-compose").get())
             add("implementation", libs.findLibrary("kotlinx-serialization").get())
-            add("implementation", project(":core:design-system"))
+            add("implementation", libs.findLibrary("hilt-nav-compose").get())
+            add("api", project(":core:common"))
         }
     }
 }

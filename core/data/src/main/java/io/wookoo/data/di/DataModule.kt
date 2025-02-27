@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.wookoo.data.repo.MasterRepoImpl
-import io.wookoo.domain.repo.ICurrentWeatherRepo
+import io.wookoo.domain.repo.IMasterWeatherRepo
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -14,5 +14,5 @@ interface DataModule {
     @Binds
     fun bindsMasterRepo(
         masterRepo: MasterRepoImpl,
-    ): ICurrentWeatherRepo
+    ): IMasterWeatherRepo
 }

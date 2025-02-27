@@ -25,7 +25,8 @@ room-version = "2.6.1"
 compose-navigation = "2.8.7"
 icons = "1.7.0-alpha03"
 uiTextGoogleFonts = "1.7.8"
-jetbrainsKotlinJvm = "1.9.24"
+datetime = "0.6.2"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -66,6 +67,7 @@ hilt-nav-compose = {module =  "androidx.hilt:hilt-navigation-compose", version.r
 #Serialization
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "datetime" }
 
 #NAVIGATION
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "compose-navigation" }
@@ -117,7 +119,7 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+
 
 
 [bundles]
