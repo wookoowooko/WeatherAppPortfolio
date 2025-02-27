@@ -26,8 +26,8 @@ android {
 
 dependencies {
     projects.apply {
-        implementation(core.designSystem)
         implementation(core.data)
+        implementation(features.main)
     }
 
     libs.apply {

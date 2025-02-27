@@ -5,5 +5,8 @@ plugins {
 dependencies{
     libs.apply {
         api(libs.javax.inject)
+        implementation(kotlinx.datetime)
+        testImplementation(junit)
     }
+
 }

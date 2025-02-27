@@ -2,11 +2,13 @@ package io.wookoo.data.mappers
 
 import io.wookoo.domain.model.CurrentDayModel
 import io.wookoo.domain.model.CurrentWeatherResponseModel
+import io.wookoo.domain.model.DailyModel
 import io.wookoo.domain.model.HourlyModel
 import io.wookoo.domain.model.PrecipitationModel
 import io.wookoo.domain.model.WindModel
 import io.wookoo.network.dto.CurrentWeatherDto
 import io.wookoo.network.dto.CurrentWeatherResponseDto
+import io.wookoo.network.dto.DailyDto
 import io.wookoo.network.dto.HourlyDto
 
 fun CurrentWeatherResponseDto.asCurrentWeatherResponseModel(): CurrentWeatherResponseModel {
@@ -16,6 +18,7 @@ fun CurrentWeatherResponseDto.asCurrentWeatherResponseModel(): CurrentWeatherRes
         timezone = timezone,
         current = current.asCurrentDayModel(),
         hourly = hourly.asHourlyModel(),
+        daily = daily.asDailyModel()
     )
 }
 
@@ -48,5 +51,14 @@ private fun HourlyDto.asHourlyModel(): HourlyModel {
         time = time,
         temperature = temperature,
         weatherCode = weatherCode,
+        isDay = isDay.map { it == 1 }
+    )
+}
+
+private fun DailyDto.asDailyModel(): DailyModel {
+    return DailyModel(
+        sunrise = sunrise,
+        sunset = sunset,
+        uvIndexMax = uvIndexMax
     )
 }

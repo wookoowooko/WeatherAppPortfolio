@@ -1,7 +1,7 @@
 package io.wookoo.domain.model
 
 data class CurrentDayModel(
-    val time: String,
+    val time: Long,
     val temperature: Float,
     val relativeHumidity: Int,
     val feelsLike: Float,

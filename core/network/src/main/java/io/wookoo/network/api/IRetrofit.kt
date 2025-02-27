@@ -15,6 +15,9 @@ interface IRetrofit {
         @Query("current") current: String = CURRENT,
         @Query("hourly") hourly: String = HOURLY,
         @Query("forecast_days") forecastDays: Int = FORECAST_DAYS,
+        @Query("timezone") timezone: String = TIMEZONE,
+        @Query("timeformat") temperatureUnit: String = TIME_FORMAT,
+        @Query("daily") timeFormat: String = DAILY,
     ): Response<CurrentWeatherResponseDto>
 
     private companion object {
@@ -22,8 +25,11 @@ interface IRetrofit {
         const val LONGITUDE = "38.04556"
         const val CURRENT =
             "temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m"
-        const val HOURLY = "temperature_2m,weather_code"
+        const val HOURLY = "temperature_2m,weather_code,is_day"
         const val FORECAST_DAYS = 1
+        const val TIMEZONE = "auto"
+        const val TIME_FORMAT = "unixtime"
+        const val DAILY = "sunrise,sunset,uv_index_max"
     }
 
 }
