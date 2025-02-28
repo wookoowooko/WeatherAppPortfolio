@@ -2,11 +2,17 @@ package io.wookoo.main.mvi
 
 import io.wookoo.domain.enums.WeatherCondition
 import io.wookoo.domain.enums.WindDirection
-import io.wookoo.domain.model.HourlyModelItem
+import io.wookoo.domain.model.geocoding.GeocodingSearchModel
+import io.wookoo.domain.model.weather.current.HourlyModelItem
 
 class MainPageContract {
 
     data class MainPageState(
+        val latitude: Double = 0.0,
+        val longitude: Double = 0.0,
+        val searchExpanded: Boolean = false,
+        val searchQuery: String = "",
+        val searchResults: List<GeocodingSearchModel> = emptyList(),
         val isNow: Boolean = false,
         val isDay: Boolean = true,
         val isLoading: Boolean = true,
@@ -28,5 +34,9 @@ class MainPageContract {
         val uvIndex: String = "",
     )
 
-    sealed interface OnIntent
+    sealed interface OnIntent {
+        data class OnSearchQueryChange(val query: String) : OnIntent
+        data class OnExpandSearchBar(val expandValue: Boolean) : OnIntent
+        data class OnGeoLocationClick(val geoItem: GeocodingSearchModel) : OnIntent
+    }
 }

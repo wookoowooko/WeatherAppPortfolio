@@ -1,4 +1,4 @@
-package io.wookoo.domain.model
+package io.wookoo.domain.model.weather.current
 
 data class CurrentDayModel(
     val time: Long,

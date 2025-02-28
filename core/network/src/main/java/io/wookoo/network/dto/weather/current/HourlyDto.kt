@@ -1,4 +1,4 @@
-package io.wookoo.network.dto
+package io.wookoo.network.dto.weather.current
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

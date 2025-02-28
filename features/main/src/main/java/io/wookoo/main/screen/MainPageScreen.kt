@@ -3,10 +3,15 @@ package io.wookoo.main.screen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -18,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -31,15 +35,18 @@ import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.designsystem.ui.theme.ultraLarge
-import io.wookoo.main.components.CustomSearchBar
 import io.wookoo.main.components.Header
 import io.wookoo.main.components.MainCardMedium
+import io.wookoo.main.components.SearchBarMain
 import io.wookoo.main.components.TodayRowTitle
 import io.wookoo.main.components.WeatherProperties
 import io.wookoo.main.mvi.MainPageContract
 
 @Composable
-fun MainPageScreen(state: MainPageContract.MainPageState) {
+fun MainPageScreen(
+    state: MainPageContract.MainPageState,
+    onIntent: (MainPageContract.OnIntent) -> Unit,
+) {
     val rowState = rememberLazyListState()
     var nowPosition by remember { mutableIntStateOf(0) }
     LaunchedEffect(state.hourlyList) {
@@ -50,24 +57,36 @@ fun MainPageScreen(state: MainPageContract.MainPageState) {
         }
     }
 
-    var isExpanded by remember { mutableStateOf(false) }
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize(),
         topBar = {
-            CustomSearchBar(
-                onSearchQueryChange = {},
-                onClose = { isExpanded = false },
-                searchQuery = "",
-                onIconClick = {
-                    isExpanded = true
+            SearchBarMain(
+                onSearchQueryChange = { query ->
+                    onIntent(MainPageContract.OnIntent.OnSearchQueryChange(query))
                 },
-                isExpanded = isExpanded
+                onClose = { onIntent(MainPageContract.OnIntent.OnExpandSearchBar(false)) },
+                searchQuery = state.searchQuery,
+                onSearchNotExpandedIconClick = {
+                    onIntent(MainPageContract.OnIntent.OnExpandSearchBar(true))
+                },
+                isExpanded = state.searchExpanded,
+                results = state.searchResults,
+                onItemClick = { geoItem ->
+                    onIntent(MainPageContract.OnIntent.OnGeoLocationClick(geoItem))
+                },
+                isLoading = state.isLoading
             )
         }
     ) {
         Column(
             Modifier
                 .fillMaxWidth()
+                .windowInsetsPadding(
+                    WindowInsets.displayCutout.only(
+                        WindowInsetsSides.Horizontal
+                    )
+                )
                 .padding(it)
                 .verticalScroll(rememberScrollState(initial = 0), enabled = true),
             verticalArrangement = Arrangement.Center,
@@ -83,7 +102,9 @@ fun MainPageScreen(state: MainPageContract.MainPageState) {
                     state = state,
                     modifier = Modifier.padding(horizontal = large),
                     sunriseTime = state.sunriseTime,
-                    sunsetTime = state.sunsetTime
+                    sunsetTime = state.sunsetTime,
+                    city = state.city,
+                    country = state.country
                 )
                 MainCardMedium(
                     modifier = Modifier.padding(horizontal = large),
@@ -133,6 +154,9 @@ fun MainPageScreen(state: MainPageContract.MainPageState) {
 @Preview
 private fun MainPageScreenPreview() {
     WeatherAppPortfolioTheme {
-        MainPageScreen(state = MainPageContract.MainPageState())
+        MainPageScreen(
+            state = MainPageContract.MainPageState(),
+            onIntent = {}
+        )
     }
 }

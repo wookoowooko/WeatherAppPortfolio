@@ -1,8 +1,8 @@
 package io.wookoo.domain.usecases
 
 import io.wookoo.domain.enums.ApiUnit
-import io.wookoo.domain.model.HourlyModel
-import io.wookoo.domain.model.HourlyModelItem
+import io.wookoo.domain.model.weather.current.HourlyModel
+import io.wookoo.domain.model.weather.current.HourlyModelItem
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime

@@ -27,5 +27,6 @@ private fun MainPageScreenRoot(
     val onIntent = viewModel::onIntent
     MainPageScreen(
         state = state,
+        onIntent = onIntent
     )
 }

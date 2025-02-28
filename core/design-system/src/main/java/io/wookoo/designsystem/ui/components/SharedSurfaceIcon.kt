@@ -42,7 +42,7 @@ fun SharedSurfaceIcon(
             onClick = onClick
         ) {
             if (icon != null) {
-                Icon(imageVector = icon, contentDescription = null)
+                Icon(imageVector = icon, contentDescription = null, tint = Color.Black)
             }
             if (image != null) {
                 Image(painter = painterResource(id = image), contentDescription = null)
