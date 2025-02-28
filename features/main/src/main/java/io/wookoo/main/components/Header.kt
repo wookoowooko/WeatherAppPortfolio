@@ -25,6 +25,8 @@ import io.wookoo.main.mvi.MainPageContract
 
 @Composable
 internal fun Header(
+    country: String,
+    city: String,
     sunriseTime: String,
     sunsetTime: String,
     state: MainPageContract.MainPageState,
@@ -56,12 +58,12 @@ internal fun Header(
                 )
                 SharedHeadlineText(
                     maxLines = 2,
-                    text = "Moscow"
+                    text = city
                 )
             }
 
             SharedText(
-                text = "Russian Federation",
+                text = country,
                 maxLines = 2,
             )
             SharedText(
@@ -123,6 +125,8 @@ private fun HeaderPreview() {
     Header(
         state = MainPageContract.MainPageState(),
         sunriseTime = "06:00",
-        sunsetTime = "18:00"
+        sunsetTime = "18:00",
+        city = "London",
+        country = "UK",
     )
 }

@@ -16,10 +16,16 @@ class AppOkHttpClient {
     }
 
     companion object {
-        private const val BASE_URL =
+        private const val BASE_URL_WEATHER =
             "https://api.open-meteo.com/v1/"
 
-        val baseUrl: String
-            get() = BASE_URL
+        private const val BASE_URL_GEOCODING =
+            "https://geocoding-api.open-meteo.com/v1/"
+
+        val baseUrlWeather: String
+            get() = BASE_URL_WEATHER
+
+        val baseUrlGeoCoding: String
+            get() = BASE_URL_GEOCODING
     }
 }

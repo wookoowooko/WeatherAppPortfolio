@@ -1,15 +1,19 @@
 package io.wookoo.data.mappers
 
-import io.wookoo.domain.model.CurrentDayModel
-import io.wookoo.domain.model.CurrentWeatherResponseModel
-import io.wookoo.domain.model.DailyModel
-import io.wookoo.domain.model.HourlyModel
-import io.wookoo.domain.model.PrecipitationModel
-import io.wookoo.domain.model.WindModel
-import io.wookoo.network.dto.CurrentWeatherDto
-import io.wookoo.network.dto.CurrentWeatherResponseDto
-import io.wookoo.network.dto.DailyDto
-import io.wookoo.network.dto.HourlyDto
+import io.wookoo.domain.model.geocoding.GeocodingResponseModel
+import io.wookoo.domain.model.geocoding.GeocodingSearchModel
+import io.wookoo.domain.model.weather.current.CurrentDayModel
+import io.wookoo.domain.model.weather.current.CurrentWeatherResponseModel
+import io.wookoo.domain.model.weather.current.DailyModel
+import io.wookoo.domain.model.weather.current.HourlyModel
+import io.wookoo.domain.model.weather.current.PrecipitationModel
+import io.wookoo.domain.model.weather.current.WindModel
+import io.wookoo.network.dto.geocoding.GeocodingResponseDto
+import io.wookoo.network.dto.geocoding.GeocodingSearchDto
+import io.wookoo.network.dto.weather.current.CurrentWeatherDto
+import io.wookoo.network.dto.weather.current.CurrentWeatherResponseDto
+import io.wookoo.network.dto.weather.current.DailyDto
+import io.wookoo.network.dto.weather.current.HourlyDto
 
 fun CurrentWeatherResponseDto.asCurrentWeatherResponseModel(): CurrentWeatherResponseModel {
     return CurrentWeatherResponseModel(
@@ -60,5 +64,22 @@ private fun DailyDto.asDailyModel(): DailyModel {
         sunrise = sunrise,
         sunset = sunset,
         uvIndexMax = uvIndexMax
+    )
+}
+
+fun GeocodingResponseDto.asGeocodingResponseModel(): GeocodingResponseModel {
+    return GeocodingResponseModel(
+        results = results?.map { it.asGeocodingSearchModel() }.orEmpty()
+    )
+}
+
+fun GeocodingSearchDto.asGeocodingSearchModel(): GeocodingSearchModel {
+    return GeocodingSearchModel(
+        name = name,
+        latitude = latitude,
+        longitude = longitude,
+        countryCode = countryCode,
+        country = country,
+        urbanArea = admin1
     )
 }

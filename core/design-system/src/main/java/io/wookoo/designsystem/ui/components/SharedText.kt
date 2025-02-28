@@ -5,20 +5,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 
 @Composable
 fun SharedText(
+
     text: String,
     modifier: Modifier = Modifier,
     color: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.onSurface,
     style: androidx.compose.ui.text.TextStyle = MaterialTheme.typography.headlineSmall,
     weight: FontWeight = FontWeight.Normal,
     maxLines: Int = Int.MAX_VALUE,
+    textAlign: TextAlign = TextAlign.Start,
 ) {
     Text(
+        textAlign = textAlign,
         overflow = TextOverflow.Ellipsis,
         maxLines = maxLines,
         fontWeight = weight,
