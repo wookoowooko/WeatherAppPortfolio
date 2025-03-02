@@ -6,6 +6,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import io.wookoo.main.mvi.MainPageContract
 import io.wookoo.main.mvi.MainPageViewModel
 import io.wookoo.main.screen.MainPageScreen
 import kotlinx.serialization.Serializable
@@ -13,20 +14,31 @@ import kotlinx.serialization.Serializable
 @Serializable
 data object MainRoute
 
-fun NavGraphBuilder.mainPage() {
+fun NavGraphBuilder.mainPage(
+    onRequestLocationPermissions: () -> Unit,
+) {
     composable<MainRoute> {
-        MainPageScreenRoot()
+        MainPageScreenRoot(
+            onRequestLocationPermissions = onRequestLocationPermissions
+        )
     }
 }
 
 @Composable
 private fun MainPageScreenRoot(
     viewModel: MainPageViewModel = hiltViewModel(),
+    onRequestLocationPermissions: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val onIntent = viewModel::onIntent
+
     MainPageScreen(
         state = state,
-        onIntent = onIntent
+        onIntent = { intent ->
+            when (intent) {
+                MainPageContract.OnIntent.OnRequestGeoLocationPermission -> onRequestLocationPermissions()
+                else -> Unit
+            }
+            viewModel.onIntent(intent)
+        }
     )
 }

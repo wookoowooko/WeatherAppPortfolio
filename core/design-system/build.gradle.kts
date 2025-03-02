@@ -12,9 +12,11 @@ dependencies {
 
     libs.apply {
         api(material.icons.extended)
+        api(kotlinx.datetime)
         implementation(androidx.ui.tooling.preview)
         implementation(androidx.ui.tooling)
         implementation(androidx.material3)
+        implementation(lottie.compose)
         api(androidx.ui.text.google.fonts)
     }
 }

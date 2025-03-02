@@ -2,6 +2,8 @@ package io.wookoo.data.mappers
 
 import io.wookoo.domain.model.geocoding.GeocodingResponseModel
 import io.wookoo.domain.model.geocoding.GeocodingSearchModel
+import io.wookoo.domain.model.reversegeocoding.ReverseGeocodingResponseModel
+import io.wookoo.domain.model.reversegeocoding.ReverseGeocodingSearchModel
 import io.wookoo.domain.model.weather.current.CurrentDayModel
 import io.wookoo.domain.model.weather.current.CurrentWeatherResponseModel
 import io.wookoo.domain.model.weather.current.DailyModel
@@ -10,6 +12,8 @@ import io.wookoo.domain.model.weather.current.PrecipitationModel
 import io.wookoo.domain.model.weather.current.WindModel
 import io.wookoo.network.dto.geocoding.GeocodingResponseDto
 import io.wookoo.network.dto.geocoding.GeocodingSearchDto
+import io.wookoo.network.dto.reversegeocoding.ReverseGeocodingResponseDto
+import io.wookoo.network.dto.reversegeocoding.ReverseGeocodingSearchDto
 import io.wookoo.network.dto.weather.current.CurrentWeatherDto
 import io.wookoo.network.dto.weather.current.CurrentWeatherResponseDto
 import io.wookoo.network.dto.weather.current.DailyDto
@@ -75,11 +79,26 @@ fun GeocodingResponseDto.asGeocodingResponseModel(): GeocodingResponseModel {
 
 fun GeocodingSearchDto.asGeocodingSearchModel(): GeocodingSearchModel {
     return GeocodingSearchModel(
-        name = name,
+        cityName = name,
         latitude = latitude,
         longitude = longitude,
         countryCode = countryCode,
         country = country,
         urbanArea = admin1
+    )
+}
+
+fun ReverseGeocodingResponseDto.asReverseGeocodingResponseModel(): ReverseGeocodingResponseModel {
+    return ReverseGeocodingResponseModel(
+        geonames = geonames?.map { it.asReverseGeocodingSearchModel() }.orEmpty()
+    )
+}
+
+fun ReverseGeocodingSearchDto.asReverseGeocodingSearchModel(): ReverseGeocodingSearchModel {
+    return ReverseGeocodingSearchModel(
+        name = name,
+        toponymName = toponymName,
+        countryName = countryName,
+        areaName = areaName.orEmpty(),
     )
 }

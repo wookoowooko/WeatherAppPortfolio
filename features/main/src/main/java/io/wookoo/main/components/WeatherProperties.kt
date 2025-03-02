@@ -29,44 +29,49 @@ fun WeatherProperties(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_humidity,
             text = humidity,
-            title = stringResource(R.string.humidity_prop)
+            title = stringResource(R.string.humidity_prop),
         )
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_wind_speed,
             text = windSpeed,
-            title = stringResource(R.string.wind_speed_prop)
+            title = stringResource(R.string.wind_speed_prop),
         )
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_wind_direction,
             text = stringResource(windDirection),
-            title = stringResource(R.string.wind_direction_prop)
+            title = stringResource(R.string.wind_direction_prop),
+
         )
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_wind_gust,
             text = windGust,
-            title = stringResource(R.string.wind_gust_prop)
+            title = stringResource(R.string.wind_gust_prop),
+
         )
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_precipitation,
             text = precipitation,
-            title = stringResource(R.string.precipitation_prop)
+            title = stringResource(R.string.precipitation_prop),
+
         )
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_pressure_msl,
             text = pressureMsl,
-            title = stringResource(R.string.pressure)
+            title = stringResource(R.string.pressure),
+
         )
 
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_uv_index,
             text = uvIndex,
-            title = stringResource(R.string.uv_index)
+            title = stringResource(R.string.uv_index),
+
         )
     }
 }
@@ -81,7 +86,7 @@ private fun WeatherPropertiesPreview() {
         windGust = "10km/h",
         precipitation = "10%",
         pressureMsl = "1000 hPa",
-        uvIndex = "10"
+        uvIndex = "10",
     )
 }
 
@@ -95,6 +100,6 @@ private fun WeatherPropertiesPreview2() {
         windGust = "10km/h",
         precipitation = "10%",
         pressureMsl = "1000 hPa",
-        uvIndex = "10"
+        uvIndex = "10",
     )
 }

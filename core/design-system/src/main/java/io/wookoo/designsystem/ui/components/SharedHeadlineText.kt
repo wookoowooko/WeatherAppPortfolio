@@ -16,7 +16,11 @@ fun SharedHeadlineText(
     text: String,
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onSurface,
-    style: TextStyle = MaterialTheme.typography.displaySmall,
+    style: TextStyle = if (text.length <= 9) {
+        MaterialTheme.typography.displaySmall
+    } else {
+        MaterialTheme.typography.headlineSmall
+    },
     maxLines: Int = Int.MAX_VALUE,
 ) {
     Text(

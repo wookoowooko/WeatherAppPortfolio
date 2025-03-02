@@ -26,7 +26,10 @@ fun SharedWeatherItem(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SharedSurfaceIcon(image = image, onClick = onClick)
+        SharedSurfaceIcon(
+            image = image,
+            onClick = onClick
+        )
         SharedText(
             text = title,
             style = MaterialTheme.typography.labelSmall,
@@ -59,5 +62,16 @@ private fun WeatherItemPreview2() {
         image = R.drawable.ic_drizzle_light,
         text = "8km/h",
         title = "WindSpeed"
+    )
+}
+
+@Composable
+@Preview(showBackground = false, uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES)
+private fun WeatherItemPreview3() {
+    SharedWeatherItem(
+        onClick = {},
+        image = R.drawable.ic_drizzle_light,
+        text = "8km/h",
+        title = "WindSpeed",
     )
 }

@@ -31,7 +31,7 @@ internal fun Header(
     sunsetTime: String,
     state: MainPageContract.MainPageState,
     modifier: Modifier = Modifier,
-    onGeoLocationClick: () -> Unit = {},
+    onGeoLocationClick: () -> Unit,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -77,7 +77,8 @@ internal fun Header(
         ) {
             Row(modifier = Modifier.padding(vertical = small)) {
                 SharedSurfaceIcon(
-                    modifier = Modifier.size(size_40),
+                    modifier = Modifier
+                        .size(size_40),
                     iconPadding = ultraSmall,
                     image = io.wookoo.design.system.R.drawable.ic_sunrise,
                     onClick = {}
@@ -128,5 +129,6 @@ private fun HeaderPreview() {
         sunsetTime = "18:00",
         city = "London",
         country = "UK",
+        onGeoLocationClick = {}
     )
 }

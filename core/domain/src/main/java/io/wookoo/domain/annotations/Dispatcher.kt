@@ -1,4 +1,4 @@
-package io.wookoo.data.di.dispatchers
+package io.wookoo.domain.annotations
 
 import javax.inject.Qualifier
 
@@ -8,4 +8,5 @@ annotation class Dispatcher(val appDispatcher: AppDispatchers)
 
 enum class AppDispatchers {
     IO,
+    Default,
 }
