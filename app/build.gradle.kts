@@ -27,7 +27,10 @@ android {
 dependencies {
     projects.apply {
         implementation(core.data)
+        implementation(core.geolocation)
+        implementation(core.permissions)
         implementation(features.main)
+        implementation(features.welcome)
     }
 
     libs.apply {

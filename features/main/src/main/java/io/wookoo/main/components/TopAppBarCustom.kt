@@ -46,11 +46,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.designsystem.ui.components.SharedAppBarButton
+import io.wookoo.designsystem.ui.components.SharedLocationItem
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.domain.model.geocoding.GeocodingSearchModel
-import io.wookoo.main.R
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -58,6 +58,7 @@ fun SearchBarMain(
     searchQuery: String,
     isLoading: Boolean,
     isExpanded: Boolean,
+    isGeolocationSearchInProgress: Boolean,
     results: List<GeocodingSearchModel>,
     modifier: Modifier = Modifier,
     onSearchNotExpandedIconClick: () -> Unit,
@@ -110,7 +111,7 @@ fun SearchBarMain(
                         if (searchQuery.isEmpty()) {
                             Text(
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                                text = stringResource(R.string.search_your_location),
+                                text = stringResource(io.wookoo.design.system.R.string.search_your_location),
                                 modifier = Modifier
                             )
                         }
@@ -136,7 +137,7 @@ fun SearchBarMain(
                     } else {
                         SharedText(
                             modifier = Modifier.fillMaxWidth(),
-                            text = stringResource(R.string.no_results_found),
+                            text = stringResource(io.wookoo.design.system.R.string.no_results_found),
                             style = MaterialTheme.typography.labelLarge.copy(
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                             ),
@@ -158,8 +159,10 @@ fun SearchBarMain(
                     horizontalAlignment = Alignment.Start
                 ) {
                     items(results) { result ->
-                        LocationItem(
-                            result = result,
+                        SharedLocationItem(
+                            countryName = result.country,
+                            cityName = result.cityName,
+                            urbanArea = result.urbanArea,
                             onClick = {
                                 onItemClick(result)
                             }
@@ -189,6 +192,7 @@ fun SearchBarMain(
         exit = slideOutHorizontally(targetOffsetX = { -it }) + fadeOut()
     ) {
         SharedAppBarButton(
+            enabled = !isGeolocationSearchInProgress,
             onClick = onSearchNotExpandedIconClick,
             modifier = Modifier
                 .windowInsetsPadding(TopAppBarDefaults.windowInsets)
@@ -199,7 +203,7 @@ fun SearchBarMain(
 }
 
 val result = GeocodingSearchModel(
-    name = "Moscow",
+    cityName = "Moscow",
     latitude = 55.7558,
     longitude = 37.6176,
     countryCode = "RU",
@@ -217,7 +221,8 @@ private fun SearchBarMainPreview() {
         onItemClick = {},
         searchQuery = "Moscow",
         onSearchQueryChange = {},
-        isLoading = false
+        isLoading = false,
+        isGeolocationSearchInProgress = false
     )
 }
 
@@ -232,6 +237,7 @@ private fun SearchBarMainPreview2() {
         onItemClick = {},
         searchQuery = "Moscow",
         onSearchQueryChange = {},
-        isLoading = false
+        isLoading = false,
+        isGeolocationSearchInProgress = true
     )
 }

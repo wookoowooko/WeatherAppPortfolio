@@ -1,4 +1,4 @@
-package io.wookoo.common
+package io.wookoo.designsystem.ui.utils
 
 import kotlinx.datetime.Clock
 

@@ -40,7 +40,7 @@ fun MainCardMedium(
     temperatureFeelsLike: String,
     @DrawableRes weatherImage: Int,
     @StringRes weatherName: Int,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     val linearGradient = Brush.linearGradient(
         colors = listOf(
@@ -130,7 +130,7 @@ private fun ClearSkySunny0() {
             temperature = "25°",
             weatherImage = io.wookoo.design.system.R.drawable.ic_clear_sky,
             temperatureFeelsLike = "32°",
-            weatherName = io.wookoo.design.system.R.string.clear_sky
+            weatherName = io.wookoo.design.system.R.string.clear_sky,
         )
     }
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.wookoo.domain.enums.ApiUnit
+import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.domain.repo.IMasterWeatherRepo
 import io.wookoo.domain.usecases.ConvertDateUseCase
 import io.wookoo.domain.usecases.ConvertUnixTimeUseCase
@@ -14,12 +15,14 @@ import io.wookoo.domain.usecases.UnitFormatUseCase
 import io.wookoo.domain.usecases.WindDirectionFromDegreesToDirectionFormatUseCase
 import io.wookoo.domain.utils.onError
 import io.wookoo.domain.utils.onSuccess
+import io.wookoo.geolocation.WeatherLocationManager
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -39,49 +42,85 @@ class MainPageViewModel @Inject constructor(
     private val unitFormatUseCase: UnitFormatUseCase,
     private val hourlyModelToHourlyListUseCase: HourlyModelToHourlyListUseCase,
     private val convertUnixTimeUseCase: ConvertUnixTimeUseCase,
+    private val dataStore: IDataStoreRepo,
+    private val weatherLocationManager: WeatherLocationManager,
 ) : ViewModel() {
 
     private var searchJob: Job? = null
+
+//    private var geonamesJob: Job? = null
     private val _state = MutableStateFlow(MainPageContract.MainPageState())
 
     val state = _state.onStart {
         observeSearchQuery()
-        observeLocationChanges()
+//        observeLocationChanges()
+        observeUserSettings()
+        observeUserGeolocationChanges()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = MainPageContract.MainPageState()
     )
 
-    fun onIntent(intent: MainPageContract.OnIntent) {
-        when (intent) {
-            is MainPageContract.OnIntent.OnSearchQueryChange -> {
-                _state.update { it.copy(searchQuery = intent.query) }
-            }
-
-            is MainPageContract.OnIntent.OnExpandSearchBar -> {
-                _state.update { it.copy(searchExpanded = intent.expandValue) }
-            }
-
-            is MainPageContract.OnIntent.OnGeoLocationClick -> {
+    private fun observeUserSettings() {
+        viewModelScope.launch {
+            dataStore.userSettings.collect { settings ->
                 _state.update {
-                    it.copy(
-                        searchExpanded = false,
-                        city = intent.geoItem.name,
-                        country = intent.geoItem.country,
-                        latitude = intent.geoItem.latitude,
-                        longitude = intent.geoItem.longitude
-                    )
+                    it.copy(userSettings = settings)
                 }
             }
         }
     }
 
-    private fun observeLocationChanges() {
-        state.map { it.city }
-            .distinctUntilChanged()
-            .onEach { getCurrentWeather() }
-            .launchIn(viewModelScope)
+    fun onIntent(intent: MainPageContract.OnIntent) {
+        when (intent) {
+            is MainPageContract.OnIntent.OnSearchQueryChange -> changeSearchQuery(intent)
+            is MainPageContract.OnIntent.OnExpandSearchBar -> onChangeExpandSearchBar(intent)
+            is MainPageContract.OnIntent.OnSearchedGeoItemClick -> {
+                viewModelScope.launch { onSelectResultCardClick(intent) }
+            }
+
+            is MainPageContract.OnIntent.OnGeolocationIconClick -> getGeolocation()
+            else -> Unit
+        }
+    }
+
+    private suspend fun onSelectResultCardClick(intent: MainPageContract.OnIntent.OnSearchedGeoItemClick) {
+        dataStore.saveUserLocation(
+            latitude = intent.geoItem.latitude,
+            longitude = intent.geoItem.longitude
+        )
+
+        _state.update {
+            it.copy(
+                searchExpanded = false,
+                city = intent.geoItem.cityName,
+                country = intent.geoItem.country,
+            )
+        }
+    }
+
+    private fun getGeolocation() {
+        _state.update { it.copy(isGeolocationSearchInProgress = true) }
+        weatherLocationManager.getCurrentLocation { lat, lon ->
+            viewModelScope.launch {
+                dataStore.saveUserLocation(
+                    latitude = lat,
+                    longitude = lon
+                )
+            }
+            _state.update {
+                it.copy(isGeolocationSearchInProgress = false)
+            }
+        }
+    }
+
+    private fun onChangeExpandSearchBar(intent: MainPageContract.OnIntent.OnExpandSearchBar) {
+        _state.update { it.copy(searchExpanded = intent.expandValue) }
+    }
+
+    private fun changeSearchQuery(intent: MainPageContract.OnIntent.OnSearchQueryChange) {
+        _state.update { it.copy(searchQuery = intent.query) }
     }
 
     @OptIn(FlowPreview::class)
@@ -93,11 +132,7 @@ class MainPageViewModel @Inject constructor(
             .onEach { query ->
                 when {
                     query.isBlank() -> {
-                        _state.update {
-                            it.copy(
-                                searchResults = emptyList()
-                            )
-                        }
+                        _state.update { it.copy(searchResults = emptyList()) }
                     }
 
                     query.length >= 2 -> {
@@ -132,11 +167,53 @@ class MainPageViewModel @Inject constructor(
             }
     }
 
+    //    private fun observeLocationChanges() {
+//        state.map { it.userSettings }
+//            .distinctUntilChanged()
+//            .onEach { }
+//            .launchIn(viewModelScope)
+//    }
+    private fun observeUserGeolocationChanges() {
+        state.map { it.userSettings.location.latitude }
+            .filter { it != 0.0 }
+            .distinctUntilChanged()
+            .onEach {
+                searchReverseGeoLocation()
+                getCurrentWeather()
+            }
+            .launchIn(viewModelScope)
+    }
+
+    private fun searchReverseGeoLocation() = viewModelScope.launch {
+        _state.update {
+            it.copy(isLoading = true)
+        }
+        masterRepository.getReverseGeocodingLocation(
+            latitude = state.value.userSettings.location.latitude,
+            longitude = state.value.userSettings.location.longitude,
+            language = "ru"
+        ).onSuccess { searchResults ->
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    city = searchResults.geonames.first().name
+                )
+            }
+        }.onError { error ->
+            _state.update {
+                it.copy(
+                    city = "",
+                    isLoading = false,
+                )
+            }
+        }
+    }
+
     private fun getCurrentWeather() {
         viewModelScope.launch {
             masterRepository.getCurrentWeather(
-                latitude = state.value.latitude,
-                longitude = state.value.longitude
+                latitude = state.value.userSettings.location.latitude,
+                longitude = state.value.userSettings.location.longitude
             )
                 .onError {
                     Log.d(TAG, "error: $it")
@@ -194,5 +271,10 @@ class MainPageViewModel @Inject constructor(
 
     companion object {
         private const val TAG = "MainPageViewModel"
+    }
+
+    override fun onCleared() {
+        searchJob?.cancel()
+//        geonamesJob?.cancel()
     }
 }

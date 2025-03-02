@@ -36,4 +36,6 @@
     <string name="thunderstorm">Thunderstorm</string>
     <string name="thunderstorm_hail">Thunderstorm with hail</string>
     <string name="weather_error">No weather data</string>
+    <string name="search_your_location">Search your location…</string>
+    <string name="no_results_found">No results found</string>
 </resources>

@@ -22,7 +22,6 @@ import io.wookoo.designsystem.ui.theme.small
 
 @Composable
 fun SharedSurfaceIcon(
-
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
     image: Int? = null,

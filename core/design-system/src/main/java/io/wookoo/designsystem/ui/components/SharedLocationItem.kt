@@ -1,4 +1,4 @@
-package io.wookoo.main.components
+package io.wookoo.designsystem.ui.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ListItem
@@ -6,22 +6,22 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import io.wookoo.common.clickableSingle
-import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.designsystem.ui.theme.small
 import io.wookoo.designsystem.ui.theme.ultraSmall
-import io.wookoo.domain.model.geocoding.GeocodingSearchModel
+import io.wookoo.designsystem.ui.utils.clickableSingle
 
 @Composable
-fun LocationItem(
-    result: GeocodingSearchModel,
+fun SharedLocationItem(
+    countryName: String,
+    cityName: String,
+    urbanArea: String?,
     onClick: () -> Unit,
 ) {
     ListItem(
         overlineContent = {
             SharedText(
-                text = result.country,
+                text = countryName,
                 style = MaterialTheme.typography.labelSmall
             )
         },
@@ -33,11 +33,11 @@ fun LocationItem(
             },
         tonalElevation = ultraSmall,
         headlineContent = {
-            SharedText(text = result.name, style = MaterialTheme.typography.titleMedium)
+            SharedText(text = cityName, style = MaterialTheme.typography.titleMedium)
         },
         supportingContent = {
             SharedText(
-                text = result.urbanArea.orEmpty(),
+                text = urbanArea.orEmpty(),
                 style = MaterialTheme.typography.bodySmall.copy(
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f)
                 )
@@ -50,6 +50,11 @@ fun LocationItem(
 @Preview
 private fun LocationItemPreview() {
     WeatherAppPortfolioTheme {
-        LocationItem(result = result, onClick = {})
+        SharedLocationItem(
+            countryName = "Korea",
+            cityName = "Seoul",
+            urbanArea = "Gangnam-gu",
+            onClick = {}
+        )
     }
 }

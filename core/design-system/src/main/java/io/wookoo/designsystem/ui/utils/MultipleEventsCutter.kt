@@ -1,4 +1,4 @@
-package io.wookoo.common
+package io.wookoo.designsystem.ui.utils
 
 internal interface MultipleEventsCutter {
     fun processEvent(event: () -> Unit)

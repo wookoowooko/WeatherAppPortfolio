@@ -1,4 +1,4 @@
-package io.wookoo.common
+package io.wookoo.designsystem.ui.utils
 
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable

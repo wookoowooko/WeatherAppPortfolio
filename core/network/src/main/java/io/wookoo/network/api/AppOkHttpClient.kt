@@ -22,6 +22,12 @@ class AppOkHttpClient {
         private const val BASE_URL_GEOCODING =
             "https://geocoding-api.open-meteo.com/v1/"
 
+        private const val BASE_URL_REVERSE_GEOCODING =
+            "http://api.geonames.org/"
+
+        val baseReverseGeoCodingUrl :String
+            get() = BASE_URL_REVERSE_GEOCODING
+
         val baseUrlWeather: String
             get() = BASE_URL_WEATHER
 
