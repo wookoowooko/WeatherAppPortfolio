@@ -40,7 +40,7 @@ fun MainCardMedium(
     temperatureFeelsLike: String,
     @DrawableRes weatherImage: Int,
     @StringRes weatherName: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val linearGradient = Brush.linearGradient(
         colors = listOf(

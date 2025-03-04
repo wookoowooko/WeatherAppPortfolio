@@ -16,10 +16,12 @@ data object MainRoute
 
 fun NavGraphBuilder.mainPage(
     onRequestLocationPermissions: () -> Unit,
+    onNavigate: () -> Unit,
 ) {
     composable<MainRoute> {
         MainPageScreenRoot(
-            onRequestLocationPermissions = onRequestLocationPermissions
+            onRequestLocationPermissions = onRequestLocationPermissions,
+            onNavigate = onNavigate
         )
     }
 }
@@ -28,6 +30,7 @@ fun NavGraphBuilder.mainPage(
 private fun MainPageScreenRoot(
     viewModel: MainPageViewModel = hiltViewModel(),
     onRequestLocationPermissions: () -> Unit,
+    onNavigate: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -36,6 +39,7 @@ private fun MainPageScreenRoot(
         onIntent = { intent ->
             when (intent) {
                 MainPageContract.OnIntent.OnRequestGeoLocationPermission -> onRequestLocationPermissions()
+                MainPageContract.OnIntent.OnNavigateToWeekly -> onNavigate()
                 else -> Unit
             }
             viewModel.onIntent(intent)

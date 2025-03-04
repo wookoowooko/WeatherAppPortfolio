@@ -43,5 +43,6 @@ class MainPageContract {
         data class OnSearchedGeoItemClick(val geoItem: GeocodingSearchModel) : OnIntent
         data object OnGeolocationIconClick : OnIntent
         data object OnRequestGeoLocationPermission : OnIntent
+        data object OnNavigateToWeekly : OnIntent
     }
 }

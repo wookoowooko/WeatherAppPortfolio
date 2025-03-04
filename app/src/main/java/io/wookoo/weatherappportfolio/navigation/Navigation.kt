@@ -5,12 +5,16 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.Lifecycle
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import io.wookoo.domain.settings.UserSettingsModel
 import io.wookoo.main.navigation.MainRoute
 import io.wookoo.main.navigation.mainPage
+import io.wookoo.weekly.navigation.navigateToWeeklyPage
+import io.wookoo.weekly.navigation.weeklyPage
 import io.wookoo.welcome.navigation.WelcomeRoute
 import io.wookoo.welcome.navigation.welcomePage
 import kotlinx.serialization.Serializable
@@ -26,8 +30,10 @@ internal fun Navigation(
     onRequestLocationPermission: () -> Unit,
     userSettings: UserSettingsModel?,
 ) {
+    val navController = rememberNavController()
+
     NavHost(
-        navController = rememberNavController(),
+        navController = navController,
         startDestination = if (userSettings?.isLocationChoose == true) {
             MainGraph
         } else {
@@ -82,8 +88,17 @@ internal fun Navigation(
             startDestination = MainRoute,
         ) {
             mainPage(
-                onRequestLocationPermissions = onRequestLocationPermission
+                onRequestLocationPermissions = onRequestLocationPermission,
+                onNavigate = navController::navigateToWeeklyPage
+            )
+            weeklyPage(
+                onBackIconClick = {
+                    if (navController.canGoBack) navController.popBackStack()
+                }
             )
         }
     }
 }
+
+private val NavHostController.canGoBack: Boolean
+    get() = this.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED

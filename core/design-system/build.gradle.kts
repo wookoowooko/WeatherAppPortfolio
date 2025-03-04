@@ -15,7 +15,7 @@ dependencies {
         api(kotlinx.datetime)
         implementation(androidx.ui.tooling.preview)
         implementation(androidx.ui.tooling)
-        implementation(androidx.material3)
+        implementation(bundles.material)
         implementation(lottie.compose)
         api(androidx.ui.text.google.fonts)
     }
