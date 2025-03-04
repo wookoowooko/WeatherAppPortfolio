@@ -156,7 +156,9 @@ fun MainPageScreen(
                             )
                             TodayRowTitle(
                                 modifier = Modifier.padding(horizontal = large),
-                                onNextSevenDaysClick = {},
+                                onNextSevenDaysClick = {
+                                    onIntent(MainPageContract.OnIntent.OnNavigateToWeekly)
+                                },
                             )
                             Spacer(modifier = Modifier.height(ultraLarge))
                         }

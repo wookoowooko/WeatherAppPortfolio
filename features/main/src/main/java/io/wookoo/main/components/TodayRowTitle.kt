@@ -34,7 +34,7 @@ internal fun TodayRowTitle(
             style = MaterialTheme.typography.headlineMedium
         )
         TextButton(
-            onClick = { /*TODO*/ },
+            onClick = { onNextSevenDaysClick() },
             shape = MaterialTheme.shapes.small
         ) {
             SharedText(

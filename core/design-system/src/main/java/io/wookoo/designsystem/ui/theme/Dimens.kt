@@ -18,5 +18,4 @@ val size_100 = 100.dp
 val size_170 = 170.dp
 
 val rounded_shape_20_percent = RoundedCornerShape(20)
-val rounded_shape_10_dp = RoundedCornerShape(10.dp)
 val rounded_shape_50_percent = RoundedCornerShape(50)
