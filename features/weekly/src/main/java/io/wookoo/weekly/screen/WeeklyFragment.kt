@@ -9,9 +9,9 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.androidbroadcast.vbpd.viewBinding
 import io.wookoo.common.collectWithLifecycle
-import io.wookoo.weekly.WeeklyViewModel
 import io.wookoo.weekly.adapters.MainAdapter
 import io.wookoo.weekly.databinding.FragmentWeeklyBinding
+import io.wookoo.weekly.mvi.WeeklyViewModel
 import io.wookoo.weekly.uimodels.CalendarContainer
 import io.wookoo.weekly.uimodels.PropertiesContainer
 import io.wookoo.weekly.uimodels.UIPropModel

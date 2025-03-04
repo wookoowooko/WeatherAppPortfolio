@@ -12,6 +12,7 @@ dependencies {
 
     projects.apply {
         implementation(core.common)
+        implementation(core.data)
     }
 
     libs.apply {

@@ -257,8 +257,8 @@ class MainPageViewModel @Inject constructor(
                                 unit = ApiUnit.PRESSURE
                             ),
                             weatherStatus = convertWeatherCodeToEnumUseCase(model.current.weatherStatus),
-                            sunriseTime = convertUnixTimeUseCase(model.daily.sunrise).first(),
-                            sunsetTime = convertUnixTimeUseCase(model.daily.sunset).first(),
+                            sunriseTime = convertUnixTimeUseCase(model.daily.sunCycles.sunrise).first(),
+                            sunsetTime = convertUnixTimeUseCase(model.daily.sunCycles.sunset).first(),
                             uvIndex = unitFormatUseCase(
                                 model.daily.uvIndexMax.first(),
                                 ApiUnit.UV_INDEX

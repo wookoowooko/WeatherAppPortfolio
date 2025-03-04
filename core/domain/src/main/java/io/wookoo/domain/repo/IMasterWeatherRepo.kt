@@ -3,6 +3,7 @@ package io.wookoo.domain.repo
 import io.wookoo.domain.model.geocoding.GeocodingResponseModel
 import io.wookoo.domain.model.reversegeocoding.ReverseGeocodingResponseModel
 import io.wookoo.domain.model.weather.current.CurrentWeatherResponseModel
+import io.wookoo.domain.model.weekly.WeeklyWeatherResponseModel
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.domain.utils.DataError
 
@@ -22,4 +23,9 @@ interface IMasterWeatherRepo {
         longitude: Double,
         language: String,
     ): AppResult<ReverseGeocodingResponseModel, DataError.Remote>
+
+    suspend fun getWeeklyWeather(
+        latitude: Double,
+        longitude: Double,
+    ): AppResult<WeeklyWeatherResponseModel, DataError.Remote>
 }
