@@ -33,6 +33,7 @@ import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.designsystem.ui.theme.padding_50
 import io.wookoo.designsystem.ui.theme.rounded_shape_20_percent
 import io.wookoo.designsystem.ui.theme.size_170
+import io.wookoo.main.R
 
 @Composable
 fun MainCardMedium(
@@ -103,7 +104,7 @@ fun MainCardMedium(
                         SharedText(
                             color = Color.White,
                             text = stringResource(
-                                io.wookoo.main.R.string.feels_like,
+                                io.wookoo.androidresources.R.string.feels_like,
                                 temperatureFeelsLike
                             ),
                             style = MaterialTheme.typography.titleSmall,
@@ -130,7 +131,7 @@ private fun ClearSkySunny0() {
             temperature = "25°",
             weatherImage = io.wookoo.design.system.R.drawable.ic_clear_sky,
             temperatureFeelsLike = "32°",
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
         )
     }
 }
@@ -142,7 +143,7 @@ private fun PartlyCloudy1_or_2() {
         MainCardMedium(
             temperature = "25°",
             weatherImage = io.wookoo.design.system.R.drawable.ic_partly_cloudy,
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             temperatureFeelsLike = "32°"
         )
     }
@@ -155,7 +156,7 @@ private fun Overcast3() {
         MainCardMedium(
             temperature = "25°C",
             weatherImage = io.wookoo.design.system.R.drawable.ic_overcast,
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             temperatureFeelsLike = "32°"
         )
     }
@@ -168,7 +169,7 @@ private fun Fog45_48() {
         MainCardMedium(
             temperature = "25°",
             weatherImage = io.wookoo.design.system.R.drawable.ic_fog,
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             temperatureFeelsLike = "32°"
         )
     }
@@ -180,7 +181,7 @@ private fun DrizzleLight51() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
             temperature = "25°",
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             weatherImage = io.wookoo.design.system.R.drawable.ic_drizzle_light,
             temperatureFeelsLike = "32°"
         )
@@ -193,7 +194,7 @@ private fun DrizzleModerate53() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
             temperature = "25°",
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             weatherImage = io.wookoo.design.system.R.drawable.ic_drizzle_moderate,
             temperatureFeelsLike = "32°"
         )
@@ -206,7 +207,7 @@ private fun DrizzleHeavy55() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
             temperature = "25°",
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             weatherImage = io.wookoo.design.system.R.drawable.ic_drizzle_heavy,
             temperatureFeelsLike = "32°"
         )
@@ -219,7 +220,7 @@ private fun FreezingDrizzleLight56() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
             temperature = "25°",
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             weatherImage = io.wookoo.design.system.R.drawable.ic_freezing_drizzle_light,
             temperatureFeelsLike = "32°"
         )
@@ -232,7 +233,7 @@ private fun FreezingDrizzleHeavy57() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
             temperature = "25°",
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             weatherImage = io.wookoo.design.system.R.drawable.ic_freezing_drizzle_heavy,
             temperatureFeelsLike = "32°"
         )
@@ -245,7 +246,7 @@ private fun RainLight61() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
             temperature = "25°",
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             weatherImage = io.wookoo.design.system.R.drawable.ic_rain_light,
             temperatureFeelsLike = "32°"
         )
@@ -258,7 +259,7 @@ private fun RainModerate63() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
             temperature = "25°",
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             weatherImage = io.wookoo.design.system.R.drawable.ic_rain_moderate,
             temperatureFeelsLike = "32°"
         )
@@ -272,7 +273,7 @@ private fun HeavyRain65() {
         MainCardMedium(
             temperature = "25°",
             weatherImage = io.wookoo.design.system.R.drawable.ic_rain_heavy,
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             temperatureFeelsLike = "32°"
         )
     }
@@ -285,7 +286,7 @@ private fun FreezingRainLight66() {
         MainCardMedium(
             temperature = "25°",
             weatherImage = io.wookoo.design.system.R.drawable.ic_freezing_rain_light,
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             temperatureFeelsLike = "32°"
         )
     }
@@ -298,7 +299,7 @@ private fun FreezingRainLight67() {
         MainCardMedium(
             temperature = "25°",
             weatherImage = io.wookoo.design.system.R.drawable.ic_freezing_rain_heavy,
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             temperatureFeelsLike = "32°"
         )
     }
@@ -311,7 +312,7 @@ private fun SnowLight71() {
         MainCardMedium(
             temperature = "25°",
             weatherImage = io.wookoo.design.system.R.drawable.ic_snow_light,
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             temperatureFeelsLike = "32°"
         )
     }
@@ -324,7 +325,7 @@ private fun SnowModerate73() {
         MainCardMedium(
             temperature = "25°",
             weatherImage = io.wookoo.design.system.R.drawable.ic_snow_moderate,
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             temperatureFeelsLike = "32°"
         )
     }
@@ -337,7 +338,7 @@ private fun SnowHeavy75() {
         MainCardMedium(
             temperature = "25°",
             weatherImage = io.wookoo.design.system.R.drawable.ic_snow_heavy,
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             temperatureFeelsLike = "32°"
         )
     }
@@ -350,7 +351,7 @@ private fun SnowGrains77() {
         MainCardMedium(
             temperature = "25°",
             weatherImage = io.wookoo.design.system.R.drawable.ic_snow_grains,
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             temperatureFeelsLike = "32°"
         )
     }
@@ -363,7 +364,7 @@ private fun RainShowersLight80() {
         MainCardMedium(
             temperature = "25°",
             weatherImage = io.wookoo.design.system.R.drawable.ic_rain_showers_light,
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             temperatureFeelsLike = "32°"
         )
     }
@@ -376,7 +377,7 @@ private fun RainShowersModerate81() {
         MainCardMedium(
             temperature = "25°",
             weatherImage = io.wookoo.design.system.R.drawable.ic_rain_showers_moderate,
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             temperatureFeelsLike = "32°"
         )
     }
@@ -389,7 +390,7 @@ private fun RainShowersHeavy82() {
         MainCardMedium(
             temperature = "25°",
             weatherImage = io.wookoo.design.system.R.drawable.ic_rain_showers_heavy,
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             temperatureFeelsLike = "32°"
         )
     }
@@ -402,7 +403,7 @@ private fun SnowShowersLight85() {
         MainCardMedium(
             temperature = "25°",
             weatherImage = io.wookoo.design.system.R.drawable.ic_snow_showers_light,
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             temperatureFeelsLike = "32°"
         )
     }
@@ -415,7 +416,7 @@ private fun SnowShowersHeavy86() {
         MainCardMedium(
             temperature = "25°",
             weatherImage = io.wookoo.design.system.R.drawable.ic_snow_showers_heavy,
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             temperatureFeelsLike = "32°"
         )
     }
@@ -428,7 +429,7 @@ private fun ThunderStorm95() {
         MainCardMedium(
             temperature = "25°",
             weatherImage = io.wookoo.design.system.R.drawable.ic_thunderstorm,
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             temperatureFeelsLike = "32°"
         )
     }
@@ -441,7 +442,7 @@ private fun ThunderStormHail96_99() {
         MainCardMedium(
             temperature = "25°",
             weatherImage = io.wookoo.design.system.R.drawable.ic_thunderstorm_hail,
-            weatherName = io.wookoo.design.system.R.string.clear_sky,
+            weatherName =  io.wookoo.androidresources.R.string.clear_sky,
             temperatureFeelsLike = "32°"
         )
     }

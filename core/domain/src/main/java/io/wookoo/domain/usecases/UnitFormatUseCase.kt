@@ -1,15 +1,15 @@
 package io.wookoo.domain.usecases
 
-import io.wookoo.domain.enums.ApiUnit
+import io.wookoo.domain.units.ApiUnit
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
 class UnitFormatUseCase @Inject constructor() {
 
-    operator fun invoke(input: Number, unit: ApiUnit): String {
+    operator fun invoke(input: Number, unit: ApiUnit?): String {
         val formattedValue =
             when (unit) {
-                ApiUnit.CELSIUS, ApiUnit.FAHRENHEIT, ApiUnit.UV_INDEX -> {
+                ApiUnit.CELSIUS, ApiUnit.FAHRENHEIT -> {
                     (input.toFloat()).roundToInt()
                 }
 
@@ -17,7 +17,7 @@ class UnitFormatUseCase @Inject constructor() {
             }
         return StringBuilder()
             .append(formattedValue)
-            .append(unit.symbol)
+            .append(unit?.symbol)
             .toString()
     }
 }

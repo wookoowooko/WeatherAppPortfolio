@@ -30,7 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import io.wookoo.common.asStringRes
+import io.wookoo.common.asStringResource
 import io.wookoo.common.isLocationPermissionGranted
 import io.wookoo.common.toUiWeather
 import io.wookoo.designsystem.ui.components.SharedHourlyComponent
@@ -148,7 +148,7 @@ fun MainPageScreen(
                             WeatherProperties(
                                 humidity = state.humidity,
                                 windSpeed = state.windSpeed,
-                                windDirection = state.windDirection.asStringRes(),
+                                windDirection = state.windDirection.asStringResource(),
                                 windGust = state.windGust,
                                 precipitation = state.precipitation,
                                 pressureMsl = state.pressureMsl,

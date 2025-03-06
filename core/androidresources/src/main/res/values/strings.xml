@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="celsius">°C</string>
+    <string name="unit_fahrenheit">°F</string>
+    <string name="unit_kmh">km/h</string>
+    <string name="unit_meter_sec">m/s</string>
+    <string name="centimetres_unit">cm</string>
+    <string name="millimeters_unit">mm</string>
+    <string name="percent_unit">"%"</string>
+    <string name="sunrise_time">Sunrise time</string>
+    <string name="sunset_time">Sunset time</string>
+    <string name="daylight_duration">Daylight duration</string>
+    <string name="sunshine_duration">Sunshine duration</string>
+    <string name="maximum_uv_index">Maximum UV index</string>
+    <string name="total_precipitation">Total precipitation</string>
+    <string name="total_rainfall">Total rainfall</string>
+    <string name="total_showers">Total showers</string>
+    <string name="total_snowfall">Total snowfall</string>
+    <string name="precipitation_probability">Precipitation probability</string>
+    <string name="maximum_wind_speed_10m">Maximum wind speed</string>
+    <string name="maximum_wind_gusts_10m">Maximum wind gusts</string>
+    <string name="wind_direction_10m">Wind direction</string>
+    <string name="min_unit">min</string>
+    <string name="hour_unit">h</string>
+
+    <string name="north_east">North-East</string>
+    <string name="north">North</string>
+    <string name="east">East</string>
+    <string name="south_east">South East</string>
+    <string name="south">South</string>
+    <string name="south_west">South West</string>
+    <string name="west">West</string>
+    <string name="north_west">North West</string>
+    <string name="undetected">Undetected</string>
+
+    <string name="clear_sky">Clear sky</string>
+    <string name="partly_cloudy">Partly cloudy</string>
+    <string name="overcast">Overcast</string>
+    <string name="fog">Fog</string>
+    <string name="drizzle_light">Light drizzle</string>
+    <string name="drizzle_moderate">Moderate drizzle</string>
+    <string name="drizzle_heavy">Heavy drizzle</string>
+    <string name="freezing_drizzle_light">Light freezing drizzle</string>
+    <string name="freezing_drizzle_heavy">Heavy freezing drizzle</string>
+    <string name="rain_light">Light rain</string>
+    <string name="rain_moderate">Moderate rain</string>
+    <string name="rain_heavy">Heavy rain</string>
+    <string name="freezing_rain_light">Light freezing rain</string>
+    <string name="freezing_rain_heavy">Heavy freezing rain</string>
+    <string name="snow_light">Light snow</string>
+    <string name="snow_moderate">Moderate snow</string>
+    <string name="snow_heavy">Heavy snow</string>
+    <string name="snow_grains">Snow grains</string>
+    <string name="rain_showers_light">Light rain showers</string>
+    <string name="rain_showers_moderate">Moderate rain showers</string>
+    <string name="rain_showers_heavy">Heavy rain showers</string>
+    <string name="snow_showers_light">Light snow showers</string>
+    <string name="snow_showers_heavy">Heavy snow showers</string>
+    <string name="thunderstorm">Thunderstorm</string>
+    <string name="thunderstorm_hail">Thunderstorm with hail</string>
+    <string name="weather_error">No weather data</string>
+    <string name="search_your_location">Search your location…</string>
+    <string name="no_results_found">No results found</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
+    <string name="delimeter">/</string>
+    <string name="feels_like_weekly">Feels like</string>
+
+    <!--Permissions-->
+    <string name="denied_permanently">"It seems you permanently declined location permission. " +
+                "You can go to the app settings to grant it."</string>
+    <string name="denied_perm">
+           "This app needs access to your location"
+    </string>
+    <string name="permission_required">Permission required</string>
+    <string name="confirm">Confirm</string>
+    <string name="dismiss">Dismiss</string>
+
+    <!--Main-->
+    <string name="feels_like">Feels like %1$s</string>
+    <string name="today_titile">Today</string>
+    <string name="next_7_days_title">Next 7 Days</string>
+    <string name="humidity_prop">Humidity</string>
+    <string name="wind_speed_prop">Speed</string>
+    <string name="wind_direction_prop">Direction</string>
+    <string name="wind_gust_prop">Gust</string>
+    <string name="precipitation_prop">Precipitation</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
+    <string name="pressure">Pressure</string>
+    <string name="uv_index">UV Index</string>
+
+    <!--Welcome-->
+    <string name="choose_your_location">Choose your location</string>
+    <string name="continue_string">Continue</string>
+    <string name="or">or</string>
+    <string name="detect_automatically">Detect automatically</string>
+    <string name="wind">Wind</string>
+    <string name="maximum_wind_speed">Maximum wind speed</string>
+    <string name="wind_direction">Wind direction</string>
+    <string name="precipitation">Precipitation</string>
+    <string name="total">Total: </string>
+    <string name="suncycles">Sun Cycles</string>
+</resources>

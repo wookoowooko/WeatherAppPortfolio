@@ -1,19 +1,19 @@
 package io.wookoo.common
 
 import androidx.annotation.StringRes
-import io.wookoo.domain.enums.WindDirection
+import io.wookoo.domain.units.WindDirection
 
 @StringRes
-fun WindDirection.asStringRes(): Int {
+fun WindDirection.asStringResource(): Int {
     return when (this) {
-        WindDirection.NORTH -> io.wookoo.design.system.R.string.north
-        WindDirection.NORTH_EAST -> io.wookoo.design.system.R.string.north_east
-        WindDirection.EAST -> io.wookoo.design.system.R.string.east
-        WindDirection.SOUTH_EAST -> io.wookoo.design.system.R.string.south_east
-        WindDirection.SOUTH -> io.wookoo.design.system.R.string.south
-        WindDirection.SOUTH_WEST -> io.wookoo.design.system.R.string.south_west
-        WindDirection.WEST -> io.wookoo.design.system.R.string.west
-        WindDirection.NORTH_WEST -> io.wookoo.design.system.R.string.north_west
-        WindDirection.UNDETECTED -> io.wookoo.design.system.R.string.undetected
+        WindDirection.NORTH -> io.wookoo.androidresources.R.string.north
+        WindDirection.NORTH_EAST -> io.wookoo.androidresources.R.string.north_east
+        WindDirection.EAST -> io.wookoo.androidresources.R.string.east
+        WindDirection.SOUTH_EAST -> io.wookoo.androidresources.R.string.south_east
+        WindDirection.SOUTH -> io.wookoo.androidresources.R.string.south
+        WindDirection.SOUTH_WEST -> io.wookoo.androidresources.R.string.south_west
+        WindDirection.WEST -> io.wookoo.androidresources.R.string.west
+        WindDirection.NORTH_WEST -> io.wookoo.androidresources.R.string.north_west
+        WindDirection.UNDETECTED -> io.wookoo.androidresources.R.string.undetected
     }
 }

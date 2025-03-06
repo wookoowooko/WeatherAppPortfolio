@@ -1,6 +1,6 @@
 package io.wookoo.domain.usecases
 
-import io.wookoo.domain.enums.ApiUnit
+import io.wookoo.domain.units.ApiUnit
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -49,12 +49,7 @@ class ApiUnitFormatUseCaseTest {
         assertEquals(expected, actual)
     }
 
-    @Test
-    fun shouldFormatDirection() {
-        val expected = "180°"
-        val actual = useCase(180, ApiUnit.DIRECTION)
-        assertEquals(expected, actual)
-    }
+
 
     @Test
     fun shouldFormatPercent() {
@@ -80,7 +75,7 @@ class ApiUnitFormatUseCaseTest {
     @Test
     fun shouldFormatCentimeters() {
         val expected = "50sm"
-        val actual = useCase(50, ApiUnit.SM)
+        val actual = useCase(50, ApiUnit.CM)
         assertEquals(expected, actual)
     }
 

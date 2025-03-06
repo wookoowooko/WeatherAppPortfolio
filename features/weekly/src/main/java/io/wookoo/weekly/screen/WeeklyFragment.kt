@@ -1,32 +1,43 @@
 package io.wookoo.weekly.screen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.AsyncDifferConfig
+import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import dev.androidbroadcast.vbpd.viewBinding
 import io.wookoo.common.collectWithLifecycle
 import io.wookoo.weekly.adapters.MainAdapter
+import io.wookoo.weekly.adapters.diffCallback
 import io.wookoo.weekly.databinding.FragmentWeeklyBinding
+import io.wookoo.weekly.delegates.calendar.calendarAdapterDelegate
 import io.wookoo.weekly.mvi.WeeklyViewModel
-import io.wookoo.weekly.uimodels.CalendarContainer
-import io.wookoo.weekly.uimodels.PropertiesContainer
-import io.wookoo.weekly.uimodels.UIPropModel
-import io.wookoo.weekly.uimodels.UiCalendarDayModel
-import io.wookoo.weekly.uimodels.UiCardInfoModel
+import io.wookoo.weekly.mvi.WeeklyViewModelContract
 
 @AndroidEntryPoint
 class WeeklyFragment : Fragment() {
-
-    private var onBackIconClickListener: (() -> Unit)? = null
 
     private val binding by viewBinding(FragmentWeeklyBinding::bind)
     private val viewModel by viewModels<WeeklyViewModel>()
     private val onIntent by lazy {
         viewModel::onIntent
+    }
+
+    private val mainAdapter by lazy { MainAdapter() }
+    private val calendarAdapter by lazy {
+        AsyncListDifferDelegationAdapter(
+            AsyncDifferConfig.Builder(diffCallback).build(),
+            calendarAdapterDelegate(
+                onItemClick = { pos ->
+                    onIntent(WeeklyViewModelContract.OnIntent.OnCalendarItemClick(pos))
+                }
+            )
+        )
     }
 
     override fun onCreateView(
@@ -44,71 +55,33 @@ class WeeklyFragment : Fragment() {
 //            v.setPadding(0, 0, 0, systemBars.bottom)
 //            insets
 //        }
-        collectState()
+        Log.d(TAG, "onViewCreated")
         with(binding) {
+            mainRecycler.adapter = mainAdapter
+            calendarRecycler.adapter = calendarAdapter
         }
+        collectState()
     }
 
     private fun collectState() {
-        with(binding) {
-            viewModel.state.collectWithLifecycle(viewLifecycleOwner) { uiState ->
-                val mainAdapter = MainAdapter()
+        viewModel.state.collectWithLifecycle(viewLifecycleOwner) { uiState: WeeklyViewModelContract.WeeklyState ->
+            with(binding) {
+                Log.d(TAG, "collectState: $uiState")
 
-                mainRecycler.adapter = mainAdapter
+//                // Логирование состояния
+//                Log.d(TAG, "Main weather items: ${uiState.mainWeatherRecyclerItems.mainWeatherRecyclerItems.size}")
+//                Log.d(TAG, "Calendar items: ${uiState.weeklyCalendar.size}")
 
-                mainAdapter.items = listOf(
-                    CalendarContainer(
-                        listOf(
-                            UiCalendarDayModel(dayName = "12"),
-                            UiCalendarDayModel(isToday = true),
-                            UiCalendarDayModel(),
-                            UiCalendarDayModel(),
-                            UiCalendarDayModel(),
-                            UiCalendarDayModel(),
-                            UiCalendarDayModel(),
-                            UiCalendarDayModel(),
-                        )
-                    ),
-                    UiCardInfoModel(
-                        tempMax = "23°C", tempMin = "-10°C", feelsLikeMin = "-5°C",
-                        feelsLikeMax = "28°C", weatherCondition = "Sunny"
-                    ),
-                    PropertiesContainer(
-                        listOf(
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel(),
-                            UIPropModel()
-                        )
-                    )
-                )
+                mainAdapter.items = uiState.mainWeatherRecyclerItems.mainWeatherRecyclerItems
+                calendarAdapter.items = uiState.weeklyCalendar
 
-                when (uiState) {
-                }
+//                when (uiState) {
+//                    // Добавить проверку состояния, если необходимо
+//                }
             }
         }
     }
 
-    fun setOnBackIconClickListener(listener: () -> Unit) {
-        onBackIconClickListener = listener
-    }
 
     companion object {
         private const val TAG = "WeeklyFragment"

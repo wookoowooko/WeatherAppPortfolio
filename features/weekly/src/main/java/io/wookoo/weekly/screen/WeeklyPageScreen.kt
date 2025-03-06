@@ -64,7 +64,6 @@ internal fun WeeklyPageScreen(
 //                    setPadding(it.left, 0, it.right, 0)
 //                }
 //            }
-            fragment.setOnBackIconClickListener(onBackIconClick)
         }
     }
 }

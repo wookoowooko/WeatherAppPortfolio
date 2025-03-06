@@ -29,7 +29,7 @@ internal fun TodayRowTitle(
         verticalAlignment = Alignment.CenterVertically
     ) {
         SharedText(
-            text = stringResource(R.string.today_titile),
+            text = stringResource(io.wookoo.androidresources.R.string.today_titile),
             weight = FontWeight.Bold,
             style = MaterialTheme.typography.headlineMedium
         )
@@ -38,7 +38,7 @@ internal fun TodayRowTitle(
             shape = MaterialTheme.shapes.small
         ) {
             SharedText(
-                text = stringResource(R.string.next_7_days_title),
+                text = stringResource(io.wookoo.androidresources.R.string.next_7_days_title),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary
             )

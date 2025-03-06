@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/precipitations_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/windCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/large"
+        android:paddingBottom="@dimen/dimen_20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/precipitations_container">
+
+        <TextView
+            android:id="@+id/totalShowersValue"
+            style="?attr/textAppearanceTitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small"
+            android:fontFamily="@font/lexend"
+            android:paddingEnd="@dimen/dimen_20"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/gustsText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/gustsText"
+            tools:text="0 mm" />
+
+        <TextView
+            android:id="@+id/totalRainFallValue"
+            style="?attr/textAppearanceTitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend"
+            android:paddingEnd="@dimen/dimen_20"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/rainFallText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rainFallText"
+            tools:text="0 mm" />
+
+        <TextView
+            android:id="@+id/totalSnowfallText"
+            style="?attr/textAppearanceTitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small"
+            android:fontFamily="@font/lexend"
+            android:text="@string/total_snowfall"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/totalSnowfallIcon"
+            app:layout_constraintStart_toEndOf="@+id/totalSnowfallIcon"
+            app:layout_constraintTop_toTopOf="@+id/totalSnowfallIcon" />
+
+
+        <TextView
+            android:id="@+id/totalSnowFallValue"
+            style="?attr/textAppearanceTitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend"
+            android:paddingEnd="@dimen/dimen_20"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/totalSnowfallText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/totalSnowfallText"
+            tools:text="0 mm" />
+
+        <ImageView
+            android:id="@+id/totalRainFallIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/medium"
+            android:background="@drawable/round_border"
+            android:contentDescription="@null"
+            android:padding="@dimen/small"
+            android:src="@drawable/ic_rain_sum"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <ImageView
+            android:id="@+id/totalShowersIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/medium"
+            android:background="@drawable/round_border"
+            android:contentDescription="@null"
+            android:padding="@dimen/small"
+            android:src="@drawable/ic_showers_sum"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/div1" />
+
+
+        <ImageView
+            android:id="@+id/totalSnowfallIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/medium"
+            android:background="@drawable/round_border"
+            android:contentDescription="@null"
+            android:padding="@dimen/small"
+            android:src="@drawable/ic_snowfall_sum"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/div2" />
+
+        <TextView
+            android:id="@+id/textView"
+            style="?attr/textAppearanceTitleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_20"
+            android:layout_marginTop="@dimen/dimen_20"
+            android:layout_marginBottom="@dimen/dimen_20"
+            android:fontFamily="@font/lexend"
+            android:gravity="center"
+            android:text="@string/precipitation"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/baseline_air_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/rainFallText"
+            style="?attr/textAppearanceTitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small"
+            android:fontFamily="@font/lexend"
+            android:text="@string/total_rainfall"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/totalRainFallIcon"
+            app:layout_constraintStart_toEndOf="@+id/totalRainFallIcon"
+            app:layout_constraintTop_toTopOf="@+id/totalRainFallIcon" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/div1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="@dimen/dimen_20"
+            android:layout_marginTop="@dimen/medium"
+            app:layout_constraintTop_toBottomOf="@+id/totalRainFallIcon"
+            tools:layout_editor_absoluteX="20dp" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/div2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="@dimen/dimen_20"
+            android:layout_marginTop="@dimen/medium"
+            app:layout_constraintTop_toBottomOf="@+id/totalShowersIcon" />
+
+        <TextView
+            android:id="@+id/gustsText"
+            style="?attr/textAppearanceTitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small"
+            android:fontFamily="@font/lexend"
+            android:text="@string/total_showers"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/totalShowersIcon"
+            app:layout_constraintStart_toEndOf="@+id/totalShowersIcon"
+            app:layout_constraintTop_toTopOf="@+id/totalShowersIcon" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/div3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="@dimen/dimen_20"
+            android:layout_marginTop="@dimen/medium"
+            app:layout_constraintTop_toBottomOf="@+id/totalSnowfallIcon" />
+
+
+        <ImageView
+            android:id="@+id/precipitationIcon2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/medium"
+            android:background="@drawable/round_border"
+            android:contentDescription="@null"
+            android:padding="@dimen/small"
+            android:src="@drawable/ic_precipitation"
+            app:layout_constraintStart_toStartOf="@+id/totalSnowfallIcon"
+            app:layout_constraintTop_toBottomOf="@+id/div3" />
+
+        <TextView
+            android:id="@+id/precipitationText"
+            style="?attr/textAppearanceTitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small"
+            android:fontFamily="@font/lexend"
+            android:text="@string/precipitation_probability"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/precipitationIcon2"
+            app:layout_constraintStart_toEndOf="@+id/precipitationIcon2"
+            app:layout_constraintTop_toTopOf="@+id/precipitationIcon2" />
+
+        <TextView
+            android:id="@+id/precipitationProbabilityValue"
+            style="?attr/textAppearanceTitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend"
+            android:paddingEnd="@dimen/dimen_20"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/precipitationText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/precipitationText"
+            tools:text="4%" />
+
+        <TextView
+            android:id="@+id/totalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend"
+            android:paddingEnd="@dimen/small"
+            android:text="@string/total"
+
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toStartOf="@+id/totalPrecipitationValue"
+            app:layout_constraintTop_toTopOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/totalPrecipitationValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend"
+            android:paddingEnd="@dimen/dimen_20"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView"
+            tools:text="10 mm" />
+
+
+        <ImageView
+            android:id="@+id/precMax"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/small"
+            android:background="@drawable/round_border"
+            android:contentDescription="@null"
+            android:padding="@dimen/small"
+            android:src="@drawable/ic_prec_max"
+            app:layout_constraintBottom_toBottomOf="@+id/totalText"
+            app:layout_constraintEnd_toStartOf="@+id/totalText"
+            app:layout_constraintTop_toTopOf="@+id/totalText" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

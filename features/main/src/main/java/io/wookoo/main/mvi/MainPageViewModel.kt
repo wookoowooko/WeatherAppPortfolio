@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.wookoo.domain.enums.ApiUnit
 import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.domain.repo.IMasterWeatherRepo
+import io.wookoo.domain.units.ApiUnit
 import io.wookoo.domain.usecases.ConvertDateUseCase
 import io.wookoo.domain.usecases.ConvertUnixTimeUseCase
 import io.wookoo.domain.usecases.ConvertWeatherCodeToEnumUseCase
@@ -32,6 +32,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @Suppress("LargeClass")
 @HiltViewModel
 class MainPageViewModel @Inject constructor(
@@ -48,7 +49,7 @@ class MainPageViewModel @Inject constructor(
 
     private var searchJob: Job? = null
 
-//    private var geonamesJob: Job? = null
+    //    private var geonamesJob: Job? = null
     private val _state = MutableStateFlow(MainPageContract.MainPageState())
 
     val state = _state.onStart {
@@ -184,6 +185,7 @@ class MainPageViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+
     private fun searchReverseGeoLocation() = viewModelScope.launch {
         _state.update {
             it.copy(isLoading = true)
@@ -257,11 +259,13 @@ class MainPageViewModel @Inject constructor(
                                 unit = ApiUnit.PRESSURE
                             ),
                             weatherStatus = convertWeatherCodeToEnumUseCase(model.current.weatherStatus),
-                            sunriseTime = convertUnixTimeUseCase(model.daily.sunCycles.sunrise).first(),
-                            sunsetTime = convertUnixTimeUseCase(model.daily.sunCycles.sunset).first(),
+                            sunriseTime = convertUnixTimeUseCase.executeList(model.daily.sunCycles.sunrise)
+                                .first(),
+                            sunsetTime = convertUnixTimeUseCase.executeList(model.daily.sunCycles.sunset)
+                                .first(),
                             uvIndex = unitFormatUseCase(
                                 model.daily.uvIndexMax.first(),
-                                ApiUnit.UV_INDEX
+                                null
                             )
                         )
                     }

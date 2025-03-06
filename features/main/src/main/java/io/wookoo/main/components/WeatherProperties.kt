@@ -29,40 +29,40 @@ fun WeatherProperties(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_humidity,
             text = humidity,
-            title = stringResource(R.string.humidity_prop),
+            title = stringResource(io.wookoo.androidresources.R.string.humidity_prop),
         )
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_wind_speed,
             text = windSpeed,
-            title = stringResource(R.string.wind_speed_prop),
+            title = stringResource(io.wookoo.androidresources.R.string.wind_speed_prop),
         )
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_wind_direction,
             text = stringResource(windDirection),
-            title = stringResource(R.string.wind_direction_prop),
+            title = stringResource(io.wookoo.androidresources.R.string.wind_direction_prop),
 
         )
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_wind_gust,
             text = windGust,
-            title = stringResource(R.string.wind_gust_prop),
+            title = stringResource(io.wookoo.androidresources.R.string.wind_gust_prop),
 
         )
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_precipitation,
             text = precipitation,
-            title = stringResource(R.string.precipitation_prop),
+            title = stringResource(io.wookoo.androidresources.R.string.precipitation_prop),
 
         )
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_pressure_msl,
             text = pressureMsl,
-            title = stringResource(R.string.pressure),
+            title = stringResource(io.wookoo.androidresources.R.string.pressure),
 
         )
 
@@ -70,7 +70,7 @@ fun WeatherProperties(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_uv_index,
             text = uvIndex,
-            title = stringResource(R.string.uv_index),
+            title = stringResource(io.wookoo.androidresources.R.string.uv_index),
 
         )
     }
@@ -82,7 +82,7 @@ private fun WeatherPropertiesPreview() {
     WeatherProperties(
         humidity = "28%",
         windSpeed = "8km/h",
-        windDirection = io.wookoo.design.system.R.string.north,
+        windDirection = io.wookoo.androidresources.R.string.north,
         windGust = "10km/h",
         precipitation = "10%",
         pressureMsl = "1000 hPa",
@@ -96,7 +96,7 @@ private fun WeatherPropertiesPreview2() {
     WeatherProperties(
         humidity = "28%",
         windSpeed = "8km/h",
-        windDirection = io.wookoo.design.system.R.string.south,
+        windDirection = io.wookoo.androidresources.R.string.south,
         windGust = "10km/h",
         precipitation = "10%",
         pressureMsl = "1000 hPa",

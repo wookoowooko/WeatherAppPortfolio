@@ -51,6 +51,7 @@ import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.domain.model.geocoding.GeocodingSearchModel
+import io.wookoo.main.R
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -111,7 +112,7 @@ fun SearchBarMain(
                         if (searchQuery.isEmpty()) {
                             Text(
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                                text = stringResource(io.wookoo.design.system.R.string.search_your_location),
+                                text = stringResource(io.wookoo.androidresources.R.string.search_your_location),
                                 modifier = Modifier
                             )
                         }
@@ -137,7 +138,7 @@ fun SearchBarMain(
                     } else {
                         SharedText(
                             modifier = Modifier.fillMaxWidth(),
-                            text = stringResource(io.wookoo.design.system.R.string.no_results_found),
+                            text = stringResource(io.wookoo.androidresources.R.string.no_results_found),
                             style = MaterialTheme.typography.labelLarge.copy(
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                             ),

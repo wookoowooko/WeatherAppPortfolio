@@ -14,6 +14,7 @@ dependencies {
     }
     projects.core.apply {
         implementation(domain)
+        implementation(androidresources)
         api(designSystem)
     }
 }

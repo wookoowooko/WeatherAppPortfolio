@@ -62,7 +62,7 @@ fun WelcomePageScreen(
                 TopAppBar(
                     title = {
                         SharedText(
-                            stringResource(R.string.choose_your_location)
+                            stringResource(io.wookoo.androidresources.R.string.choose_your_location)
                         )
                     }
                 )
@@ -92,7 +92,7 @@ fun WelcomePageScreen(
             )
             ChooseYourLocationCard(onIntent, state)
             SharedText(
-                text = stringResource(R.string.or),
+                text = stringResource(io.wookoo.androidresources.R.string.or),
                 style = MaterialTheme.typography.titleMedium.copy(
                     MaterialTheme.colorScheme.onBackground
                 )

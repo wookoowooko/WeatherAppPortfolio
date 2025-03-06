@@ -1,0 +1,17 @@
+package io.wookoo.domain.enums
+enum class WeatherProperty {
+    SUNRISE,
+    SUNSET,
+    DAYLIGHT_DURATION,
+    SUNSHINE_DURATION,
+    UV_INDEX_MAX,
+    PRECIPITATION_SUM,
+    RAIN_SUM,
+    SHOWERS_SUM,
+    SNOWFALL_SUM,
+    PRECIPITATION_PROBABILITY_MAX,
+    WIND_SPEED_10_MAX,
+    WIND_GUSTS_10_MAX,
+    WIND_DIRECTION_10,
+    UNDEFINED
+}

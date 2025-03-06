@@ -9,6 +9,9 @@ android {
 }
 
 dependencies {
+    projects.core.apply {
+        implementation(androidresources)
+    }
 
     libs.apply {
         api(material.icons.extended)

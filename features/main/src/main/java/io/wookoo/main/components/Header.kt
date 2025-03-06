@@ -20,7 +20,6 @@ import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.designsystem.ui.theme.size_40
 import io.wookoo.designsystem.ui.theme.small
 import io.wookoo.designsystem.ui.theme.ultraSmall
-import io.wookoo.main.R
 import io.wookoo.main.mvi.MainPageContract
 
 @Composable
@@ -87,7 +86,7 @@ internal fun Header(
                     modifier = Modifier.padding(horizontal = medium)
                 ) {
                     SharedText(
-                        text = stringResource(R.string.sunrise),
+                        text = stringResource(io.wookoo.androidresources.R.string.sunrise),
                         style = MaterialTheme.typography.titleSmall
                     )
                     SharedText(
@@ -107,7 +106,7 @@ internal fun Header(
                     modifier = Modifier.padding(horizontal = medium)
                 ) {
                     SharedText(
-                        text = stringResource(R.string.sunset),
+                        text = stringResource(io.wookoo.androidresources.R.string.sunset),
                         style = MaterialTheme.typography.titleSmall
                     )
                     SharedText(
