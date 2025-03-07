@@ -51,7 +51,6 @@ import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.domain.model.geocoding.GeocodingSearchModel
-import io.wookoo.main.R
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable

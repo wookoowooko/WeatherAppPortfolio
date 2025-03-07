@@ -6,7 +6,7 @@ import io.wookoo.weekly.DisplayableItem
 
 data class UiCardInfoModel(
     val tempMax: WeatherValueWithUnit,
-    val tempMin: WeatherValueWithUnit,
+    val tempMin: String,
     val feelsLikeMin: WeatherValueWithUnit,
     val feelsLikeMax: WeatherValueWithUnit,
     val weatherCondition: WeatherCondition = WeatherCondition.UNKNOWN,
@@ -24,8 +24,8 @@ data class UiCardInfoModel(
         isDay
     )
 
-     data class Content(
-        val tempMin: WeatherValueWithUnit,
+    data class Content(
+        val tempMin: String,
         val feelsLikeMin: WeatherValueWithUnit,
         val feelsLikeMax: WeatherValueWithUnit,
         val weatherCondition: WeatherCondition = WeatherCondition.UNKNOWN,

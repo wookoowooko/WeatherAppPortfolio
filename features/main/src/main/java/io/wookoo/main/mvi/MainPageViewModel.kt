@@ -6,16 +6,15 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.domain.repo.IMasterWeatherRepo
-import io.wookoo.domain.units.ApiUnit
 import io.wookoo.domain.usecases.ConvertDateUseCase
 import io.wookoo.domain.usecases.ConvertUnixTimeUseCase
 import io.wookoo.domain.usecases.ConvertWeatherCodeToEnumUseCase
 import io.wookoo.domain.usecases.HourlyModelToHourlyListUseCase
-import io.wookoo.domain.usecases.UnitFormatUseCase
 import io.wookoo.domain.usecases.WindDirectionFromDegreesToDirectionFormatUseCase
 import io.wookoo.domain.utils.onError
 import io.wookoo.domain.utils.onSuccess
 import io.wookoo.geolocation.WeatherLocationManager
+import io.wookoo.main.uimappers.asUICurrentWeather
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,15 +31,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
-@Suppress("LargeClass")
 @HiltViewModel
 class MainPageViewModel @Inject constructor(
     private val masterRepository: IMasterWeatherRepo,
     private val convertDateUseCase: ConvertDateUseCase,
     private val formatWindDirectionUseCase: WindDirectionFromDegreesToDirectionFormatUseCase,
     private val convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,
-    private val unitFormatUseCase: UnitFormatUseCase,
     private val hourlyModelToHourlyListUseCase: HourlyModelToHourlyListUseCase,
     private val convertUnixTimeUseCase: ConvertUnixTimeUseCase,
     private val dataStore: IDataStoreRepo,
@@ -185,7 +181,6 @@ class MainPageViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-
     private fun searchReverseGeoLocation() = viewModelScope.launch {
         _state.update {
             it.copy(isLoading = true)
@@ -220,52 +215,16 @@ class MainPageViewModel @Inject constructor(
                 .onError {
                     Log.d(TAG, "error: $it")
                 }
-                .onSuccess { model ->
+                .onSuccess { response ->
                     _state.update {
                         it.copy(
-                            hourlyList = hourlyModelToHourlyListUseCase(
-                                hourlyModel = model.hourly,
-                            ),
                             isLoading = false,
-                            date = convertDateUseCase(model.current.time),
-                            isDay = model.current.isDay,
-                            humidity = unitFormatUseCase(
-                                input = model.current.relativeHumidity,
-                                unit = ApiUnit.PERCENT
-                            ),
-                            windSpeed = unitFormatUseCase(
-                                input = model.current.wind.speed,
-                                unit = ApiUnit.KMH
-                            ),
-                            windDirection = formatWindDirectionUseCase(model.current.wind.direction),
-                            windGust = unitFormatUseCase(
-                                input = model.current.wind.gust,
-                                unit = ApiUnit.KMH
-                            ),
-                            precipitation = unitFormatUseCase(
-                                input = model.current.precipitation.level,
-                                unit = ApiUnit.MM
-                            ),
-                            temperature = unitFormatUseCase(
-                                input = model.current.temperature,
-                                unit = ApiUnit.CELSIUS
-                            ),
-                            temperatureFeelsLike = unitFormatUseCase(
-                                input = model.current.feelsLike,
-                                unit = ApiUnit.CELSIUS
-                            ),
-                            pressureMsl = unitFormatUseCase(
-                                input = model.current.pressureMSL,
-                                unit = ApiUnit.PRESSURE
-                            ),
-                            weatherStatus = convertWeatherCodeToEnumUseCase(model.current.weatherStatus),
-                            sunriseTime = convertUnixTimeUseCase.executeList(model.daily.sunCycles.sunrise)
-                                .first(),
-                            sunsetTime = convertUnixTimeUseCase.executeList(model.daily.sunCycles.sunset)
-                                .first(),
-                            uvIndex = unitFormatUseCase(
-                                model.daily.uvIndexMax.first(),
-                                null
+                            currentWeather = response.asUICurrentWeather(
+                                hourlyModelToHourlyListUseCase = hourlyModelToHourlyListUseCase,
+                                convertDateUseCase = convertDateUseCase,
+                                convertWeatherCodeToEnumUseCase = convertWeatherCodeToEnumUseCase,
+                                convertUnixTimeUseCase = convertUnixTimeUseCase,
+                                formatWindDirectionUseCase = formatWindDirectionUseCase
                             )
                         )
                     }

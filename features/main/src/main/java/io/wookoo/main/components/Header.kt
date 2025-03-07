@@ -67,7 +67,7 @@ internal fun Header(
             )
             SharedText(
                 style = MaterialTheme.typography.titleSmall,
-                text = state.date,
+                text = state.currentWeather.date,
                 color = MaterialTheme.colorScheme.onSurface.copy(0.5f)
             )
         }

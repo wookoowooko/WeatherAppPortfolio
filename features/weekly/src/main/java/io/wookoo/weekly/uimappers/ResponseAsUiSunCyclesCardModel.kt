@@ -10,10 +10,15 @@ fun WeeklyWeatherResponseModel.asUiSunCyclesCardModel(
     convertUnixTimeUseCase: ConvertUnixTimeUseCase,
 ): UiSuncyclesModel {
     return UiSuncyclesModel(
-        sunsetTime = StringUnit(convertUnixTimeUseCase.execute(this@asUiSunCyclesCardModel.weekly.sunCycles.sunrise[selectedCalendarItemIndex])),
+        sunsetTime = StringUnit(
+            convertUnixTimeUseCase.execute(
+                this@asUiSunCyclesCardModel.weekly.sunCycles.sunrise[selectedCalendarItemIndex]
+            )
+        ),
         sunriseTime = StringUnit(
-            convertUnixTimeUseCase.execute(this@asUiSunCyclesCardModel.weekly.sunCycles.sunset[selectedCalendarItemIndex])
+            convertUnixTimeUseCase.execute(
+                this@asUiSunCyclesCardModel.weekly.sunCycles.sunset[selectedCalendarItemIndex]
+            )
         )
     )
 }
-

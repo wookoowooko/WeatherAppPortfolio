@@ -30,15 +30,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import io.wookoo.common.asStringResource
+import io.wookoo.common.asLocalizedString
+import io.wookoo.common.asLocalizedUiWeatherMap
+import io.wookoo.common.asLocalizedUnitValueString
 import io.wookoo.common.isLocationPermissionGranted
-import io.wookoo.common.toUiWeather
 import io.wookoo.designsystem.ui.components.SharedHourlyComponent
 import io.wookoo.designsystem.ui.components.SharedLottieLoader
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.designsystem.ui.theme.ultraLarge
+import io.wookoo.domain.model.weather.current.HourlyModelItem
 import io.wookoo.main.components.Header
 import io.wookoo.main.components.MainCardMedium
 import io.wookoo.main.components.SearchBarMain
@@ -55,8 +57,8 @@ fun MainPageScreen(
 ) {
     val rowState = rememberLazyListState()
     var nowPosition by remember { mutableIntStateOf(0) }
-    LaunchedEffect(state.hourlyList) {
-        val newPosition = state.hourlyList.indexOfFirst { it.isNow }
+    LaunchedEffect(state.currentWeather.hourlyList) {
+        val newPosition = state.currentWeather.hourlyList.indexOfFirst { it.isNow }
         if (newPosition != -1) {
             nowPosition = newPosition
             rowState.animateScrollToItem(newPosition)
@@ -125,8 +127,8 @@ fun MainPageScreen(
                             Header(
                                 state = state,
                                 modifier = Modifier.padding(horizontal = large),
-                                sunriseTime = state.sunriseTime,
-                                sunsetTime = state.sunsetTime,
+                                sunriseTime = state.currentWeather.sunriseTime,
+                                sunsetTime = state.currentWeather.sunsetTime,
                                 city = state.city,
                                 country = state.country,
                                 onGeoLocationClick = {
@@ -137,23 +139,53 @@ fun MainPageScreen(
                                     }
                                 }
                             )
-                            MainCardMedium(
-                                modifier = Modifier.padding(horizontal = large),
-                                temperature = state.temperature,
-                                weatherName = state.weatherStatus.toUiWeather(state.isDay).second,
-                                weatherImage = state.weatherStatus.toUiWeather(state.isDay).first,
-                                temperatureFeelsLike = state.temperatureFeelsLike,
-                            )
+                            with(context) {
+                                MainCardMedium(
+                                    modifier = Modifier.padding(horizontal = large),
+                                    temperature = state.currentWeather.temperature.value.asLocalizedUnitValueString(
+                                        state.currentWeather.temperature.unit,
+                                        this
+                                    ),
+                                    weatherName = state.currentWeather.weatherStatus.asLocalizedUiWeatherMap(
+                                        state.currentWeather.isDay
+                                    ).second,
+                                    weatherImage = state.currentWeather.weatherStatus.asLocalizedUiWeatherMap(
+                                        state.currentWeather.isDay
+                                    ).first,
+                                    temperatureFeelsLike = state.currentWeather.temperatureFeelsLike.value.asLocalizedUnitValueString(
+                                        state.currentWeather.temperatureFeelsLike.unit,
+                                        this
+                                    ),
+                                )
+                            }
                             Spacer(modifier = Modifier.height(ultraLarge))
-                            WeatherProperties(
-                                humidity = state.humidity,
-                                windSpeed = state.windSpeed,
-                                windDirection = state.windDirection.asStringResource(),
-                                windGust = state.windGust,
-                                precipitation = state.precipitation,
-                                pressureMsl = state.pressureMsl,
-                                uvIndex = state.uvIndex
-                            )
+                            with(context) {
+                                WeatherProperties(
+                                    humidity = state.currentWeather.humidity.value.asLocalizedUnitValueString(
+                                        state.currentWeather.humidity.unit,
+                                        this
+                                    ),
+                                    windSpeed = state.currentWeather.windSpeed.value.asLocalizedUnitValueString(
+                                        state.currentWeather.windSpeed.unit,
+                                        this
+                                    ),
+                                    windDirection = state.currentWeather.windDirection.asLocalizedString(this),
+                                    windGust = state.currentWeather.windGust.value.asLocalizedUnitValueString(
+                                        state.currentWeather.windGust.unit,
+                                        this
+                                    ),
+                                    precipitation = state.currentWeather.precipitation.value.asLocalizedUnitValueString(
+                                        state.currentWeather.precipitation.unit,
+                                        this
+                                    ),
+                                    pressureMsl = state.currentWeather.pressureMsl.value.asLocalizedUnitValueString(
+                                        state.currentWeather.pressureMsl.unit,
+                                        this
+                                    ),
+                                    uvIndex = state.currentWeather.uvIndex
+                                )
+                            }
+
                             TodayRowTitle(
                                 modifier = Modifier.padding(horizontal = large),
                                 onNextSevenDaysClick = {
@@ -166,11 +198,14 @@ fun MainPageScreen(
                         LazyRow(
                             state = rowState
                         ) {
-                            items(items = state.hourlyList) { item ->
+                            items(items = state.currentWeather.hourlyList) { item: HourlyModelItem ->
                                 SharedHourlyComponent(
                                     modifier = Modifier.padding(medium),
-                                    image = item.weatherCode.toUiWeather(isDay = item.isDay).first,
-                                    text = item.temperature,
+                                    image = item.weatherCode.asLocalizedUiWeatherMap(isDay = item.isDay).first,
+                                    text = item.temperature.value.asLocalizedUnitValueString(
+                                        unit = item.temperature.unit,
+                                        context = context
+                                    ),
                                     timeText = item.time,
                                     isNow = item.isNow,
                                 )

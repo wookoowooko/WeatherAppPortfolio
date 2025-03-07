@@ -1,9 +1,13 @@
 package io.wookoo.common
 
+import android.content.Context
 import io.wookoo.domain.units.ApiUnit
 import java.util.Locale
 
-fun Number.asUnitValueWithStringRes(unit: ApiUnit?, context: android.content.Context): String {
+fun Number.asLocalizedUnitValueString(
+    unit: ApiUnit?,
+    context: Context,
+): String {
     return String.format(
         Locale.getDefault(),
         "%d %s",

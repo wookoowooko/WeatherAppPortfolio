@@ -48,7 +48,6 @@ class WeeklyViewModel @Inject constructor(
         WeeklyViewModelContract.WeeklyState()
     )
 
-
     fun onIntent(intent: WeeklyViewModelContract.OnIntent) {
         Log.d(TAG, "onIntent received: $intent")
         when (intent) {
@@ -100,7 +99,6 @@ class WeeklyViewModel @Inject constructor(
                         )
                     }
                 }
-
         }
     }
 
@@ -111,11 +109,11 @@ class WeeklyViewModel @Inject constructor(
                     val weekResponse = currentState.weatherResponse ?: return@onEach
                     currentState.copy(
                         mainWeatherRecyclerItems = currentState.mainWeatherRecyclerItems.mapFromResponse(
-                            weekResponse,
-                            selectedIndex,
-                            convertWeatherCodeToEnumUseCase,
-                            formatWindDirectionUseCase,
-                            convertUnixTimeUseCase
+                            weekResponse = weekResponse,
+                            selectedIndex = selectedIndex,
+                            convertWeatherCodeToEnumUseCase = convertWeatherCodeToEnumUseCase,
+                            formatWindDirectionUseCase = formatWindDirectionUseCase,
+                            convertUnixTimeUseCase = convertUnixTimeUseCase
                         )
                     )
                 }

@@ -16,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.designsystem.ui.components.SharedText
-import io.wookoo.main.R
 
 @Composable
 internal fun TodayRowTitle(

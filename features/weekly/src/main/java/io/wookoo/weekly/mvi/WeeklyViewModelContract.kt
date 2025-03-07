@@ -18,5 +18,3 @@ object WeeklyViewModelContract {
         data class OnCalendarItemClick(val indexPosition: Int) : OnIntent
     }
 }
-
-

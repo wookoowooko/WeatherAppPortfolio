@@ -26,7 +26,6 @@ val diffCallback = object : DiffUtil.ItemCallback<DisplayableItem>() {
         return oldItem.id() == newItem.id()
     }
 
-
     @SuppressLint("DiffUtilEquals")
     override fun areContentsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
         return oldItem.content() == newItem.content()

@@ -1,6 +1,5 @@
 package io.wookoo.main.components
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -11,13 +10,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.designsystem.ui.components.SharedWeatherItem
 import io.wookoo.designsystem.ui.theme.medium
-import io.wookoo.main.R
 
 @Composable
 fun WeatherProperties(
     humidity: String,
     windSpeed: String,
-    @StringRes windDirection: Int,
+    windDirection: String,
     windGust: String,
     precipitation: String,
     pressureMsl: String,
@@ -40,9 +38,8 @@ fun WeatherProperties(
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_wind_direction,
-            text = stringResource(windDirection),
-            title = stringResource(io.wookoo.androidresources.R.string.wind_direction_prop),
-
+            text = windDirection,
+            title = stringResource(io.wookoo.androidresources.R.string.wind_direction_prop)
         )
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
@@ -62,8 +59,7 @@ fun WeatherProperties(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_pressure_msl,
             text = pressureMsl,
-            title = stringResource(io.wookoo.androidresources.R.string.pressure),
-
+            title = stringResource(io.wookoo.androidresources.R.string.pressure)
         )
 
         SharedWeatherItem(
@@ -82,7 +78,7 @@ private fun WeatherPropertiesPreview() {
     WeatherProperties(
         humidity = "28%",
         windSpeed = "8km/h",
-        windDirection = io.wookoo.androidresources.R.string.north,
+        windDirection = "North",
         windGust = "10km/h",
         precipitation = "10%",
         pressureMsl = "1000 hPa",
@@ -96,7 +92,7 @@ private fun WeatherPropertiesPreview2() {
     WeatherProperties(
         humidity = "28%",
         windSpeed = "8km/h",
-        windDirection = io.wookoo.androidresources.R.string.south,
+        windDirection = "South",
         windGust = "10km/h",
         precipitation = "10%",
         pressureMsl = "1000 hPa",

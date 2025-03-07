@@ -2,7 +2,7 @@ package io.wookoo.weekly.delegates.calendar
 
 import com.google.android.material.color.MaterialColors
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
-import io.wookoo.common.toUiWeather
+import io.wookoo.common.asLocalizedUiWeatherMap
 import io.wookoo.design.system.databinding.CalendarRecyclerItemBinding
 import io.wookoo.weekly.DisplayableItem
 import io.wookoo.weekly.uimodels.UiCalendarDayModel
@@ -49,7 +49,9 @@ internal fun calendarAdapterDelegate(
                 dayName.setTextColor(textColor)
                 dayNumber.setTextColor(textColor)
 
-                weatherCodeImage.setImageResource(item.weatherCondition.toUiWeather(isDay = item.isDay).first)
+                weatherCodeImage.setImageResource(
+                    item.weatherCondition.asLocalizedUiWeatherMap(isDay = item.isDay).first
+                )
             }
         }
     }

@@ -20,6 +20,8 @@ fun WeeklyWeatherResponseModel.asUiWindCardModel(
             this@asUiWindCardModel.weekly.windData[selectedCalendarItemIndex].gust,
             ApiUnit.KMH
         ),
-        windDirection = formatWindDirectionUseCase(this@asUiWindCardModel.weekly.windData[selectedCalendarItemIndex].direction),
+        windDirection = formatWindDirectionUseCase(
+            this@asUiWindCardModel.weekly.windData[selectedCalendarItemIndex].direction
+        ),
     )
 }

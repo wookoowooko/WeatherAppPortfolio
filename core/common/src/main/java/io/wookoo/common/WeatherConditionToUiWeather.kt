@@ -9,7 +9,7 @@ typealias WeatherNameStringRes = Int
 
 @StringRes
 @DrawableRes
-fun WeatherCondition.toUiWeather(isDay: Boolean): Pair<WeatherIconDrawable, WeatherNameStringRes> {
+fun WeatherCondition.asLocalizedUiWeatherMap(isDay: Boolean): Pair<WeatherIconDrawable, WeatherNameStringRes> {
     if (isDay) {
         return when (this) {
             WeatherCondition.CLEAR_SKY_0 -> io.wookoo.design.system.R.drawable.ic_clear_sky to io.wookoo.androidresources.R.string.clear_sky

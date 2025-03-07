@@ -3,13 +3,13 @@ package io.wookoo.domain.usecases
 import io.wookoo.domain.model.weather.current.HourlyModel
 import io.wookoo.domain.model.weather.current.HourlyModelItem
 import io.wookoo.domain.units.ApiUnit
+import io.wookoo.domain.units.WeatherValueWithUnit
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import javax.inject.Inject
 
 class HourlyModelToHourlyListUseCase @Inject constructor(
-    private val unitFormatUseCase: UnitFormatUseCase,
     private val convertUnixTimeUseCase: ConvertUnixTimeUseCase,
     private val convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,
 ) {
@@ -31,7 +31,10 @@ class HourlyModelToHourlyListUseCase @Inject constructor(
         return convertedTimeList.mapIndexed { index, time ->
             HourlyModelItem(
                 time = time,
-                temperature = unitFormatUseCase(listOfTemperature[index], ApiUnit.CELSIUS),
+                temperature = WeatherValueWithUnit(
+                    value = listOfTemperature[index],
+                    unit = ApiUnit.CELSIUS
+                ),
                 weatherCode = convertWeatherCodeToEnumUseCase(listOfCode[index]),
                 isNow = time == convertedTimeList[currentHour],
                 isDay = listOfIsDay.getOrElse(index) { false },

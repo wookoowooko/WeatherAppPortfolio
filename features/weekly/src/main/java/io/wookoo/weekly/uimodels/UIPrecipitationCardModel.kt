@@ -13,7 +13,10 @@ data class UIPrecipitationCardModel(
     override fun id(): Any = total
 
     override fun content(): Any = Content(
-        rainSum, showersSum, snowSum, precipitationProbability
+        rainSum,
+        showersSum,
+        snowSum,
+        precipitationProbability
     )
 
     internal data class Content(

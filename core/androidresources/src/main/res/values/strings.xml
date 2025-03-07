@@ -7,6 +7,7 @@
     <string name="centimetres_unit">cm</string>
     <string name="millimeters_unit">mm</string>
     <string name="percent_unit">"%"</string>
+    <string name="pressure_unit">hPa</string>
     <string name="sunrise_time">Sunrise time</string>
     <string name="sunset_time">Sunset time</string>
     <string name="daylight_duration">Daylight duration</string>
@@ -77,7 +78,7 @@
     <string name="dismiss">Dismiss</string>
 
     <!--Main-->
-    <string name="feels_like">Feels like %1$s</string>
+    <string name="feels_like">Feels like</string>
     <string name="today_titile">Today</string>
     <string name="next_7_days_title">Next 7 Days</string>
     <string name="humidity_prop">Humidity</string>

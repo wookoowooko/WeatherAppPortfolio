@@ -10,7 +10,8 @@ data class UiSuncyclesModel(
     override fun id(): Any = "$sunriseTime-$sunsetTime"
 
     override fun content(): Any = Content(
-        sunriseTime, sunsetTime
+        sunriseTime,
+        sunsetTime
     )
 
     private data class Content(

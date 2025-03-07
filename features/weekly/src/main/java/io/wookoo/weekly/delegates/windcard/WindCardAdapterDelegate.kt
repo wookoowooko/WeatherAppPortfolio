@@ -1,8 +1,8 @@
 package io.wookoo.weekly.delegates.windcard
 
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
-import io.wookoo.common.asStringResource
-import io.wookoo.common.asUnitValueWithStringRes
+import io.wookoo.common.asLocalizedString
+import io.wookoo.common.asLocalizedUnitValueString
 import io.wookoo.design.system.databinding.WindCardItemBinding
 import io.wookoo.domain.units.WeatherValueWithUnit
 import io.wookoo.domain.units.WindDirection
@@ -17,13 +17,19 @@ internal fun windCardAdapterDelegate() =
             with(binding) {
                 windSpeed.text =
                     (item.windSpeed as WeatherValueWithUnit)
-                        .value.asUnitValueWithStringRes((item.windSpeed as WeatherValueWithUnit).unit, context)
+                        .value.asLocalizedUnitValueString(
+                            (item.windSpeed as WeatherValueWithUnit).unit,
+                            context
+                        )
 
                 windGustsSpeed.text =
                     (item.windGust as WeatherValueWithUnit)
-                        .value.asUnitValueWithStringRes((item.windGust as WeatherValueWithUnit).unit, context)
+                        .value.asLocalizedUnitValueString(
+                            (item.windGust as WeatherValueWithUnit).unit,
+                            context
+                        )
 
-                windDirection.setText((item.windDirection as WindDirection).asStringResource())
+                windDirection.text = (item.windDirection as WindDirection).asLocalizedString(context)
             }
         }
     }

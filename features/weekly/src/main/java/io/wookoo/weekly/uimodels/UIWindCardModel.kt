@@ -11,7 +11,8 @@ data class UIWindCardModel(
     override fun id(): Any = windSpeed
 
     override fun content(): Any = Content(
-        windGust, windDirection
+        windGust,
+        windDirection
     )
 
     internal data class Content(

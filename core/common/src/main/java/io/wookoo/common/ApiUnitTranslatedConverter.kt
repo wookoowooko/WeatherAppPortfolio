@@ -13,7 +13,7 @@ fun getUnitString(unit: ApiUnit): Int {
 //        ApiUnit.MPH -> R.string.unit_mph
 //        ApiUnit.DIRECTION -> R.string.unit_degree
         ApiUnit.PERCENT -> io.wookoo.androidresources.R.string.percent_unit
-//        ApiUnit.PRESSURE -> R.string.unit_pressure
+        ApiUnit.PRESSURE -> io.wookoo.androidresources.R.string.pressure_unit
         ApiUnit.MM -> io.wookoo.androidresources.R.string.millimeters_unit
         ApiUnit.CM -> io.wookoo.androidresources.R.string.centimetres_unit
         ApiUnit.MINUTE -> io.wookoo.androidresources.R.string.min_unit

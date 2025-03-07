@@ -9,7 +9,7 @@ enum class ApiUnit(val symbol: String = "") {
     MS,
     MPH(" mp/h"),
     PERCENT,
-    PRESSURE(" hPa"),
+    PRESSURE,
     MM,
     CM,
     INCH("inch"),

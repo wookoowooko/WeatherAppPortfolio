@@ -82,7 +82,6 @@ class WeeklyFragment : Fragment() {
         }
     }
 
-
     companion object {
         private const val TAG = "WeeklyFragment"
     }

@@ -5,6 +5,7 @@ import io.wookoo.domain.units.ApiUnit
 import io.wookoo.domain.units.SecondsDuration
 import io.wookoo.domain.units.WeatherValueWithUnit
 import io.wookoo.weekly.uimodels.UiOtherPropsModel
+import kotlin.math.roundToInt
 
 fun WeeklyWeatherResponseModel.asOtherPropsCardModel(
     selectedCalendarItemIndex: Int,
@@ -30,8 +31,6 @@ fun WeeklyWeatherResponseModel.asOtherPropsCardModel(
                 unit = ApiUnit.MINUTE
             )
         ),
-        maxUvIndex = WeatherValueWithUnit(
-            value = this.weekly.uvIndexMax[selectedCalendarItemIndex],
-        )
+        maxUvIndex = this.weekly.uvIndexMax[selectedCalendarItemIndex].roundToInt().toString(),
     )
 }
