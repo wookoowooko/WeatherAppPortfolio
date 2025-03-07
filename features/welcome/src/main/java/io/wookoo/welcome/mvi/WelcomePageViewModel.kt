@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 @Suppress("LargeClass")
 @HiltViewModel
 class WelcomePageViewModel @Inject constructor(

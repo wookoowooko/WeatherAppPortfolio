@@ -3,7 +3,7 @@ package io.wookoo.domain.repo
 import io.wookoo.domain.model.geocoding.GeocodingResponseModel
 import io.wookoo.domain.model.reversegeocoding.ReverseGeocodingResponseModel
 import io.wookoo.domain.model.weather.current.CurrentWeatherResponseModel
-import io.wookoo.domain.model.weekly.WeeklyWeatherResponseModel
+import io.wookoo.domain.model.weather.weekly.WeeklyWeatherResponseModel
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.domain.utils.DataError
 

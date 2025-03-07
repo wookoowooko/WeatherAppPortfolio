@@ -58,7 +58,7 @@ internal fun DetectGeolocationCard(
         ) {
             Icon(Icons.Default.MyLocation, null, modifier = Modifier.padding(medium))
             SharedText(
-                text = stringResource(R.string.detect_automatically),
+                text = stringResource(io.wookoo.androidresources.R.string.detect_automatically),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(medium),
                 color = MaterialTheme.colorScheme.onPrimary

@@ -60,8 +60,8 @@ private fun WeatherItemPreview2() {
     SharedWeatherItem(
         onClick = {},
         image = R.drawable.ic_drizzle_light,
-        text = "8km/h",
-        title = "WindSpeed"
+        text = "8 km/h",
+        title = "Windspeed"
     )
 }
 
@@ -71,7 +71,7 @@ private fun WeatherItemPreview3() {
     SharedWeatherItem(
         onClick = {},
         image = R.drawable.ic_drizzle_light,
-        text = "8km/h",
-        title = "WindSpeed",
+        text = "8 km/h",
+        title = "Windspeed"
     )
 }

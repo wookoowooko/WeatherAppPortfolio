@@ -12,7 +12,6 @@ import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 
 @Composable
 fun SharedText(
-
     text: String,
     modifier: Modifier = Modifier,
     color: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.onSurface,
