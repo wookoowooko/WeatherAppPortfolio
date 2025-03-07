@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="choose_your_location">Choose your location</string>
-    <string name="continue_string">Continue</string>
-    <string name="or">or</string>
-    <string name="detect_automatically">Detect automatically</string>
-</resources>

@@ -24,7 +24,7 @@ fun ContinueButton(onIntent: (WelcomePageContract.OnIntent) -> Unit) {
         }
     ) {
         SharedText(
-            text = stringResource(R.string.continue_string),
+            text = stringResource(io.wookoo.androidresources.R.string.continue_string),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onPrimary
         )

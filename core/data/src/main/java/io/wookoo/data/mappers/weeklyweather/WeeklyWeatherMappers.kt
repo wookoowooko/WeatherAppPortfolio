@@ -1,10 +1,11 @@
 package io.wookoo.data.mappers.weeklyweather
 
+import io.wookoo.domain.model.weather.current.PrecipitationModel
 import io.wookoo.domain.model.weather.current.SunCyclesModel
 import io.wookoo.domain.model.weather.current.WindModel
-import io.wookoo.domain.model.weekly.CurrentWeatherShortModel
-import io.wookoo.domain.model.weekly.WeeklyWeatherModel
-import io.wookoo.domain.model.weekly.WeeklyWeatherResponseModel
+import io.wookoo.domain.model.weather.weekly.CurrentWeatherShortModel
+import io.wookoo.domain.model.weather.weekly.WeeklyWeatherModel
+import io.wookoo.domain.model.weather.weekly.WeeklyWeatherResponseModel
 import io.wookoo.network.dto.weather.weekly.CurrentWeatherShortDto
 import io.wookoo.network.dto.weather.weekly.WeeklyWeatherDto
 import io.wookoo.network.dto.weather.weekly.WeeklyWeatherResponseDto
@@ -31,13 +32,17 @@ private fun WeeklyWeatherDto.asWeeklyWeatherModel(): WeeklyWeatherModel {
         apparentTempMax = apparentTempMax,
         apparentTempMin = apparentTempMin,
         dayLightDuration = dayLightDuration,
-        snowfallSum = snowfallSum,
         sunshineDuration = sunshineDuration,
         uvIndexMax = uvIndexMax,
-        rainSum = rainSum,
-        showersSum = showersSum,
-        precipitationSum = precipitationSum,
         precipitationProbabilityMax = precipitationProbabilityMax,
+        precipitationData = precipitationSum.mapIndexed { index, sum ->
+            PrecipitationModel(
+                level = sum,
+                rain = rainSum.getOrNull(index) ?: 0.0,
+                showers = showersSum.getOrNull(index) ?: 0.0,
+                snowfall = snowfallSum.getOrNull(index) ?: 0.0
+            )
+        },
         sunCycles = SunCyclesModel(
             sunrise = sunrise,
             sunset = sunset

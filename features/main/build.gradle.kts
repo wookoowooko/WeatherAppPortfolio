@@ -8,8 +8,10 @@ android {
     namespace = "io.wookoo.main"
 }
 dependencies{
-    implementation(project(":core:geolocation"))
+
     projects.apply {
         implementation(core.data)
+        implementation(core.geolocation)
+        implementation(core.androidresources)
     }
 }

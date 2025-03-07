@@ -8,3 +8,8 @@ plugins {
 android {
     namespace = "io.wookoo.permissions"
 }
+dependencies{
+    projects.core.apply {
+        implementation(androidresources)
+    }
+}

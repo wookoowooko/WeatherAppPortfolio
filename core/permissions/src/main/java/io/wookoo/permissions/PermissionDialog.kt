@@ -25,13 +25,13 @@ fun PermissionDialog(
             Icon(Icons.Default.LocationOn, contentDescription = null)
         },
         title = {
-            Text(text = stringResource(R.string.permission_required))
+            Text(text = stringResource(io.wookoo.androidresources.R.string.permission_required))
         },
         text = {
             val text = if (isPermanentlyDeclined) {
-                R.string.denied_permanently
+                io.wookoo.androidresources.R.string.denied_permanently
             } else {
-                R.string.denied_perm
+                io.wookoo.androidresources.R.string.denied_perm
             }
             Text(
                 text = stringResource(text),
@@ -48,7 +48,7 @@ fun PermissionDialog(
                     }
                 }
             ) {
-                Text(stringResource(R.string.confirm))
+                Text(stringResource(io.wookoo.androidresources.R.string.confirm))
             }
         },
         dismissButton = {
@@ -57,7 +57,7 @@ fun PermissionDialog(
                     onDismiss()
                 }
             ) {
-                Text(stringResource(R.string.dismiss))
+                Text(stringResource(io.wookoo.androidresources.R.string.dismiss))
             }
         }
     )

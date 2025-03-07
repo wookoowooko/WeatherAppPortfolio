@@ -50,7 +50,7 @@ internal fun ChooseYourLocationCard(
                 modifier = Modifier.padding(medium)
             )
             SharedText(
-                text = state.city.ifEmpty { stringResource(R.string.choose_your_location) },
+                text = state.city.ifEmpty { stringResource(io.wookoo.androidresources.R.string.choose_your_location) },
                 style = MaterialTheme.typography.titleMedium
             )
         }

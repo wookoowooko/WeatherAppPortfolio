@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/calendar_recycler"
+    android:id="@+id/wind_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/large">
@@ -14,10 +14,10 @@
         android:layout_marginTop="@dimen/dimen_50"
         android:background="@drawable/rounded_corner_shape_20"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/calendar_recycler">
+        app:layout_constraintTop_toTopOf="@+id/wind_container">
 
         <TextView
-            android:id="@+id/tempMin"
+            android:id="@+id/tempMax"
             style="?attr/textAppearanceDisplaySmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,24 +28,24 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/view2"
-            app:layout_constraintTop_toBottomOf="@+id/maxText"
+            app:layout_constraintTop_toBottomOf="@+id/gustsText"
             tools:text="5°C" />
 
         <TextView
             android:textColor="@color/white"
-            android:text="/"
+            android:text="@string/delimeter"
             android:id="@+id/view2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/small"
             style="?attr/textAppearanceDisplayMedium"
-            app:layout_constraintBottom_toBottomOf="@+id/tempMax"
-            app:layout_constraintStart_toEndOf="@+id/tempMax"
-            app:layout_constraintTop_toTopOf="@+id/tempMin"/>
+            app:layout_constraintBottom_toBottomOf="@+id/tempMin"
+            app:layout_constraintStart_toEndOf="@+id/tempMin"
+            app:layout_constraintTop_toTopOf="@+id/tempMax"/>
 
 
         <TextView
-            android:id="@+id/tempMax"
+            android:id="@+id/tempMin"
             style="?attr/textAppearanceDisplaySmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/view2"
-            app:layout_constraintTop_toBottomOf="@+id/minText"
+            app:layout_constraintTop_toBottomOf="@+id/speedText"
             tools:text="-12" />
 
         <TextView
@@ -64,10 +64,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/medium"
             android:fontFamily="@font/lexend"
-            android:text="@string/feels_like"
+            android:text="@string/feels_like_weekly"
             android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="@+id/tempMax"
-            app:layout_constraintTop_toBottomOf="@+id/tempMin" />
+            app:layout_constraintStart_toStartOf="@+id/tempMin"
+            app:layout_constraintTop_toBottomOf="@+id/tempMax" />
 
         <TextView
             android:id="@+id/feelsLikeMinValue"
@@ -103,7 +103,7 @@
             tools:text="22°C" />
 
         <TextView
-            android:id="@+id/weatherCondition"
+            android:id="@+id/weatherConditionText"
             style="?attr/textAppearanceHeadlineSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
 
 
         <TextView
-            android:id="@+id/minText"
+            android:id="@+id/speedText"
             style="?attr/textAppearanceTitleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -126,19 +126,19 @@
             android:fontFamily="@font/lexend"
             android:text="@string/min"
             android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="@+id/tempMax"
+            app:layout_constraintStart_toStartOf="@+id/tempMin"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/maxText"
+            android:id="@+id/gustsText"
             style="?attr/textAppearanceTitleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lexend"
             android:text="@string/max"
             android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="@+id/tempMin"
-            app:layout_constraintTop_toTopOf="@+id/minText" />
+            app:layout_constraintStart_toStartOf="@+id/tempMax"
+            app:layout_constraintTop_toTopOf="@+id/speedText" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -152,6 +152,6 @@
         android:scaleType="centerCrop"
         android:src="@drawable/ic_weather_error"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/calendar_recycler" />
+        app:layout_constraintTop_toTopOf="@+id/wind_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
