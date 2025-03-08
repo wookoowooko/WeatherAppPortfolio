@@ -81,7 +81,7 @@ class WelcomePageStore @Inject constructor(
                 // Отправляем в Reducer данные
                 dispatch(OnErrorSearchLocation)
                 // Отправляем в Ui SnackBar
-                emitSideEffect(SideEffect.ShowSnackBar(error.name))
+                emitSideEffect(SideEffect.ShowSnackBar(error))
             }.onFinally {
                 // Скрываем индикатор загрузки
                 dispatch(OnLoadingFinish)
@@ -126,8 +126,9 @@ class WelcomePageStore @Inject constructor(
                 )
             )
         }.onError { apiError: DataError.Remote ->
+            println("fetchReversGeocoding failed: ${apiError.name}")
             dispatch(OnErrorFetchReversGeocoding)
-            emitSideEffect(SideEffect.ShowSnackBar(apiError.name))
+            emitSideEffect(SideEffect.ShowSnackBar(apiError))
         }.onFinally {
             dispatch(OnLoadingFinish)
         }

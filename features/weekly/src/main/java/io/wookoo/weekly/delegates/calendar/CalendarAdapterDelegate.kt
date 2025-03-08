@@ -2,7 +2,7 @@ package io.wookoo.weekly.delegates.calendar
 
 import com.google.android.material.color.MaterialColors
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
-import io.wookoo.common.asLocalizedUiWeatherMap
+import io.wookoo.common.ext.asLocalizedUiWeatherMap
 import io.wookoo.design.system.databinding.CalendarRecyclerItemBinding
 import io.wookoo.weekly.DisplayableItem
 import io.wookoo.weekly.uimodels.UiCalendarDayModel

@@ -1,8 +1,8 @@
 package io.wookoo.weekly.delegates.windcard
 
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
-import io.wookoo.common.asLocalizedString
-import io.wookoo.common.asLocalizedUnitValueString
+import io.wookoo.common.ext.asLocalizedString
+import io.wookoo.common.ext.asLocalizedUnitValueString
 import io.wookoo.design.system.databinding.WindCardItemBinding
 import io.wookoo.domain.units.WeatherValueWithUnit
 import io.wookoo.domain.units.WindDirection

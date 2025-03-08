@@ -27,8 +27,9 @@ private data object MainGraph
 
 @Composable
 internal fun Navigation(
-    onRequestLocationPermission: () -> Unit,
     userSettings: UserSettingsModel?,
+    onRequestLocationPermission: () -> Unit,
+    onShowSnackBar: (String) -> Unit,
 ) {
     val navController = rememberNavController()
 
@@ -80,7 +81,8 @@ internal fun Navigation(
             startDestination = WelcomeRoute,
         ) {
             welcomePage(
-                onRequestLocationPermission = onRequestLocationPermission
+                onRequestLocationPermission = onRequestLocationPermission,
+                onShowSnackBar = onShowSnackBar
             )
         }
 

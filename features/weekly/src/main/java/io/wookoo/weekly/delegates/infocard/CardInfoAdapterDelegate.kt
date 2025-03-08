@@ -1,8 +1,8 @@
 package io.wookoo.weekly.delegates.infocard
 
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
-import io.wookoo.common.asLocalizedUiWeatherMap
-import io.wookoo.common.asLocalizedUnitValueString
+import io.wookoo.common.ext.asLocalizedUiWeatherMap
+import io.wookoo.common.ext.asLocalizedUnitValueString
 import io.wookoo.design.system.databinding.InfoCardItemBinding
 import io.wookoo.weekly.DisplayableItem
 import io.wookoo.weekly.uimodels.UiCardInfoModel

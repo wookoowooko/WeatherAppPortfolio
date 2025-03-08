@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.AsyncDifferConfig
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import dev.androidbroadcast.vbpd.viewBinding
-import io.wookoo.common.collectWithLifecycle
+import io.wookoo.common.ext.collectWithLifecycle
 import io.wookoo.weekly.adapters.MainAdapter
 import io.wookoo.weekly.adapters.diffCallback
 import io.wookoo.weekly.databinding.FragmentWeeklyBinding

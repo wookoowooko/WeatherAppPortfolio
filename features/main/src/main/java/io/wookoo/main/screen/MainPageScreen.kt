@@ -30,10 +30,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import io.wookoo.common.asLocalizedString
-import io.wookoo.common.asLocalizedUiWeatherMap
-import io.wookoo.common.asLocalizedUnitValueString
-import io.wookoo.common.isLocationPermissionGranted
+import io.wookoo.common.ext.asLocalizedString
+import io.wookoo.common.ext.asLocalizedUiWeatherMap
+import io.wookoo.common.ext.asLocalizedUnitValueString
+import io.wookoo.common.ext.checkLocationPermissionGranted
 import io.wookoo.designsystem.ui.components.SharedHourlyComponent
 import io.wookoo.designsystem.ui.components.SharedLottieLoader
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
@@ -132,7 +132,7 @@ fun MainPageScreen(
                                 city = state.city,
                                 country = state.country,
                                 onGeoLocationClick = {
-                                    if (isLocationPermissionGranted(context)) {
+                                    if (context.checkLocationPermissionGranted()) {
                                         onIntent(MainPageContract.OnIntent.OnGeolocationIconClick)
                                     } else {
                                         onIntent(MainPageContract.OnIntent.OnRequestGeoLocationPermission)
@@ -169,7 +169,9 @@ fun MainPageScreen(
                                         state.currentWeather.windSpeed.unit,
                                         this
                                     ),
-                                    windDirection = state.currentWeather.windDirection.asLocalizedString(this),
+                                    windDirection = state.currentWeather.windDirection.asLocalizedString(
+                                        this
+                                    ),
                                     windGust = state.currentWeather.windGust.value.asLocalizedUnitValueString(
                                         state.currentWeather.windGust.unit,
                                         this

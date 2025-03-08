@@ -13,10 +13,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-interface StoreDispatcher<Intent> {
-    fun dispatch(intent: Intent)
-}
-
 abstract class Store<State, Intent, Effect>(
     @StoreScope private val storeScope: CoroutineScope,
     initialState: State,

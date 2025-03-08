@@ -1,6 +1,7 @@
 package io.wookoo.welcome.mvi
 
 import io.wookoo.domain.model.geocoding.GeocodingSearchModel
+import io.wookoo.domain.utils.AppError
 
 sealed interface WelcomePageIntent
 sealed interface AnyFailure : WelcomePageIntent
@@ -23,5 +24,5 @@ data class OnSuccessFetchReversGeocoding(val city: String, val country: String) 
 data object OnErrorFetchReversGeocoding : AnyFailure
 
 sealed interface SideEffect {
-    data class ShowSnackBar(val message: String) : SideEffect
+    data class ShowSnackBar(val message: AppError) : SideEffect
 }

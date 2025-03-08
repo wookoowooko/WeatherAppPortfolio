@@ -6,7 +6,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import dagger.hilt.android.qualifiers.ApplicationContext
-import io.wookoo.common.isLocationPermissionGranted
+import io.wookoo.common.ext.checkLocationPermissionGranted
 import javax.inject.Inject
 
 class WeatherLocationManager @Inject constructor(@ApplicationContext private val context: Context) :
@@ -18,7 +18,7 @@ class WeatherLocationManager @Inject constructor(@ApplicationContext private val
 
     @SuppressLint("MissingPermission")
     fun getGeolocationFromGpsSensors(onLocationReceived: (latitude: Double, longitude: Double) -> Unit) {
-        if (!isLocationPermissionGranted(context)) return
+        if (!context.checkLocationPermissionGranted()) return
         this.onLocationReceived = onLocationReceived
 
         val provider = when {

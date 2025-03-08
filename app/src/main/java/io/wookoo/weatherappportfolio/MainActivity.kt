@@ -3,6 +3,7 @@ package io.wookoo.weatherappportfolio
 import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -14,15 +15,20 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import dagger.hilt.android.AndroidEntryPoint
-import io.wookoo.common.isLocationPermissionGranted
-import io.wookoo.common.openAndroidSettings
+import io.wookoo.common.ext.checkLocationPermissionGranted
+import io.wookoo.common.ext.openAndroidSettings
+import io.wookoo.designsystem.ui.components.SharedCustomSnackBar
 import io.wookoo.designsystem.ui.components.SharedLottieLoader
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.domain.repo.IDataStoreRepo
@@ -30,7 +36,10 @@ import io.wookoo.geolocation.WeatherLocationManager
 import io.wookoo.permissions.PermissionDialog
 import io.wookoo.permissions.Permissions
 import io.wookoo.weatherappportfolio.navigation.Navigation
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val TAG = "MainActivity"
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -49,8 +58,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            var snackBarMessage by remember { mutableStateOf("") }
+            var isSnackbarVisible by remember { mutableStateOf(false) }
             val userSettings by dataStore.userSettings.collectAsState(initial = null)
-
+            val scope = rememberCoroutineScope()
+            val snackBarHostState = remember { SnackbarHostState() }
             val locationPermissionResultLauncher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.RequestPermission(),
                 onResult = { isGranted ->
@@ -62,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             )
 
             LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
-                if (isLocationPermissionGranted(this)) {
+                if (this.checkLocationPermissionGranted()) {
                     permissions.dismissDialog()
                 }
             }
@@ -86,12 +98,13 @@ class MainActivity : AppCompatActivity() {
 
                 Scaffold(
                     snackbarHost = {
-                        val snackBarHostState = remember { SnackbarHostState() }
                         SnackbarHost(
                             modifier = Modifier.fillMaxWidth(),
                             hostState = snackBarHostState,
                             snackbar = { snackBarData ->
+                                Log.d(TAG, "onCreate: $snackBarData")
                                 Snackbar {
+                                    Text(text = snackBarData.visuals.message)
                                 }
                             }
                         )
@@ -114,6 +127,17 @@ class MainActivity : AppCompatActivity() {
                                         )
                                     },
                                     userSettings = userSettings,
+                                    onShowSnackBar = { message ->
+                                        snackBarMessage = message
+                                        scope.launch {
+                                            isSnackbarVisible = true
+                                        }
+                                    }
+                                )
+                                SharedCustomSnackBar(
+                                    message = snackBarMessage,
+                                    isVisible = isSnackbarVisible,
+                                    onDismiss = { isSnackbarVisible = false }
                                 )
                             }
 
