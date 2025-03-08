@@ -31,6 +31,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Suppress("LargeClass")
 @HiltViewModel
 class MainPageViewModel @Inject constructor(
     private val masterRepository: IMasterWeatherRepo,
@@ -99,7 +100,7 @@ class MainPageViewModel @Inject constructor(
 
     private fun getGeolocation() {
         _state.update { it.copy(isGeolocationSearchInProgress = true) }
-        weatherLocationManager.getCurrentLocation { lat, lon ->
+        weatherLocationManager.getGeolocationFromGpsSensors { lat, lon ->
             viewModelScope.launch {
                 dataStore.saveUserLocation(
                     latitude = lat,

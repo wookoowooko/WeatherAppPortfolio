@@ -1,4 +1,5 @@
 package io.wookoo.welcome.components
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
@@ -18,13 +19,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.designsystem.ui.components.SharedLocationItem
 import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
-import io.wookoo.welcome.mvi.WelcomePageContract
+import io.wookoo.welcome.mvi.OnSearchedGeoItemClick
+import io.wookoo.welcome.mvi.WelcomePageIntent
+import io.wookoo.welcome.mvi.WelcomePageState
 
 @Composable
 @OptIn(ExperimentalLayoutApi::class)
 internal fun SearchResults(
-    state: WelcomePageContract.WelcomePageState,
-    onIntent: (WelcomePageContract.OnIntent) -> Unit,
+    state: WelcomePageState,
+    onIntent: (WelcomePageIntent) -> Unit,
 ) {
     LazyColumn(
         Modifier
@@ -44,11 +47,7 @@ internal fun SearchResults(
                 cityName = result.cityName,
                 urbanArea = result.urbanArea,
                 onClick = {
-                    onIntent(
-                        WelcomePageContract.OnIntent.OnSearchedGeoItemClick(
-                            result
-                        )
-                    )
+                    onIntent(OnSearchedGeoItemClick(result))
                 }
             )
         }
@@ -66,7 +65,7 @@ internal fun SearchResults(
 @Preview
 private fun SearchResultsPreview() {
     SearchResults(
-        state = WelcomePageContract.WelcomePageState(),
+        state = WelcomePageState(),
         onIntent = {}
     )
 }

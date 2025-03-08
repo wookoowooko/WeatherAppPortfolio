@@ -10,16 +10,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.utils.SingleClickHandler.singleClick
-import io.wookoo.welcome.R
-import io.wookoo.welcome.mvi.WelcomePageContract
+import io.wookoo.welcome.mvi.OnContinueButtonClick
+import io.wookoo.welcome.mvi.WelcomePageIntent
 
 @Composable
-fun ContinueButton(onIntent: (WelcomePageContract.OnIntent) -> Unit) {
+fun ContinueButton(onIntent: (WelcomePageIntent) -> Unit) {
     Button(
         colors = ButtonDefaults.buttonColors(),
         onClick = {
             singleClick {
-                onIntent(WelcomePageContract.OnIntent.OnContinueButtonClick)
+                onIntent(OnContinueButtonClick)
             }
         }
     ) {

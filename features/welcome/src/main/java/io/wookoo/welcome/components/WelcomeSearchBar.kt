@@ -18,33 +18,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import io.wookoo.designsystem.ui.components.SharedText
-import io.wookoo.welcome.mvi.WelcomePageContract
+import io.wookoo.welcome.mvi.OnAppBarExpandChange
+import io.wookoo.welcome.mvi.OnSearchQueryChange
+import io.wookoo.welcome.mvi.WelcomePageIntent
+import io.wookoo.welcome.mvi.WelcomePageState
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 internal fun WelcomeSearchBar(
-    onIntent: (WelcomePageContract.OnIntent) -> Unit,
+    onIntent: (WelcomePageIntent) -> Unit,
     searchQuery: String,
-    state: WelcomePageContract.WelcomePageState,
+    state: WelcomePageState,
     isLoading: Boolean,
 ) {
     SearchBar(
         modifier = Modifier,
         expanded = true,
         onExpandedChange = { expandState ->
-            onIntent(WelcomePageContract.OnIntent.OnExpandedChange(expandState))
+            onIntent(OnAppBarExpandChange(expandState))
         },
         inputField = {
             SearchBarDefaults.InputField(
                 trailingIcon = {
                     IconButton(onClick = {
                         if (searchQuery.isNotEmpty()) {
-                            onIntent(WelcomePageContract.OnIntent.OnSearchQueryChange(""))
+                            onIntent(OnSearchQueryChange(""))
                         } else {
                             onIntent(
-                                WelcomePageContract.OnIntent.OnExpandedChange(
-                                    false
-                                )
+                                OnAppBarExpandChange(false)
                             )
                         }
                     }) {
@@ -56,10 +57,10 @@ internal fun WelcomeSearchBar(
                 },
                 query = searchQuery,
                 onQueryChange = { query ->
-                    onIntent(WelcomePageContract.OnIntent.OnSearchQueryChange(query))
+                    onIntent(OnSearchQueryChange(query))
                 },
                 onSearch = { query ->
-                    onIntent(WelcomePageContract.OnIntent.OnSearchQueryChange(query))
+                    onIntent(OnSearchQueryChange(query))
                 },
                 placeholder = {
                     if (searchQuery.isEmpty()) {
@@ -73,7 +74,7 @@ internal fun WelcomeSearchBar(
                 modifier = Modifier.fillMaxWidth(),
                 expanded = true,
                 onExpandedChange = { state ->
-                    onIntent(WelcomePageContract.OnIntent.OnExpandedChange(state))
+                    onIntent(OnAppBarExpandChange(state))
                 },
             )
         }

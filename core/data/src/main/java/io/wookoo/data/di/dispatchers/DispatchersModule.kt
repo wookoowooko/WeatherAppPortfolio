@@ -21,4 +21,9 @@ object DispatchersModule {
     @Suppress("InjectDispatcher")
     @Dispatcher(AppDispatchers.Default)
     fun providesDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
+
+    @Provides
+    @Suppress("InjectDispatcher")
+    @Dispatcher(AppDispatchers.Main)
+    fun providesMainDispatcher(): CoroutineDispatcher = Dispatchers.Main.immediate
 }

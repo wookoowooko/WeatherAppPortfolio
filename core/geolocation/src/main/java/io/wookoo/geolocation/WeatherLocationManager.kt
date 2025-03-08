@@ -17,7 +17,7 @@ class WeatherLocationManager @Inject constructor(@ApplicationContext private val
     private var onLocationReceived: ((latitude: Double, longitude: Double) -> Unit)? = null
 
     @SuppressLint("MissingPermission")
-    fun getCurrentLocation(onLocationReceived: (latitude: Double, longitude: Double) -> Unit) {
+    fun getGeolocationFromGpsSensors(onLocationReceived: (latitude: Double, longitude: Double) -> Unit) {
         if (!isLocationPermissionGranted(context)) return
         this.onLocationReceived = onLocationReceived
 

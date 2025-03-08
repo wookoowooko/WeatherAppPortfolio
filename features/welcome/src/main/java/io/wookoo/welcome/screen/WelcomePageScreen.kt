@@ -30,18 +30,18 @@ import io.wookoo.designsystem.ui.components.SharedLottieLoader
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.designsystem.ui.theme.medium
-import io.wookoo.welcome.R
 import io.wookoo.welcome.components.ChooseYourLocationCard
 import io.wookoo.welcome.components.ContinueButton
 import io.wookoo.welcome.components.DetectGeolocationCard
 import io.wookoo.welcome.components.WelcomeSearchBar
-import io.wookoo.welcome.mvi.WelcomePageContract
+import io.wookoo.welcome.mvi.WelcomePageIntent
+import io.wookoo.welcome.mvi.WelcomePageState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WelcomePageScreen(
-    state: WelcomePageContract.WelcomePageState,
-    onIntent: (WelcomePageContract.OnIntent) -> Unit,
+    state: WelcomePageState,
+    onIntent: (WelcomePageIntent) -> Unit,
 ) {
     val isSearchBarVisible = state.isSearchExpanded
     val searchQuery = state.searchQuery
@@ -131,7 +131,7 @@ fun WelcomePageScreen(
 private fun WelcomePagePreview() {
     WeatherAppPortfolioTheme {
         WelcomePageScreen(
-            state = WelcomePageContract.WelcomePageState(
+            state = WelcomePageState(
                 city = "Seoul",
                 country = "Korea",
             ),
