@@ -6,7 +6,7 @@ import io.wookoo.common.ext.asLocalizedUnitValueString
 import io.wookoo.design.system.databinding.WindCardItemBinding
 import io.wookoo.domain.units.WeatherValueWithUnit
 import io.wookoo.domain.units.WindDirection
-import io.wookoo.weekly.DisplayableItem
+import io.wookoo.weekly.uimodels.DisplayableItem
 import io.wookoo.weekly.uimodels.UIWindCardModel
 
 internal fun windCardAdapterDelegate() =

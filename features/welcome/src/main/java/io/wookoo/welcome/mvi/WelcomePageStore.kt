@@ -5,6 +5,7 @@ import io.wookoo.domain.annotations.StoreScope
 import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.domain.repo.IMasterWeatherRepo
 import io.wookoo.domain.utils.DataError
+import io.wookoo.domain.utils.asEmptyDataResult
 import io.wookoo.domain.utils.onError
 import io.wookoo.domain.utils.onFinally
 import io.wookoo.domain.utils.onSuccess
@@ -135,10 +136,21 @@ class WelcomePageStore @Inject constructor(
     }
 
     private fun saveUserLocationToDataStore() {
+        dispatch(OnLoading)
         storeScope.launch {
-            println(state.value.latitude.toString() + " " + state.value.longitude.toString())
             dataStore.saveUserLocation(state.value.latitude, state.value.longitude)
-            dataStore.saveInitialLocationPicked(true)
+                .asEmptyDataResult()
+                .onSuccess {
+                    dataStore.saveInitialLocationPicked(true).asEmptyDataResult()
+                        .onError { prefError ->
+                            emitSideEffect(SideEffect.ShowSnackBar(prefError))
+                        }
+                }
+                .onError { prefError ->
+                    emitSideEffect(SideEffect.ShowSnackBar(prefError))
+                }.onFinally {
+                    dispatch(OnLoadingFinish)
+                }
         }
     }
 

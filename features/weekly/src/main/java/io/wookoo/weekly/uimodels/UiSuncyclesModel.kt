@@ -1,7 +1,6 @@
 package io.wookoo.weekly.uimodels
 
 import io.wookoo.domain.units.StringUnit
-import io.wookoo.weekly.DisplayableItem
 
 data class UiSuncyclesModel(
     val sunriseTime: StringUnit,

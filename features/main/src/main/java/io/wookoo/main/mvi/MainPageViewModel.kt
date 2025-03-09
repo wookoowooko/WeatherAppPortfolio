@@ -47,7 +47,7 @@ class MainPageViewModel @Inject constructor(
     private var searchJob: Job? = null
 
     //    private var geonamesJob: Job? = null
-    private val _state = MutableStateFlow(MainPageContract.MainPageState())
+    private val _state = MutableStateFlow(MainPageState())
 
     val state = _state.onStart {
         observeSearchQuery()
@@ -57,7 +57,7 @@ class MainPageViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = MainPageContract.MainPageState()
+        initialValue = MainPageState()
     )
 
     private fun observeUserSettings() {
@@ -70,20 +70,20 @@ class MainPageViewModel @Inject constructor(
         }
     }
 
-    fun onIntent(intent: MainPageContract.OnIntent) {
+    fun onIntent(intent: MainPageIntent) {
         when (intent) {
-            is MainPageContract.OnIntent.OnSearchQueryChange -> changeSearchQuery(intent)
-            is MainPageContract.OnIntent.OnExpandSearchBar -> onChangeExpandSearchBar(intent)
-            is MainPageContract.OnIntent.OnSearchedGeoItemClick -> {
+            is OnSearchQueryChange -> changeSearchQuery(intent)
+            is OnExpandSearchBar -> onChangeExpandSearchBar(intent)
+            is OnSearchedGeoItemClick -> {
                 viewModelScope.launch { onSelectResultCardClick(intent) }
             }
 
-            is MainPageContract.OnIntent.OnGeolocationIconClick -> getGeolocation()
+            is OnGeolocationIconClick -> getGeolocation()
             else -> Unit
         }
     }
 
-    private suspend fun onSelectResultCardClick(intent: MainPageContract.OnIntent.OnSearchedGeoItemClick) {
+    private suspend fun onSelectResultCardClick(intent: OnSearchedGeoItemClick) {
         dataStore.saveUserLocation(
             latitude = intent.geoItem.latitude,
             longitude = intent.geoItem.longitude
@@ -113,11 +113,11 @@ class MainPageViewModel @Inject constructor(
         }
     }
 
-    private fun onChangeExpandSearchBar(intent: MainPageContract.OnIntent.OnExpandSearchBar) {
+    private fun onChangeExpandSearchBar(intent: OnExpandSearchBar) {
         _state.update { it.copy(searchExpanded = intent.expandValue) }
     }
 
-    private fun changeSearchQuery(intent: MainPageContract.OnIntent.OnSearchQueryChange) {
+    private fun changeSearchQuery(intent: OnSearchQueryChange) {
         _state.update { it.copy(searchQuery = intent.query) }
     }
 

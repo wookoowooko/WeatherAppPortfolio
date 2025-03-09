@@ -4,7 +4,7 @@ import com.google.android.material.color.MaterialColors
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import io.wookoo.common.ext.asLocalizedUiWeatherMap
 import io.wookoo.design.system.databinding.CalendarRecyclerItemBinding
-import io.wookoo.weekly.DisplayableItem
+import io.wookoo.weekly.uimodels.DisplayableItem
 import io.wookoo.weekly.uimodels.UiCalendarDayModel
 
 internal fun calendarAdapterDelegate(
@@ -24,6 +24,7 @@ internal fun calendarAdapterDelegate(
                         root,
                         com.google.android.material.R.attr.colorPrimary
                     )
+
                     item.isToday -> MaterialColors.getColor(
                         root,
                         com.google.android.material.R.attr.colorSecondary
@@ -37,6 +38,7 @@ internal fun calendarAdapterDelegate(
                         root,
                         com.google.android.material.R.attr.colorOnPrimary
                     )
+
                     item.isToday -> MaterialColors.getColor(
                         root,
                         com.google.android.material.R.attr.colorOnSecondary

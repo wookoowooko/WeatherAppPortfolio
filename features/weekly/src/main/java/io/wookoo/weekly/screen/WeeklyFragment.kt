@@ -59,6 +59,8 @@ class WeeklyFragment : Fragment() {
         with(binding) {
             mainRecycler.adapter = mainAdapter
             calendarRecycler.adapter = calendarAdapter
+//            binding.mainRecycler.setHasFixedSize(true)//todo
+//            binding.calendarRecycler.setHasFixedSize(true)
         }
         collectState()
     }

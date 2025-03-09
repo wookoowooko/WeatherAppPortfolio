@@ -30,7 +30,6 @@ class WelcomePageReducer @Inject constructor() :
                 state.copy(isGeolocationSearchInProgress = true)
 
             is UpdateGeolocationFromGpsSensors -> {
-                println("Reducer: lat=${intent.lat}, lon=${intent.long}") // <--- Логируем
                 state.copy(
                     latitude = intent.lat,
                     longitude = intent.long,
@@ -47,9 +46,8 @@ class WelcomePageReducer @Inject constructor() :
             is OnErrorSearchLocation ->
                 state.copy(results = emptyList())
 
-            is OnErrorFetchReversGeocoding -> {
+            is OnErrorFetchReversGeocoding ->
                 state.copy(city = "")
-            }
 
             is OnSuccessFetchReversGeocoding -> {
                 state.copy(city = intent.city, country = intent.country)
@@ -58,14 +56,9 @@ class WelcomePageReducer @Inject constructor() :
             is OnQueryIsEmpty ->
                 state.copy(isLoading = false, results = emptyList())
 
-            is OnLoadingFinish ->
-                state.copy(isLoading = false)
+            is Completable -> state.copy(isLoading = false)
 
-            OnContinueButtonClick -> state
-            OnRequestGeoLocationPermission -> state
-
-            is AnySuccess, is AnyFailure ->
-                state.copy(isLoading = false)
+            else -> state
         }
     }
 }

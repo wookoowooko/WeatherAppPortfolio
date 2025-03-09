@@ -3,7 +3,7 @@ package io.wookoo.weekly.delegates.precipitation
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import io.wookoo.common.ext.asLocalizedUnitValueString
 import io.wookoo.design.system.databinding.PrecipitationsCardItemBinding
-import io.wookoo.weekly.DisplayableItem
+import io.wookoo.weekly.uimodels.DisplayableItem
 import io.wookoo.weekly.uimodels.UIPrecipitationCardModel
 
 internal fun precipitationCardAdapterDelegate() =

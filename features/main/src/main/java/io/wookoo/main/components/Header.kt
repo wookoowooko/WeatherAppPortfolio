@@ -20,7 +20,7 @@ import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.designsystem.ui.theme.size_40
 import io.wookoo.designsystem.ui.theme.small
 import io.wookoo.designsystem.ui.theme.ultraSmall
-import io.wookoo.main.mvi.MainPageContract
+import io.wookoo.main.mvi.MainPageState
 
 @Composable
 internal fun Header(
@@ -28,7 +28,7 @@ internal fun Header(
     city: String,
     sunriseTime: String,
     sunsetTime: String,
-    state: MainPageContract.MainPageState,
+    state: MainPageState,
     modifier: Modifier = Modifier,
     onGeoLocationClick: () -> Unit,
 ) {
@@ -123,7 +123,7 @@ internal fun Header(
 @Preview(showBackground = true)
 private fun HeaderPreview() {
     Header(
-        state = MainPageContract.MainPageState(),
+        state = MainPageState(),
         sunriseTime = "06:00",
         sunsetTime = "18:00",
         city = "London",

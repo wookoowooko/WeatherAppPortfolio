@@ -6,8 +6,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import io.wookoo.main.mvi.MainPageContract
 import io.wookoo.main.mvi.MainPageViewModel
+import io.wookoo.main.mvi.OnNavigateToWeekly
+import io.wookoo.main.mvi.OnRequestGeoLocationPermission
 import io.wookoo.main.screen.MainPageScreen
 import kotlinx.serialization.Serializable
 
@@ -38,8 +39,8 @@ private fun MainPageScreenRoot(
         state = state,
         onIntent = { intent ->
             when (intent) {
-                MainPageContract.OnIntent.OnRequestGeoLocationPermission -> onRequestLocationPermissions()
-                MainPageContract.OnIntent.OnNavigateToWeekly -> onNavigate()
+                OnRequestGeoLocationPermission -> onRequestLocationPermissions()
+                OnNavigateToWeekly -> onNavigate()
                 else -> Unit
             }
             viewModel.onIntent(intent)

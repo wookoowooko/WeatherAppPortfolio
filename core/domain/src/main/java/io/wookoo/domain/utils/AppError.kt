@@ -14,6 +14,7 @@ sealed interface DataError : AppError {
 
     enum class Local : DataError {
         DISK_FULL,
+        CAN_NOT_SAVE_DATA_TO_DATASTORE,
         UNKNOWN
     }
 }

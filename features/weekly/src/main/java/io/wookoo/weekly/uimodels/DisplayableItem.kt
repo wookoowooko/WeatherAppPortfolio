@@ -1,4 +1,4 @@
-package io.wookoo.weekly
+package io.wookoo.weekly.uimodels
 
 interface DisplayableItem {
     fun id(): Any

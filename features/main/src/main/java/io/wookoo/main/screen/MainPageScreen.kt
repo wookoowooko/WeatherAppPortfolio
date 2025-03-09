@@ -46,14 +46,21 @@ import io.wookoo.main.components.MainCardMedium
 import io.wookoo.main.components.SearchBarMain
 import io.wookoo.main.components.TodayRowTitle
 import io.wookoo.main.components.WeatherProperties
-import io.wookoo.main.mvi.MainPageContract
+import io.wookoo.main.mvi.MainPageIntent
+import io.wookoo.main.mvi.MainPageState
+import io.wookoo.main.mvi.OnExpandSearchBar
+import io.wookoo.main.mvi.OnGeolocationIconClick
+import io.wookoo.main.mvi.OnNavigateToWeekly
+import io.wookoo.main.mvi.OnRequestGeoLocationPermission
+import io.wookoo.main.mvi.OnSearchQueryChange
+import io.wookoo.main.mvi.OnSearchedGeoItemClick
 
 private const val TAG = "MainPageScreen"
 
 @Composable
 fun MainPageScreen(
-    state: MainPageContract.MainPageState,
-    onIntent: (MainPageContract.OnIntent) -> Unit,
+    state: MainPageState,
+    onIntent: (MainPageIntent) -> Unit,
 ) {
     val rowState = rememberLazyListState()
     var nowPosition by remember { mutableIntStateOf(0) }
@@ -88,17 +95,17 @@ fun MainPageScreen(
                     topBar = {
                         SearchBarMain(
                             onSearchQueryChange = { query ->
-                                onIntent(MainPageContract.OnIntent.OnSearchQueryChange(query))
+                                onIntent(OnSearchQueryChange(query))
                             },
-                            onClose = { onIntent(MainPageContract.OnIntent.OnExpandSearchBar(false)) },
+                            onClose = { onIntent(OnExpandSearchBar(false)) },
                             searchQuery = state.searchQuery,
                             onSearchNotExpandedIconClick = {
-                                onIntent(MainPageContract.OnIntent.OnExpandSearchBar(true))
+                                onIntent(OnExpandSearchBar(true))
                             },
                             isExpanded = state.searchExpanded,
                             results = state.searchResults,
                             onItemClick = { geoItem ->
-                                onIntent(MainPageContract.OnIntent.OnSearchedGeoItemClick(geoItem))
+                                onIntent(OnSearchedGeoItemClick(geoItem))
                             },
                             isLoading = state.isLoading,
                             isGeolocationSearchInProgress = isGeolocationSearchInProgress
@@ -133,9 +140,9 @@ fun MainPageScreen(
                                 country = state.country,
                                 onGeoLocationClick = {
                                     if (context.checkLocationPermissionGranted()) {
-                                        onIntent(MainPageContract.OnIntent.OnGeolocationIconClick)
+                                        onIntent(OnGeolocationIconClick)
                                     } else {
-                                        onIntent(MainPageContract.OnIntent.OnRequestGeoLocationPermission)
+                                        onIntent(OnRequestGeoLocationPermission)
                                     }
                                 }
                             )
@@ -191,7 +198,7 @@ fun MainPageScreen(
                             TodayRowTitle(
                                 modifier = Modifier.padding(horizontal = large),
                                 onNextSevenDaysClick = {
-                                    onIntent(MainPageContract.OnIntent.OnNavigateToWeekly)
+                                    onIntent(OnNavigateToWeekly)
                                 },
                             )
                             Spacer(modifier = Modifier.height(ultraLarge))
@@ -227,7 +234,7 @@ fun MainPageScreen(
 private fun MainPageScreenPreview() {
     WeatherAppPortfolioTheme {
         MainPageScreen(
-            state = MainPageContract.MainPageState(),
+            state = MainPageState(),
             onIntent = {}
         )
     }
