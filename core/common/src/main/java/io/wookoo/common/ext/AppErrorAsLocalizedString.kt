@@ -14,11 +14,18 @@ fun AppError.asLocalizedString(context: Context): String {
         DataError.Remote.TOO_MANY_REQUESTS -> context.getString(
             io.wookoo.androidresources.R.string.error_too_many_requests
         )
+
         DataError.Local.UNKNOWN -> context.getString(io.wookoo.androidresources.R.string.error_unknown)
         DataError.Local.DISK_FULL -> context.getString(io.wookoo.androidresources.R.string.error_disk_full)
         DataError.Local.CAN_NOT_SAVE_DATA_TO_DATASTORE -> context.getString(
             io.wookoo.androidresources.R.string.error_cannot_save_data
         )
+
+        DataError.Hardware.LOCATION_SERVICE_DISABLED -> context.getString(
+            io.wookoo.androidresources.R.string.location_service_disabled
+        )
+
+        DataError.Hardware.UNKNOWN -> context.getString(io.wookoo.androidresources.R.string.error_unknown)
 
         else -> context.getString(io.wookoo.androidresources.R.string.error_unknown)
     }

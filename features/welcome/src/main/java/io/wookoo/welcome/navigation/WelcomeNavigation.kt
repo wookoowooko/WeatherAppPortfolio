@@ -1,5 +1,7 @@
 package io.wookoo.welcome.navigation
 
+import android.content.Intent
+import android.provider.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -47,7 +49,18 @@ private fun WelcomePageScreenRoot(
         owner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             viewModel.sideEffect.collect { sideEffect ->
                 when (sideEffect) {
-                    is SideEffect.ShowSnackBar -> onShowSnackBar(sideEffect.message.asLocalizedString(context))
+                    is SideEffect.ShowSnackBar -> onShowSnackBar(
+                        sideEffect.message.asLocalizedString(
+                            context
+                        )
+                    )
+
+                    is SideEffect.OnShowSettingsDialog -> {
+                        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                        }
+                        context.startActivity(intent)
+                    }
                 }
             }
         }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
@@ -17,6 +18,7 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -60,6 +62,13 @@ fun WelcomePageScreen(
         topBar = {
             if (!isSearchBarVisible) {
                 TopAppBar(
+                    windowInsets = (
+                        TopAppBarDefaults.windowInsets.add(
+                            WindowInsets.displayCutout.only(
+                                WindowInsetsSides.Horizontal
+                            )
+                        )
+                        ),
                     title = {
                         SharedText(
                             stringResource(io.wookoo.androidresources.R.string.choose_your_location)
@@ -67,7 +76,12 @@ fun WelcomePageScreen(
                     }
                 )
             } else {
-                WelcomeSearchBar(onIntent, searchQuery, state, isLoading)
+                WelcomeSearchBar(
+                    onIntent,
+                    searchQuery,
+                    state,
+                    isLoading,
+                )
             }
         }
     ) {

@@ -1,6 +1,7 @@
 package io.wookoo.main.screen
 
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,7 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.common.ext.asLocalizedString
 import io.wookoo.common.ext.asLocalizedUiWeatherMap
 import io.wookoo.common.ext.asLocalizedUnitValueString
-import io.wookoo.common.ext.checkLocationPermissionGranted
+import io.wookoo.common.ext.isFineLocationPermissionGranted
 import io.wookoo.designsystem.ui.components.SharedHourlyComponent
 import io.wookoo.designsystem.ui.components.SharedLottieLoader
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
@@ -53,7 +54,7 @@ import io.wookoo.main.mvi.OnGeolocationIconClick
 import io.wookoo.main.mvi.OnNavigateToWeekly
 import io.wookoo.main.mvi.OnRequestGeoLocationPermission
 import io.wookoo.main.mvi.OnSearchQueryChange
-import io.wookoo.main.mvi.OnSearchedGeoItemClick
+import io.wookoo.main.mvi.OnSearchedGeoItemCardClick
 
 private const val TAG = "MainPageScreen"
 
@@ -78,6 +79,8 @@ fun MainPageScreen(
     LaunchedEffect(settings) {
         Log.d(TAG, "MainPageScreen: $settings")
     }
+
+    BackHandler(enabled = state.isGeolocationSearchInProgress) {}
 
     Crossfade(
         targetState = when {
@@ -105,7 +108,7 @@ fun MainPageScreen(
                             isExpanded = state.searchExpanded,
                             results = state.searchResults,
                             onItemClick = { geoItem ->
-                                onIntent(OnSearchedGeoItemClick(geoItem))
+                                onIntent(OnSearchedGeoItemCardClick(geoItem))
                             },
                             isLoading = state.isLoading,
                             isGeolocationSearchInProgress = isGeolocationSearchInProgress
@@ -139,7 +142,7 @@ fun MainPageScreen(
                                 city = state.city,
                                 country = state.country,
                                 onGeoLocationClick = {
-                                    if (context.checkLocationPermissionGranted()) {
+                                    if (context.isFineLocationPermissionGranted()) {
                                         onIntent(OnGeolocationIconClick)
                                     } else {
                                         onIntent(OnRequestGeoLocationPermission)
@@ -196,6 +199,7 @@ fun MainPageScreen(
                             }
 
                             TodayRowTitle(
+                                state = state,
                                 modifier = Modifier.padding(horizontal = large),
                                 onNextSevenDaysClick = {
                                     onIntent(OnNavigateToWeekly)
@@ -234,7 +238,7 @@ fun MainPageScreen(
 private fun MainPageScreenPreview() {
     WeatherAppPortfolioTheme {
         MainPageScreen(
-            state = MainPageState(),
+            state = MainPageState(isLoading = false),
             onIntent = {}
         )
     }

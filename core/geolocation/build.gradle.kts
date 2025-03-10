@@ -9,6 +9,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
+    projects.apply {
+        implementation(core.common)
+        implementation(core.domain)
+    }
 
 }

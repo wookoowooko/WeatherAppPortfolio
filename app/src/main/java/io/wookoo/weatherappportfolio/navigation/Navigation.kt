@@ -91,7 +91,8 @@ internal fun Navigation(
         ) {
             mainPage(
                 onRequestLocationPermissions = onRequestLocationPermission,
-                onNavigate = navController::navigateToWeeklyPage
+                onNavigate = navController::navigateToWeeklyPage,
+                onShowSnackBar = onShowSnackBar
             )
             weeklyPage(
                 onBackIconClick = {

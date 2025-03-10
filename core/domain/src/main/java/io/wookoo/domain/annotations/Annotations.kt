@@ -20,4 +20,4 @@ annotation class ApplicationScope
 
 @Retention(AnnotationRetention.RUNTIME)
 @Qualifier
-annotation class StoreScope
+annotation class StoreViewModelScope

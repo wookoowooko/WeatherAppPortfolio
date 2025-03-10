@@ -3,22 +3,21 @@ package io.wookoo.data.di.dispatchers
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.components.ViewModelComponent
 import io.wookoo.domain.annotations.AppDispatchers
-import io.wookoo.domain.annotations.ApplicationScope
 import io.wookoo.domain.annotations.Dispatcher
+import io.wookoo.domain.annotations.StoreViewModelScope
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
-internal object CoroutineScopesModule {
+@InstallIn(ViewModelComponent::class)
+internal object StoreScopesModule {
+
     @Provides
-    @Singleton
-    @ApplicationScope
-    fun providesCoroutineScope(
-        @Dispatcher(AppDispatchers.Default) dispatcher: CoroutineDispatcher,
+    @StoreViewModelScope
+    fun providesViewModelScope(
+        @Dispatcher(AppDispatchers.Main) dispatcher: CoroutineDispatcher,
     ): CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
 }

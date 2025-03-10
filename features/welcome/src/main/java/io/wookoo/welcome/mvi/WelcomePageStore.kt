@@ -1,15 +1,16 @@
 package io.wookoo.welcome.mvi
 
 import io.wookoo.common.mvi.Store
-import io.wookoo.domain.annotations.StoreScope
+import io.wookoo.domain.annotations.StoreViewModelScope
 import io.wookoo.domain.repo.IDataStoreRepo
+import io.wookoo.domain.repo.ILocationProvider
 import io.wookoo.domain.repo.IMasterWeatherRepo
+import io.wookoo.domain.utils.AppError
 import io.wookoo.domain.utils.DataError
 import io.wookoo.domain.utils.asEmptyDataResult
 import io.wookoo.domain.utils.onError
 import io.wookoo.domain.utils.onFinally
 import io.wookoo.domain.utils.onSuccess
-import io.wookoo.geolocation.WeatherLocationManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
@@ -27,8 +28,8 @@ class WelcomePageStore @Inject constructor(
     reducer: WelcomePageReducer,
     private val masterRepository: IMasterWeatherRepo,
     private val dataStore: IDataStoreRepo,
-    private val weatherLocationManager: WeatherLocationManager,
-    @StoreScope private val storeScope: CoroutineScope,
+    private val weatherLocationManager: ILocationProvider,
+    @StoreViewModelScope private val storeScope: CoroutineScope,
 ) : Store<WelcomePageState, WelcomePageIntent, SideEffect>(
     initialState = WelcomePageState(),
     storeScope = storeScope,
@@ -69,30 +70,29 @@ class WelcomePageStore @Inject constructor(
     }
 
     private fun searchLocationFromApi(query: String) = storeScope.launch {
-        // Показываем индикатор загрузки
         dispatch(OnLoading)
-
-        // Делаем запрос в API
         masterRepository.getSearchedLocation(query, language = "ru")
             .onSuccess { searchResults ->
-                // Отправляем в Reducer данные
                 dispatch(OnSuccessSearchLocation(results = searchResults.results))
             }
             .onError { error ->
-                // Отправляем в Reducer данные
                 dispatch(OnErrorSearchLocation)
-                // Отправляем в Ui SnackBar
                 emitSideEffect(SideEffect.ShowSnackBar(error))
-            }.onFinally {
-                // Скрываем индикатор загрузки
-                dispatch(OnLoadingFinish)
             }
     }
 
     private fun getGeolocationFromGpsSensors() {
-        weatherLocationManager.getGeolocationFromGpsSensors { lat, lon ->
-            dispatch(UpdateGeolocationFromGpsSensors(lat, lon))
-        }
+        dispatch(OnLoading)
+        weatherLocationManager.getGeolocationFromGpsSensors(
+            onSuccessfullyLocationReceived = { lat, lon ->
+                dispatch(OnSuccessfullyUpdateGeolocationFromGpsSensors(lat, lon))
+            },
+            onError = { geoError: AppError ->
+                dispatch(OnErrorUpdateGeolocationFromGpsSensors)
+                emitSideEffect(SideEffect.ShowSnackBar(geoError))
+                emitSideEffect(SideEffect.OnShowSettingsDialog(geoError))
+            }
+        )
     }
 
     private fun observeLocationChanges() {
@@ -121,17 +121,15 @@ class WelcomePageStore @Inject constructor(
             language = "ru"
         ).onSuccess { searchResults ->
             dispatch(
-                OnSuccessFetchReversGeocoding(
+                OnSuccessFetchReversGeocodingFromApi(
                     city = searchResults.geonames.firstOrNull()?.name.orEmpty(),
                     country = searchResults.geonames.firstOrNull()?.countryName.orEmpty()
                 )
             )
         }.onError { apiError: DataError.Remote ->
             println("fetchReversGeocoding failed: ${apiError.name}")
-            dispatch(OnErrorFetchReversGeocoding)
+            dispatch(OnErrorFetchReversGeocodingFromApi)
             emitSideEffect(SideEffect.ShowSnackBar(apiError))
-        }.onFinally {
-            dispatch(OnLoadingFinish)
         }
     }
 
@@ -154,7 +152,7 @@ class WelcomePageStore @Inject constructor(
         }
     }
 
-    fun clear() {
+    override fun clear() {
         println("clearedTasks")
         storeScope.cancel()
     }

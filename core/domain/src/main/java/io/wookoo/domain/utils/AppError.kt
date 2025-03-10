@@ -17,4 +17,9 @@ sealed interface DataError : AppError {
         CAN_NOT_SAVE_DATA_TO_DATASTORE,
         UNKNOWN
     }
+
+    enum class Hardware : DataError {
+        LOCATION_SERVICE_DISABLED,
+        UNKNOWN
+    }
 }

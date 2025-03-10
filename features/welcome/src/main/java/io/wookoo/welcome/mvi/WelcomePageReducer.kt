@@ -11,9 +11,8 @@ class WelcomePageReducer @Inject constructor() :
         intent: WelcomePageIntent,
     ): WelcomePageState {
         return when (intent) {
-            is OnSearchQueryChange ->
-                state.copy(searchQuery = intent.query)
-
+            is OnLoading -> state.copy(isLoading = true)
+            is OnSearchQueryChange -> state.copy(searchQuery = intent.query)
             is OnSearchedGeoItemClick ->
                 state.copy(
                     isSearchExpanded = false,
@@ -23,40 +22,31 @@ class WelcomePageReducer @Inject constructor() :
                     longitude = intent.geoItem.longitude
                 )
 
-            is OnAppBarExpandChange ->
-                state.copy(isSearchExpanded = intent.state)
+            is OnAppBarExpandChange -> state.copy(isSearchExpanded = intent.state)
+            is OnSearchGeoLocationClick -> state.copy(isGeolocationSearchInProgress = true)
 
-            is OnSearchGeoLocationClick ->
-                state.copy(isGeolocationSearchInProgress = true)
+            is Completable ->
+                state.copy(isLoading = false, isGeolocationSearchInProgress = false).let {
+                    when (intent) {
+                        is OnSuccessSearchLocation -> it.copy(results = intent.results)
+                        is OnErrorSearchLocation -> it.copy(results = emptyList())
+                        is OnErrorFetchReversGeocodingFromApi -> it.copy(city = "", country = "")
+                        is OnSuccessFetchReversGeocodingFromApi -> it.copy(
+                            city = intent.city,
+                            country = intent.country
+                        )
 
-            is UpdateGeolocationFromGpsSensors -> {
-                state.copy(
-                    latitude = intent.lat,
-                    longitude = intent.long,
-                    isGeolocationSearchInProgress = false
-                )
-            }
+                        is OnSuccessfullyUpdateGeolocationFromGpsSensors -> {
+                            state.copy(
+                                latitude = intent.lat,
+                                longitude = intent.long,
+                            )
+                        }
 
-            is OnLoading ->
-                state.copy(isLoading = true)
-
-            is OnSuccessSearchLocation ->
-                state.copy(results = intent.results)
-
-            is OnErrorSearchLocation ->
-                state.copy(results = emptyList())
-
-            is OnErrorFetchReversGeocoding ->
-                state.copy(city = "")
-
-            is OnSuccessFetchReversGeocoding -> {
-                state.copy(city = intent.city, country = intent.country)
-            }
-
-            is OnQueryIsEmpty ->
-                state.copy(isLoading = false, results = emptyList())
-
-            is Completable -> state.copy(isLoading = false)
+                        is OnQueryIsEmpty -> it.copy(results = emptyList())
+                        else -> it
+                    }
+                }
 
             else -> state
         }

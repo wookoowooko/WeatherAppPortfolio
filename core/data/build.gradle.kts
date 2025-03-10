@@ -13,4 +13,5 @@ dependencies {
     api(projects.core.domain)
     api(projects.core.network)
     api(projects.core.datastore)
+    api(projects.core.geolocation)
 }

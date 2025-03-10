@@ -1,6 +1,6 @@
 package io.wookoo.common.mvi
 
-import io.wookoo.domain.annotations.StoreScope
+import io.wookoo.domain.annotations.StoreViewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 abstract class Store<State, Intent, Effect>(
-    @StoreScope private val storeScope: CoroutineScope,
+    @StoreViewModelScope private val storeScope: CoroutineScope,
     initialState: State,
     private val reducer: Reducer<State, Intent>,
 ) : StoreDispatcher<Intent> {
@@ -50,6 +50,7 @@ abstract class Store<State, Intent, Effect>(
 
     protected abstract fun handleSideEffects(intent: Intent)
     protected open fun initializeObservers() {}
+    open fun clear() {}
 
     fun createState(): StateFlow<State> {
         return state

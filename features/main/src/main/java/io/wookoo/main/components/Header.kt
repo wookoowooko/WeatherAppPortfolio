@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -47,14 +48,22 @@ internal fun Header(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
             ) {
-                SharedSurfaceIcon(
-                    onClick = onGeoLocationClick,
-                    modifier = Modifier
-                        .padding(end = small)
-                        .size(size_40),
-                    iconPadding = ultraSmall,
-                    icon = Icons.Default.LocationOn,
-                )
+                if (!state.isGeolocationSearchInProgress) {
+                    SharedSurfaceIcon(
+                        onClick = onGeoLocationClick,
+                        modifier = Modifier
+                            .padding(end = small)
+                            .size(size_40),
+                        iconPadding = ultraSmall,
+                        icon = Icons.Default.LocationOn,
+                    )
+                } else {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .padding(end = small)
+                            .size(size_40),
+                    )
+                }
                 SharedHeadlineText(
                     maxLines = 2,
                     text = city

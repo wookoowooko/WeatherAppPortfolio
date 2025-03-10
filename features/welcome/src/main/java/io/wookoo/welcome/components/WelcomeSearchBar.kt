@@ -1,7 +1,12 @@
 package io.wookoo.welcome.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.CircularProgressIndicator
@@ -30,15 +35,23 @@ internal fun WelcomeSearchBar(
     searchQuery: String,
     state: WelcomePageState,
     isLoading: Boolean,
+    modifier: Modifier = Modifier,
 ) {
     SearchBar(
-        modifier = Modifier,
+        modifier = modifier,
         expanded = true,
         onExpandedChange = { expandState ->
             onIntent(OnAppBarExpandChange(expandState))
         },
         inputField = {
             SearchBarDefaults.InputField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .windowInsetsPadding(
+                        WindowInsets.displayCutout.only(
+                            WindowInsetsSides.Horizontal
+                        )
+                    ),
                 trailingIcon = {
                     IconButton(onClick = {
                         if (searchQuery.isNotEmpty()) {
@@ -71,7 +84,7 @@ internal fun WelcomeSearchBar(
                         )
                     }
                 },
-                modifier = Modifier.fillMaxWidth(),
+
                 expanded = true,
                 onExpandedChange = { state ->
                     onIntent(OnAppBarExpandChange(state))
@@ -81,9 +94,7 @@ internal fun WelcomeSearchBar(
     ) {
         if (state.results.isEmpty()) {
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-
+                modifier = Modifier.fillMaxWidth()
             ) {
                 if (isLoading) {
                     CircularProgressIndicator(
