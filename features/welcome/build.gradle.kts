@@ -11,7 +11,6 @@ android {
 dependencies {
     projects.apply {
         implementation(core.data)
-        implementation(core.geolocation)
         implementation(core.androidresources)
         implementation(core.permissions)
     }

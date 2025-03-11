@@ -1,4 +1,4 @@
-package io.wookoo.common
+package io.wookoo.common.ext
 
 import android.app.Activity
 import android.content.Intent

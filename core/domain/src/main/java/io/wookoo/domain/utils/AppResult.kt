@@ -37,5 +37,9 @@ inline fun <T, E : AppError> AppResult<T, E>.onError(action: (E) -> Unit): AppRe
         is AppResult.Success -> this
     }
 }
+inline fun <T, E : AppError> AppResult<T, E>.onFinally(action: () -> Unit): AppResult<T, E> {
+    action()
+    return this
+}
 
 typealias EmptyResult<E> = AppResult<Unit, E>

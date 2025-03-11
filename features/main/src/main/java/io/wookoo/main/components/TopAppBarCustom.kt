@@ -232,7 +232,7 @@ private fun SearchBarMainPreview2() {
     SearchBarMain(
         onClose = {},
         onSearchNotExpandedIconClick = {},
-        isExpanded = true,
+        isExpanded = false,
         results = emptyList(),
         onItemClick = {},
         searchQuery = "Moscow",

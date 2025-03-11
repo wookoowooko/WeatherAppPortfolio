@@ -12,10 +12,12 @@ data object WeeklyRoute
 
 fun NavGraphBuilder.weeklyPage(
     onBackIconClick: () -> Unit,
+    onShowSnackBar: (String) -> Unit,
 ) {
     composable<WeeklyRoute> {
         WeeklyPageScreenRoot(
-            onBackIconClick = onBackIconClick
+            onBackIconClick = onBackIconClick,
+            onShowSnackBar = onShowSnackBar
         )
     }
 }
@@ -27,8 +29,10 @@ fun NavHostController.navigateToWeeklyPage() {
 @Composable
 private fun WeeklyPageScreenRoot(
     onBackIconClick: () -> Unit,
+    onShowSnackBar: (String) -> Unit,
 ) {
     WeeklyPageScreen(
-        onBackIconClick = onBackIconClick
+        onBackIconClick = onBackIconClick,
+        onShowSnackBar = onShowSnackBar
     )
 }

@@ -15,29 +15,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import io.wookoo.common.isLocationPermissionGranted
+import io.wookoo.common.ext.isFineLocationPermissionGranted
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.designsystem.ui.theme.rounded_shape_50_percent
 import io.wookoo.designsystem.ui.theme.small
-import io.wookoo.welcome.R
-import io.wookoo.welcome.mvi.WelcomePageContract
+import io.wookoo.welcome.mvi.OnRequestGeoLocationPermission
+import io.wookoo.welcome.mvi.OnSearchGeoLocationClick
+import io.wookoo.welcome.mvi.WelcomePageIntent
+import io.wookoo.welcome.mvi.WelcomePageState
 
 @Composable
 internal fun DetectGeolocationCard(
-    onIntent: (WelcomePageContract.OnIntent) -> Unit,
-    state: WelcomePageContract.WelcomePageState,
+    onIntent: (WelcomePageIntent) -> Unit,
+    state: WelcomePageState,
 ) {
     val context = LocalContext.current
 
     Card(
         enabled = !state.isGeolocationSearchInProgress,
         onClick = {
-            if (isLocationPermissionGranted(context)) {
-                onIntent(WelcomePageContract.OnIntent.OnSearchGeoLocationClick)
+            if (context.isFineLocationPermissionGranted()) {
+                onIntent(OnSearchGeoLocationClick)
             } else {
-                onIntent(WelcomePageContract.OnIntent.OnRequestGeoLocationPermission)
+                onIntent(OnRequestGeoLocationPermission)
             }
         },
         colors = CardDefaults.cardColors(
@@ -72,6 +74,6 @@ internal fun DetectGeolocationCard(
 private fun DetectGeolocationCardPreview() {
     DetectGeolocationCard(
         onIntent = {},
-        state = WelcomePageContract.WelcomePageState()
+        state = WelcomePageState()
     )
 }

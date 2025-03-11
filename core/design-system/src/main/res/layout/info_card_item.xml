@@ -32,16 +32,16 @@
             tools:text="5°C" />
 
         <TextView
-            android:textColor="@color/white"
-            android:text="@string/delimeter"
             android:id="@+id/view2"
+            style="?attr/textAppearanceDisplayMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/small"
-            style="?attr/textAppearanceDisplayMedium"
+            android:text="@string/delimeter"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/tempMin"
             app:layout_constraintStart_toEndOf="@+id/tempMin"
-            app:layout_constraintTop_toTopOf="@+id/tempMax"/>
+            app:layout_constraintTop_toTopOf="@+id/tempMax" />
 
 
         <TextView

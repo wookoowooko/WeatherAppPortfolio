@@ -17,3 +17,7 @@ annotation class ReverseGeoCodingApi
 @Retention(AnnotationRetention.RUNTIME)
 @Qualifier
 annotation class ApplicationScope
+
+@Retention(AnnotationRetention.RUNTIME)
+@Qualifier
+annotation class StoreViewModelScope

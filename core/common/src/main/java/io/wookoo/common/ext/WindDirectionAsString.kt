@@ -1,4 +1,4 @@
-package io.wookoo.common
+package io.wookoo.common.ext
 
 import android.content.Context
 import io.wookoo.domain.units.WindDirection

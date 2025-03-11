@@ -11,16 +11,22 @@ import androidx.recyclerview.widget.AsyncDifferConfig
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import dev.androidbroadcast.vbpd.viewBinding
-import io.wookoo.common.collectWithLifecycle
+import io.wookoo.common.ext.asLocalizedString
+import io.wookoo.common.ext.collectWithLifecycle
+import io.wookoo.designsystem.ui.Crossfade
 import io.wookoo.weekly.adapters.MainAdapter
 import io.wookoo.weekly.adapters.diffCallback
 import io.wookoo.weekly.databinding.FragmentWeeklyBinding
 import io.wookoo.weekly.delegates.calendar.calendarAdapterDelegate
+import io.wookoo.weekly.mvi.OnCalendarItemClick
+import io.wookoo.weekly.mvi.WeeklyEffect
+import io.wookoo.weekly.mvi.WeeklyState
 import io.wookoo.weekly.mvi.WeeklyViewModel
-import io.wookoo.weekly.mvi.WeeklyViewModelContract
 
 @AndroidEntryPoint
 class WeeklyFragment : Fragment() {
+
+    var onShowSnackBar: ((String) -> Unit)? = null
 
     private val binding by viewBinding(FragmentWeeklyBinding::bind)
     private val viewModel by viewModels<WeeklyViewModel>()
@@ -34,7 +40,7 @@ class WeeklyFragment : Fragment() {
             AsyncDifferConfig.Builder(diffCallback).build(),
             calendarAdapterDelegate(
                 onItemClick = { pos ->
-                    onIntent(WeeklyViewModelContract.OnIntent.OnCalendarItemClick(pos))
+                    onIntent(OnCalendarItemClick(pos))
                 }
             )
         )
@@ -61,28 +67,68 @@ class WeeklyFragment : Fragment() {
             calendarRecycler.adapter = calendarAdapter
         }
         collectState()
+        collectEffects()
     }
 
-    private fun collectState() {
-        viewModel.state.collectWithLifecycle(viewLifecycleOwner) { uiState: WeeklyViewModelContract.WeeklyState ->
-            with(binding) {
-                Log.d(TAG, "collectState: $uiState")
 
-//                // Логирование состояния
-//                Log.d(TAG, "Main weather items: ${uiState.mainWeatherRecyclerItems.mainWeatherRecyclerItems.size}")
-//                Log.d(TAG, "Calendar items: ${uiState.weeklyCalendar.size}")
-
-                mainAdapter.items = uiState.mainWeatherRecyclerItems.mainWeatherRecyclerItems
-                calendarAdapter.items = uiState.weeklyCalendar
-
-//                when (uiState) {
-//                    // Добавить проверку состояния, если необходимо
-//                }
+    private fun collectEffects() {
+        viewModel.sideEffect.collectWithLifecycle(viewLifecycleOwner) { effect ->
+            when (effect) {
+                is WeeklyEffect.OnShowSnackBar -> {
+                    onShowSnackBar?.invoke(
+                        effect.error.asLocalizedString(
+                            requireContext()
+                        )
+                    )
+                }
             }
         }
     }
+
+    private fun collectState() {
+        viewModel.state.collectWithLifecycle(viewLifecycleOwner) { uiState: WeeklyState ->
+            with(binding) {
+                val crossFade = when {
+                    uiState.isLoading -> Crossfade.LOADING
+                    else -> Crossfade.CONTENT
+                }
+                when (crossFade) {
+                    Crossfade.LOADING -> manageLoading()
+                    Crossfade.CONTENT -> manageContent(uiState)
+                }
+            }
+        }
+    }
+
+    private fun FragmentWeeklyBinding.manageContent(state: WeeklyState) {
+        mainAdapter.items = state.mainWeatherRecyclerItems.mainWeatherRecyclerItems
+        calendarAdapter.items = state.weeklyCalendar
+        updateVisibility(
+            ViewVisibilityState(
+                mainRecycler = View.VISIBLE,
+                calendarRecycler = View.VISIBLE
+            )
+        )
+    }
+
+    private fun FragmentWeeklyBinding.manageLoading() {
+        updateVisibility(
+            ViewVisibilityState(
+                loadingIndicator = View.VISIBLE
+            )
+        )
+    }
+
+
+    private fun FragmentWeeklyBinding.updateVisibility(state: ViewVisibilityState) {
+        lottieLoader.visibility = state.loadingIndicator
+        calendarRecycler.visibility = state.calendarRecycler
+        mainRecycler.visibility = state.mainRecycler
+    }
+
 
     companion object {
         private const val TAG = "WeeklyFragment"
     }
 }
+

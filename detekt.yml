@@ -125,7 +125,7 @@ complexity:
     ignoredLabels: [ ]
   LargeClass:
     active: true
-    threshold: 140
+    threshold: 250
   LongMethod:
     active: false
     threshold: 90

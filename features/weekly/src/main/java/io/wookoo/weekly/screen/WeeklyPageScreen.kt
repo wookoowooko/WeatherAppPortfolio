@@ -24,6 +24,7 @@ import androidx.fragment.compose.rememberFragmentState
 @Composable
 internal fun WeeklyPageScreen(
     onBackIconClick: () -> Unit,
+    onShowSnackBar: (String) -> Unit,
 ) {
     val state = rememberFragmentState()
 
@@ -64,6 +65,8 @@ internal fun WeeklyPageScreen(
 //                    setPadding(it.left, 0, it.right, 0)
 //                }
 //            }
+
+            fragment.onShowSnackBar = onShowSnackBar
         }
     }
 }

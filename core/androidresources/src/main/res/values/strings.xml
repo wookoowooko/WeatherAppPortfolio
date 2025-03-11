@@ -102,4 +102,15 @@
     <string name="precipitation">Precipitation</string>
     <string name="total">Total: </string>
     <string name="suncycles">Sun Cycles</string>
+
+    <!--Error-->
+    <string name="error_request_timeout">Request timed out</string>
+    <string name="error_server">Server error</string>
+    <string name="error_no_internet">No internet connection</string>
+    <string name="error_serialization">Data processing error</string>
+    <string name="error_too_many_requests">Too many requests</string>
+    <string name="error_unknown">An unknown error occurred</string>
+    <string name="error_disk_full">Storage is full</string>
+    <string name="error_cannot_save_data">Failed to save data</string>
+    <string name="location_service_disabled">Location service disabled</string>
 </resources>

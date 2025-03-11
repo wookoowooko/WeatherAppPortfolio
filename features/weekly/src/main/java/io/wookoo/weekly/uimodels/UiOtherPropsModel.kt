@@ -1,7 +1,6 @@
 package io.wookoo.weekly.uimodels
 
 import io.wookoo.domain.units.SecondsDuration
-import io.wookoo.weekly.DisplayableItem
 
 data class UiOtherPropsModel(
     val dayLightDuration: SecondsDuration,

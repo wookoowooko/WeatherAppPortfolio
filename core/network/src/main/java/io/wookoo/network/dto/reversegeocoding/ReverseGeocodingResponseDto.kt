@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ReverseGeocodingResponseDto(
     @SerialName("geonames")
-    val geonames: List<ReverseGeocodingSearchDto>?,
+    val geonames: List<ReverseGeocodingSearchDto>? = null,
 )

@@ -1,14 +1,19 @@
 package io.wookoo.welcome.components
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imeNestedScroll
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -18,16 +23,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.designsystem.ui.components.SharedLocationItem
 import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
-import io.wookoo.welcome.mvi.WelcomePageContract
+import io.wookoo.welcome.mvi.OnSearchedGeoItemClick
+import io.wookoo.welcome.mvi.WelcomePageIntent
+import io.wookoo.welcome.mvi.WelcomePageState
 
 @Composable
 @OptIn(ExperimentalLayoutApi::class)
 internal fun SearchResults(
-    state: WelcomePageContract.WelcomePageState,
-    onIntent: (WelcomePageContract.OnIntent) -> Unit,
+    state: WelcomePageState,
+    onIntent: (WelcomePageIntent) -> Unit,
 ) {
     LazyColumn(
         Modifier
+            .windowInsetsPadding(
+                WindowInsets.displayCutout.only(
+                    WindowInsetsSides.Horizontal
+                )
+            )
             .imePadding()
             .imeNestedScroll()
             .fillMaxWidth()
@@ -44,11 +56,7 @@ internal fun SearchResults(
                 cityName = result.cityName,
                 urbanArea = result.urbanArea,
                 onClick = {
-                    onIntent(
-                        WelcomePageContract.OnIntent.OnSearchedGeoItemClick(
-                            result
-                        )
-                    )
+                    onIntent(OnSearchedGeoItemClick(result))
                 }
             )
         }
@@ -66,7 +74,7 @@ internal fun SearchResults(
 @Preview
 private fun SearchResultsPreview() {
     SearchResults(
-        state = WelcomePageContract.WelcomePageState(),
+        state = WelcomePageState(),
         onIntent = {}
     )
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
@@ -17,6 +18,7 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,18 +32,18 @@ import io.wookoo.designsystem.ui.components.SharedLottieLoader
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.designsystem.ui.theme.medium
-import io.wookoo.welcome.R
 import io.wookoo.welcome.components.ChooseYourLocationCard
 import io.wookoo.welcome.components.ContinueButton
 import io.wookoo.welcome.components.DetectGeolocationCard
 import io.wookoo.welcome.components.WelcomeSearchBar
-import io.wookoo.welcome.mvi.WelcomePageContract
+import io.wookoo.welcome.mvi.WelcomePageIntent
+import io.wookoo.welcome.mvi.WelcomePageState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WelcomePageScreen(
-    state: WelcomePageContract.WelcomePageState,
-    onIntent: (WelcomePageContract.OnIntent) -> Unit,
+    state: WelcomePageState,
+    onIntent: (WelcomePageIntent) -> Unit,
 ) {
     val isSearchBarVisible = state.isSearchExpanded
     val searchQuery = state.searchQuery
@@ -60,6 +62,13 @@ fun WelcomePageScreen(
         topBar = {
             if (!isSearchBarVisible) {
                 TopAppBar(
+                    windowInsets = (
+                        TopAppBarDefaults.windowInsets.add(
+                            WindowInsets.displayCutout.only(
+                                WindowInsetsSides.Horizontal
+                            )
+                        )
+                        ),
                     title = {
                         SharedText(
                             stringResource(io.wookoo.androidresources.R.string.choose_your_location)
@@ -67,7 +76,12 @@ fun WelcomePageScreen(
                     }
                 )
             } else {
-                WelcomeSearchBar(onIntent, searchQuery, state, isLoading)
+                WelcomeSearchBar(
+                    onIntent,
+                    searchQuery,
+                    state,
+                    isLoading,
+                )
             }
         }
     ) {
@@ -131,7 +145,7 @@ fun WelcomePageScreen(
 private fun WelcomePagePreview() {
     WeatherAppPortfolioTheme {
         WelcomePageScreen(
-            state = WelcomePageContract.WelcomePageState(
+            state = WelcomePageState(
                 city = "Seoul",
                 country = "Korea",
             ),

@@ -14,6 +14,8 @@ class GeocodingServiceImpl @Inject constructor(
         name: String,
         language: String,
     ): AppResult<GeocodingResponseDto, DataError.Remote> {
-        return safeCall { geocodingApi.searchLocation(name, language) }
+        return safeCall {
+            geocodingApi.searchLocation(name, language)
+        }
     }
 }

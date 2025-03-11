@@ -1,7 +1,6 @@
 package io.wookoo.weekly.uimodels
 
 import io.wookoo.domain.units.ApplicationUnit
-import io.wookoo.weekly.DisplayableItem
 
 data class UIWindCardModel(
     val windSpeed: ApplicationUnit,
