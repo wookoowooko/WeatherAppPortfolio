@@ -30,6 +30,7 @@ dependencies {
         implementation(core.data)
         implementation(core.geolocation)
         implementation(core.permissions)
+        implementation(core.connectivityObserver)
         implementation(features.main)
         implementation(features.welcome)
         implementation(features.weekly)

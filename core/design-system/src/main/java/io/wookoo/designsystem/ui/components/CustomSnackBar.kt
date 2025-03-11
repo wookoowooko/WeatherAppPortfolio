@@ -64,7 +64,7 @@ fun SharedCustomSnackBar(
 
     LaunchedEffect(isVisible) {
         if (isVisible) {
-            delay(2500)
+            delay(3500)
             onDismiss()
         }
     }
