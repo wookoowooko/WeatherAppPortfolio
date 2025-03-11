@@ -97,7 +97,8 @@ internal fun Navigation(
             weeklyPage(
                 onBackIconClick = {
                     if (navController.canGoBack) navController.popBackStack()
-                }
+                },
+                onShowSnackBar = onShowSnackBar
             )
         }
     }

@@ -30,7 +30,7 @@ class WelcomePageStore @Inject constructor(
     private val dataStore: IDataStoreRepo,
     private val weatherLocationManager: ILocationProvider,
     @StoreViewModelScope private val storeScope: CoroutineScope,
-) : Store<WelcomePageState, WelcomePageIntent, SideEffect>(
+) : Store<WelcomePageState, WelcomePageIntent, WelcomeSideEffect>(
     initialState = WelcomePageState(),
     storeScope = storeScope,
     reducer = reducer,
@@ -77,7 +77,7 @@ class WelcomePageStore @Inject constructor(
             }
             .onError { error ->
                 dispatch(OnErrorSearchLocation)
-                emitSideEffect(SideEffect.ShowSnackBar(error))
+                emitSideEffect(WelcomeSideEffect.ShowSnackBar(error))
             }
     }
 
@@ -89,8 +89,8 @@ class WelcomePageStore @Inject constructor(
             },
             onError = { geoError: AppError ->
                 dispatch(OnErrorUpdateGeolocationFromGpsSensors)
-                emitSideEffect(SideEffect.ShowSnackBar(geoError))
-                emitSideEffect(SideEffect.OnShowSettingsDialog(geoError))
+                emitSideEffect(WelcomeSideEffect.ShowSnackBar(geoError))
+                emitSideEffect(WelcomeSideEffect.OnShowSettingsDialog(geoError))
             }
         )
     }
@@ -129,7 +129,7 @@ class WelcomePageStore @Inject constructor(
         }.onError { apiError: DataError.Remote ->
             println("fetchReversGeocoding failed: ${apiError.name}")
             dispatch(OnErrorFetchReversGeocodingFromApi)
-            emitSideEffect(SideEffect.ShowSnackBar(apiError))
+            emitSideEffect(WelcomeSideEffect.ShowSnackBar(apiError))
         }
     }
 
@@ -141,11 +141,11 @@ class WelcomePageStore @Inject constructor(
                 .onSuccess {
                     dataStore.saveInitialLocationPicked(true).asEmptyDataResult()
                         .onError { prefError ->
-                            emitSideEffect(SideEffect.ShowSnackBar(prefError))
+                            emitSideEffect(WelcomeSideEffect.ShowSnackBar(prefError))
                         }
                 }
                 .onError { prefError ->
-                    emitSideEffect(SideEffect.ShowSnackBar(prefError))
+                    emitSideEffect(WelcomeSideEffect.ShowSnackBar(prefError))
                 }.onFinally {
                     dispatch(OnLoadingFinish)
                 }

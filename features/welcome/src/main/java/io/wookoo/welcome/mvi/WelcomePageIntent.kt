@@ -29,8 +29,3 @@ data object OnRequestGeoLocationPermission : WelcomePageIntent
 data class OnSearchQueryChange(val query: String) : WelcomePageIntent
 data class OnSearchedGeoItemClick(val geoItem: GeocodingSearchModel) : WelcomePageIntent
 data class OnAppBarExpandChange(val state: Boolean) : WelcomePageIntent
-
-sealed interface SideEffect {
-    data class ShowSnackBar(val message: AppError) : SideEffect
-    data class OnShowSettingsDialog(val message: AppError) : SideEffect
-}

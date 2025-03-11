@@ -48,7 +48,7 @@ abstract class Store<State, Intent, Effect>(
         handleSideEffects(intent)
     }
 
-    protected abstract fun handleSideEffects(intent: Intent)
+    protected open fun handleSideEffects(intent: Intent){}
     protected open fun initializeObservers() {}
     open fun clear() {}
 

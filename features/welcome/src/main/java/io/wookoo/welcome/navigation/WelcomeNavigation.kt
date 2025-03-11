@@ -15,7 +15,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import io.wookoo.common.ext.asLocalizedString
 import io.wookoo.welcome.mvi.OnRequestGeoLocationPermission
-import io.wookoo.welcome.mvi.SideEffect
+import io.wookoo.welcome.mvi.WelcomeSideEffect
 import io.wookoo.welcome.mvi.WelcomePageViewModel
 import io.wookoo.welcome.screen.WelcomePageScreen
 import kotlinx.serialization.Serializable
@@ -49,13 +49,13 @@ private fun WelcomePageScreenRoot(
         owner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             viewModel.sideEffect.collect { sideEffect ->
                 when (sideEffect) {
-                    is SideEffect.ShowSnackBar -> onShowSnackBar(
+                    is WelcomeSideEffect.ShowSnackBar -> onShowSnackBar(
                         sideEffect.message.asLocalizedString(
                             context
                         )
                     )
 
-                    is SideEffect.OnShowSettingsDialog -> {
+                    is WelcomeSideEffect.OnShowSettingsDialog -> {
                         val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
                             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
                         }
