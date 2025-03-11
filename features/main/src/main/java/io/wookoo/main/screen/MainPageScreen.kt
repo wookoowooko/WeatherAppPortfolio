@@ -1,6 +1,7 @@
 package io.wookoo.main.screen
 
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,10 +31,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import io.wookoo.common.asLocalizedString
-import io.wookoo.common.asLocalizedUiWeatherMap
-import io.wookoo.common.asLocalizedUnitValueString
-import io.wookoo.common.isLocationPermissionGranted
+import io.wookoo.common.ext.asLocalizedString
+import io.wookoo.common.ext.asLocalizedUiWeatherMap
+import io.wookoo.common.ext.asLocalizedUnitValueString
+import io.wookoo.common.ext.isFineLocationPermissionGranted
 import io.wookoo.designsystem.ui.components.SharedHourlyComponent
 import io.wookoo.designsystem.ui.components.SharedLottieLoader
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
@@ -46,14 +47,21 @@ import io.wookoo.main.components.MainCardMedium
 import io.wookoo.main.components.SearchBarMain
 import io.wookoo.main.components.TodayRowTitle
 import io.wookoo.main.components.WeatherProperties
-import io.wookoo.main.mvi.MainPageContract
+import io.wookoo.main.mvi.MainPageIntent
+import io.wookoo.main.mvi.MainPageState
+import io.wookoo.main.mvi.OnExpandSearchBar
+import io.wookoo.main.mvi.OnGeolocationIconClick
+import io.wookoo.main.mvi.OnNavigateToWeekly
+import io.wookoo.main.mvi.OnRequestGeoLocationPermission
+import io.wookoo.main.mvi.OnSearchQueryChange
+import io.wookoo.main.mvi.OnSearchedGeoItemCardClick
 
 private const val TAG = "MainPageScreen"
 
 @Composable
 fun MainPageScreen(
-    state: MainPageContract.MainPageState,
-    onIntent: (MainPageContract.OnIntent) -> Unit,
+    state: MainPageState,
+    onIntent: (MainPageIntent) -> Unit,
 ) {
     val rowState = rememberLazyListState()
     var nowPosition by remember { mutableIntStateOf(0) }
@@ -72,6 +80,8 @@ fun MainPageScreen(
         Log.d(TAG, "MainPageScreen: $settings")
     }
 
+    BackHandler(enabled = state.isGeolocationSearchInProgress) {}
+
     Crossfade(
         targetState = when {
             state.isLoading -> io.wookoo.designsystem.ui.Crossfade.LOADING
@@ -88,17 +98,17 @@ fun MainPageScreen(
                     topBar = {
                         SearchBarMain(
                             onSearchQueryChange = { query ->
-                                onIntent(MainPageContract.OnIntent.OnSearchQueryChange(query))
+                                onIntent(OnSearchQueryChange(query))
                             },
-                            onClose = { onIntent(MainPageContract.OnIntent.OnExpandSearchBar(false)) },
+                            onClose = { onIntent(OnExpandSearchBar(false)) },
                             searchQuery = state.searchQuery,
                             onSearchNotExpandedIconClick = {
-                                onIntent(MainPageContract.OnIntent.OnExpandSearchBar(true))
+                                onIntent(OnExpandSearchBar(true))
                             },
                             isExpanded = state.searchExpanded,
                             results = state.searchResults,
                             onItemClick = { geoItem ->
-                                onIntent(MainPageContract.OnIntent.OnSearchedGeoItemClick(geoItem))
+                                onIntent(OnSearchedGeoItemCardClick(geoItem))
                             },
                             isLoading = state.isLoading,
                             isGeolocationSearchInProgress = isGeolocationSearchInProgress
@@ -132,10 +142,10 @@ fun MainPageScreen(
                                 city = state.city,
                                 country = state.country,
                                 onGeoLocationClick = {
-                                    if (isLocationPermissionGranted(context)) {
-                                        onIntent(MainPageContract.OnIntent.OnGeolocationIconClick)
+                                    if (context.isFineLocationPermissionGranted()) {
+                                        onIntent(OnGeolocationIconClick)
                                     } else {
-                                        onIntent(MainPageContract.OnIntent.OnRequestGeoLocationPermission)
+                                        onIntent(OnRequestGeoLocationPermission)
                                     }
                                 }
                             )
@@ -169,7 +179,9 @@ fun MainPageScreen(
                                         state.currentWeather.windSpeed.unit,
                                         this
                                     ),
-                                    windDirection = state.currentWeather.windDirection.asLocalizedString(this),
+                                    windDirection = state.currentWeather.windDirection.asLocalizedString(
+                                        this
+                                    ),
                                     windGust = state.currentWeather.windGust.value.asLocalizedUnitValueString(
                                         state.currentWeather.windGust.unit,
                                         this
@@ -187,9 +199,10 @@ fun MainPageScreen(
                             }
 
                             TodayRowTitle(
+                                state = state,
                                 modifier = Modifier.padding(horizontal = large),
                                 onNextSevenDaysClick = {
-                                    onIntent(MainPageContract.OnIntent.OnNavigateToWeekly)
+                                    onIntent(OnNavigateToWeekly)
                                 },
                             )
                             Spacer(modifier = Modifier.height(ultraLarge))
@@ -225,7 +238,7 @@ fun MainPageScreen(
 private fun MainPageScreenPreview() {
     WeatherAppPortfolioTheme {
         MainPageScreen(
-            state = MainPageContract.MainPageState(),
+            state = MainPageState(isLoading = false),
             onIntent = {}
         )
     }

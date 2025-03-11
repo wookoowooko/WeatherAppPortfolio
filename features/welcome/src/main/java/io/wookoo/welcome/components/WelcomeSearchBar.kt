@@ -1,7 +1,12 @@
 package io.wookoo.welcome.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.CircularProgressIndicator
@@ -18,33 +23,42 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import io.wookoo.designsystem.ui.components.SharedText
-import io.wookoo.welcome.mvi.WelcomePageContract
+import io.wookoo.welcome.mvi.OnAppBarExpandChange
+import io.wookoo.welcome.mvi.OnSearchQueryChange
+import io.wookoo.welcome.mvi.WelcomePageIntent
+import io.wookoo.welcome.mvi.WelcomePageState
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 internal fun WelcomeSearchBar(
-    onIntent: (WelcomePageContract.OnIntent) -> Unit,
+    onIntent: (WelcomePageIntent) -> Unit,
     searchQuery: String,
-    state: WelcomePageContract.WelcomePageState,
+    state: WelcomePageState,
     isLoading: Boolean,
+    modifier: Modifier = Modifier,
 ) {
     SearchBar(
-        modifier = Modifier,
+        modifier = modifier,
         expanded = true,
         onExpandedChange = { expandState ->
-            onIntent(WelcomePageContract.OnIntent.OnExpandedChange(expandState))
+            onIntent(OnAppBarExpandChange(expandState))
         },
         inputField = {
             SearchBarDefaults.InputField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .windowInsetsPadding(
+                        WindowInsets.displayCutout.only(
+                            WindowInsetsSides.Horizontal
+                        )
+                    ),
                 trailingIcon = {
                     IconButton(onClick = {
                         if (searchQuery.isNotEmpty()) {
-                            onIntent(WelcomePageContract.OnIntent.OnSearchQueryChange(""))
+                            onIntent(OnSearchQueryChange(""))
                         } else {
                             onIntent(
-                                WelcomePageContract.OnIntent.OnExpandedChange(
-                                    false
-                                )
+                                OnAppBarExpandChange(false)
                             )
                         }
                     }) {
@@ -56,10 +70,10 @@ internal fun WelcomeSearchBar(
                 },
                 query = searchQuery,
                 onQueryChange = { query ->
-                    onIntent(WelcomePageContract.OnIntent.OnSearchQueryChange(query))
+                    onIntent(OnSearchQueryChange(query))
                 },
                 onSearch = { query ->
-                    onIntent(WelcomePageContract.OnIntent.OnSearchQueryChange(query))
+                    onIntent(OnSearchQueryChange(query))
                 },
                 placeholder = {
                     if (searchQuery.isEmpty()) {
@@ -70,19 +84,17 @@ internal fun WelcomeSearchBar(
                         )
                     }
                 },
-                modifier = Modifier.fillMaxWidth(),
+
                 expanded = true,
                 onExpandedChange = { state ->
-                    onIntent(WelcomePageContract.OnIntent.OnExpandedChange(state))
+                    onIntent(OnAppBarExpandChange(state))
                 },
             )
         }
     ) {
         if (state.results.isEmpty()) {
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-
+                modifier = Modifier.fillMaxWidth()
             ) {
                 if (isLoading) {
                     CircularProgressIndicator(

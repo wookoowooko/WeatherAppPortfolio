@@ -1,4 +1,4 @@
-package io.wookoo.common
+package io.wookoo.common.ext
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

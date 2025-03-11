@@ -2,7 +2,6 @@ package io.wookoo.weekly.uimodels
 
 import io.wookoo.domain.enums.WeatherCondition
 import io.wookoo.domain.units.WeatherValueWithUnit
-import io.wookoo.weekly.DisplayableItem
 
 data class UiCardInfoModel(
     val tempMax: WeatherValueWithUnit,
@@ -12,9 +11,7 @@ data class UiCardInfoModel(
     val weatherCondition: WeatherCondition = WeatherCondition.UNKNOWN,
     val isDay: Boolean,
 ) : DisplayableItem {
-    override fun id(): Any {
-        return tempMax
-    }
+    override fun id(): Any = tempMax
 
     override fun content(): Any = Content(
         tempMin,

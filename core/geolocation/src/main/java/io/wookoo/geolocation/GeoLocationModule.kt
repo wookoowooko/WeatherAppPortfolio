@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-class AppModule {
+class GeoLocationModule {
     @Provides
     fun provideLocationManager(@ApplicationContext context: Context): WeatherLocationManager {
         return WeatherLocationManager(context)

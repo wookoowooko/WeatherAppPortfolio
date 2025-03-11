@@ -1,4 +1,4 @@
-package io.wookoo.common
+package io.wookoo.common.ext
 
 import android.content.Context
 import io.wookoo.domain.units.ApiUnit
@@ -12,9 +12,7 @@ fun Number.asLocalizedUnitValueString(
         Locale.getDefault(),
         "%d %s",
         this.toInt(),
-        unit?.let { apiUnit ->
-            getUnitString(apiUnit)
-        }?.let { resId ->
+        unit?.asUnitString()?.let { resId ->
             context.getString(resId)
         }
     )

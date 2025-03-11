@@ -1,11 +1,11 @@
-package io.wookoo.common
+package io.wookoo.common.ext
 
 import androidx.annotation.StringRes
 import io.wookoo.domain.units.ApiUnit
 
 @StringRes
-fun getUnitString(unit: ApiUnit): Int {
-    return when (unit) {
+fun ApiUnit.asUnitString(): Int {
+    return when (this) {
         ApiUnit.CELSIUS -> io.wookoo.androidresources.R.string.celsius
         ApiUnit.FAHRENHEIT -> io.wookoo.androidresources.R.string.unit_fahrenheit
         ApiUnit.KMH -> io.wookoo.androidresources.R.string.unit_kmh

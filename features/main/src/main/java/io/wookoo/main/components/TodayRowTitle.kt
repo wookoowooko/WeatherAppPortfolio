@@ -16,9 +16,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.designsystem.ui.components.SharedText
+import io.wookoo.main.mvi.MainPageState
 
 @Composable
 internal fun TodayRowTitle(
+    state: MainPageState,
     modifier: Modifier = Modifier,
     onNextSevenDaysClick: () -> Unit,
 ) {
@@ -33,6 +35,7 @@ internal fun TodayRowTitle(
             style = MaterialTheme.typography.headlineMedium
         )
         TextButton(
+            enabled = !state.isGeolocationSearchInProgress,
             onClick = { onNextSevenDaysClick() },
             shape = MaterialTheme.shapes.small
         ) {
@@ -41,7 +44,10 @@ internal fun TodayRowTitle(
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary
             )
-            IconButton(onClick = onNextSevenDaysClick) {
+            IconButton(
+                onClick = onNextSevenDaysClick,
+                enabled = !state.isGeolocationSearchInProgress
+            ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
                     contentDescription = null,
@@ -56,6 +62,7 @@ internal fun TodayRowTitle(
 @Preview
 private fun TodayRowTitlePreview() {
     TodayRowTitle(
-        onNextSevenDaysClick = {}
+        onNextSevenDaysClick = {},
+        state = MainPageState()
     )
 }

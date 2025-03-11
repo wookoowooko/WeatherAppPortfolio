@@ -27,8 +27,9 @@ private data object MainGraph
 
 @Composable
 internal fun Navigation(
-    onRequestLocationPermission: () -> Unit,
     userSettings: UserSettingsModel?,
+    onRequestLocationPermission: () -> Unit,
+    onShowSnackBar: (String) -> Unit,
 ) {
     val navController = rememberNavController()
 
@@ -80,7 +81,8 @@ internal fun Navigation(
             startDestination = WelcomeRoute,
         ) {
             welcomePage(
-                onRequestLocationPermission = onRequestLocationPermission
+                onRequestLocationPermission = onRequestLocationPermission,
+                onShowSnackBar = onShowSnackBar
             )
         }
 
@@ -89,12 +91,14 @@ internal fun Navigation(
         ) {
             mainPage(
                 onRequestLocationPermissions = onRequestLocationPermission,
-                onNavigate = navController::navigateToWeeklyPage
+                onNavigate = navController::navigateToWeeklyPage,
+                onShowSnackBar = onShowSnackBar
             )
             weeklyPage(
                 onBackIconClick = {
                     if (navController.canGoBack) navController.popBackStack()
-                }
+                },
+                onShowSnackBar = onShowSnackBar
             )
         }
     }

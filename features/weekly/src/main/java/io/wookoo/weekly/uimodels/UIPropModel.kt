@@ -2,7 +2,6 @@ package io.wookoo.weekly.uimodels
 
 import io.wookoo.domain.enums.WeatherProperty
 import io.wookoo.domain.units.ApplicationUnit
-import io.wookoo.weekly.DisplayableItem
 
 data class UIPropModel(
     val prop: WeatherProperty = WeatherProperty.UNDEFINED,

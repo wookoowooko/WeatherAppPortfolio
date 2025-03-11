@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,7 +21,7 @@ import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.designsystem.ui.theme.size_40
 import io.wookoo.designsystem.ui.theme.small
 import io.wookoo.designsystem.ui.theme.ultraSmall
-import io.wookoo.main.mvi.MainPageContract
+import io.wookoo.main.mvi.MainPageState
 
 @Composable
 internal fun Header(
@@ -28,7 +29,7 @@ internal fun Header(
     city: String,
     sunriseTime: String,
     sunsetTime: String,
-    state: MainPageContract.MainPageState,
+    state: MainPageState,
     modifier: Modifier = Modifier,
     onGeoLocationClick: () -> Unit,
 ) {
@@ -47,14 +48,22 @@ internal fun Header(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
             ) {
-                SharedSurfaceIcon(
-                    onClick = onGeoLocationClick,
-                    modifier = Modifier
-                        .padding(end = small)
-                        .size(size_40),
-                    iconPadding = ultraSmall,
-                    icon = Icons.Default.LocationOn,
-                )
+                if (!state.isGeolocationSearchInProgress) {
+                    SharedSurfaceIcon(
+                        onClick = onGeoLocationClick,
+                        modifier = Modifier
+                            .padding(end = small)
+                            .size(size_40),
+                        iconPadding = ultraSmall,
+                        icon = Icons.Default.LocationOn,
+                    )
+                } else {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .padding(end = small)
+                            .size(size_40),
+                    )
+                }
                 SharedHeadlineText(
                     maxLines = 2,
                     text = city
@@ -123,7 +132,7 @@ internal fun Header(
 @Preview(showBackground = true)
 private fun HeaderPreview() {
     Header(
-        state = MainPageContract.MainPageState(),
+        state = MainPageState(),
         sunriseTime = "06:00",
         sunsetTime = "18:00",
         city = "London",

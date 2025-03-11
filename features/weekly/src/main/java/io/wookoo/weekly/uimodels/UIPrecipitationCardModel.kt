@@ -1,7 +1,6 @@
 package io.wookoo.weekly.uimodels
 
 import io.wookoo.domain.units.WeatherValueWithUnit
-import io.wookoo.weekly.DisplayableItem
 
 data class UIPrecipitationCardModel(
     val total: WeatherValueWithUnit,

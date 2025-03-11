@@ -18,18 +18,19 @@ import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.designsystem.ui.theme.rounded_shape_50_percent
 import io.wookoo.designsystem.ui.theme.small
-import io.wookoo.welcome.R
-import io.wookoo.welcome.mvi.WelcomePageContract
+import io.wookoo.welcome.mvi.OnAppBarExpandChange
+import io.wookoo.welcome.mvi.WelcomePageIntent
+import io.wookoo.welcome.mvi.WelcomePageState
 
 @Composable
 internal fun ChooseYourLocationCard(
-    onIntent: (WelcomePageContract.OnIntent) -> Unit,
-    state: WelcomePageContract.WelcomePageState,
+    onIntent: (WelcomePageIntent) -> Unit,
+    state: WelcomePageState,
 ) {
     Card(
         enabled = !state.isGeolocationSearchInProgress,
         onClick = {
-            onIntent(WelcomePageContract.OnIntent.OnExpandedChange(true))
+            onIntent(OnAppBarExpandChange(true))
         },
         shape = rounded_shape_50_percent,
         modifier = Modifier
@@ -61,7 +62,7 @@ internal fun ChooseYourLocationCard(
 @Preview
 private fun ChooseYourLocationCardPreview() {
     ChooseYourLocationCard(
-        state = WelcomePageContract.WelcomePageState(),
+        state = WelcomePageState(),
         onIntent = {}
     )
 }

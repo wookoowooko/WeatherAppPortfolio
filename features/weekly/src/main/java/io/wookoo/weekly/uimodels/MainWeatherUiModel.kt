@@ -4,7 +4,6 @@ import io.wookoo.domain.model.weather.weekly.WeeklyWeatherResponseModel
 import io.wookoo.domain.usecases.ConvertUnixTimeUseCase
 import io.wookoo.domain.usecases.ConvertWeatherCodeToEnumUseCase
 import io.wookoo.domain.usecases.WindDirectionFromDegreesToDirectionFormatUseCase
-import io.wookoo.weekly.DisplayableItem
 import io.wookoo.weekly.uimappers.asOtherPropsCardModel
 import io.wookoo.weekly.uimappers.asUiCardInfoModel
 import io.wookoo.weekly.uimappers.asUiPrecipitationCardModel
