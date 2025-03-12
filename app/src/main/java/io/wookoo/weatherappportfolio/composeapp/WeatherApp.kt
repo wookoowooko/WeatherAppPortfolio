@@ -6,8 +6,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.wookoo.designsystem.ui.components.SharedCustomSnackBar
@@ -25,11 +27,22 @@ internal fun WeatherApp(
     var snackBarMessage by rememberSaveable { mutableStateOf("") }
     var isSnackBarVisible by rememberSaveable { mutableStateOf(false) }
     val notConnectedMessage = stringResource(io.wookoo.androidresources.R.string.error_no_internet)
+    var firstLaunched by rememberSaveable { mutableStateOf(true) }
+    var snackBarColor by remember{ mutableStateOf(Color.Red) }
 
     LaunchedEffect(isOffline) {
         if (isOffline) {
             snackBarMessage = notConnectedMessage
             isSnackBarVisible = true
+            snackBarColor = Color.Red
+            firstLaunched = false
+        } else {
+            if (!firstLaunched) {
+                snackBarMessage = "Internet restored"
+                isSnackBarVisible = true
+                snackBarColor = Color.Green
+            }
+
         }
     }
 
@@ -52,6 +65,7 @@ internal fun WeatherApp(
                     }
                 )
                 SharedCustomSnackBar(
+                    snackBarColor = snackBarColor,
                     message = snackBarMessage,
                     isVisible = isSnackBarVisible,
                     onDismiss = { isSnackBarVisible = false }

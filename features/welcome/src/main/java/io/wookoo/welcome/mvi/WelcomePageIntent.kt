@@ -29,3 +29,5 @@ data object OnRequestGeoLocationPermission : WelcomePageIntent
 data class OnSearchQueryChange(val query: String) : WelcomePageIntent
 data class OnSearchedGeoItemClick(val geoItem: GeocodingSearchModel) : WelcomePageIntent
 data class OnAppBarExpandChange(val state: Boolean) : WelcomePageIntent
+data class OnUpdateNetworkState(val isOffline: Boolean) : WelcomePageIntent
+
