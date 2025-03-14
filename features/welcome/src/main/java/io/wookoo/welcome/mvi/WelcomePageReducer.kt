@@ -19,7 +19,9 @@ class WelcomePageReducer @Inject constructor() :
                     city = intent.geoItem.cityName,
                     country = intent.geoItem.country,
                     latitude = intent.geoItem.latitude,
-                    longitude = intent.geoItem.longitude
+                    longitude = intent.geoItem.longitude,
+                    searchQuery = "",
+                    results = emptyList()
                 )
 
             is OnUpdateNetworkState -> state.copy(isOffline = intent.isOffline)
@@ -29,7 +31,9 @@ class WelcomePageReducer @Inject constructor() :
                 state.copy(isSearchExpanded = intent.state)
             }
 
-            is OnSearchGeoLocationClick -> state.copy(isGeolocationSearchInProgress = true)
+            is OnSearchGeoLocationClick -> state.copy(
+                isGeolocationSearchInProgress = true
+            )
 
             is OnErrorSearchLocation -> state.copy(results = emptyList())
 
