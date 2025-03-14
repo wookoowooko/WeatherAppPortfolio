@@ -9,7 +9,6 @@ fun WeeklyWeatherResponseModel.asUiPrecipitationCardModel(
     selectedCalendarItemIndex: Int,
 ): UIPrecipitationCardModel {
     return UIPrecipitationCardModel(
-
         total = WeatherValueWithUnit(
             this@asUiPrecipitationCardModel.weekly.precipitationData[selectedCalendarItemIndex].level,
             ApiUnit.MM

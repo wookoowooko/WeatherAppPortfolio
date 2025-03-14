@@ -6,12 +6,19 @@ import io.wookoo.domain.model.weather.current.CurrentWeatherResponseModel
 import io.wookoo.domain.model.weather.weekly.WeeklyWeatherResponseModel
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.domain.utils.DataError
+import io.wookoo.domain.utils.EmptyResult
+import kotlinx.coroutines.flow.Flow
 
 interface IMasterWeatherRepo {
-    suspend fun getCurrentWeather(
+
+
+    fun currentWeather(geoNameId: Long): Flow<CurrentWeatherResponseModel>
+
+    suspend fun syncCurrentWeather(
         latitude: Double,
         longitude: Double,
-    ): AppResult<CurrentWeatherResponseModel, DataError.Remote>
+    ): EmptyResult<DataError>
+
 
     suspend fun getSearchedLocation(
         query: String,
@@ -28,4 +35,5 @@ interface IMasterWeatherRepo {
         latitude: Double,
         longitude: Double,
     ): AppResult<WeeklyWeatherResponseModel, DataError.Remote>
+
 }

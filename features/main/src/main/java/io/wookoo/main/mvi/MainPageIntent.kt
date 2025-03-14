@@ -19,7 +19,7 @@ data object OnErrorFetchReversGeocodingFromApi : Completable
 data class OnSuccessFetchReversGeocodingFromApi(val city: String, val country: String) : Completable
 data object OnSuccessfullyUpdateGeolocationFromGpsSensors : Completable
 data class OnSuccessSearchLocation(val results: List<GeocodingSearchModel>) : Completable
-data class OnSuccessFetchCurrentWeatherFromApi(val response: CurrentWeatherResponseModel) :
+data class OnSuccessFetchCurrentWeatherFromApi(val cachedResult: CurrentWeatherResponseModel) :
     Completable
 
 // object MainPageIntent

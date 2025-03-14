@@ -8,4 +8,5 @@ option java_multiple_files = true;
 message UserSettings {
   UserLocation location = 1;
   bool isLocationChoose = 2;
+  int64 lastGeoName = 3;
 }

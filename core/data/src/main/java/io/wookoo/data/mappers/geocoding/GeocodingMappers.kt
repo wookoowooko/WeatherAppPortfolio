@@ -21,8 +21,9 @@ fun GeocodingSearchDto.asGeocodingSearchModel(): GeocodingSearchModel {
         latitude = latitude,
         longitude = longitude,
         countryCode = countryCode,
-        country = country,
-        urbanArea = admin1
+        country = country.orEmpty(),
+        urbanArea = admin1,
+        geoNameId = geoNameId
     )
 }
 
@@ -38,5 +39,6 @@ fun ReverseGeocodingSearchDto.asReverseGeocodingSearchModel(): ReverseGeocodingS
         toponymName = toponymName,
         countryName = countryName,
         areaName = areaName.orEmpty(),
+        geoItemId = geoNameId
     )
 }

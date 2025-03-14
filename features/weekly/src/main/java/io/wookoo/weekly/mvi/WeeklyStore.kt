@@ -23,6 +23,7 @@ import javax.inject.Inject
 class WeeklyStore @Inject constructor(
     @StoreViewModelScope private val storeScope: CoroutineScope,
     private val masterRepository: IMasterWeatherRepo,
+
     dataStore: IDataStoreRepo,
     reducer: WeeklyReducer,
 ) : Store<WeeklyState, WeeklyIntent, WeeklyEffect>(
