@@ -113,6 +113,9 @@ class WelcomePageStore @Inject constructor(
                 dispatch(OnErrorSearchLocation)
                 emitSideEffect(WelcomeSideEffect.ShowSnackBar(error))
             }
+            .onFinally {
+                dispatch(OnLoadingFinish)
+            }
     }
 
     private fun getGeolocationFromGpsSensors() {
