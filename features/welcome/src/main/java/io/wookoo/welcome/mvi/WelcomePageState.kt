@@ -4,6 +4,7 @@ import io.wookoo.domain.model.geocoding.GeocodingSearchModel
 import io.wookoo.domain.utils.AppError
 
 data class WelcomePageState(
+    val isOffline: Boolean = false,
     val city: String = "",
     val country: String = "",
     val geoItemId:Long = 0,

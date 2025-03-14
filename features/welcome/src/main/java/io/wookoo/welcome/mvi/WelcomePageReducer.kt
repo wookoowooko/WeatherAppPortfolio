@@ -22,14 +22,24 @@ class WelcomePageReducer @Inject constructor() :
                     longitude = intent.geoItem.longitude
                 )
 
-            is OnAppBarExpandChange -> state.copy(isSearchExpanded = intent.state)
+            is OnUpdateNetworkState -> state.copy(isOffline = intent.isOffline)
+            is OnAppBarExpandChange -> if (state.isOffline) {
+                state
+            } else {
+                state.copy(isSearchExpanded = intent.state)
+            }
+
             is OnSearchGeoLocationClick -> state.copy(isGeolocationSearchInProgress = true)
+
+            is OnErrorSearchLocation -> state.copy(results = emptyList())
+
+            is OnSuccessSearchLocation -> state.copy(results = intent.results)
 
             is Completable ->
                 state.copy(isLoading = false, isGeolocationSearchInProgress = false).let {
                     when (intent) {
-                        is OnSuccessSearchLocation -> it.copy(results = intent.results)
-                        is OnErrorSearchLocation -> it.copy(results = emptyList())
+
+
                         is OnErrorFetchReversGeocodingFromApi -> it.copy(city = "", country = "")
                         is OnSuccessFetchReversGeocodingFromApi -> it.copy(
                             city = intent.city,

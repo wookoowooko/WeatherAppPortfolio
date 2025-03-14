@@ -3,6 +3,7 @@ package io.wookoo.designsystem.ui.components
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.systemBars
@@ -30,7 +31,7 @@ fun SharedCustomSnackBar(
     message: String,
     isVisible: Boolean,
     onDismiss: () -> Unit,
-    backGroundColor: Color = Color.Red,
+    snackBarColor: Color,
 ) {
     val localDensity = LocalDensity.current
     val topAppBarPadding = TopAppBarDefaults.windowInsets.asPaddingValues().calculateTopPadding()
@@ -43,24 +44,28 @@ fun SharedCustomSnackBar(
         label = "snackbarOffset"
     )
 
-    CenterAlignedTopAppBar(
-        modifier = Modifier.offset { IntOffset(0, animatedOffset.roundToInt()) },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = backGroundColor
-        ),
-        title = {
-            SharedText(
-                text = message,
-                color = Color.White,
-                style = MaterialTheme.typography.titleMedium,
-            )
-        },
-        actions = {
-            IconButton(onClick = onDismiss) {
-                Icon(Icons.Default.Close, contentDescription = null)
+    if (message.isNotEmpty()) {
+        CenterAlignedTopAppBar(
+            modifier = Modifier
+                .offset { IntOffset(0, animatedOffset.roundToInt()) }
+                .fillMaxWidth(),
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = snackBarColor
+            ),
+            title = {
+                SharedText(
+                    text = message,
+                    color = Color.White,
+                    style = MaterialTheme.typography.titleMedium,
+                )
+            },
+            actions = {
+                IconButton(onClick = onDismiss) {
+                    Icon(Icons.Default.Close, contentDescription = null)
+                }
             }
-        }
-    )
+        )
+    }
 
     LaunchedEffect(isVisible) {
         if (isVisible) {
