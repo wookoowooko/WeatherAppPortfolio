@@ -11,4 +11,7 @@ import io.wookoo.database.weatherdatabase.WeatherDataBase
 internal object DaosModule {
     @Provides
     fun providesCurrentWeatherDao(database: WeatherDataBase) = database.currentWeatherDao()
+
+    @Provides
+    fun providesWeeklyWeatherDao(database: WeatherDataBase) = database.weeklyWeatherDao()
 }

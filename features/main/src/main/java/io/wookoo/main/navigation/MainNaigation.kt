@@ -26,7 +26,7 @@ data object MainRoute
 
 fun NavGraphBuilder.mainPage(
     onRequestLocationPermissions: () -> Unit,
-    onNavigate: () -> Unit,
+    onNavigate: (String) -> Unit,
     onShowSnackBar: (String) -> Unit,
 ) {
     composable<MainRoute> {
@@ -42,7 +42,7 @@ fun NavGraphBuilder.mainPage(
 private fun MainPageScreenRoot(
     viewModel: MainPageViewModel = hiltViewModel(),
     onRequestLocationPermissions: () -> Unit,
-    onNavigate: () -> Unit,
+    onNavigate: (String) -> Unit,
     onShowSnackBar: (String) -> Unit,
 ) {
     val owner = LocalLifecycleOwner.current
@@ -75,7 +75,7 @@ private fun MainPageScreenRoot(
         onIntent = { intent ->
             when (intent) {
                 OnRequestGeoLocationPermission -> onRequestLocationPermissions()
-                OnNavigateToWeekly -> onNavigate()
+                is OnNavigateToWeekly -> onNavigate(intent.cityName)
                 else -> Unit
             }
             viewModel.onIntent(intent)

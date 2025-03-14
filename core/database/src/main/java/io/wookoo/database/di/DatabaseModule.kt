@@ -24,7 +24,5 @@ internal object DatabaseModule {
         context,
         WeatherDataBase::class.java,
         DATABASE_NAME,
-    )
-        .addMigrations()
-        .build()
+    ).build()
 }

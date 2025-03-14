@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0c83f0c93443ef87ebaf6e6b968ed2b4",
+    "identityHash": "eeb13aca56e656ba6ff43e7df89f211b",
     "entities": [
       {
         "tableName": "geo_entity",
@@ -317,12 +317,152 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "weekly_weather",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`geo_name_id` INTEGER NOT NULL, `is_day` INTEGER NOT NULL, `time` TEXT NOT NULL, `weather_code` TEXT NOT NULL, `temperature_2m_max` TEXT NOT NULL, `temperature_2m_min` TEXT NOT NULL, `apparent_temperature_max` TEXT NOT NULL, `apparent_temperature_min` TEXT NOT NULL, `sunrise` TEXT NOT NULL, `sunset` TEXT NOT NULL, `daylight_duration` TEXT NOT NULL, `sunshine_duration` TEXT NOT NULL, `uv_index_max` TEXT NOT NULL, `precipitation_sum` TEXT NOT NULL, `rain_sum` TEXT NOT NULL, `showers_sum` TEXT NOT NULL, `snowfall_sum` TEXT NOT NULL, `precipitation_probability_max` TEXT NOT NULL, `wind_speed_10m_max` TEXT NOT NULL, `wind_gusts_10m_max` TEXT NOT NULL, `wind_direction_10m_dominant` TEXT NOT NULL, PRIMARY KEY(`geo_name_id`))",
+        "fields": [
+          {
+            "fieldPath": "geoNameId",
+            "columnName": "geo_name_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isDay",
+            "columnName": "is_day",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "weatherCode",
+            "columnName": "weather_code",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tempMax",
+            "columnName": "temperature_2m_max",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tempMin",
+            "columnName": "temperature_2m_min",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "apparentTempMax",
+            "columnName": "apparent_temperature_max",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "apparentTempMin",
+            "columnName": "apparent_temperature_min",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sunrise",
+            "columnName": "sunrise",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sunset",
+            "columnName": "sunset",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dayLightDuration",
+            "columnName": "daylight_duration",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sunshineDuration",
+            "columnName": "sunshine_duration",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uvIndexMax",
+            "columnName": "uv_index_max",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "precipitationSum",
+            "columnName": "precipitation_sum",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rainSum",
+            "columnName": "rain_sum",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "showersSum",
+            "columnName": "showers_sum",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "snowfallSum",
+            "columnName": "snowfall_sum",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "precipitationProbabilityMax",
+            "columnName": "precipitation_probability_max",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windSpeedMax",
+            "columnName": "wind_speed_10m_max",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windGustsMax",
+            "columnName": "wind_gusts_10m_max",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windDirectionMax",
+            "columnName": "wind_direction_10m_dominant",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "geo_name_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0c83f0c93443ef87ebaf6e6b968ed2b4')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'eeb13aca56e656ba6ff43e7df89f211b')"
     ]
   }
 }

@@ -5,10 +5,12 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import io.wookoo.database.converters.PrimitiveConverters
 import io.wookoo.database.daos.CurrentWeatherDao
+import io.wookoo.database.daos.WeeklyWeatherDao
 import io.wookoo.database.dbo.CurrentWeatherEntity
 import io.wookoo.database.dbo.DailyEntity
-import io.wookoo.database.dbo.HourlyEntity
 import io.wookoo.database.dbo.GeoEntity
+import io.wookoo.database.dbo.HourlyEntity
+import io.wookoo.database.dbo.weekly.WeeklyWeatherEntity
 import io.wookoo.database.weatherdatabase.WeatherDataBase.Companion.LATEST_VERSION
 
 @Database(
@@ -16,11 +18,14 @@ import io.wookoo.database.weatherdatabase.WeatherDataBase.Companion.LATEST_VERSI
         GeoEntity::class,
         DailyEntity::class,
         HourlyEntity::class,
-        CurrentWeatherEntity::class
+        CurrentWeatherEntity::class,
+        WeeklyWeatherEntity::class
     ],
     version = LATEST_VERSION,
 
-    autoMigrations = [],
+    autoMigrations = [
+
+    ],
     exportSchema = true,
 )
 @TypeConverters(
@@ -33,4 +38,5 @@ abstract class WeatherDataBase : RoomDatabase() {
     }
 
     abstract fun currentWeatherDao(): CurrentWeatherDao
+    abstract fun weeklyWeatherDao(): WeeklyWeatherDao
 }
