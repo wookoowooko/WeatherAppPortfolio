@@ -19,12 +19,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.fragment.compose.AndroidFragment
 import androidx.fragment.compose.rememberFragmentState
+import io.wookoo.designsystem.ui.components.SharedText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun WeeklyPageScreen(
     onBackIconClick: () -> Unit,
     onShowSnackBar: (String) -> Unit,
+    cityName: String,
 ) {
     val state = rememberFragmentState()
 
@@ -36,7 +38,9 @@ internal fun WeeklyPageScreen(
                         WindowInsetsSides.Horizontal
                     )
                 ),
-                title = {},
+                title = {
+                    SharedText(text = cityName)
+                },
                 navigationIcon = {
                     IconButton(
                         onClick = onBackIconClick

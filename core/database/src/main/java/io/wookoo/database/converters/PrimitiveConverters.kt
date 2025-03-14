@@ -33,4 +33,14 @@ class PrimitiveConverters {
     fun toIntList(value: String): List<Int> {
         return value.split(",").map { it.toInt() }
     }
+
+    @TypeConverter
+    fun fromDoubleList(value: List<Double>): String {
+        return value.joinToString(",")
+    }
+
+    @TypeConverter
+    fun toDoubleList(value: String): List<Double> {
+        return value.split(",").map { it.toDouble() }
+    }
 }

@@ -19,6 +19,13 @@ interface IMasterWeatherRepo {
         longitude: Double,
     ): EmptyResult<DataError>
 
+    fun weeklyWeather(geoNameId: Long): Flow<WeeklyWeatherResponseModel>
+
+    suspend fun syncWeeklyWeather(
+        latitude: Double,
+        longitude: Double,
+    ): EmptyResult<DataError>
+
 
     suspend fun getSearchedLocation(
         query: String,

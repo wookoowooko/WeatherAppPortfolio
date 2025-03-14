@@ -1,5 +1,6 @@
 package io.wookoo.data.mappers.weeklyweather
 
+import io.wookoo.database.dbo.weekly.WeeklyWeatherEntity
 import io.wookoo.domain.model.weather.current.PrecipitationModel
 import io.wookoo.domain.model.weather.current.SunCyclesModel
 import io.wookoo.domain.model.weather.current.WindModel
@@ -14,6 +15,15 @@ fun WeeklyWeatherResponseDto.asWeeklyWeatherResponseModel(): WeeklyWeatherRespon
     return WeeklyWeatherResponseModel(
         currentShort = currentShort.asCurrentWeatherShortResponseModel(),
         weekly = week.asWeeklyWeatherModel()
+    )
+}
+
+fun WeeklyWeatherEntity.asWeeklyWeatherResponseModel(): WeeklyWeatherResponseModel {
+    return WeeklyWeatherResponseModel(
+        currentShort = CurrentWeatherShortModel(
+            isDay = isDay
+        ),
+        weekly = this.asWeeklyWeatherModel()
     )
 }
 
@@ -54,5 +64,69 @@ private fun WeeklyWeatherDto.asWeeklyWeatherModel(): WeeklyWeatherModel {
                 gust = windGustsMax.getOrNull(index) ?: 0.0
             )
         }
+    )
+}
+
+
+fun WeeklyWeatherEntity.asWeeklyWeatherModel(): WeeklyWeatherModel {
+    return WeeklyWeatherModel(
+        time = time,
+        weatherCode = weatherCode,
+        tempMax = tempMax,
+        tempMin = tempMin,
+        apparentTempMax = apparentTempMax,
+        apparentTempMin = apparentTempMin,
+        dayLightDuration = dayLightDuration,
+        sunshineDuration = sunshineDuration,
+        uvIndexMax = uvIndexMax,
+        precipitationProbabilityMax = precipitationProbabilityMax,
+        precipitationData = precipitationSum.mapIndexed { index, sum ->
+            PrecipitationModel(
+                level = sum,
+                rain = rainSum.getOrNull(index) ?: 0.0,
+                showers = showersSum.getOrNull(index) ?: 0.0,
+                snowfall = snowfallSum.getOrNull(index) ?: 0.0
+            )
+        },
+        sunCycles = SunCyclesModel(
+            sunrise = sunrise,
+            sunset = sunset
+        ),
+        windData = windSpeedMax.mapIndexed { index, speed ->
+            WindModel(
+                speed = speed,
+                direction = windDirectionMax.getOrNull(index)?.toInt() ?: 0,
+                gust = windGustsMax.getOrNull(index) ?: 0.0
+            )
+        }
+    )
+}
+
+fun WeeklyWeatherDto.asWeeklyWeatherEntity(
+    isDay: Boolean,
+    geoNameId: Long
+): WeeklyWeatherEntity {
+    return WeeklyWeatherEntity(
+        time = time,
+        weatherCode = weatherCode,
+        tempMax = tempMax,
+        tempMin = tempMin,
+        apparentTempMax = apparentTempMax,
+        apparentTempMin = apparentTempMin,
+        dayLightDuration = dayLightDuration,
+        sunshineDuration = sunshineDuration,
+        uvIndexMax = uvIndexMax,
+        precipitationProbabilityMax = precipitationProbabilityMax,
+        precipitationSum = precipitationSum,
+        rainSum = rainSum,
+        showersSum = showersSum,
+        snowfallSum = snowfallSum,
+        sunrise = sunrise,
+        sunset = sunset,
+        windSpeedMax = windSpeedMax,
+        windGustsMax = windGustsMax,
+        windDirectionMax = windDirectionMax,
+        isDay = isDay,
+        geoNameId = geoNameId
     )
 }

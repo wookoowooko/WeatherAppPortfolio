@@ -3,21 +3,21 @@ package io.wookoo.weekly.mvi
 import android.util.Log
 import io.wookoo.common.mvi.Store
 import io.wookoo.domain.annotations.StoreViewModelScope
-import io.wookoo.domain.model.weather.weekly.WeeklyWeatherResponseModel
 import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.domain.repo.IMasterWeatherRepo
 import io.wookoo.domain.settings.UserSettingsModel
 import io.wookoo.domain.utils.onError
-import io.wookoo.domain.utils.onFinally
-import io.wookoo.domain.utils.onSuccess
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class WeeklyStore @Inject constructor(
@@ -40,8 +40,11 @@ class WeeklyStore @Inject constructor(
     override fun initializeObservers() {
         Log.d(TAG, "initializeObservers: ")
         observeSelectedDayPositionChanged()
-        observeWeeklyWeatherFromApi()
+//        observeWeeklyWeatherFromApi()
+        observeWeeklyWeather()
+        synchronizeWeatherOnStart()
     }
+
 
     private fun observeSelectedDayPositionChanged() {
         Log.d(TAG, "observeSelectedDayPositionChanged")
@@ -53,30 +56,69 @@ class WeeklyStore @Inject constructor(
             .launchIn(storeScope)
     }
 
-    private fun observeWeeklyWeatherFromApi() {
-        dispatch(OnLoading)
-        Log.d(TAG, "observeWeeklyWeatherFromApi: ")
-        settings.map { settings ->
-            Log.d(TAG, "setting: $settings")
-            settings.location
-        }.map { location ->
-            Log.d(TAG, "location: $location")
-            location.latitude to location.longitude
-        }.distinctUntilChanged()
-            .filter { (lat, lon) -> lat != 0.0 && lon != 0.0 }
-            .onEach { (lat, lon) ->
-                masterRepository.getWeeklyWeather(lat, lon)
-                    .onSuccess { forecast: WeeklyWeatherResponseModel ->
-                        dispatch(OnObserveWeeklyForecast(forecast))
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun observeWeeklyWeather() {
+        settings
+            .map { it.lastGeoName }
+            .flatMapLatest { lastGeoName ->
+                masterRepository.weeklyWeather(lastGeoName)
+                    .onEach { weeklyWeather ->
+                        dispatch(OnObserveWeeklyForecast(weeklyWeather))
                     }
-                    .onError { apiError ->
-                        emitSideEffect(WeeklyEffect.OnShowSnackBar(apiError))
-                    }
-                    .onFinally {
-                        dispatch(OnLoadingFinish)
-                    }
-            }.launchIn(storeScope)
+            }
+            .launchIn(storeScope)
     }
+
+
+    private fun synchronizeWeatherOnStart() {
+        settings
+            .mapNotNull { setting ->
+                setting.location.takeIf { it.latitude != 0.0 && it.longitude != 0.0 }
+            }
+            .distinctUntilChanged()
+            .onEach { location ->
+                synchronizeWeather(location.latitude, location.longitude)
+            }
+            .launchIn(storeScope)
+    }
+
+    private fun synchronizeWeather(latitude: Double, longitude: Double) {
+        storeScope.launch {
+            masterRepository.syncWeeklyWeather(
+                latitude = latitude,
+                longitude = longitude
+            ).onError { apiError ->
+                Log.d(TAG, "synchronizeWeather: $apiError")
+                emitSideEffect(WeeklyEffect.OnShowSnackBar(apiError))
+            }
+        }
+    }
+
+
+//    private fun observeWeeklyWeatherFromApi() {
+//        dispatch(OnLoading)
+//        Log.d(TAG, "observeWeeklyWeatherFromApi: ")
+//        settings.map { settings ->
+//            Log.d(TAG, "setting: $settings")
+//            settings.location
+//        }.map { location ->
+//            Log.d(TAG, "location: $location")
+//            location.latitude to location.longitude
+//        }.distinctUntilChanged()
+//            .filter { (lat, lon) -> lat != 0.0 && lon != 0.0 }
+//            .onEach { (lat, lon) ->
+//                masterRepository.getWeeklyWeather(lat, lon)
+//                    .onSuccess { forecast: WeeklyWeatherResponseModel ->
+//                        dispatch(OnObserveWeeklyForecast(forecast))
+//                    }
+//                    .onError { apiError ->
+//                        emitSideEffect(WeeklyEffect.OnShowSnackBar(apiError))
+//                    }
+//                    .onFinally {
+//                        dispatch(OnLoadingFinish)
+//                    }
+//            }.launchIn(storeScope)
+//    }
 
     companion object {
         private const val TAG = "WeeklyStore"

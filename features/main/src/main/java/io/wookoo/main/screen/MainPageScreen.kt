@@ -202,7 +202,7 @@ fun MainPageScreen(
                                 state = state,
                                 modifier = Modifier.padding(horizontal = large),
                                 onNextSevenDaysClick = {
-                                    onIntent(OnNavigateToWeekly)
+                                    onIntent(OnNavigateToWeekly(state.city))
                                 },
                             )
                             Spacer(modifier = Modifier.height(ultraLarge))

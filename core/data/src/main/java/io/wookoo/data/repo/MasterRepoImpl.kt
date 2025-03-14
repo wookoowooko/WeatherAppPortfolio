@@ -7,8 +7,10 @@ import io.wookoo.data.mappers.currentweather.asDailyEntity
 import io.wookoo.data.mappers.currentweather.asHourlyEntity
 import io.wookoo.data.mappers.geocoding.asGeocodingResponseModel
 import io.wookoo.data.mappers.geocoding.asReverseGeocodingResponseModel
+import io.wookoo.data.mappers.weeklyweather.asWeeklyWeatherEntity
 import io.wookoo.data.mappers.weeklyweather.asWeeklyWeatherResponseModel
 import io.wookoo.database.daos.CurrentWeatherDao
+import io.wookoo.database.daos.WeeklyWeatherDao
 import io.wookoo.database.dbo.GeoEntity
 import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
@@ -32,7 +34,6 @@ import io.wookoo.network.api.reversegeocoding.IReverseGeoCodingService
 import io.wookoo.network.api.weather.IWeatherService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
@@ -45,13 +46,14 @@ class MasterRepoImpl @Inject constructor(
     @GeoCodingApi private val geoCodingRemoteDataSource: IGeoCodingService,
     @ReverseGeoCodingApi private val reverseGeoCodingRemoteDataSource: IReverseGeoCodingService,
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
-    private val weatherLocalDataSource: CurrentWeatherDao,
+    private val currentWeatherDao: CurrentWeatherDao,
+    private val weeklyWeatherDao: WeeklyWeatherDao,
     private val dataStore: IDataStoreRepo,
 ) : IMasterWeatherRepo {
 
     override fun currentWeather(geoNameId: Long): Flow<CurrentWeatherResponseModel> {
         Log.d(TAG, "currentWeather: $geoNameId")
-        return weatherLocalDataSource.getCurrentWeather(geoNameId)
+        return currentWeatherDao.getCurrentWeather(geoNameId)
             .mapNotNull {
                 Log.d(TAG, "currentWeather: $it")
 
@@ -59,7 +61,6 @@ class MasterRepoImpl @Inject constructor(
             }
             .flowOn(ioDispatcher)
     }
-
 
     override suspend fun syncCurrentWeather(
         latitude: Double,
@@ -92,7 +93,7 @@ class MasterRepoImpl @Inject constructor(
             cityName = geoData?.name ?: "",
         )
 
-        weatherLocalDataSource.insertFullWeather(
+        currentWeatherDao.insertFullWeather(
             geo = geo,
             current = remoteWeather.current.asCurrentWeatherEntity(),
             hourly = remoteWeather.hourly.asHourlyEntity(),
@@ -102,6 +103,52 @@ class MasterRepoImpl @Inject constructor(
         return AppResult.Success(Unit)
     }
 
+    override fun weeklyWeather(geoNameId: Long): Flow<WeeklyWeatherResponseModel> {
+        return weeklyWeatherDao.getWeeklyWeatherByGeoItemId(geoNameId)
+            .mapNotNull {
+                it?.asWeeklyWeatherResponseModel()
+            }.flowOn(ioDispatcher)
+    }
+
+    override suspend fun syncWeeklyWeather(
+        latitude: Double,
+        longitude: Double,
+    ): EmptyResult<DataError> {
+
+        Log.d(TAG, "syncWeeklyWeather")
+
+        val geoResult = reverseGeoCodingRemoteDataSource.getReversedSearchedLocation(
+            latitude,
+            longitude,
+            language = "ru"
+        ).onError { return AppResult.Error(it) }
+            .onSuccess { geo ->
+                Log.d(TAG, "geo $geo")
+                geo.geonames?.firstOrNull()?.let { geoData ->
+                    dataStore.saveGeoNameId(geoData.geoNameId)
+                }
+            }
+
+        val weatherResult = weatherRemoteDataSource.getWeeklyWeather(latitude, longitude)
+            .onError { return AppResult.Error(it) }
+
+        val geoData = (geoResult as AppResult.Success).data.geonames?.firstOrNull()
+
+        val remoteWeather = (weatherResult as AppResult.Success).data
+
+        Log.d(TAG, "remoteWeather $remoteWeather")
+
+        val weeklyWeatherEntity = remoteWeather.week.asWeeklyWeatherEntity(
+            isDay = remoteWeather.currentShort.isDay == 1,
+            geoNameId = geoData?.geoNameId ?: 0
+        )
+
+        Log.d(TAG, "weeklyWeatherEntity $weeklyWeatherEntity")
+
+        weeklyWeatherDao.insertWeeklyWeather(weeklyWeatherEntity)
+
+        return AppResult.Success(Unit)
+    }
 
 
     override suspend fun getSearchedLocation(
@@ -149,43 +196,5 @@ class MasterRepoImpl @Inject constructor(
     }
 }
 
-
-//    override suspend fun observeActualCurrentWeather(
-//        latitude: Double,
-//        longitude: Double,
-//    ): EmptyResult<DataError> {
-//
-//        val localWeather: WeatherEntity? = weatherLocalDataSource.getCurrentWeather().firstOrNull()
-//
-//        return if (localWeather != null) {
-//
-//            // Если записи в бд есть
-//            // данные актуальны, возвращаем EmptyResult без ошибки
-//            EmptyResult
-//        } else {
-//            reverseGeoCodingRemoteDataSource.getReversedSearchedLocation(
-//                latitude,
-//                longitude,
-//                language = "ru"
-//            ).fold(
-//                onSuccess = {
-//                    weatherRemoteDataSource.getCurrentWeather(latitude, longitude).fold(
-//                        onSuccess = { remoteWeather ->
-//                            weatherLocalDataSource.insertCurrentWeather(remoteWeather.asCurrentWeatherEntity())
-//                            EmptyResult()  // Возвращаем EmptyResult, т.к. операция завершена успешно
-//                        },
-//                        onError = { error ->
-//                            // Обработка ошибки получения данных с API
-//                            EmptyResult(error)
-//                        }
-//                    )
-//                },
-//                onError = { error ->
-//                    // Обработка ошибки геокодирования
-//                    EmptyResult(error)
-//                }
-//            )
-//        }
-//    }
 
 
