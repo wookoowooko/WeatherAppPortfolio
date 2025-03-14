@@ -13,6 +13,7 @@ import io.wookoo.domain.utils.onError
 import io.wookoo.domain.utils.onFinally
 import io.wookoo.domain.utils.onSuccess
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
@@ -20,12 +21,19 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMap
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val TAG = "MainPageStore"
 
 class MainPageStore @Inject constructor(
     @StoreViewModelScope private val storeScope: CoroutineScope,
@@ -45,9 +53,11 @@ class MainPageStore @Inject constructor(
         initialValue = UserSettingsModel()
     )
 
+
     override fun initializeObservers() {
         observeSearchQuery()
         observeUserGeolocationChanges()
+        observeCurrentWeather()
     }
 
     override fun handleSideEffects(intent: MainPageIntent) {
@@ -62,8 +72,9 @@ class MainPageStore @Inject constructor(
         dispatch(OnLoading)
         dataStore.saveUserLocation(
             latitude = intent.geoItem.latitude,
-            longitude = intent.geoItem.longitude
-        ).asEmptyDataResult()
+            longitude = intent.geoItem.longitude,
+        )
+            .asEmptyDataResult()
             .onError { prefError ->
                 emitSideEffect(MainPageEffect.OnShowSnackBar(prefError))
             }
@@ -73,6 +84,7 @@ class MainPageStore @Inject constructor(
     }
 
     private fun getGeolocationFromGpsSensors() {
+        Log.d(TAG, "getGeolocationFromGpsSensors: вызван")
         weatherLocationManager.getGeolocationFromGpsSensors(
             onSuccessfullyLocationReceived = { lat, lon ->
                 storeScope.launch {
@@ -81,6 +93,7 @@ class MainPageStore @Inject constructor(
                         longitude = lon
                     ).asEmptyDataResult()
                         .onSuccess {
+                            Log.d(TAG, "getGeolocationFromGpsSensors: сохранено")
                             dispatch(OnSuccessfullyUpdateGeolocationFromGpsSensors)
                         }.onError { prefError ->
                             emitSideEffect(MainPageEffect.OnShowSnackBar(prefError))
@@ -126,57 +139,65 @@ class MainPageStore @Inject constructor(
     }
 
     private fun observeUserGeolocationChanges() {
-        userSettings.map {
-            it.location
-        }.map {
-            it.latitude to it.longitude
-        }.distinctUntilChanged()
-            .filter { (lat, lon) ->
-                lat != 0.0 && lon != 0.0
+        userSettings
+            .mapNotNull { setting ->
+                setting.location.takeIf { it.latitude != 0.0 && it.longitude != 0.0 }
             }
-            .onEach { (lat, lon) ->
-                fetchReversGeocoding(lat, lon)
-                getCurrentWeather(lat, lon)
+            .distinctUntilChanged()
+            .onEach { location ->
+                Log.d(TAG, "start syncing weather: $location")
+                synchronizeWeather(location.latitude, location.longitude)
             }
             .launchIn(storeScope)
     }
 
-    private fun fetchReversGeocoding(latitude: Double, longitude: Double) {
-        storeScope.launch {
-            dispatch(OnLoading)
 
-            masterRepository.getReverseGeocodingLocation(
-                latitude = latitude,
-                longitude = longitude,
-                language = "ru"
-            ).onSuccess { searchResults ->
-                dispatch(
-                    OnSuccessFetchReversGeocodingFromApi(
-                        city = searchResults.geonames.firstOrNull()?.name.orEmpty(),
-                        country = searchResults.geonames.firstOrNull()?.countryName.orEmpty()
-                    )
-                )
-            }.onError { apiError ->
-                println("fetchReversGeocoding failed: ${apiError.name}")
-                dispatch(OnErrorFetchReversGeocodingFromApi)
-                emitSideEffect(MainPageEffect.OnShowSnackBar(apiError))
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun observeCurrentWeather() {
+        userSettings
+            .map { it.lastGeoName }
+            .flatMapLatest { lastGeoName ->
+                masterRepository.currentWeather(lastGeoName)
+                    .onEach { currentWeather ->
+                        dispatch(OnSuccessFetchCurrentWeatherFromApi(currentWeather))
+                    }
             }
-        }
+            .launchIn(storeScope)
     }
 
-    private fun getCurrentWeather(latitude: Double, longitude: Double) {
-        dispatch(OnLoading)
+
+//    private fun fetchReversGeocoding(latitude: Double, longitude: Double) {
+//        storeScope.launch {
+//            dispatch(OnLoading)
+//
+//            masterRepository.getReverseGeocodingLocation(
+//                latitude = latitude,
+//                longitude = longitude,
+//                language = "ru"
+//            ).onSuccess { searchResults ->
+//                dispatch(
+//                    OnSuccessFetchReversGeocodingFromApi(
+//                        city = searchResults.geonames.firstOrNull()?.name.orEmpty(),
+//                        country = searchResults.geonames.firstOrNull()?.countryName.orEmpty()
+//                    )
+//                )
+//            }.onError { apiError ->
+//                println("fetchReversGeocoding failed: ${apiError.name}")
+//                dispatch(OnErrorFetchReversGeocodingFromApi)
+//                emitSideEffect(MainPageEffect.OnShowSnackBar(apiError))
+//            }
+//        }
+//    }
+
+    private fun synchronizeWeather(latitude: Double, longitude: Double) {
         storeScope.launch {
-            masterRepository.getCurrentWeather(
+            masterRepository.syncCurrentWeather(
                 latitude = latitude,
                 longitude = longitude
             ).onError { apiError ->
+                Log.d(TAG, "synchronizeWeather: $apiError")
                 emitSideEffect(MainPageEffect.OnShowSnackBar(apiError))
-            }.onSuccess { response ->
-                dispatch(OnSuccessFetchCurrentWeatherFromApi(response))
-            }.onFinally {
-                dispatch(OnLoadingFinish)
-                //todo пересмотреть он файнали удаление
             }
         }
     }

@@ -1,7 +1,9 @@
 package io.wookoo.welcome.mvi
 
+import android.util.Log
 import io.wookoo.common.mvi.Store
 import io.wookoo.domain.annotations.StoreViewModelScope
+import io.wookoo.domain.model.reversegeocoding.ReverseGeocodingResponseModel
 import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.domain.repo.ILocationProvider
 import io.wookoo.domain.repo.IMasterWeatherRepo
@@ -119,11 +121,14 @@ class WelcomePageStore @Inject constructor(
             latitude = state.value.latitude,
             longitude = state.value.longitude,
             language = "ru"
-        ).onSuccess { searchResults ->
+        ).onSuccess { searchResults: ReverseGeocodingResponseModel ->
+
+            Log.d(TAG, "fetchReversGeocoding: $searchResults")
             dispatch(
                 OnSuccessFetchReversGeocodingFromApi(
                     city = searchResults.geonames.firstOrNull()?.name.orEmpty(),
-                    country = searchResults.geonames.firstOrNull()?.countryName.orEmpty()
+                    country = searchResults.geonames.firstOrNull()?.countryName.orEmpty(),
+                    geoItemId = searchResults.geonames.firstOrNull()?.geoItemId ?: 0
                 )
             )
         }.onError { apiError: DataError.Remote ->
@@ -137,9 +142,13 @@ class WelcomePageStore @Inject constructor(
         dispatch(OnLoading)
         storeScope.launch {
             dataStore.saveUserLocation(state.value.latitude, state.value.longitude)
-                .asEmptyDataResult()
                 .onSuccess {
-                    dataStore.saveInitialLocationPicked(true).asEmptyDataResult()
+                    Log.d(TAG, "geoId in Welcome: ${state.value.geoItemId}")
+                    dataStore.saveGeoNameId(state.value.geoItemId)
+                        .onError {
+                            emitSideEffect(WelcomeSideEffect.ShowSnackBar(it))
+                        }
+                    dataStore.saveInitialLocationPicked(true)
                         .onError { prefError ->
                             emitSideEffect(WelcomeSideEffect.ShowSnackBar(prefError))
                         }
@@ -158,6 +167,7 @@ class WelcomePageStore @Inject constructor(
     }
 
     companion object {
+        private const val TAG = "WelcomePageStore"
         private const val THRESHOLD = 500L
     }
 }

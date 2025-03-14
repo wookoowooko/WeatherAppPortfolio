@@ -1,6 +1,7 @@
 package io.wookoo.domain.model.geocoding
 
 data class GeocodingSearchModel(
+    val geoNameId: Long,
     val cityName: String,
     val latitude: Double,
     val longitude: Double,

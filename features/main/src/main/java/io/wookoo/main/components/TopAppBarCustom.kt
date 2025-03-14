@@ -208,6 +208,7 @@ val result = GeocodingSearchModel(
     longitude = 37.6176,
     countryCode = "RU",
     country = "Russia",
+    geoNameId = 1
 )
 
 @Preview

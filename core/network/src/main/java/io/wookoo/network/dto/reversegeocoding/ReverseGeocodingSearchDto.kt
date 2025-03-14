@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ReverseGeocodingSearchDto(
+    @SerialName("geonameId")
+    val geoNameId: Long,
     @SerialName("name")
     val name: String,
     @SerialName("toponymName")

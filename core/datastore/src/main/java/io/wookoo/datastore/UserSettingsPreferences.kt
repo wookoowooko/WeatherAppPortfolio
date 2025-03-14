@@ -9,14 +9,14 @@ import javax.inject.Inject
 class UserSettingsPreferences @Inject constructor(
     private val dataStore: DataStore<UserSettings>,
 ) {
-
     val userData = dataStore.data.map { settings ->
         UserSettingsModel(
             location = UserLocationModel(
                 latitude = settings.location.latitude,
                 longitude = settings.location.longitude
             ),
-            isLocationChoose = settings.isLocationChoose
+            isLocationChoose = settings.isLocationChoose,
+            lastGeoName = settings.lastGeoName
         )
     }
 
@@ -29,6 +29,14 @@ class UserSettingsPreferences @Inject constructor(
                         .setLongitude(longitude)
                         .build()
                 )
+                .build()
+        }
+    }
+
+    suspend fun saveGeoItemId(geoName: Long) {
+        dataStore.updateData { data ->
+            data.toBuilder()
+                .setLastGeoName(geoName)
                 .build()
         }
     }

@@ -6,6 +6,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GeocodingSearchDto(
+    @SerialName("id")
+    val geoNameId: Long,
     @SerialName("name")
     val name: String,
     @SerialName("latitude")
@@ -15,7 +17,7 @@ data class GeocodingSearchDto(
     @SerialName("country_code")
     val countryCode: String,
     @SerialName("country")
-    val country: String,
+    val country: String? = null,
     @SerialName("admin1")
     val admin1: String? = null,
 )

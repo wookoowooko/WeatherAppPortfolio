@@ -42,7 +42,9 @@ class MainPageReducer @Inject constructor(
 
                         is OnSuccessFetchCurrentWeatherFromApi -> {
                             it.copy(
-                                currentWeather = intent.response.asUICurrentWeather(
+                                city = intent.cachedResult.cityName,
+                                country = intent.cachedResult.countryName,
+                                currentWeather = intent.cachedResult.asUICurrentWeather(
                                     hourlyModelToHourlyListUseCase = hourlyModelToHourlyListUseCase,
                                     convertDateUseCase = convertDateUseCase,
                                     convertWeatherCodeToEnumUseCase = convertWeatherCodeToEnumUseCase,

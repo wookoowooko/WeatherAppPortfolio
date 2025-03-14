@@ -33,7 +33,8 @@ class WelcomePageReducer @Inject constructor() :
                         is OnErrorFetchReversGeocodingFromApi -> it.copy(city = "", country = "")
                         is OnSuccessFetchReversGeocodingFromApi -> it.copy(
                             city = intent.city,
-                            country = intent.country
+                            country = intent.country,
+                            geoItemId = intent.geoItemId
                         )
 
                         is OnSuccessfullyUpdateGeolocationFromGpsSensors -> {
