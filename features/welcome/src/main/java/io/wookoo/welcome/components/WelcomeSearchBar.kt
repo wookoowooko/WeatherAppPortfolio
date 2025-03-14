@@ -3,8 +3,10 @@ package io.wookoo.welcome.components
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
@@ -15,13 +17,23 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.welcome.mvi.OnAppBarExpandChange
 import io.wookoo.welcome.mvi.OnSearchQueryChange
@@ -37,21 +49,60 @@ internal fun WelcomeSearchBar(
     isLoading: Boolean,
     modifier: Modifier = Modifier,
 ) {
+    val focusRequester = remember { FocusRequester() }
+
+    val textFieldValue = remember(searchQuery) {
+        TextFieldValue(
+            text = searchQuery,
+            selection = TextRange(searchQuery.length)
+        )
+    }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+
     SearchBar(
-        modifier = modifier,
+        modifier = modifier
+            .focusRequester(focusRequester),
         expanded = true,
         onExpandedChange = { expandState ->
             onIntent(OnAppBarExpandChange(expandState))
         },
         inputField = {
-            SearchBarDefaults.InputField(
+            TextField(
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                ),
+                value = textFieldValue,
+                onValueChange = {
+                    val trimmed = it.text.trim()
+                    onIntent(OnSearchQueryChange(trimmed))
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .windowInsetsPadding(
                         WindowInsets.displayCutout.only(
                             WindowInsetsSides.Horizontal
+                        ).add(
+                            WindowInsets.navigationBars.only(
+                                WindowInsetsSides.Horizontal
+                            )
                         )
                     ),
+                visualTransformation = VisualTransformation.None,
+                placeholder = {
+                    if (searchQuery.isEmpty()) {
+                        Text(
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                            text = stringResource(io.wookoo.androidresources.R.string.search_your_location),
+                            modifier = Modifier
+                        )
+                    }
+                },
                 trailingIcon = {
                     IconButton(onClick = {
                         if (searchQuery.isNotEmpty()) {
@@ -67,28 +118,7 @@ internal fun WelcomeSearchBar(
                             contentDescription = null
                         )
                     }
-                },
-                query = searchQuery,
-                onQueryChange = { query ->
-                    onIntent(OnSearchQueryChange(query))
-                },
-                onSearch = { query ->
-                    onIntent(OnSearchQueryChange(query))
-                },
-                placeholder = {
-                    if (searchQuery.isEmpty()) {
-                        Text(
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                            text = stringResource(io.wookoo.androidresources.R.string.search_your_location),
-                            modifier = Modifier
-                        )
-                    }
-                },
-
-                expanded = true,
-                onExpandedChange = { state ->
-                    onIntent(OnAppBarExpandChange(state))
-                },
+                }
             )
         }
     ) {
@@ -115,4 +145,15 @@ internal fun WelcomeSearchBar(
             SearchResults(state, onIntent)
         }
     }
+}
+
+@Composable
+@Preview
+private fun WelcomeSearchBarPreview() {
+    WelcomeSearchBar(
+        onIntent = {},
+        searchQuery = "",
+        state = WelcomePageState(),
+        isLoading = false
+    )
 }

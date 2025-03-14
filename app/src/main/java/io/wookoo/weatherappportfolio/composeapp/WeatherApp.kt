@@ -28,7 +28,7 @@ internal fun WeatherApp(
     var isSnackBarVisible by rememberSaveable { mutableStateOf(false) }
     val notConnectedMessage = stringResource(io.wookoo.androidresources.R.string.error_no_internet)
     var firstLaunched by rememberSaveable { mutableStateOf(true) }
-    var snackBarColor by remember{ mutableStateOf(Color.Red) }
+    var snackBarColor by remember { mutableStateOf(Color.Red) }
 
     LaunchedEffect(isOffline) {
         if (isOffline) {
@@ -42,7 +42,6 @@ internal fun WeatherApp(
                 isSnackBarVisible = true
                 snackBarColor = Color.Green
             }
-
         }
     }
 
