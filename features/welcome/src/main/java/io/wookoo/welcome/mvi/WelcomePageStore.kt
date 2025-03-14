@@ -113,6 +113,9 @@ class WelcomePageStore @Inject constructor(
                 dispatch(OnErrorSearchLocation)
                 emitSideEffect(WelcomeSideEffect.ShowSnackBar(error))
             }
+            .onFinally {
+                dispatch(OnLoadingFinish)
+            }
     }
 
     private fun getGeolocationFromGpsSensors() {
@@ -146,7 +149,8 @@ class WelcomePageStore @Inject constructor(
             dispatch(
                 OnSuccessFetchReversGeocodingFromApi(
                     city = searchResults.geonames.firstOrNull()?.name.orEmpty(),
-                    country = searchResults.geonames.firstOrNull()?.countryName.orEmpty()
+                    country = searchResults.geonames.firstOrNull()?.countryName.orEmpty(),
+                    geoItemId = searchResults.geonames.firstOrNull()?.geoItemId ?: 0
                 )
             )
         }.onError { apiError: DataError.Remote ->
