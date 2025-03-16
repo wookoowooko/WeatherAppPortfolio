@@ -53,7 +53,6 @@ class WelcomePageStore @Inject constructor(
             false
         )
 
-
     override fun initializeObservers() {
         observeLocationChanges()
         observeSearchQuery()
@@ -71,7 +70,7 @@ class WelcomePageStore @Inject constructor(
         }
     }
 
-    //Observers
+    // Observers
     @OptIn(FlowPreview::class)
     private fun observeSearchQuery() {
         state
@@ -101,8 +100,7 @@ class WelcomePageStore @Inject constructor(
             .launchIn(storeScope)
     }
 
-
-    //Functions
+    // Functions
     private fun searchLocationFromApi(query: String) = storeScope.launch {
         dispatch(OnLoading)
         masterRepository.getSearchedLocation(query, language = "ru")
@@ -136,8 +134,6 @@ class WelcomePageStore @Inject constructor(
             )
         }
     }
-
-
 
     private fun fetchReversGeocoding() = storeScope.launch {
         dispatch(OnLoading)

@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+@Suppress("UnnecessaryAbstractClass")
 abstract class Store<State, Intent, Effect>(
     @StoreViewModelScope private val storeScope: CoroutineScope,
     initialState: State,
@@ -48,7 +49,7 @@ abstract class Store<State, Intent, Effect>(
         handleSideEffects(intent)
     }
 
-    protected open fun handleSideEffects(intent: Intent){}
+    protected open fun handleSideEffects(intent: Intent) {}
     protected open fun initializeObservers() {}
     open fun clear() {}
 

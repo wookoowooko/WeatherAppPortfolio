@@ -38,7 +38,6 @@ class DataStoreRepoImpl @Inject constructor(
         }
     }
 
-
     override suspend fun saveInitialLocationPicked(boolean: Boolean): AppResult<Unit, DataError.Local> {
         return try {
             dataStore.saveInitialLocationPicked(boolean)

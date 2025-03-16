@@ -7,4 +7,3 @@ data class ViewVisibilityState(
     val calendarRecycler: Int = View.GONE,
     val mainRecycler: Int = View.GONE,
 )
-

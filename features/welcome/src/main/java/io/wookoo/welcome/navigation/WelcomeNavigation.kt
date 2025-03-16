@@ -15,8 +15,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import io.wookoo.common.ext.asLocalizedString
 import io.wookoo.welcome.mvi.OnRequestGeoLocationPermission
-import io.wookoo.welcome.mvi.WelcomeSideEffect
 import io.wookoo.welcome.mvi.WelcomePageViewModel
+import io.wookoo.welcome.mvi.WelcomeSideEffect
 import io.wookoo.welcome.screen.WelcomePageScreen
 import kotlinx.serialization.Serializable
 

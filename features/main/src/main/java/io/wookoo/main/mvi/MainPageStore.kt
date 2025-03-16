@@ -18,8 +18,6 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.WhileSubscribed
-import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
@@ -31,7 +29,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 
 class MainPageStore @Inject constructor(
     @StoreViewModelScope private val storeScope: CoroutineScope,
@@ -50,7 +47,6 @@ class MainPageStore @Inject constructor(
         SharingStarted.WhileSubscribed(5000L),
         initialValue = UserSettingsModel()
     )
-
 
     override fun initializeObservers() {
         observeSearchQuery()
@@ -105,7 +101,6 @@ class MainPageStore @Inject constructor(
             }
             .launchIn(storeScope)
     }
-
 
     private suspend fun onSearchedGeoItemCardClick(intent: OnSearchedGeoItemCardClick) {
         dispatch(OnLoading)
@@ -190,7 +185,6 @@ class MainPageStore @Inject constructor(
             .launchIn(storeScope)
     }
 
-
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun observeCurrentWeather() {
         userSettings
@@ -203,7 +197,6 @@ class MainPageStore @Inject constructor(
             }
             .launchIn(storeScope)
     }
-
 
 //    private fun fetchReversGeocoding(latitude: Double, longitude: Double) {
 //        storeScope.launch {

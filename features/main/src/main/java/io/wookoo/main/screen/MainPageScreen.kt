@@ -111,7 +111,6 @@ fun MainPageScreen(
                     }
                 }
 
-
 //                LaunchedEffect(pagerState.isScrollInProgress) {
 //                    if (!pagerState.isScrollInProgress) {
 //                        Log.d(TAG, "MainPageScreen: ${pagerState.currentPage}")
@@ -146,7 +145,7 @@ fun MainPageScreen(
                                 isGeolocationSearchInProgress = isGeolocationSearchInProgress
                             )
                         }
-                    ) {
+                    ) { paddings ->
                         Column(
                             Modifier
                                 .fillMaxWidth()
@@ -155,7 +154,7 @@ fun MainPageScreen(
                                         WindowInsetsSides.Horizontal
                                     )
                                 )
-                                .padding(it)
+                                .padding(paddings)
                                 .verticalScroll(rememberScrollState(initial = 0), enabled = true),
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
@@ -259,7 +258,6 @@ fun MainPageScreen(
                         }
                     }
                 }
-
             }
 
             else -> Unit

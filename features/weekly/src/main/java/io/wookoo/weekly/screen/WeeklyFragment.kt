@@ -70,7 +70,6 @@ class WeeklyFragment : Fragment() {
         collectEffects()
     }
 
-
     private fun collectEffects() {
         viewModel.sideEffect.collectWithLifecycle(viewLifecycleOwner) { effect ->
             when (effect) {
@@ -119,16 +118,13 @@ class WeeklyFragment : Fragment() {
         )
     }
 
-
     private fun FragmentWeeklyBinding.updateVisibility(state: ViewVisibilityState) {
         lottieLoader.visibility = state.loadingIndicator
         calendarRecycler.visibility = state.calendarRecycler
         mainRecycler.visibility = state.mainRecycler
     }
 
-
     companion object {
         private const val TAG = "WeeklyFragment"
     }
 }
-

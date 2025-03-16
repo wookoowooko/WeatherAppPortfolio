@@ -3,7 +3,6 @@ package io.wookoo.weekly.mvi
 import io.wookoo.domain.model.weather.weekly.WeeklyWeatherResponseModel
 import io.wookoo.domain.utils.AppError
 
-
 sealed interface WeeklyIntent
 
 data object OnLoading : WeeklyIntent

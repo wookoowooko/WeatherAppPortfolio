@@ -67,7 +67,6 @@ private fun WeeklyWeatherDto.asWeeklyWeatherModel(): WeeklyWeatherModel {
     )
 }
 
-
 fun WeeklyWeatherEntity.asWeeklyWeatherModel(): WeeklyWeatherModel {
     return WeeklyWeatherModel(
         time = time,

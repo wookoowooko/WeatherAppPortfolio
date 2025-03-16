@@ -4,8 +4,8 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import io.wookoo.database.dbo.CurrentWeatherEntity
 import io.wookoo.database.dbo.DailyEntity
-import io.wookoo.database.dbo.HourlyEntity
 import io.wookoo.database.dbo.GeoEntity
+import io.wookoo.database.dbo.HourlyEntity
 
 data class WeatherWithDetails(
     @Embedded val geo: GeoEntity,
