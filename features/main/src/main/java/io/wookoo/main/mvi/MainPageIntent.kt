@@ -32,6 +32,8 @@ data class OnNavigateToWeekly(val cityName:String) : MainPageIntent
 data class OnSearchQueryChange(val query: String) : MainPageIntent
 data class OnExpandSearchBar(val expandValue: Boolean) : MainPageIntent
 data class OnSearchedGeoItemCardClick(val geoItem: GeocodingSearchModel) : MainPageIntent
+data class UpdateCityListCount(val count: Int) : MainPageIntent
+data class SetPagerPosition(val position: Int) : MainPageIntent
 
 sealed interface MainPageEffect {
     data class OnShowSnackBar(val message: AppError) : MainPageEffect

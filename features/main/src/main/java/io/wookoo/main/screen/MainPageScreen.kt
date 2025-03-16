@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
@@ -27,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -55,6 +58,7 @@ import io.wookoo.main.mvi.OnNavigateToWeekly
 import io.wookoo.main.mvi.OnRequestGeoLocationPermission
 import io.wookoo.main.mvi.OnSearchQueryChange
 import io.wookoo.main.mvi.OnSearchedGeoItemCardClick
+import io.wookoo.main.mvi.SetPagerPosition
 
 private const val TAG = "MainPageScreen"
 
@@ -92,140 +96,170 @@ fun MainPageScreen(
         when (screenState) {
             io.wookoo.designsystem.ui.Crossfade.LOADING -> SharedLottieLoader()
             io.wookoo.designsystem.ui.Crossfade.CONTENT -> {
-                Scaffold(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    topBar = {
-                        SearchBarMain(
-                            onSearchQueryChange = { query ->
-                                onIntent(OnSearchQueryChange(query))
-                            },
-                            onClose = { onIntent(OnExpandSearchBar(false)) },
-                            searchQuery = state.searchQuery,
-                            onSearchNotExpandedIconClick = {
-                                onIntent(OnExpandSearchBar(true))
-                            },
-                            isExpanded = state.searchExpanded,
-                            results = state.searchResults,
-                            onItemClick = { geoItem ->
-                                onIntent(OnSearchedGeoItemCardClick(geoItem))
-                            },
-                            isLoading = state.isLoading,
-                            isGeolocationSearchInProgress = isGeolocationSearchInProgress
-                        )
+                val pagerState = rememberPagerState(pageCount = {
+                    state.cityListCount
+                })
+
+                LaunchedEffect(pagerState) {
+                    // Collect from the a snapshotFlow reading the currentPage
+                    snapshotFlow { pagerState.currentPage }.collect { page ->
+                        // Do something with each page change, for example:
+                        // viewModel.sendPageSelectedEvent(page)
+
+                        Log.d(TAG, "Page changed to $page")
+                        onIntent(SetPagerPosition(pagerState.currentPage))
                     }
+                }
+
+
+//                LaunchedEffect(pagerState.isScrollInProgress) {
+//                    if (!pagerState.isScrollInProgress) {
+//                        Log.d(TAG, "MainPageScreen: ${pagerState.currentPage}")
+//                        onIntent(SetPagerPosition(pagerState.currentPage))
+//                    }
+//                }
+
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier
+                        .fillMaxSize()
                 ) {
-                    Column(
-                        Modifier
-                            .fillMaxWidth()
-                            .windowInsetsPadding(
-                                WindowInsets.displayCutout.only(
-                                    WindowInsetsSides.Horizontal
-                                )
+                    Scaffold(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        topBar = {
+                            SearchBarMain(
+                                onSearchQueryChange = { query ->
+                                    onIntent(OnSearchQueryChange(query))
+                                },
+                                onClose = { onIntent(OnExpandSearchBar(false)) },
+                                searchQuery = state.searchQuery,
+                                onSearchNotExpandedIconClick = {
+                                    onIntent(OnExpandSearchBar(true))
+                                },
+                                isExpanded = state.searchExpanded,
+                                results = state.searchResults,
+                                onItemClick = { geoItem ->
+                                    onIntent(OnSearchedGeoItemCardClick(geoItem))
+                                },
+                                isLoading = state.isLoading,
+                                isGeolocationSearchInProgress = isGeolocationSearchInProgress
                             )
-                            .padding(it)
-                            .verticalScroll(rememberScrollState(initial = 0), enabled = true),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        }
                     ) {
                         Column(
                             Modifier
-                                .fillMaxWidth(),
+                                .fillMaxWidth()
+                                .windowInsetsPadding(
+                                    WindowInsets.displayCutout.only(
+                                        WindowInsetsSides.Horizontal
+                                    )
+                                )
+                                .padding(it)
+                                .verticalScroll(rememberScrollState(initial = 0), enabled = true),
                             verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.Start
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Header(
-                                state = state,
-                                modifier = Modifier.padding(horizontal = large),
-                                sunriseTime = state.currentWeather.sunriseTime,
-                                sunsetTime = state.currentWeather.sunsetTime,
-                                city = state.city,
-                                country = state.country,
-                                onGeoLocationClick = {
-                                    if (context.isFineLocationPermissionGranted()) {
-                                        onIntent(OnGeolocationIconClick)
-                                    } else {
-                                        onIntent(OnRequestGeoLocationPermission)
-                                    }
-                                }
-                            )
-                            with(context) {
-                                MainCardMedium(
+                            Column(
+                                Modifier
+                                    .fillMaxWidth(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.Start
+                            ) {
+                                Header(
+                                    state = state,
                                     modifier = Modifier.padding(horizontal = large),
-                                    temperature = state.currentWeather.temperature.value.asLocalizedUnitValueString(
-                                        state.currentWeather.temperature.unit,
-                                        this
-                                    ),
-                                    weatherName = state.currentWeather.weatherStatus.asLocalizedUiWeatherMap(
-                                        state.currentWeather.isDay
-                                    ).second,
-                                    weatherImage = state.currentWeather.weatherStatus.asLocalizedUiWeatherMap(
-                                        state.currentWeather.isDay
-                                    ).first,
-                                    temperatureFeelsLike = state.currentWeather.temperatureFeelsLike.value.asLocalizedUnitValueString(
-                                        state.currentWeather.temperatureFeelsLike.unit,
-                                        this
-                                    ),
+                                    sunriseTime = state.currentWeather.sunriseTime,
+                                    sunsetTime = state.currentWeather.sunsetTime,
+                                    city = state.city,
+                                    country = state.country,
+                                    onGeoLocationClick = {
+                                        if (context.isFineLocationPermissionGranted()) {
+                                            onIntent(OnGeolocationIconClick)
+                                        } else {
+                                            onIntent(OnRequestGeoLocationPermission)
+                                        }
+                                    }
                                 )
-                            }
-                            Spacer(modifier = Modifier.height(ultraLarge))
-                            with(context) {
-                                WeatherProperties(
-                                    humidity = state.currentWeather.humidity.value.asLocalizedUnitValueString(
-                                        state.currentWeather.humidity.unit,
-                                        this
-                                    ),
-                                    windSpeed = state.currentWeather.windSpeed.value.asLocalizedUnitValueString(
-                                        state.currentWeather.windSpeed.unit,
-                                        this
-                                    ),
-                                    windDirection = state.currentWeather.windDirection.asLocalizedString(
-                                        this
-                                    ),
-                                    windGust = state.currentWeather.windGust.value.asLocalizedUnitValueString(
-                                        state.currentWeather.windGust.unit,
-                                        this
-                                    ),
-                                    precipitation = state.currentWeather.precipitation.value.asLocalizedUnitValueString(
-                                        state.currentWeather.precipitation.unit,
-                                        this
-                                    ),
-                                    pressureMsl = state.currentWeather.pressureMsl.value.asLocalizedUnitValueString(
-                                        state.currentWeather.pressureMsl.unit,
-                                        this
-                                    ),
-                                    uvIndex = state.currentWeather.uvIndex
+                                with(context) {
+                                    MainCardMedium(
+                                        modifier = Modifier.padding(horizontal = large),
+                                        temperature = state.currentWeather.temperature.value.asLocalizedUnitValueString(
+                                            state.currentWeather.temperature.unit,
+                                            this
+                                        ),
+                                        weatherName = state.currentWeather.weatherStatus.asLocalizedUiWeatherMap(
+                                            state.currentWeather.isDay
+                                        ).second,
+                                        weatherImage = state.currentWeather.weatherStatus.asLocalizedUiWeatherMap(
+                                            state.currentWeather.isDay
+                                        ).first,
+                                        temperatureFeelsLike = state.currentWeather.temperatureFeelsLike.value.asLocalizedUnitValueString(
+                                            state.currentWeather.temperatureFeelsLike.unit,
+                                            this
+                                        ),
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(ultraLarge))
+                                with(context) {
+                                    WeatherProperties(
+                                        humidity = state.currentWeather.humidity.value.asLocalizedUnitValueString(
+                                            state.currentWeather.humidity.unit,
+                                            this
+                                        ),
+                                        windSpeed = state.currentWeather.windSpeed.value.asLocalizedUnitValueString(
+                                            state.currentWeather.windSpeed.unit,
+                                            this
+                                        ),
+                                        windDirection = state.currentWeather.windDirection.asLocalizedString(
+                                            this
+                                        ),
+                                        windGust = state.currentWeather.windGust.value.asLocalizedUnitValueString(
+                                            state.currentWeather.windGust.unit,
+                                            this
+                                        ),
+                                        precipitation = state.currentWeather.precipitation.value.asLocalizedUnitValueString(
+                                            state.currentWeather.precipitation.unit,
+                                            this
+                                        ),
+                                        pressureMsl = state.currentWeather.pressureMsl.value.asLocalizedUnitValueString(
+                                            state.currentWeather.pressureMsl.unit,
+                                            this
+                                        ),
+                                        uvIndex = state.currentWeather.uvIndex
+                                    )
+                                }
+
+                                TodayRowTitle(
+                                    state = state,
+                                    modifier = Modifier.padding(horizontal = large),
+                                    onNextSevenDaysClick = {
+                                        onIntent(OnNavigateToWeekly(state.city))
+                                    },
                                 )
+                                Spacer(modifier = Modifier.height(ultraLarge))
                             }
 
-                            TodayRowTitle(
-                                state = state,
-                                modifier = Modifier.padding(horizontal = large),
-                                onNextSevenDaysClick = {
-                                    onIntent(OnNavigateToWeekly(state.city))
-                                },
-                            )
-                            Spacer(modifier = Modifier.height(ultraLarge))
-                        }
-
-                        LazyRow(
-                            state = rowState
-                        ) {
-                            items(items = state.currentWeather.hourlyList) { item: HourlyModelItem ->
-                                SharedHourlyComponent(
-                                    modifier = Modifier.padding(medium),
-                                    image = item.weatherCode.asLocalizedUiWeatherMap(isDay = item.isDay).first,
-                                    text = item.temperature.value.asLocalizedUnitValueString(
-                                        unit = item.temperature.unit,
-                                        context = context
-                                    ),
-                                    timeText = item.time,
-                                    isNow = item.isNow,
-                                )
+                            LazyRow(
+                                state = rowState
+                            ) {
+                                items(items = state.currentWeather.hourlyList) { item: HourlyModelItem ->
+                                    SharedHourlyComponent(
+                                        modifier = Modifier.padding(medium),
+                                        image = item.weatherCode.asLocalizedUiWeatherMap(isDay = item.isDay).first,
+                                        text = item.temperature.value.asLocalizedUnitValueString(
+                                            unit = item.temperature.unit,
+                                            context = context
+                                        ),
+                                        timeText = item.time,
+                                        isNow = item.isNow,
+                                    )
+                                }
                             }
                         }
                     }
                 }
+
             }
 
             else -> Unit

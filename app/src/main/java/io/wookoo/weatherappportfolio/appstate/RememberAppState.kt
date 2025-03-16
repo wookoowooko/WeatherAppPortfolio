@@ -15,8 +15,8 @@ import kotlinx.coroutines.flow.stateIn
 @Composable
 fun rememberAppState(
     networkMonitor: IConnectivityObserver,
-    coroutineScope: CoroutineScope = rememberCoroutineScope(),
     dataStore: IDataStoreRepo,
+    coroutineScope: CoroutineScope = rememberCoroutineScope(),
 ): AppState {
     return remember(
         networkMonitor,

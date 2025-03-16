@@ -19,6 +19,14 @@ interface CurrentWeatherDao {
     @Query("SELECT * FROM geo_entity WHERE geo_name_id = :geoItemId")
     fun getCurrentWeather(geoItemId: Long): Flow<WeatherWithDetails?>
 
+    @Query("SELECT geo_name_id FROM geo_entity")
+    fun getCurrentWeatherIds(): Flow<List<Long>>
+
+    @Transaction
+    @Query("SELECT * FROM geo_entity")
+    fun getAllCitiesCurrentWeather(): Flow<List<WeatherWithDetails>>
+
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGeo(geo: GeoEntity): Long
 

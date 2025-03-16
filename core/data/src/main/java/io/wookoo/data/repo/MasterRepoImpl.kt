@@ -110,6 +110,10 @@ class MasterRepoImpl @Inject constructor(
             }.flowOn(ioDispatcher)
     }
 
+    override fun getCurrentWeatherIds(): Flow<List<Long>> {
+        return currentWeatherDao.getCurrentWeatherIds().flowOn(ioDispatcher)
+    }
+
     override suspend fun syncWeeklyWeather(
         latitude: Double,
         longitude: Double,
