@@ -20,6 +20,9 @@ class MainPageReducer @Inject constructor(
     override fun reduce(state: MainPageState, intent: MainPageIntent): MainPageState {
         return when (intent) {
             is OnLoading -> state.copy(isLoading = true)
+            is UpdateCityListCount -> state.copy(cityListCount = intent.count)
+            is SetPagerPosition -> state.copy(pagerPosition = intent.position)
+
 
             is OnExpandSearchBar -> state.copy(searchExpanded = intent.expandValue)
             is OnSearchQueryChange -> state.copy(searchQuery = intent.query)

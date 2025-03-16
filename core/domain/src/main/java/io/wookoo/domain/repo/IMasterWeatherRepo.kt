@@ -21,6 +21,8 @@ interface IMasterWeatherRepo {
 
     fun weeklyWeather(geoNameId: Long): Flow<WeeklyWeatherResponseModel>
 
+    fun getCurrentWeatherIds(): Flow<List<Long>>
+
     suspend fun syncWeeklyWeather(
         latitude: Double,
         longitude: Double,

@@ -15,4 +15,6 @@ data class MainPageState(
     val userSettings: UserSettingsModel = UserSettingsModel(),
     val isGeolocationSearchInProgress: Boolean = false,
     val currentWeather: UiCurrentWeatherModel = UiCurrentWeatherModel(),
+    val cityListCount: Int = 0,
+    val pagerPosition: Int = 0
 )

@@ -18,13 +18,12 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.WhileSubscribed
+import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMap
-import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
@@ -33,7 +32,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-private const val TAG = "MainPageStore"
 
 class MainPageStore @Inject constructor(
     @StoreViewModelScope private val storeScope: CoroutineScope,
@@ -57,7 +55,9 @@ class MainPageStore @Inject constructor(
     override fun initializeObservers() {
         observeSearchQuery()
         observeUserGeolocationChanges()
-        observeCurrentWeather()
+//        observeCurrentWeather()
+        viewPagerCount
+        observeCurrentWeather2()
     }
 
     override fun handleSideEffects(intent: MainPageIntent) {
@@ -67,6 +67,45 @@ class MainPageStore @Inject constructor(
             else -> Unit
         }
     }
+
+    val viewPagerCount = masterRepository.getCurrentWeatherIds()
+        .distinctUntilChanged()
+        .onEach {
+            Log.d(TAG, "listSize: $it")
+            Log.d(TAG, "listSize: ${it.size}")
+            dispatch(UpdateCityListCount(it.size))
+        }
+        .stateIn(
+            storeScope,
+            SharingStarted.Eagerly,
+            initialValue = emptyList()
+        )
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun observeCurrentWeather2() {
+        viewPagerCount
+            .flatMapLatest { geoNameIds ->
+                if (geoNameIds.isEmpty()) {
+                    return@flatMapLatest flowOf()
+                }
+
+                state.map { it.pagerPosition }
+                    .distinctUntilChanged()
+                    .flatMapLatest { index ->
+                        if (index in geoNameIds.indices) {
+                            Log.d(TAG, "observeCurrentWeather2: index = $index, geoNameIds = $geoNameIds")
+                            masterRepository.currentWeather(geoNameIds[index])
+                        } else {
+                            flowOf()
+                        }
+                    }
+            }
+            .onEach { currentWeather ->
+                dispatch(OnSuccessFetchCurrentWeatherFromApi(currentWeather))
+            }
+            .launchIn(storeScope)
+    }
+
 
     private suspend fun onSearchedGeoItemCardClick(intent: OnSearchedGeoItemCardClick) {
         dispatch(OnLoading)
@@ -150,7 +189,6 @@ class MainPageStore @Inject constructor(
             }
             .launchIn(storeScope)
     }
-
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
