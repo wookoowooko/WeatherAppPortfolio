@@ -56,7 +56,7 @@ class WelcomePageReducer @Inject constructor() :
                             )
                         }
 
-                        is OnQueryIsEmpty -> it.copy(results = emptyList())
+                        is OnQueryIsEmptyClearResults -> it.copy(results = emptyList())
                         else -> it
                     }
                 }

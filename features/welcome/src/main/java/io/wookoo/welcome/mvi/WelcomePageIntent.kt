@@ -8,7 +8,7 @@ interface Completable : WelcomePageIntent
 
 // Unit And Error Completable
 data object OnLoadingFinish : Completable
-data object OnQueryIsEmpty : Completable
+data object OnQueryIsEmptyClearResults : Completable
 data object OnErrorUpdateGeolocationFromGpsSensors : Completable
 data object OnErrorFetchReversGeocodingFromApi : Completable
 data object OnErrorSearchLocation : Completable

@@ -32,5 +32,6 @@ private fun CitiesScreenRoot(
 
     CitiesScreen(
         state = state,
+        onIntent = viewModel::onIntent
     )
 }

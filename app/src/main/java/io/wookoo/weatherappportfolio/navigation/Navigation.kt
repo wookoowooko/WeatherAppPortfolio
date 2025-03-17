@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import io.wookoo.cities.navigation.CitiesRoute
 import io.wookoo.cities.navigation.citiesScreen
 import io.wookoo.domain.settings.UserSettingsModel
+import io.wookoo.main.navigation.MainRoute
 import io.wookoo.main.navigation.mainPage
 import io.wookoo.weekly.navigation.navigateToWeeklyPage
 import io.wookoo.weekly.navigation.weeklyPage

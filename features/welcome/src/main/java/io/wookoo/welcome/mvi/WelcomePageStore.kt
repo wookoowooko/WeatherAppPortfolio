@@ -60,7 +60,6 @@ class WelcomePageStore @Inject constructor(
 
     override fun handleSideEffects(intent: WelcomePageIntent) {
         when (intent) {
-            is OnSearchQueryChange -> searchLocationFromApi(intent.query)
             is OnSearchGeoLocationClick -> getGeolocationFromGpsSensors()
             is OnContinueButtonClick -> saveUserLocationToDataStore()
             is OnAppBarExpandChange ->
@@ -82,7 +81,7 @@ class WelcomePageStore @Inject constructor(
                     searchJob?.cancel()
                     searchJob = searchLocationFromApi(query)
                 } else {
-                    dispatch(OnQueryIsEmpty)
+                    dispatch(OnQueryIsEmptyClearResults)
                 }
             }
             .launchIn(storeScope)
