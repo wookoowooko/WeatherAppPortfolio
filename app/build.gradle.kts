@@ -34,6 +34,7 @@ dependencies {
         implementation(features.main)
         implementation(features.welcome)
         implementation(features.weekly)
+        implementation(features.cities)
     }
 
     libs.apply {

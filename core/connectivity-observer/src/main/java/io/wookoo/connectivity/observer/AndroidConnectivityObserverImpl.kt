@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-
 class AndroidConnectivityObserverImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
@@ -59,7 +58,6 @@ class AndroidConnectivityObserverImpl @Inject constructor(
 
         connectivityManager.registerDefaultNetworkCallback(callback)
 
-
         trySend(connectivityManager.isCurrentlyConnected())
 
         awaitClose {
@@ -68,7 +66,6 @@ class AndroidConnectivityObserverImpl @Inject constructor(
     }
         .flowOn(ioDispatcher)
         .conflate()
-
 }
 
 @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)

@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-
 @Entity(tableName = "geo_entity")
 data class GeoEntity(
 
@@ -21,4 +20,3 @@ data class GeoEntity(
     @ColumnInfo("timezone")
     val timezone: String,
 )
-

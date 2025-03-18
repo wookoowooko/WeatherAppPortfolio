@@ -62,11 +62,11 @@ class MasterRepoImpl @Inject constructor(
             .flowOn(ioDispatcher)
     }
 
+    @Suppress("ReturnCount")
     override suspend fun syncCurrentWeather(
         latitude: Double,
         longitude: Double,
     ): EmptyResult<DataError> {
-
         val geoResult = reverseGeoCodingRemoteDataSource.getReversedSearchedLocation(
             latitude,
             longitude,
@@ -81,16 +81,14 @@ class MasterRepoImpl @Inject constructor(
         val weatherResult = weatherRemoteDataSource.getCurrentWeather(latitude, longitude)
             .onError { return AppResult.Error(it) }
 
-
         val remoteWeather = (weatherResult as AppResult.Success).data
         val geoData = (geoResult as AppResult.Success).data.geonames?.firstOrNull()
-
 
         val geo = GeoEntity(
             timezone = remoteWeather.timezone,
             geoNameId = geoData?.geoNameId ?: 0,
-            countryName = geoData?.countryName ?: "",
-            cityName = geoData?.name ?: "",
+            countryName = geoData?.countryName.orEmpty(),
+            cityName = geoData?.name.orEmpty(),
         )
 
         currentWeatherDao.insertFullWeather(
@@ -114,11 +112,19 @@ class MasterRepoImpl @Inject constructor(
         return currentWeatherDao.getCurrentWeatherIds().flowOn(ioDispatcher)
     }
 
+    override fun getAllCitiesCurrentWeather(): Flow<List<CurrentWeatherResponseModel>> {
+        return currentWeatherDao.getAllCitiesCurrentWeather().mapNotNull {
+            it.map { weather ->
+                weather.asCurrentWeatherResponseModel()
+            }
+        }.flowOn(ioDispatcher)
+    }
+
+    @Suppress("ReturnCount")
     override suspend fun syncWeeklyWeather(
         latitude: Double,
         longitude: Double,
     ): EmptyResult<DataError> {
-
         Log.d(TAG, "syncWeeklyWeather")
 
         val geoResult = reverseGeoCodingRemoteDataSource.getReversedSearchedLocation(
@@ -153,7 +159,6 @@ class MasterRepoImpl @Inject constructor(
 
         return AppResult.Success(Unit)
     }
-
 
     override suspend fun getSearchedLocation(
         query: String,
@@ -199,6 +204,3 @@ class MasterRepoImpl @Inject constructor(
         }
     }
 }
-
-
-

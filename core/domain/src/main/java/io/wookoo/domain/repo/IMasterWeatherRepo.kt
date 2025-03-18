@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface IMasterWeatherRepo {
 
-
     fun currentWeather(geoNameId: Long): Flow<CurrentWeatherResponseModel>
 
     suspend fun syncCurrentWeather(
@@ -23,11 +22,12 @@ interface IMasterWeatherRepo {
 
     fun getCurrentWeatherIds(): Flow<List<Long>>
 
+    fun getAllCitiesCurrentWeather(): Flow<List<CurrentWeatherResponseModel>>
+
     suspend fun syncWeeklyWeather(
         latitude: Double,
         longitude: Double,
     ): EmptyResult<DataError>
-
 
     suspend fun getSearchedLocation(
         query: String,
@@ -44,5 +44,4 @@ interface IMasterWeatherRepo {
         latitude: Double,
         longitude: Double,
     ): AppResult<WeeklyWeatherResponseModel, DataError.Remote>
-
 }

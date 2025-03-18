@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,6 +19,7 @@ import io.wookoo.designsystem.ui.components.SharedHeadlineText
 import io.wookoo.designsystem.ui.components.SharedSurfaceIcon
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.medium
+import io.wookoo.designsystem.ui.theme.size_30
 import io.wookoo.designsystem.ui.theme.size_40
 import io.wookoo.designsystem.ui.theme.small
 import io.wookoo.designsystem.ui.theme.ultraSmall
@@ -49,14 +51,20 @@ internal fun Header(
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
             ) {
                 if (!state.isGeolocationSearchInProgress) {
-                    SharedSurfaceIcon(
-                        onClick = onGeoLocationClick,
+//                    SharedSurfaceIcon(
+//                        onClick = onGeoLocationClick,
+//                        modifier = Modifier
+//                            .padding(end = small)
+//                            .size(size_40),
+//                        iconPadding = ultraSmall,
+//                        icon = Icons.Default.LocationOn,
+//                    )
+
+                    Icon(Icons.Default.LocationOn, null,
                         modifier = Modifier
                             .padding(end = small)
-                            .size(size_40),
-                        iconPadding = ultraSmall,
-                        icon = Icons.Default.LocationOn,
-                    )
+                            .size(size_30)
+                        )
                 } else {
                     CircularProgressIndicator(
                         modifier = Modifier

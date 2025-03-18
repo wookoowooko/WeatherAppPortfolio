@@ -15,7 +15,7 @@ import io.wookoo.network.dto.weather.current.CurrentWeatherDto
 import io.wookoo.network.dto.weather.current.DailyDto
 import io.wookoo.network.dto.weather.current.HourlyDto
 
-//fun WeatherEntity.asWeatherResponseModel(): CurrentWeatherResponseModel {
+// fun WeatherEntity.asWeatherResponseModel(): CurrentWeatherResponseModel {
 //    return CurrentWeatherResponseModel(
 //        cityName = cityName,
 //        countryName = countryName,
@@ -25,11 +25,9 @@ import io.wookoo.network.dto.weather.current.HourlyDto
 //        hourly = hourly.asHourlyModel(),
 //        daily = daily.asDailyModel()
 //    )
-//}
+// }
 
-
-
- fun CurrentWeatherDto.asCurrentWeatherEntity(): CurrentWeatherEntity {
+fun CurrentWeatherDto.asCurrentWeatherEntity(): CurrentWeatherEntity {
     return CurrentWeatherEntity(
         time = time,
         temperature = temperature,
@@ -51,8 +49,6 @@ import io.wookoo.network.dto.weather.current.HourlyDto
     )
 }
 
-
-
 fun WeatherWithDetails.asCurrentWeatherResponseModel(): CurrentWeatherResponseModel {
     return CurrentWeatherResponseModel(
         cityName = geo.cityName,
@@ -65,8 +61,7 @@ fun WeatherWithDetails.asCurrentWeatherResponseModel(): CurrentWeatherResponseMo
     )
 }
 
-
- fun CurrentWeatherEntity.asCurrentDayModel(): CurrentDayModel {
+fun CurrentWeatherEntity.asCurrentDayModel(): CurrentDayModel {
     return CurrentDayModel(
         time = time,
         temperature = temperature,
@@ -90,9 +85,7 @@ fun WeatherWithDetails.asCurrentWeatherResponseModel(): CurrentWeatherResponseMo
     )
 }
 
-
-
- fun HourlyEntity.asHourlyModel(): HourlyModel {
+fun HourlyEntity.asHourlyModel(): HourlyModel {
     return HourlyModel(
         time = time,
         temperature = temperature,
@@ -101,7 +94,7 @@ fun WeatherWithDetails.asCurrentWeatherResponseModel(): CurrentWeatherResponseMo
     )
 }
 
- fun HourlyDto.asHourlyEntity(): HourlyEntity {
+fun HourlyDto.asHourlyEntity(): HourlyEntity {
     return HourlyEntity(
         time = time,
         temperature = temperature,
@@ -111,8 +104,6 @@ fun WeatherWithDetails.asCurrentWeatherResponseModel(): CurrentWeatherResponseMo
         id = 0
     )
 }
-
-
 
 fun DailyEntity.asDailyModel(): DailyModel {
     return DailyModel(
@@ -124,7 +115,7 @@ fun DailyEntity.asDailyModel(): DailyModel {
     )
 }
 
- fun DailyDto.asDailyEntity(): DailyEntity {
+fun DailyDto.asDailyEntity(): DailyEntity {
     return DailyEntity(
         uvIndexMax = uvIndexMax,
         sunrise = sunrise,

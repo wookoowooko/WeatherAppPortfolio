@@ -1,6 +1,7 @@
 package io.wookoo.common.mvi
 
 import io.wookoo.domain.annotations.StoreViewModelScope
+import io.wookoo.domain.model.weather.current.CurrentWeatherResponseModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -8,17 +9,21 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+@Suppress("UnnecessaryAbstractClass")
 abstract class Store<State, Intent, Effect>(
     @StoreViewModelScope private val storeScope: CoroutineScope,
     initialState: State,
     private val reducer: Reducer<State, Intent>,
 ) : StoreDispatcher<Intent> {
     private val _state = MutableStateFlow(initialState)
+
     protected val state: StateFlow<State> = _state.onStart {
         initializeObservers()
     }.stateIn(
@@ -48,7 +53,7 @@ abstract class Store<State, Intent, Effect>(
         handleSideEffects(intent)
     }
 
-    protected open fun handleSideEffects(intent: Intent){}
+    protected open fun handleSideEffects(intent: Intent) {}
     protected open fun initializeObservers() {}
     open fun clear() {}
 

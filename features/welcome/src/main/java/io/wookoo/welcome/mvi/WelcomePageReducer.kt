@@ -1,6 +1,5 @@
 package io.wookoo.welcome.mvi
 
-import android.adservices.signals.UpdateSignalsRequest
 import io.wookoo.common.mvi.Reducer
 import javax.inject.Inject
 
@@ -43,8 +42,6 @@ class WelcomePageReducer @Inject constructor() :
             is Completable ->
                 state.copy(isLoading = false, isGeolocationSearchInProgress = false).let {
                     when (intent) {
-
-
                         is OnErrorFetchReversGeocodingFromApi -> it.copy(city = "", country = "")
                         is OnSuccessFetchReversGeocodingFromApi -> it.copy(
                             city = intent.city,
@@ -59,7 +56,7 @@ class WelcomePageReducer @Inject constructor() :
                             )
                         }
 
-                        is OnQueryIsEmpty -> it.copy(results = emptyList())
+                        is OnQueryIsEmptyClearResults -> it.copy(results = emptyList())
                         else -> it
                     }
                 }
