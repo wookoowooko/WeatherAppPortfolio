@@ -45,7 +45,6 @@ class WeeklyStore @Inject constructor(
         synchronizeWeatherOnStart()
     }
 
-
     private fun observeSelectedDayPositionChanged() {
         Log.d(TAG, "observeSelectedDayPositionChanged")
         state.map { it.selectedCalendarItemIndex }
@@ -68,7 +67,6 @@ class WeeklyStore @Inject constructor(
             }
             .launchIn(storeScope)
     }
-
 
     private fun synchronizeWeatherOnStart() {
         settings
@@ -93,7 +91,6 @@ class WeeklyStore @Inject constructor(
             }
         }
     }
-
 
 //    private fun observeWeeklyWeatherFromApi() {
 //        dispatch(OnLoading)
@@ -123,6 +120,4 @@ class WeeklyStore @Inject constructor(
     companion object {
         private const val TAG = "WeeklyStore"
     }
-
 }
-

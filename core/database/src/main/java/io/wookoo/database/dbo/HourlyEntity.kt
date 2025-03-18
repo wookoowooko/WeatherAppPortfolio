@@ -6,7 +6,8 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity("hourly",
+@Entity(
+    "hourly",
     foreignKeys = [
         ForeignKey(
             entity = GeoEntity::class,
@@ -19,7 +20,7 @@ import androidx.room.PrimaryKey
 )
 data class HourlyEntity(
     @PrimaryKey(autoGenerate = true)
-     val id: Long,
+    val id: Long,
 
     @ColumnInfo("hourlyId")
     var hourlyId: Long,
@@ -36,5 +37,3 @@ data class HourlyEntity(
     @ColumnInfo("is_day")
     val isDay: List<Int>,
 )
-
-

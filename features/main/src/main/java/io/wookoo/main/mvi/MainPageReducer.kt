@@ -23,7 +23,6 @@ class MainPageReducer @Inject constructor(
             is UpdateCityListCount -> state.copy(cityListCount = intent.count)
             is SetPagerPosition -> state.copy(pagerPosition = intent.position)
 
-
             is OnExpandSearchBar -> state.copy(searchExpanded = intent.expandValue)
             is OnSearchQueryChange -> state.copy(searchQuery = intent.query)
             is OnGeolocationIconClick -> state.copy(isGeolocationSearchInProgress = true)

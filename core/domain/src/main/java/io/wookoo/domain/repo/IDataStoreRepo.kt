@@ -15,6 +15,5 @@ interface IDataStoreRepo {
 
     suspend fun saveGeoNameId(geoNameId: Long): AppResult<Unit, DataError.Local>
 
-
     suspend fun saveInitialLocationPicked(boolean: Boolean): AppResult<Unit, DataError.Local>
 }

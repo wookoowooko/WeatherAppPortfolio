@@ -17,5 +17,4 @@ interface WeeklyWeatherDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWeeklyWeather(weeklyWeatherEntity: WeeklyWeatherEntity)
-
 }

@@ -26,7 +26,6 @@ interface CurrentWeatherDao {
     @Query("SELECT * FROM geo_entity")
     fun getAllCitiesCurrentWeather(): Flow<List<WeatherWithDetails>>
 
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGeo(geo: GeoEntity): Long
 
@@ -38,7 +37,6 @@ interface CurrentWeatherDao {
 
     @Insert
     suspend fun insertDaily(daily: DailyEntity)
-
 
     @Transaction
     suspend fun insertFullWeather(

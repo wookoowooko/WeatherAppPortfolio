@@ -53,7 +53,6 @@ class WelcomePageStore @Inject constructor(
             false
         )
 
-
     override fun initializeObservers() {
         observeLocationChanges()
         observeSearchQuery()
@@ -61,7 +60,6 @@ class WelcomePageStore @Inject constructor(
 
     override fun handleSideEffects(intent: WelcomePageIntent) {
         when (intent) {
-            is OnSearchQueryChange -> searchLocationFromApi(intent.query)
             is OnSearchGeoLocationClick -> getGeolocationFromGpsSensors()
             is OnContinueButtonClick -> saveUserLocationToDataStore()
             is OnAppBarExpandChange ->
@@ -71,7 +69,7 @@ class WelcomePageStore @Inject constructor(
         }
     }
 
-    //Observers
+    // Observers
     @OptIn(FlowPreview::class)
     private fun observeSearchQuery() {
         state
@@ -83,7 +81,7 @@ class WelcomePageStore @Inject constructor(
                     searchJob?.cancel()
                     searchJob = searchLocationFromApi(query)
                 } else {
-                    dispatch(OnQueryIsEmpty)
+                    dispatch(OnQueryIsEmptyClearResults)
                 }
             }
             .launchIn(storeScope)
@@ -101,8 +99,7 @@ class WelcomePageStore @Inject constructor(
             .launchIn(storeScope)
     }
 
-
-    //Functions
+    // Functions
     private fun searchLocationFromApi(query: String) = storeScope.launch {
         dispatch(OnLoading)
         masterRepository.getSearchedLocation(query, language = "ru")
@@ -136,8 +133,6 @@ class WelcomePageStore @Inject constructor(
             )
         }
     }
-
-
 
     private fun fetchReversGeocoding() = storeScope.launch {
         dispatch(OnLoading)

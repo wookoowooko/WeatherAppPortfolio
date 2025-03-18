@@ -8,7 +8,7 @@ interface Completable : WelcomePageIntent
 
 // Unit And Error Completable
 data object OnLoadingFinish : Completable
-data object OnQueryIsEmpty : Completable
+data object OnQueryIsEmptyClearResults : Completable
 data object OnErrorUpdateGeolocationFromGpsSensors : Completable
 data object OnErrorFetchReversGeocodingFromApi : Completable
 data object OnErrorSearchLocation : Completable
@@ -36,5 +36,3 @@ data class OnSearchQueryChange(val query: String) : WelcomePageIntent
 data class OnSearchedGeoItemClick(val geoItem: GeocodingSearchModel) : WelcomePageIntent
 data class OnAppBarExpandChange(val state: Boolean) : WelcomePageIntent
 data class OnUpdateNetworkState(val isOffline: Boolean) : WelcomePageIntent
-
-
