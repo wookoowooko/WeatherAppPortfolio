@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import io.wookoo.common.ext.asLocalizedString
 import io.wookoo.main.mvi.MainPageEffect
 import io.wookoo.main.mvi.MainPageViewModel
+import io.wookoo.main.mvi.OnNavigateToCities
 import io.wookoo.main.mvi.OnNavigateToWeekly
 import io.wookoo.main.mvi.OnRequestGeoLocationPermission
 import io.wookoo.main.screen.MainPageScreen
@@ -26,13 +27,15 @@ data object MainRoute
 
 fun NavGraphBuilder.mainPage(
     onRequestLocationPermissions: () -> Unit,
-    onNavigate: (lat: Double, lon: Double, geoItemId: Long) -> Unit,
+    onNavigateToWeekly: (lat: Double, lon: Double, geoItemId: Long) -> Unit,
+    onNavigateToCities: () -> Unit,
     onShowSnackBar: (String) -> Unit,
 ) {
     composable<MainRoute> {
         MainPageScreenRoot(
             onRequestLocationPermissions = onRequestLocationPermissions,
-            onNavigate = onNavigate,
+            onNavigateToWeekly = onNavigateToWeekly,
+            onNavigateToCities = onNavigateToCities,
             onShowSnackBar = onShowSnackBar
         )
     }
@@ -42,7 +45,8 @@ fun NavGraphBuilder.mainPage(
 private fun MainPageScreenRoot(
     viewModel: MainPageViewModel = hiltViewModel(),
     onRequestLocationPermissions: () -> Unit,
-    onNavigate: (lat: Double, lon: Double, geoItemId: Long) -> Unit,
+    onNavigateToWeekly: (lat: Double, lon: Double, geoItemId: Long) -> Unit,
+    onNavigateToCities: () -> Unit,
     onShowSnackBar: (String) -> Unit,
 ) {
     val owner = LocalLifecycleOwner.current
@@ -75,11 +79,12 @@ private fun MainPageScreenRoot(
         onIntent = { intent ->
             when (intent) {
                 OnRequestGeoLocationPermission -> onRequestLocationPermissions()
-                is OnNavigateToWeekly -> onNavigate(
+                is OnNavigateToWeekly -> onNavigateToWeekly(
                     intent.latitude,
                     intent.longitude,
                     intent.geoItemId
                 )
+                is OnNavigateToCities -> onNavigateToCities()
                 else -> Unit
             }
             viewModel.onIntent(intent)

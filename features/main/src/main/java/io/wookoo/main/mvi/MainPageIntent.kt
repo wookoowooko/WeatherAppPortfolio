@@ -28,6 +28,7 @@ data object OnGeolocationIconClick : MainPageIntent
 data object OnRequestGeoLocationPermission : MainPageIntent
 data class OnNavigateToWeekly(val latitude: Double, val longitude: Double, val geoItemId: Long) :
     MainPageIntent
+data object OnNavigateToCities : MainPageIntent
 
 // data MainPageIntent
 data class OnSearchQueryChange(val query: String) : MainPageIntent

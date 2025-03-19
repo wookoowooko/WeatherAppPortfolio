@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
@@ -24,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.common.ext.asLocalizedString
 import io.wookoo.common.ext.asLocalizedUiWeatherMap
@@ -83,12 +85,14 @@ fun MainPageScreen(
                     modifier = Modifier
                         .fillMaxSize(),
                     bottomBar = {
-                        BottomContent(onIntent, state, pagerState)
+                        BottomAppBar {
+                            BottomContent(onIntent, state, pagerState)
+                        }
                     },
                     topBar = {
                         TopAppBar(
                             title = {
-                                SharedText("Погода")
+                                SharedText(stringResource(io.wookoo.androidresources.R.string.weather_app_bar_title))
                             }
                         )
 
@@ -114,7 +118,8 @@ fun MainPageScreen(
                     HorizontalPager(
                         state = pagerState,
                         modifier = Modifier
-                            .fillMaxSize().padding(paddings)
+                            .fillMaxSize()
+                            .padding(paddings)
                     ) {
                         LazyColumn(
                             Modifier
@@ -215,7 +220,7 @@ fun MainPageScreen(
                                 }
                             }
                             item {
-                                HourlyRow(state)
+                                HourlyRow(state, modifier = Modifier.padding(bottom = large))
                             }
                         }
                     }

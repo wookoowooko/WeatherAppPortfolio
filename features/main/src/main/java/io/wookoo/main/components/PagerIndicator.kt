@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
@@ -13,6 +14,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.wookoo.designsystem.ui.theme.medium
+import io.wookoo.designsystem.ui.theme.small
+import io.wookoo.designsystem.ui.theme.ultraSmall
 
 @Composable
 fun PagerIndicator(
@@ -29,9 +33,10 @@ fun PagerIndicator(
             val color = if (currentPageIndex == iteration) Color.DarkGray else Color.LightGray
             Box(
                 modifier = Modifier
+                    .padding(ultraSmall)
                     .clip(CircleShape)
                     .background(color)
-                    .size(8.dp)
+                    .size(medium)
                     .clickable { onPagerIndicatorClick(iteration) }
             )
         }
