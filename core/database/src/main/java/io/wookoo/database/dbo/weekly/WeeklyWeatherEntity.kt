@@ -11,6 +11,9 @@ data class WeeklyWeatherEntity(
     @ColumnInfo("geo_name_id")
     val geoNameId: Long,
 
+    @ColumnInfo("city_name")
+    val cityName: String,
+
     @ColumnInfo("is_day")
     val isDay: Boolean,
 
@@ -70,4 +73,14 @@ data class WeeklyWeatherEntity(
 
     @ColumnInfo("wind_direction_10m_dominant")
     val windDirectionMax: List<Double>,
-)
+
+    @ColumnInfo("latitude")
+    val latitude: Double,
+
+    @ColumnInfo("longitude")
+    val longitude: Double,
+
+    @ColumnInfo("last_update")
+    val lastUpdate: Long = System.currentTimeMillis()
+
+    )

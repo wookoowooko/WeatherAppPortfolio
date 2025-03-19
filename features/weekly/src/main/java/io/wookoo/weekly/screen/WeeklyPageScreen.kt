@@ -17,18 +17,27 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.core.os.bundleOf
 import androidx.fragment.compose.AndroidFragment
 import androidx.fragment.compose.rememberFragmentState
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.toRoute
 import io.wookoo.designsystem.ui.components.SharedText
+import io.wookoo.weekly.navigation.WeeklyRoute
+import io.wookoo.weekly.screen.RouteConsts.GEO_ITEM_ID_KEY
+import io.wookoo.weekly.screen.RouteConsts.LATITUDE_KEY
+import io.wookoo.weekly.screen.RouteConsts.LONGITUDE_KEY
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun WeeklyPageScreen(
     onBackIconClick: () -> Unit,
     onShowSnackBar: (String) -> Unit,
-    cityName: String,
+    navBackStackEntry: NavBackStackEntry,
 ) {
+    val args = navBackStackEntry.toRoute<WeeklyRoute>()
     val state = rememberFragmentState()
+
 
     Scaffold(
         topBar = {
@@ -39,7 +48,7 @@ internal fun WeeklyPageScreen(
                     )
                 ),
                 title = {
-                    SharedText(text = cityName)
+                    SharedText(text = "hz")
                 },
                 navigationIcon = {
                     IconButton(
@@ -52,6 +61,11 @@ internal fun WeeklyPageScreen(
         }
     ) {
         AndroidFragment<WeeklyFragment>(
+            arguments = bundleOf(
+                GEO_ITEM_ID_KEY to args.geoItemId,
+                LATITUDE_KEY to args.latitude,
+                LONGITUDE_KEY to args.longitude,
+            ),
             fragmentState = state,
             modifier = Modifier
                 .fillMaxSize()
@@ -73,4 +87,13 @@ internal fun WeeklyPageScreen(
             fragment.onShowSnackBar = onShowSnackBar
         }
     }
+
 }
+
+internal object RouteConsts {
+    const val GEO_ITEM_ID_KEY = "geoItemId"
+    const val LATITUDE_KEY = "latitude"
+    const val LONGITUDE_KEY = "longitude"
+}
+
+

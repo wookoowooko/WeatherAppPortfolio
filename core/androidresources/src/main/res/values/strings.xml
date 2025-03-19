@@ -108,6 +108,7 @@
     <string name="error_server">Server error</string>
     <string name="error_no_internet">No internet connection</string>
     <string name="error_serialization">Data processing error</string>
+    <string name="error_cant_sync">Sync error</string>
     <string name="error_too_many_requests">Too many requests</string>
     <string name="error_unknown">An unknown error occurred</string>
     <string name="error_disk_full">Storage is full</string>

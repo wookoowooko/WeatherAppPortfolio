@@ -9,6 +9,7 @@ sealed interface DataError : AppError {
         NO_INTERNET,
         SERVER,
         SERIALIZATION,
+        CANT_SYNC,
         UNKNOWN
     }
 

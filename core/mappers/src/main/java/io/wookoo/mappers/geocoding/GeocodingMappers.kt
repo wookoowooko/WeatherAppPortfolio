@@ -1,4 +1,4 @@
-package io.wookoo.data.mappers.geocoding
+package io.wookoo.mappers.geocoding
 
 import io.wookoo.domain.model.geocoding.GeocodingResponseModel
 import io.wookoo.domain.model.geocoding.GeocodingSearchModel

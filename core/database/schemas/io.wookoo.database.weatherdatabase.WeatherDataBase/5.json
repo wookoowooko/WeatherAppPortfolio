@@ -1,0 +1,504 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 5,
+    "identityHash": "6a969ee3601091455695e7b726718be1",
+    "entities": [
+      {
+        "tableName": "geo_entity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`geo_name_id` INTEGER NOT NULL, `city_name` TEXT NOT NULL, `country_name` TEXT NOT NULL, `timezone` TEXT NOT NULL, PRIMARY KEY(`geo_name_id`))",
+        "fields": [
+          {
+            "fieldPath": "geoNameId",
+            "columnName": "geo_name_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cityName",
+            "columnName": "city_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "countryName",
+            "columnName": "country_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timezone",
+            "columnName": "timezone",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "geo_name_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "daily",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dailyId` INTEGER NOT NULL, `sunrise` TEXT NOT NULL, `sunset` TEXT NOT NULL, `uv_index_max` TEXT NOT NULL, FOREIGN KEY(`dailyId`) REFERENCES `geo_entity`(`geo_name_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dailyId",
+            "columnName": "dailyId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sunrise",
+            "columnName": "sunrise",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sunset",
+            "columnName": "sunset",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uvIndexMax",
+            "columnName": "uv_index_max",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_daily_dailyId",
+            "unique": false,
+            "columnNames": [
+              "dailyId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_daily_dailyId` ON `${TABLE_NAME}` (`dailyId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "geo_entity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "dailyId"
+            ],
+            "referencedColumns": [
+              "geo_name_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "hourly",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `hourlyId` INTEGER NOT NULL, `time` TEXT NOT NULL, `temperature_2m` TEXT NOT NULL, `weather_code` TEXT NOT NULL, `is_day` TEXT NOT NULL, FOREIGN KEY(`hourlyId`) REFERENCES `geo_entity`(`geo_name_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hourlyId",
+            "columnName": "hourlyId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "temperature",
+            "columnName": "temperature_2m",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "weatherCode",
+            "columnName": "weather_code",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isDay",
+            "columnName": "is_day",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_hourly_hourlyId",
+            "unique": false,
+            "columnNames": [
+              "hourlyId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_hourly_hourlyId` ON `${TABLE_NAME}` (`hourlyId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "geo_entity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "hourlyId"
+            ],
+            "referencedColumns": [
+              "geo_name_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "current_weather",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `currentId` INTEGER NOT NULL, `time` INTEGER NOT NULL, `temperature_2m` REAL NOT NULL, `relative_humidity_2m` INTEGER NOT NULL, `apparent_temperature` REAL NOT NULL, `is_day` INTEGER NOT NULL, `precipitation` REAL NOT NULL, `rain` REAL NOT NULL, `showers` REAL NOT NULL, `snowfall` REAL NOT NULL, `cloud_cover` INTEGER NOT NULL, `pressure_msl` REAL NOT NULL, `wind_direction_10m` INTEGER NOT NULL, `wind_speed_10m` REAL NOT NULL, `wind_gusts_10m` REAL NOT NULL, `weather_code` INTEGER NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, FOREIGN KEY(`currentId`) REFERENCES `geo_entity`(`geo_name_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentId",
+            "columnName": "currentId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "temperature",
+            "columnName": "temperature_2m",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "relativeHumidity",
+            "columnName": "relative_humidity_2m",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "feelsLike",
+            "columnName": "apparent_temperature",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isDay",
+            "columnName": "is_day",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "precipitation",
+            "columnName": "precipitation",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rain",
+            "columnName": "rain",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "showers",
+            "columnName": "showers",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "snowfall",
+            "columnName": "snowfall",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cloudCover",
+            "columnName": "cloud_cover",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pressureMSL",
+            "columnName": "pressure_msl",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windDirection",
+            "columnName": "wind_direction_10m",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windSpeed",
+            "columnName": "wind_speed_10m",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windGusts",
+            "columnName": "wind_gusts_10m",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "weatherCode",
+            "columnName": "weather_code",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_current_weather_currentId",
+            "unique": false,
+            "columnNames": [
+              "currentId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_current_weather_currentId` ON `${TABLE_NAME}` (`currentId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "geo_entity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "currentId"
+            ],
+            "referencedColumns": [
+              "geo_name_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "weekly_weather",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`geo_name_id` INTEGER NOT NULL, `city_name` TEXT NOT NULL, `is_day` INTEGER NOT NULL, `time` TEXT NOT NULL, `weather_code` TEXT NOT NULL, `temperature_2m_max` TEXT NOT NULL, `temperature_2m_min` TEXT NOT NULL, `apparent_temperature_max` TEXT NOT NULL, `apparent_temperature_min` TEXT NOT NULL, `sunrise` TEXT NOT NULL, `sunset` TEXT NOT NULL, `daylight_duration` TEXT NOT NULL, `sunshine_duration` TEXT NOT NULL, `uv_index_max` TEXT NOT NULL, `precipitation_sum` TEXT NOT NULL, `rain_sum` TEXT NOT NULL, `showers_sum` TEXT NOT NULL, `snowfall_sum` TEXT NOT NULL, `precipitation_probability_max` TEXT NOT NULL, `wind_speed_10m_max` TEXT NOT NULL, `wind_gusts_10m_max` TEXT NOT NULL, `wind_direction_10m_dominant` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `last_update` INTEGER NOT NULL, PRIMARY KEY(`geo_name_id`))",
+        "fields": [
+          {
+            "fieldPath": "geoNameId",
+            "columnName": "geo_name_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cityName",
+            "columnName": "city_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isDay",
+            "columnName": "is_day",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "weatherCode",
+            "columnName": "weather_code",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tempMax",
+            "columnName": "temperature_2m_max",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tempMin",
+            "columnName": "temperature_2m_min",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "apparentTempMax",
+            "columnName": "apparent_temperature_max",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "apparentTempMin",
+            "columnName": "apparent_temperature_min",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sunrise",
+            "columnName": "sunrise",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sunset",
+            "columnName": "sunset",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dayLightDuration",
+            "columnName": "daylight_duration",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sunshineDuration",
+            "columnName": "sunshine_duration",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uvIndexMax",
+            "columnName": "uv_index_max",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "precipitationSum",
+            "columnName": "precipitation_sum",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rainSum",
+            "columnName": "rain_sum",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "showersSum",
+            "columnName": "showers_sum",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "snowfallSum",
+            "columnName": "snowfall_sum",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "precipitationProbabilityMax",
+            "columnName": "precipitation_probability_max",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windSpeedMax",
+            "columnName": "wind_speed_10m_max",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windGustsMax",
+            "columnName": "wind_gusts_10m_max",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windDirectionMax",
+            "columnName": "wind_direction_10m_dominant",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUpdate",
+            "columnName": "last_update",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "geo_name_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6a969ee3601091455695e7b726718be1')"
+    ]
+  }
+}

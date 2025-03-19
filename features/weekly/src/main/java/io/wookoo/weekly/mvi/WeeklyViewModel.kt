@@ -8,6 +8,7 @@ import javax.inject.Inject
 class WeeklyViewModel @Inject constructor(
     private val store: WeeklyStore,
 ) : ViewModel() {
+
     val state = store.createState()
     val sideEffect = store.createSideEffect()
     fun onIntent(intent: WeeklyIntent) = store.dispatch(intent)

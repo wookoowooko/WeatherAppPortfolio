@@ -51,16 +51,11 @@ internal fun BottomContent(
             modifier = Modifier.padding(small),
         ) {
             SharedSurfaceIcon(
-                onClick = {
-                    onIntent(OnNavigateToWeekly(state.city))
-                },
                 iconPadding = small,
                 icon = Icons.Default.AddLocation,
                 modifier = Modifier.size(40.dp)
             )
         }
-
-
 
         LaunchedEffect(pagerState) {
             // Collect from the a snapshotFlow reading the currentPage

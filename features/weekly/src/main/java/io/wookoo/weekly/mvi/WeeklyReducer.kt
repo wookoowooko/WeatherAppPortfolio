@@ -37,13 +37,14 @@ class WeeklyReducer @Inject constructor(
                 state.copy(
                     mainWeatherRecyclerItems = state.mainWeatherRecyclerItems.mapFromResponse(
                         weekResponse = weekResponse,
-                        selectedIndex = intent.selectedIndex,
+                        selectedIndex = state.selectedCalendarItemIndex,
                         convertWeatherCodeToEnumUseCase = convertWeatherCodeToEnumUseCase,
                         formatWindDirectionUseCase = formatWindDirectionUseCase,
                         convertUnixTimeUseCase = convertUnixTimeUseCase
                     )
                 )
             }
+
 
             is OnObserveWeeklyForecast -> {
                 state.copy(

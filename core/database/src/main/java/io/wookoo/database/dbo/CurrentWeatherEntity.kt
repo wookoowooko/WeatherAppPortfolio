@@ -70,4 +70,10 @@ data class CurrentWeatherEntity(
 
     @ColumnInfo("weather_code")
     val weatherCode: Int,
+
+    @ColumnInfo("latitude")
+    val latitude: Double,
+
+    @ColumnInfo("longitude")
+    val longitude: Double,
 )

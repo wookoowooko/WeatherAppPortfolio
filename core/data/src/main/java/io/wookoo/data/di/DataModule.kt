@@ -29,4 +29,5 @@ interface DataModule {
     fun bindsLocationProvider(
         weatherLocationManager: WeatherLocationManager,
     ): ILocationProvider
+
 }

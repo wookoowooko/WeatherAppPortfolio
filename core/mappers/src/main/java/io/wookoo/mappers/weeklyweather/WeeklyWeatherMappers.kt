@@ -1,4 +1,4 @@
-package io.wookoo.data.mappers.weeklyweather
+package io.wookoo.mappers.weeklyweather
 
 import io.wookoo.database.dbo.weekly.WeeklyWeatherEntity
 import io.wookoo.domain.model.weather.current.PrecipitationModel
@@ -13,6 +13,8 @@ import io.wookoo.network.dto.weather.weekly.WeeklyWeatherResponseDto
 
 fun WeeklyWeatherResponseDto.asWeeklyWeatherResponseModel(): WeeklyWeatherResponseModel {
     return WeeklyWeatherResponseModel(
+        latitude = latitude,
+        longitude = longitude,
         currentShort = currentShort.asCurrentWeatherShortResponseModel(),
         weekly = week.asWeeklyWeatherModel()
     )
@@ -23,7 +25,10 @@ fun WeeklyWeatherEntity.asWeeklyWeatherResponseModel(): WeeklyWeatherResponseMod
         currentShort = CurrentWeatherShortModel(
             isDay = isDay
         ),
-        weekly = this.asWeeklyWeatherModel()
+        weekly = this.asWeeklyWeatherModel(),
+        latitude = latitude,
+        longitude = longitude
+
     )
 }
 
@@ -103,7 +108,10 @@ fun WeeklyWeatherEntity.asWeeklyWeatherModel(): WeeklyWeatherModel {
 
 fun WeeklyWeatherDto.asWeeklyWeatherEntity(
     isDay: Boolean,
-    geoNameId: Long
+    geoNameId: Long,
+    latitude: Double,
+    longitude: Double,
+    cityName: String
 ): WeeklyWeatherEntity {
     return WeeklyWeatherEntity(
         time = time,
@@ -126,6 +134,9 @@ fun WeeklyWeatherDto.asWeeklyWeatherEntity(
         windGustsMax = windGustsMax,
         windDirectionMax = windDirectionMax,
         isDay = isDay,
-        geoNameId = geoNameId
+        geoNameId = geoNameId,
+        latitude = latitude,
+        longitude = longitude,
+        cityName = cityName
     )
 }

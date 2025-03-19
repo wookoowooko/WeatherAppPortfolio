@@ -28,6 +28,7 @@ class WeeklyFragment : Fragment() {
 
     var onShowSnackBar: ((String) -> Unit)? = null
 
+
     private val binding by viewBinding(FragmentWeeklyBinding::bind)
     private val viewModel by viewModels<WeeklyViewModel>()
     private val onIntent by lazy {
