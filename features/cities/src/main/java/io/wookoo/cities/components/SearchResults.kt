@@ -54,7 +54,7 @@ internal fun SearchResults(
             SharedLocationItem(
                 countryName = result.country,
                 cityName = result.cityName,
-                urbanArea = result.cityName,
+                urbanArea = result.urbanArea,
                 onClick = {
                     onIntent(OnSearchedGeoItemCardClick(result))
                 }

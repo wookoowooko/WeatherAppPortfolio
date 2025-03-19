@@ -1,5 +1,6 @@
 package io.wookoo.welcome.mvi
 
+import android.util.Log
 import io.wookoo.common.mvi.Store
 import io.wookoo.domain.annotations.StoreViewModelScope
 import io.wookoo.domain.repo.IDataStoreRepo
@@ -19,7 +20,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -54,14 +54,14 @@ class WelcomePageStore @Inject constructor(
         )
 
     override fun initializeObservers() {
-        observeLocationChanges()
+//        observeLocationChanges()
         observeSearchQuery()
     }
 
     override fun handleSideEffects(intent: WelcomePageIntent) {
         when (intent) {
             is OnSearchGeoLocationClick -> getGeolocationFromGpsSensors()
-            is OnContinueButtonClick -> saveUserLocationToDataStore()
+            is OnContinueButtonClick -> storeScope.launch { saveUserOnboardingDone() }
             is OnAppBarExpandChange ->
                 if (state.value.isOffline) emitSideEffect(WelcomeSideEffect.ShowSnackBar(DataError.Remote.NO_INTERNET))
 
@@ -87,17 +87,17 @@ class WelcomePageStore @Inject constructor(
             .launchIn(storeScope)
     }
 
-    private fun observeLocationChanges() {
-        state
-            .map { it.latitude to it.longitude }
-            .distinctUntilChanged()
-            .filter { (lat, lon) -> lat != 0.0 && lon != 0.0 }
-            .onEach {
-                geonamesJob?.cancel()
-                geonamesJob = fetchReversGeocoding()
-            }
-            .launchIn(storeScope)
-    }
+//    private fun observeLocationChanges() {
+//        state
+//            .map { it.latitude to it.longitude }
+//            .distinctUntilChanged()
+//            .filter { (lat, lon) -> lat != 0.0 && lon != 0.0 }
+//            .onEach {
+//                geonamesJob?.cancel()
+//                geonamesJob = fetchReversGeocoding()
+//            }
+//            .launchIn(storeScope)
+//    }
 
     // Functions
     private fun searchLocationFromApi(query: String) = storeScope.launch {
@@ -124,6 +124,10 @@ class WelcomePageStore @Inject constructor(
             weatherLocationManager.getGeolocationFromGpsSensors(
                 onSuccessfullyLocationReceived = { lat, lon ->
                     dispatch(OnSuccessfullyUpdateGeolocationFromGpsSensors(lat, lon))
+                    fetchReversGeocoding(
+                        latitude = lat,
+                        longitude = lon
+                    )
                 },
                 onError = { geoError: AppError ->
                     dispatch(OnErrorUpdateGeolocationFromGpsSensors)
@@ -134,11 +138,14 @@ class WelcomePageStore @Inject constructor(
         }
     }
 
-    private fun fetchReversGeocoding() = storeScope.launch {
+    private fun fetchReversGeocoding(
+        latitude: Double,
+        longitude: Double,
+    ) = storeScope.launch {
         dispatch(OnLoading)
         masterRepository.getReverseGeocodingLocation(
-            latitude = state.value.latitude,
-            longitude = state.value.longitude,
+            latitude = latitude,
+            longitude = longitude,
             language = "ru"
         ).onSuccess { searchResults ->
             dispatch(
@@ -154,28 +161,53 @@ class WelcomePageStore @Inject constructor(
         }
     }
 
-    private fun saveUserLocationToDataStore() {
+    private suspend fun saveUserOnboardingDone() {
+        dispatch(OnLoading)
+        Log.d(TAG, "state: ${state.value.isLoading}") // Теперь должно быть true
         if (isOffline.value) {
             emitSideEffect(WelcomeSideEffect.ShowSnackBar(DataError.Remote.NO_INTERNET))
         } else {
-            dispatch(OnLoading)
-            storeScope.launch {
-                dataStore.saveUserLocation(state.value.latitude, state.value.longitude)
-                    .asEmptyDataResult()
-                    .onSuccess {
-                        dataStore.saveInitialLocationPicked(true).asEmptyDataResult()
-                            .onError { prefError ->
-                                emitSideEffect(WelcomeSideEffect.ShowSnackBar(prefError))
-                            }
-                    }
+            masterRepository.synchronizeCurrentWeather(
+                latitude = state.value.latitude,
+                longitude = state.value.longitude,
+                geoItemId = state.value.geoItemId,
+                countryName = state.value.country,
+                cityName = state.value.city
+            ).onSuccess {
+                dataStore.saveInitialLocationPicked(true).asEmptyDataResult()
                     .onError { prefError ->
                         emitSideEffect(WelcomeSideEffect.ShowSnackBar(prefError))
-                    }.onFinally {
-                        dispatch(OnLoadingFinish)
                     }
+            }.onError { dataBaseError ->
+                emitSideEffect(WelcomeSideEffect.ShowSnackBar(dataBaseError))
             }
         }
     }
+
+
+//                    .onSuccess {
+//                        masterRepository.insertGeo(
+//                            geoNameId = state.value.geoItemId,
+//                            cityName = state.value.city,
+//                            countryName = state.value.country
+//                        )
+//                    }
+
+
+//                dataStore.saveUserLocation(state.value.latitude, state.value.longitude)
+//                    .asEmptyDataResult()
+//                    .onSuccess {
+//                        dataStore.saveInitialLocationPicked(true).asEmptyDataResult()
+//                            .onError { prefError ->
+//                                emitSideEffect(WelcomeSideEffect.ShowSnackBar(prefError))
+//                            }
+//                    }
+//                    .onError { prefError ->
+//                        emitSideEffect(WelcomeSideEffect.ShowSnackBar(prefError))
+//                    }.onFinally {
+//                        dispatch(OnLoadingFinish)
+//                    }
+
 
     override fun clear() {
         storeScope.cancel()
@@ -183,5 +215,6 @@ class WelcomePageStore @Inject constructor(
 
     companion object {
         private const val THRESHOLD = 500L
+        private const val TAG = "WelcomePageStore"
     }
 }

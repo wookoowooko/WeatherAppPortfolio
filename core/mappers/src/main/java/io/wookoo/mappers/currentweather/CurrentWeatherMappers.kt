@@ -59,7 +59,6 @@ fun WeatherWithDetails.asCurrentWeatherResponseModel(): CurrentWeatherResponseMo
         cityName = geo.cityName,
         countryName = geo.countryName,
         geoNameId = geo.geoNameId,
-        timezone = geo.timezone,
         current = current.asCurrentDayModel(),
         hourly = hourly.asHourlyModel(),
         daily = daily.asDailyModel(),

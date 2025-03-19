@@ -6,7 +6,6 @@ data class CurrentWeatherResponseModel(
     val geoNameId: Long,
     val latitude: Double,
     val longitude: Double,
-    val timezone: String,
     val current: CurrentDayModel,
     val hourly: HourlyModel,
     val daily: DailyModel,

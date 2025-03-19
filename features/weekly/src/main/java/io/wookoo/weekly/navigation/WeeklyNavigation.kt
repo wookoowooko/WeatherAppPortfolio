@@ -13,6 +13,7 @@ data class WeeklyRoute(
     val latitude: Double,
     val longitude: Double,
     val geoItemId: Long,
+    val cityName: String,
 )
 
 fun NavGraphBuilder.weeklyPage(
@@ -31,9 +32,10 @@ fun NavGraphBuilder.weeklyPage(
 fun NavHostController.navigateToWeeklyPage(
     latitude: Double,
     longitude: Double,
-    geoItemId: Long
+    geoItemId: Long,
+    cityName: String,
 ) {
-    navigate(WeeklyRoute(latitude, longitude, geoItemId))
+    navigate(WeeklyRoute(latitude, longitude, geoItemId, cityName))
 }
 
 @Composable

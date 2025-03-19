@@ -11,14 +11,18 @@ import io.wookoo.network.dto.weather.weekly.CurrentWeatherShortDto
 import io.wookoo.network.dto.weather.weekly.WeeklyWeatherDto
 import io.wookoo.network.dto.weather.weekly.WeeklyWeatherResponseDto
 
-fun WeeklyWeatherResponseDto.asWeeklyWeatherResponseModel(): WeeklyWeatherResponseModel {
-    return WeeklyWeatherResponseModel(
-        latitude = latitude,
-        longitude = longitude,
-        currentShort = currentShort.asCurrentWeatherShortResponseModel(),
-        weekly = week.asWeeklyWeatherModel()
-    )
-}
+//fun WeeklyWeatherResponseDto.asWeeklyWeatherResponseModel(
+//    cityName: String,
+//): WeeklyWeatherResponseModel {
+//    return WeeklyWeatherResponseModel(
+//        latitude = latitude,
+//        longitude = longitude,
+//        currentShort = currentShort.asCurrentWeatherShortResponseModel(),
+//        weekly = week.asWeeklyWeatherModel(
+//            cityName = cityName
+//        )
+//    )
+//}
 
 fun WeeklyWeatherEntity.asWeeklyWeatherResponseModel(): WeeklyWeatherResponseModel {
     return WeeklyWeatherResponseModel(
@@ -32,48 +36,52 @@ fun WeeklyWeatherEntity.asWeeklyWeatherResponseModel(): WeeklyWeatherResponseMod
     )
 }
 
-private fun CurrentWeatherShortDto.asCurrentWeatherShortResponseModel(): CurrentWeatherShortModel {
-    return CurrentWeatherShortModel(
-        isDay = isDay == 1
-    )
-}
+//private fun CurrentWeatherShortDto.asCurrentWeatherShortResponseModel(): CurrentWeatherShortModel {
+//    return CurrentWeatherShortModel(
+//        isDay = isDay == 1
+//    )
+//}
 
-private fun WeeklyWeatherDto.asWeeklyWeatherModel(): WeeklyWeatherModel {
-    return WeeklyWeatherModel(
-        time = time,
-        weatherCode = weatherCode,
-        tempMax = tempMax,
-        tempMin = tempMin,
-        apparentTempMax = apparentTempMax,
-        apparentTempMin = apparentTempMin,
-        dayLightDuration = dayLightDuration,
-        sunshineDuration = sunshineDuration,
-        uvIndexMax = uvIndexMax,
-        precipitationProbabilityMax = precipitationProbabilityMax,
-        precipitationData = precipitationSum.mapIndexed { index, sum ->
-            PrecipitationModel(
-                level = sum,
-                rain = rainSum.getOrNull(index) ?: 0.0,
-                showers = showersSum.getOrNull(index) ?: 0.0,
-                snowfall = snowfallSum.getOrNull(index) ?: 0.0
-            )
-        },
-        sunCycles = SunCyclesModel(
-            sunrise = sunrise,
-            sunset = sunset
-        ),
-        windData = windSpeedMax.mapIndexed { index, speed ->
-            WindModel(
-                speed = speed,
-                direction = windDirectionMax.getOrNull(index)?.toInt() ?: 0,
-                gust = windGustsMax.getOrNull(index) ?: 0.0
-            )
-        }
-    )
-}
+//private fun WeeklyWeatherDto.asWeeklyWeatherModel(
+//    cityName: String
+//): WeeklyWeatherModel {
+//    return WeeklyWeatherModel(
+//        time = time,
+//        weatherCode = weatherCode,
+//        tempMax = tempMax,
+//        tempMin = tempMin,
+//        apparentTempMax = apparentTempMax,
+//        apparentTempMin = apparentTempMin,
+//        dayLightDuration = dayLightDuration,
+//        sunshineDuration = sunshineDuration,
+//        uvIndexMax = uvIndexMax,
+//        precipitationProbabilityMax = precipitationProbabilityMax,
+//        precipitationData = precipitationSum.mapIndexed { index, sum ->
+//            PrecipitationModel(
+//                level = sum,
+//                rain = rainSum.getOrNull(index) ?: 0.0,
+//                showers = showersSum.getOrNull(index) ?: 0.0,
+//                snowfall = snowfallSum.getOrNull(index) ?: 0.0
+//            )
+//        },
+//        sunCycles = SunCyclesModel(
+//            sunrise = sunrise,
+//            sunset = sunset
+//        ),
+//        windData = windSpeedMax.mapIndexed { index, speed ->
+//            WindModel(
+//                speed = speed,
+//                direction = windDirectionMax.getOrNull(index)?.toInt() ?: 0,
+//                gust = windGustsMax.getOrNull(index) ?: 0.0
+//            )
+//        },
+//        cityName = cityName
+//    )
+//}
 
 fun WeeklyWeatherEntity.asWeeklyWeatherModel(): WeeklyWeatherModel {
     return WeeklyWeatherModel(
+        cityName = cityName,
         time = time,
         weatherCode = weatherCode,
         tempMax = tempMax,

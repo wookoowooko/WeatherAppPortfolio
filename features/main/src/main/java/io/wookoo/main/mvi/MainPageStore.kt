@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -51,10 +52,10 @@ class MainPageStore @Inject constructor(
 
     override fun initializeObservers() {
         observeSearchQuery()
-        observeUserGeolocationChanges()
-//        observeCurrentWeather()
         viewPagerCount
         observeCurrentWeather2()
+
+        Log.d(TAG, "initializeObservers: ${userSettings.value}")
     }
 
     override fun handleSideEffects(intent: MainPageIntent) {
@@ -66,6 +67,7 @@ class MainPageStore @Inject constructor(
     }
 
     private val viewPagerCount: StateFlow<List<Long>> = masterRepository.getCurrentWeatherIds()
+        .filterNotNull()
         .distinctUntilChanged()
         .onEach {
             Log.d(TAG, "listSize: $it")
@@ -97,6 +99,7 @@ class MainPageStore @Inject constructor(
                     .flatMapLatest { position ->
                         masterRepository.currentWeather(geoNameIds[position])
                     }
+
             }
             .onEach { currentWeather ->
                 dispatch(OnSuccessFetchCurrentWeatherFromApi(currentWeather))
@@ -174,66 +177,7 @@ class MainPageStore @Inject constructor(
             }
     }
 
-    private fun observeUserGeolocationChanges() {
-        userSettings
-            .mapNotNull { setting ->
-                setting.location.takeIf { it.latitude != 0.0 && it.longitude != 0.0 }
-            }
-            .distinctUntilChanged()
-            .onEach { location ->
-                Log.d(TAG, "start syncing weather: $location")
-                synchronizeWeather(location.latitude, location.longitude)
-            }
-            .launchIn(storeScope)
-    }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private fun observeCurrentWeather() {
-        userSettings
-            .map { it.lastGeoName }
-            .flatMapLatest { lastGeoName ->
-                masterRepository.currentWeather(lastGeoName)
-                    .onEach { currentWeather ->
-                        dispatch(OnSuccessFetchCurrentWeatherFromApi(currentWeather))
-                    }
-            }
-            .launchIn(storeScope)
-    }
-
-//    private fun fetchReversGeocoding(latitude: Double, longitude: Double) {
-//        storeScope.launch {
-//            dispatch(OnLoading)
-//
-//            masterRepository.getReverseGeocodingLocation(
-//                latitude = latitude,
-//                longitude = longitude,
-//                language = "ru"
-//            ).onSuccess { searchResults ->
-//                dispatch(
-//                    OnSuccessFetchReversGeocodingFromApi(
-//                        city = searchResults.geonames.firstOrNull()?.name.orEmpty(),
-//                        country = searchResults.geonames.firstOrNull()?.countryName.orEmpty()
-//                    )
-//                )
-//            }.onError { apiError ->
-//                println("fetchReversGeocoding failed: ${apiError.name}")
-//                dispatch(OnErrorFetchReversGeocodingFromApi)
-//                emitSideEffect(MainPageEffect.OnShowSnackBar(apiError))
-//            }
-//        }
-//    }
-
-    private fun synchronizeWeather(latitude: Double, longitude: Double) {
-        storeScope.launch {
-            masterRepository.syncCurrentWeather(
-                latitude = latitude,
-                longitude = longitude
-            ).onError { apiError ->
-                Log.d(TAG, "synchronizeWeather: $apiError")
-                emitSideEffect(MainPageEffect.OnShowSnackBar(apiError))
-            }
-        }
-    }
 
     private companion object {
         private const val THRESHOLD = 500L

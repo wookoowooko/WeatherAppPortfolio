@@ -27,7 +27,7 @@ data object MainRoute
 
 fun NavGraphBuilder.mainPage(
     onRequestLocationPermissions: () -> Unit,
-    onNavigateToWeekly: (lat: Double, lon: Double, geoItemId: Long) -> Unit,
+    onNavigateToWeekly: (lat: Double, lon: Double, geoItemId: Long, cityName: String) -> Unit,
     onNavigateToCities: () -> Unit,
     onShowSnackBar: (String) -> Unit,
 ) {
@@ -45,7 +45,7 @@ fun NavGraphBuilder.mainPage(
 private fun MainPageScreenRoot(
     viewModel: MainPageViewModel = hiltViewModel(),
     onRequestLocationPermissions: () -> Unit,
-    onNavigateToWeekly: (lat: Double, lon: Double, geoItemId: Long) -> Unit,
+    onNavigateToWeekly: (lat: Double, lon: Double, geoItemId: Long, cityName: String) -> Unit,
     onNavigateToCities: () -> Unit,
     onShowSnackBar: (String) -> Unit,
 ) {
@@ -82,8 +82,10 @@ private fun MainPageScreenRoot(
                 is OnNavigateToWeekly -> onNavigateToWeekly(
                     intent.latitude,
                     intent.longitude,
-                    intent.geoItemId
+                    intent.geoItemId,
+                    intent.cityName
                 )
+
                 is OnNavigateToCities -> onNavigateToCities()
                 else -> Unit
             }

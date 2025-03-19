@@ -31,9 +31,10 @@ class WeeklyStore @Inject constructor(
 //        storeScope, SharingStarted.WhileSubscribed(5000L), initialValue = UserSettingsModel()
 //    )
 
-    private val latitude = savedStateHandle.toRoute<WeeklyRoute>().latitude
-    private val longitude = savedStateHandle.toRoute<WeeklyRoute>().longitude
-    private val geoItemId = savedStateHandle.toRoute<WeeklyRoute>().geoItemId
+    private val latitude: Double = savedStateHandle.toRoute<WeeklyRoute>().latitude
+    private val longitude: Double = savedStateHandle.toRoute<WeeklyRoute>().longitude
+    private val geoItemId: Long = savedStateHandle.toRoute<WeeklyRoute>().geoItemId
+    private val cityName: String = savedStateHandle.toRoute<WeeklyRoute>().cityName
 
 
     init {
@@ -72,13 +73,17 @@ class WeeklyStore @Inject constructor(
             .onEach { weeklyWeather: WeeklyWeatherResponseModel ->
                 Log.d(TAG, "observeWeeklyWeather: $weeklyWeather")
                 dispatch(OnObserveWeeklyForecast(weeklyWeather))
+
             }.launchIn(storeScope)
     }
 
     private fun synchronizeWeatherOnStart() = storeScope.launch {
         if (latitude != 0.0 && longitude != 0.0) {
             masterRepository.syncWeeklyWeatherFromAPIAndSaveToCache(
-                latitude = latitude, longitude = longitude, geoItemId = geoItemId
+                latitude = latitude,
+                longitude = longitude,
+                geoItemId = geoItemId,
+                cityName = cityName
             ).onError { syncError ->
                 emitSideEffect(WeeklyEffect.OnShowSnackBar(syncError))
             }

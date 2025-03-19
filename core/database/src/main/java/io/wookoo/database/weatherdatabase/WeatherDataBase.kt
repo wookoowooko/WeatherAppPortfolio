@@ -1,5 +1,6 @@
 package io.wookoo.database.weatherdatabase
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -11,6 +12,7 @@ import io.wookoo.database.dbo.DailyEntity
 import io.wookoo.database.dbo.GeoEntity
 import io.wookoo.database.dbo.HourlyEntity
 import io.wookoo.database.dbo.weekly.WeeklyWeatherEntity
+import io.wookoo.database.migrations.DatabaseMigrations
 import io.wookoo.database.weatherdatabase.WeatherDataBase.Companion.LATEST_VERSION
 
 @Database(
@@ -24,7 +26,7 @@ import io.wookoo.database.weatherdatabase.WeatherDataBase.Companion.LATEST_VERSI
     version = LATEST_VERSION,
 
     autoMigrations = [
-
+        AutoMigration(from = 5, to = 6, spec = DatabaseMigrations.Migration5to6::class),
     ],
     exportSchema = true,
 )
@@ -34,7 +36,7 @@ import io.wookoo.database.weatherdatabase.WeatherDataBase.Companion.LATEST_VERSI
 abstract class WeatherDataBase : RoomDatabase() {
 
     companion object {
-        const val LATEST_VERSION = 5
+        const val LATEST_VERSION = 6
     }
 
     abstract fun currentWeatherDao(): CurrentWeatherDao

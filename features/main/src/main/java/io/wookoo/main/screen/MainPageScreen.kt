@@ -1,5 +1,6 @@
 package io.wookoo.main.screen
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Arrangement
@@ -207,11 +208,19 @@ fun MainPageScreen(
                                         state = state,
                                         modifier = Modifier.padding(horizontal = large),
                                         onNextSevenDaysClick = {
+                                            val latitude = state.currentWeather.latitude
+                                            val longitude = state.currentWeather.longitude
+                                            val geoNameId = state.currentWeather.geoNameId
+                                            val cityName = state.city
+
+                                            Log.d(TAG, "MainPageScreen: " +
+                                                    "latitude: $latitude, " + "longitude: $longitude, " + "geoItemId: $geoNameId")
                                             onIntent(
                                                 OnNavigateToWeekly(
-                                                    state.currentWeather.latitude,
-                                                    state.currentWeather.longitude,
-                                                    state.currentWeather.geoNameId
+                                                    latitude = latitude,
+                                                    longitude = longitude,
+                                                    geoItemId = geoNameId,
+                                                    cityName = cityName
                                                 )
                                             )
                                         },
@@ -231,6 +240,7 @@ fun MainPageScreen(
         }
     }
 }
+private const val TAG = "MainPageScreen"
 
 @Composable
 @Preview

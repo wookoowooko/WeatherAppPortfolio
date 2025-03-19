@@ -6,6 +6,7 @@ import io.wookoo.weekly.uimodels.UiCalendarDayModel
 import io.wookoo.weekly.uimodels.UiCardInfoModel
 
 data class WeeklyState(
+    val cityName: String = "",
     val isLoading: Boolean = false,
     val selectedCalendarItemIndex: Int = 0,
     val weeklyCalendar: List<UiCalendarDayModel> = emptyList(),

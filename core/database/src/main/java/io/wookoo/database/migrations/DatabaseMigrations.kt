@@ -1,5 +1,8 @@
 package io.wookoo.database.migrations
 
+import androidx.room.DeleteColumn
+import androidx.room.DeleteTable
+import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
@@ -31,4 +34,19 @@ internal object DatabaseMigrations {
             )
         }
     }
+
+
+    @DeleteColumn(
+        tableName = "geo_entity",
+        columnName = "timezone",
+    )
+//    @DeleteTable.Entries(
+//        DeleteTable(
+//            tableName = "episodes_authors",
+//        ),
+//        DeleteTable(
+//            tableName = "episodes",
+//        ),
+//    )
+    class Migration5to6 : AutoMigrationSpec
 }

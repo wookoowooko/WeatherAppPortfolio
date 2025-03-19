@@ -20,7 +20,7 @@ interface CurrentWeatherDao {
     fun getCurrentWeather(geoItemId: Long): Flow<WeatherWithDetails?>
 
     @Query("SELECT geo_name_id FROM geo_entity")
-    fun getCurrentWeatherIds(): Flow<List<Long>>
+    fun getCurrentWeatherIds(): Flow<List<Long>?>
 
     @Transaction
     @Query("SELECT * FROM geo_entity")

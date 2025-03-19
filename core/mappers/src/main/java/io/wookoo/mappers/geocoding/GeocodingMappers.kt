@@ -23,7 +23,7 @@ fun GeocodingSearchDto.asGeocodingSearchModel(): GeocodingSearchModel {
         countryCode = countryCode,
         country = country.orEmpty(),
         urbanArea = admin1,
-        geoNameId = geoNameId
+        geoItemId = geoNameId
     )
 }
 

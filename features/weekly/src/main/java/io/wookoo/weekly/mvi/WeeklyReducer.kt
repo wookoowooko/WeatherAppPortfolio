@@ -49,6 +49,7 @@ class WeeklyReducer @Inject constructor(
             is OnObserveWeeklyForecast -> {
 
                 state.copy(
+                    cityName = intent.forecast.weekly.cityName,
                     weatherResponse = intent.forecast,
                     weeklyCalendar = intent.forecast.asUiCalendarList(
                         convertUnixDateToDayNameDayNumberUseCase = convertUnixDateToDayNameDayNumberUseCase,

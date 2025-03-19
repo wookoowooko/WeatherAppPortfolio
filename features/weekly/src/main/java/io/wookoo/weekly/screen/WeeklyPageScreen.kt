@@ -1,5 +1,6 @@
 package io.wookoo.weekly.screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.displayCutout
@@ -16,6 +17,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.os.bundleOf
 import androidx.fragment.compose.AndroidFragment
@@ -24,9 +30,12 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.toRoute
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.weekly.navigation.WeeklyRoute
+import io.wookoo.weekly.screen.RouteConsts.CITY_NAME_KEY
 import io.wookoo.weekly.screen.RouteConsts.GEO_ITEM_ID_KEY
 import io.wookoo.weekly.screen.RouteConsts.LATITUDE_KEY
 import io.wookoo.weekly.screen.RouteConsts.LONGITUDE_KEY
+
+private const val TAG = "WeeklyPageScreen"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,8 +45,16 @@ internal fun WeeklyPageScreen(
     navBackStackEntry: NavBackStackEntry,
 ) {
     val args = navBackStackEntry.toRoute<WeeklyRoute>()
-    val state = rememberFragmentState()
 
+    LaunchedEffect(Unit) {
+        Log.d(TAG, "WeeklyPageScreen: ${args.geoItemId}")
+        Log.d(TAG, "WeeklyPageScreen: ${args.latitude}")
+        Log.d(TAG, "WeeklyPageScreen: ${args.longitude}")
+        Log.d(TAG, "WeeklyPageScreen: ${args.cityName}")
+
+    }
+    val state = rememberFragmentState()
+    var titleText by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -48,7 +65,7 @@ internal fun WeeklyPageScreen(
                     )
                 ),
                 title = {
-                    SharedText(text = "hz")
+                    SharedText(text = titleText)
                 },
                 navigationIcon = {
                     IconButton(
@@ -65,6 +82,7 @@ internal fun WeeklyPageScreen(
                 GEO_ITEM_ID_KEY to args.geoItemId,
                 LATITUDE_KEY to args.latitude,
                 LONGITUDE_KEY to args.longitude,
+                CITY_NAME_KEY to args.cityName
             ),
             fragmentState = state,
             modifier = Modifier
@@ -85,6 +103,9 @@ internal fun WeeklyPageScreen(
 //            }
 
             fragment.onShowSnackBar = onShowSnackBar
+            fragment.onSetTitle = { title ->
+                titleText = title
+            }
         }
     }
 
@@ -94,6 +115,7 @@ internal object RouteConsts {
     const val GEO_ITEM_ID_KEY = "geoItemId"
     const val LATITUDE_KEY = "latitude"
     const val LONGITUDE_KEY = "longitude"
+    const val CITY_NAME_KEY = "cityName"
 }
 
 

@@ -15,6 +15,7 @@ class WelcomePageReducer @Inject constructor() :
             is OnSearchQueryChange -> state.copy(searchQuery = intent.query)
             is OnSearchedGeoItemClick ->
                 state.copy(
+                    geoItemId = intent.geoItem.geoItemId,
                     isSearchExpanded = false,
                     city = intent.geoItem.cityName,
                     country = intent.geoItem.country,
@@ -35,6 +36,13 @@ class WelcomePageReducer @Inject constructor() :
                 isGeolocationSearchInProgress = true
             )
 
+            is OnSuccessfullyUpdateGeolocationFromGpsSensors -> {
+                state.copy(
+                    latitude = intent.lat,
+                    longitude = intent.long,
+                )
+            }
+
             is OnErrorSearchLocation -> state.copy(results = emptyList())
 
             is OnSuccessSearchLocation -> state.copy(results = intent.results)
@@ -49,12 +57,6 @@ class WelcomePageReducer @Inject constructor() :
                             geoItemId = intent.geoItemId
                         )
 
-                        is OnSuccessfullyUpdateGeolocationFromGpsSensors -> {
-                            state.copy(
-                                latitude = intent.lat,
-                                longitude = intent.long,
-                            )
-                        }
 
                         is OnQueryIsEmptyClearResults -> it.copy(results = emptyList())
                         else -> it
