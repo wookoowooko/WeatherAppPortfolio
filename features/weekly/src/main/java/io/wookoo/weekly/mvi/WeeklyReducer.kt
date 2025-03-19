@@ -21,14 +21,7 @@ class WeeklyReducer @Inject constructor(
         return when (intent) {
             is OnCalendarItemClick -> {
                 state.copy(
-                    selectedCalendarItemIndex = intent.indexPosition,
-                    weeklyCalendar = state.weeklyCalendar.mapIndexed { index, day ->
-                        if (index == intent.indexPosition) {
-                            day.copy(isSelected = true)
-                        } else {
-                            day.copy(isSelected = false)
-                        }
-                    }
+                    selectedCalendarItemIndex = intent.indexPosition
                 )
             }
 
@@ -41,24 +34,41 @@ class WeeklyReducer @Inject constructor(
                         convertWeatherCodeToEnumUseCase = convertWeatherCodeToEnumUseCase,
                         formatWindDirectionUseCase = formatWindDirectionUseCase,
                         convertUnixTimeUseCase = convertUnixTimeUseCase
-                    )
-                )
-            }
-
-
-            is OnObserveWeeklyForecast -> {
-                state.copy(
-                    weatherResponse = intent.forecast,
-                    weeklyCalendar = intent.forecast.asUiCalendarList(
-                        convertUnixDateToDayNameDayNumberUseCase = convertUnixDateToDayNameDayNumberUseCase,
-                        convertWeatherCodeToEnumUseCase = convertWeatherCodeToEnumUseCase
-                    ).mapIndexed { index, day ->
+                    ),
+                    weeklyCalendar = state.weeklyCalendar.mapIndexed { index, day ->
                         if (index == state.selectedCalendarItemIndex) {
                             day.copy(isSelected = true)
                         } else {
                             day.copy(isSelected = false)
                         }
                     }
+                    )
+            }
+
+
+            is OnObserveWeeklyForecast -> {
+
+                state.copy(
+                    weatherResponse = intent.forecast,
+                    weeklyCalendar = intent.forecast.asUiCalendarList(
+                        convertUnixDateToDayNameDayNumberUseCase = convertUnixDateToDayNameDayNumberUseCase,
+                        convertWeatherCodeToEnumUseCase = convertWeatherCodeToEnumUseCase
+                    )
+                        .mapIndexed { index, day ->
+                            if (index == state.selectedCalendarItemIndex) {
+                                day.copy(isSelected = true)
+                            } else {
+                                day.copy(isSelected = false)
+                            }
+                        }
+                    ,
+                    mainWeatherRecyclerItems = state.mainWeatherRecyclerItems.mapFromResponse(
+                        weekResponse = intent.forecast,
+                        selectedIndex = state.selectedCalendarItemIndex,
+                        convertWeatherCodeToEnumUseCase = convertWeatherCodeToEnumUseCase,
+                        formatWindDirectionUseCase = formatWindDirectionUseCase,
+                        convertUnixTimeUseCase = convertUnixTimeUseCase
+                    )
                 )
             }
 

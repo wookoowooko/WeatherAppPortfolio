@@ -55,6 +55,7 @@ class WeeklyStore @Inject constructor(
     private fun observeSelectedDayPositionChanged() {
         Log.d(TAG, "observeSelectedDayPositionChanged")
         state.map { it.selectedCalendarItemIndex }
+            .distinctUntilChanged()
             .onEach { selectedIndex ->
                 Log.d(TAG, "selectedIndex: $selectedIndex ")
                 dispatch(OnObserveSelectedDayPositionChanged(selectedIndex))
@@ -81,7 +82,6 @@ class WeeklyStore @Inject constructor(
             ).onError { syncError ->
                 emitSideEffect(WeeklyEffect.OnShowSnackBar(syncError))
             }
-
         }
     }
 
