@@ -1,13 +1,6 @@
 package io.wookoo.data.repo
 
 import android.util.Log
-import io.wookoo.mappers.currentweather.asCurrentWeatherEntity
-import io.wookoo.mappers.currentweather.asCurrentWeatherResponseModel
-import io.wookoo.mappers.currentweather.asDailyEntity
-import io.wookoo.mappers.currentweather.asHourlyEntity
-import io.wookoo.mappers.geocoding.asGeocodingResponseModel
-import io.wookoo.mappers.geocoding.asReverseGeocodingResponseModel
-import io.wookoo.mappers.weeklyweather.asWeeklyWeatherResponseModel
 import io.wookoo.database.daos.CurrentWeatherDao
 import io.wookoo.database.daos.WeeklyWeatherDao
 import io.wookoo.database.dbo.GeoEntity
@@ -29,6 +22,13 @@ import io.wookoo.domain.utils.EmptyResult
 import io.wookoo.domain.utils.map
 import io.wookoo.domain.utils.onError
 import io.wookoo.domain.utils.onSuccess
+import io.wookoo.mappers.currentweather.asCurrentWeatherEntity
+import io.wookoo.mappers.currentweather.asCurrentWeatherResponseModel
+import io.wookoo.mappers.currentweather.asDailyEntity
+import io.wookoo.mappers.currentweather.asHourlyEntity
+import io.wookoo.mappers.geocoding.asGeocodingResponseModel
+import io.wookoo.mappers.geocoding.asReverseGeocodingResponseModel
+import io.wookoo.mappers.weeklyweather.asWeeklyWeatherResponseModel
 import io.wookoo.network.api.geocoding.IGeoCodingService
 import io.wookoo.network.api.reversegeocoding.IReverseGeoCodingService
 import io.wookoo.network.api.weather.IWeatherService
@@ -63,6 +63,7 @@ class MasterRepoImpl @Inject constructor(
             .flowOn(ioDispatcher)
     }
 
+    @Suppress("ReturnCount")
     override suspend fun syncCurrentWeather(
         latitude: Double,
         longitude: Double,
@@ -123,7 +124,6 @@ class MasterRepoImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
-    @Suppress("ReturnCount")
     override suspend fun syncWeeklyWeatherFromAPIAndSaveToCache(
         latitude: Double,
         longitude: Double,
@@ -270,6 +270,4 @@ class MasterRepoImpl @Inject constructor(
             }
         }
     }
-
-
 }

@@ -83,4 +83,4 @@ data class WeeklyWeatherEntity(
     @ColumnInfo("last_update")
     val lastUpdate: Long = System.currentTimeMillis()
 
-    )
+)

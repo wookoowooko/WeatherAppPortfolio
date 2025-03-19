@@ -33,7 +33,6 @@ class SynchronizerImpl @Inject constructor(
         Log.d(TAG, "syncWeeklyWeather")
 
         return withContext(ioDispatcher) {
-
             val lastUpdate = weeklyWeatherDao.getLastUpdateForWeekly(geoItemId)
             val oneHourAgo = System.currentTimeMillis() - 60 * 60 * 1000
 

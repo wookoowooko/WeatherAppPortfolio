@@ -79,7 +79,6 @@ class CitiesStore @Inject constructor(
             .launchIn(storeScope)
     }
 
-
     // Observers
     @OptIn(FlowPreview::class)
     private fun observeSearchQuery() {

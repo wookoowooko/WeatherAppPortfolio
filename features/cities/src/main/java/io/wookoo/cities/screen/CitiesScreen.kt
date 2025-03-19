@@ -25,8 +25,6 @@ import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import kotlinx.coroutines.launch
 
-private const val TAG = "CitiesScreen"
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun CitiesScreen(
@@ -37,7 +35,6 @@ internal fun CitiesScreen(
         skipPartiallyExpanded = true
     )
     val scope = rememberCoroutineScope()
-
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -92,7 +89,6 @@ internal fun CitiesScreen(
     }
 }
 
-
 @Composable
 @Preview
 private fun CitiesScreenPreview() {
@@ -103,6 +99,3 @@ private fun CitiesScreenPreview() {
         )
     }
 }
-
-
-

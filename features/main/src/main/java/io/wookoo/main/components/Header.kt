@@ -60,11 +60,13 @@ internal fun Header(
 //                        icon = Icons.Default.LocationOn,
 //                    )
 
-                    Icon(Icons.Default.LocationOn, null,
+                    Icon(
+                        Icons.Default.LocationOn,
+                        null,
                         modifier = Modifier
                             .padding(end = small)
                             .size(size_30)
-                        )
+                    )
                 } else {
                     CircularProgressIndicator(
                         modifier = Modifier

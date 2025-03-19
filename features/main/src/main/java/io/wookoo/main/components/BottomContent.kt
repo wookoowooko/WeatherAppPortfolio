@@ -1,6 +1,5 @@
 package io.wookoo.main.components
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,7 +26,6 @@ import io.wookoo.designsystem.ui.components.SharedSurfaceIcon
 import io.wookoo.designsystem.ui.theme.small
 import io.wookoo.main.mvi.MainPageIntent
 import io.wookoo.main.mvi.MainPageState
-import io.wookoo.main.mvi.OnNavigateToWeekly
 import io.wookoo.main.mvi.SetPagerPosition
 import kotlinx.coroutines.launch
 

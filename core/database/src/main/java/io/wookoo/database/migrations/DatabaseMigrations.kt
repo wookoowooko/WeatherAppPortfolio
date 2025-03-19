@@ -26,8 +26,9 @@ internal object DatabaseMigrations {
 
     val MIGRATION_4_5 = object : Migration(4, 5) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            db.execSQL("ALTER TABLE weekly_weather ADD COLUMN last_update INTEGER NOT NULL DEFAULT ${System.currentTimeMillis()}")
+            db.execSQL(
+                "ALTER TABLE weekly_weather ADD COLUMN last_update INTEGER NOT NULL DEFAULT ${System.currentTimeMillis()}"
+            )
         }
     }
-
 }

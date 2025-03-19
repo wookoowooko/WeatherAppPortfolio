@@ -49,7 +49,6 @@ class MainPageStore @Inject constructor(
         initialValue = UserSettingsModel()
     )
 
-
     override fun initializeObservers() {
         observeSearchQuery()
         observeUserGeolocationChanges()
@@ -78,7 +77,6 @@ class MainPageStore @Inject constructor(
             SharingStarted.Eagerly,
             initialValue = emptyList()
         )
-
 
 //    fun observeGeoIds(){
 //        masterRepository.getCurrentWeatherIds()

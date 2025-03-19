@@ -144,8 +144,6 @@ internal fun CitiesSearchBar(
     }
 }
 
-
-
 @Composable
 @Preview
 private fun WelcomeSearchBarPreview() {
@@ -155,4 +153,3 @@ private fun WelcomeSearchBarPreview() {
         onHideBottomSheet = {}
     )
 }
-

@@ -14,10 +14,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-
 @Composable
 fun PagerIndicator(
-    pageCount: Int, currentPageIndex: Int, modifier: Modifier = Modifier,
+    pageCount: Int,
+    currentPageIndex: Int,
+    modifier: Modifier = Modifier,
     onPagerIndicatorClick: (position: Int) -> Unit,
 ) {
     LazyRow(
@@ -27,7 +28,7 @@ fun PagerIndicator(
         items(pageCount) { iteration ->
             val color = if (currentPageIndex == iteration) Color.DarkGray else Color.LightGray
             Box(
-                modifier = modifier
+                modifier = Modifier
                     .clip(CircleShape)
                     .background(color)
                     .size(8.dp)
@@ -36,6 +37,7 @@ fun PagerIndicator(
         }
     }
 }
+
 @Composable
 @Preview
 private fun PagerIndicatorPreview() {

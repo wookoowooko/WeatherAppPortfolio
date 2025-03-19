@@ -16,6 +16,3 @@ class CitiesViewModel @Inject constructor(
         store.clear()
     }
 }
-
-
-

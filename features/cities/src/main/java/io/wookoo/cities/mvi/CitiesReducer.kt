@@ -8,7 +8,7 @@ import javax.inject.Inject
 class CitiesReducer @Inject constructor(
     private val convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,
 
-    ) : Reducer<CitiesState, CitiesIntent> {
+) : Reducer<CitiesState, CitiesIntent> {
     override fun reduce(
         state: CitiesState,
         intent: CitiesIntent,
@@ -17,12 +17,14 @@ class CitiesReducer @Inject constructor(
             is OnLoading -> state.copy(isLoading = true)
             is OnSearchQueryChange -> state.copy(searchQuery = intent.query)
             is OnCitiesLoaded -> {
-                state.copy(cities =
-                intent.cities.map { currentWeather ->
-                    currentWeather.asUiCity(
-                        convertWeatherCodeToEnumUseCase = convertWeatherCodeToEnumUseCase
-                    )
-                })
+                state.copy(
+                    cities =
+                    intent.cities.map { currentWeather ->
+                        currentWeather.asUiCity(
+                            convertWeatherCodeToEnumUseCase = convertWeatherCodeToEnumUseCase
+                        )
+                    }
+                )
             }
 
             is OnChangeBottomSheetVisibility -> state.copy(bottomSheetExpanded = intent.expandValue)

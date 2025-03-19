@@ -45,6 +45,4 @@ interface IMasterWeatherRepo {
         latitude: Double,
         longitude: Double,
     ): AppResult<WeeklyWeatherResponseModel, DataError.Remote>
-
-
 }

@@ -46,8 +46,6 @@ import io.wookoo.main.mvi.OnGeolocationIconClick
 import io.wookoo.main.mvi.OnNavigateToWeekly
 import io.wookoo.main.mvi.OnRequestGeoLocationPermission
 
-private const val TAG = "MainPageScreen"
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainPageScreen(
@@ -65,7 +63,6 @@ fun MainPageScreen(
 
 //    val scope = rememberCoroutineScope()
 
-
     BackHandler(enabled = state.isGeolocationSearchInProgress) {}
 
     Crossfade(
@@ -78,7 +75,6 @@ fun MainPageScreen(
         when (screenState) {
             io.wookoo.designsystem.ui.Crossfade.LOADING -> SharedLottieLoader()
             io.wookoo.designsystem.ui.Crossfade.CONTENT -> {
-
                 val pagerState = rememberPagerState(pageCount = {
                     state.cityListCount
                 })
@@ -96,23 +92,23 @@ fun MainPageScreen(
                             }
                         )
 
-////                            SearchBarMain(
-////                                onSearchQueryChange = { query ->
-////                                    onIntent(OnSearchQueryChange(query))
-////                                },
-////                                onClose = { onIntent(OnExpandSearchBar(false)) },
-////                                searchQuery = state.searchQuery,
-////                                onSearchNotExpandedIconClick = {
-////                                    onIntent(OnExpandSearchBar(true))
-////                                },
-////                                isExpanded = state.searchExpanded,
-////                                results = state.searchResults,
-////                                onItemClick = { geoItem ->
-////                                    onIntent(OnSearchedGeoItemCardClick(geoItem))
-////                                },
-////                                isLoading = state.isLoading,
-////                                isGeolocationSearchInProgress = isGeolocationSearchInProgress
-////                            )
+// //                            SearchBarMain(
+// //                                onSearchQueryChange = { query ->
+// //                                    onIntent(OnSearchQueryChange(query))
+// //                                },
+// //                                onClose = { onIntent(OnExpandSearchBar(false)) },
+// //                                searchQuery = state.searchQuery,
+// //                                onSearchNotExpandedIconClick = {
+// //                                    onIntent(OnExpandSearchBar(true))
+// //                                },
+// //                                isExpanded = state.searchExpanded,
+// //                                results = state.searchResults,
+// //                                onItemClick = { geoItem ->
+// //                                    onIntent(OnSearchedGeoItemCardClick(geoItem))
+// //                                },
+// //                                isLoading = state.isLoading,
+// //                                isGeolocationSearchInProgress = isGeolocationSearchInProgress
+// //                            )
                     }
                 ) { paddings ->
                     HorizontalPager(
@@ -206,11 +202,13 @@ fun MainPageScreen(
                                         state = state,
                                         modifier = Modifier.padding(horizontal = large),
                                         onNextSevenDaysClick = {
-                                            onIntent(OnNavigateToWeekly(
-                                                state.currentWeather.latitude,
-                                                state.currentWeather.longitude,
-                                                state.currentWeather.geoNameId
-                                            ))
+                                            onIntent(
+                                                OnNavigateToWeekly(
+                                                    state.currentWeather.latitude,
+                                                    state.currentWeather.longitude,
+                                                    state.currentWeather.geoNameId
+                                                )
+                                            )
                                         },
                                     )
                                     Spacer(modifier = Modifier.height(ultraLarge))
@@ -229,9 +227,6 @@ fun MainPageScreen(
     }
 }
 
-
-
-
 @Composable
 @Preview
 private fun MainPageScreenPreview() {
@@ -242,4 +237,3 @@ private fun MainPageScreenPreview() {
         )
     }
 }
-
