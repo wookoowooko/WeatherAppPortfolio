@@ -10,8 +10,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import io.wookoo.cities.navigation.CitiesRoute
 import io.wookoo.cities.navigation.citiesScreen
+import io.wookoo.cities.navigation.navigateToCities
 import io.wookoo.domain.settings.UserSettingsModel
 import io.wookoo.main.navigation.MainRoute
 import io.wookoo.main.navigation.mainPage
@@ -90,13 +90,15 @@ internal fun Navigation(
         }
 
         navigation<MainGraph>(
-//            startDestination = MainRoute,
-            startDestination = CitiesRoute,
+            startDestination = MainRoute,
         ) {
             mainPage(
                 onRequestLocationPermissions = onRequestLocationPermission,
-                onNavigate = { city ->
-                    navController.navigateToWeeklyPage(city)
+                onNavigateToWeekly = { geoItemId ->
+                    navController.navigateToWeeklyPage(geoItemId)
+                },
+                onNavigateToCities = {
+                    navController.navigateToCities()
                 },
                 onShowSnackBar = onShowSnackBar
             )
@@ -107,7 +109,11 @@ internal fun Navigation(
                 onShowSnackBar = onShowSnackBar
             )
 
-            citiesScreen()
+            citiesScreen(
+                onBackIconClick = {
+                    if (navController.canGoBack) navController.popBackStack()
+                }
+            )
         }
     }
 }

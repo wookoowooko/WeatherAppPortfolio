@@ -1,5 +1,6 @@
 package io.wookoo.main.mvi
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -13,6 +14,11 @@ class MainPageViewModel @Inject constructor(
     fun onIntent(intent: MainPageIntent) = store.dispatch(intent)
 
     override fun onCleared() {
+        Log.d(TAG, "onCleared")
+        super.onCleared()
         store.clear()
+    }
+    private companion object {
+        private const val TAG = "MainPageViewModel"
     }
 }

@@ -6,6 +6,9 @@ import io.wookoo.domain.units.WeatherValueWithUnit
 import io.wookoo.domain.units.WindDirection
 
 data class UiCurrentWeatherModel(
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0,
+    val geoNameId: Long = 0L,
     val date: String = "",
     val isDay: Boolean = true,
     val humidity: WeatherValueWithUnit = WeatherValueWithUnit(),

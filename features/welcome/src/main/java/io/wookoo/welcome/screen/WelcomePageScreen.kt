@@ -1,5 +1,6 @@
 package io.wookoo.welcome.screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -39,6 +41,8 @@ import io.wookoo.welcome.components.WelcomeSearchBar
 import io.wookoo.welcome.mvi.WelcomePageIntent
 import io.wookoo.welcome.mvi.WelcomePageState
 
+private const val TAG = "WelcomePageScreen"
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WelcomePageScreen(
@@ -51,7 +55,7 @@ fun WelcomePageScreen(
 
     Scaffold(
         floatingActionButton = {
-            if (!state.isGeolocationSearchInProgress) {
+            if (!state.isGeolocationSearchInProgress || !isLoading) {
                 if (state.city.isNotEmpty()) {
                     ContinueButton(onIntent)
                 }
@@ -63,12 +67,10 @@ fun WelcomePageScreen(
             if (!isSearchBarVisible) {
                 TopAppBar(
                     windowInsets = (
-                        TopAppBarDefaults.windowInsets.add(
-                            WindowInsets.displayCutout.only(
-                                WindowInsetsSides.Horizontal
-                            )
-                        )
-                        ),
+                            TopAppBarDefaults.windowInsets.add(
+                                WindowInsets.displayCutout.only(
+                                    WindowInsetsSides.Horizontal
+                                ))),
                     title = {
                         SharedText(
                             stringResource(io.wookoo.androidresources.R.string.choose_your_location)
@@ -78,7 +80,6 @@ fun WelcomePageScreen(
             } else {
                 WelcomeSearchBar(
                     onIntent,
-                    searchQuery,
                     state,
                     isLoading,
                 )
@@ -117,7 +118,7 @@ fun WelcomePageScreen(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier.weight(1f)
             ) {
-                if (state.isGeolocationSearchInProgress) {
+                if (state.isGeolocationSearchInProgress || isLoading) {
                     SharedLottieLoader(
                         modifier = Modifier.size(120.dp)
                     )

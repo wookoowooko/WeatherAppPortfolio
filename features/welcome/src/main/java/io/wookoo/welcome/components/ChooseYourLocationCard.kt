@@ -28,7 +28,7 @@ internal fun ChooseYourLocationCard(
     state: WelcomePageState,
 ) {
     Card(
-        enabled = !state.isGeolocationSearchInProgress,
+        enabled = !state.isGeolocationSearchInProgress || !state.isLoading,
         onClick = {
             onIntent(OnAppBarExpandChange(true))
         },

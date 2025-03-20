@@ -90,6 +90,7 @@
     <string name="sunset">Sunset</string>
     <string name="pressure">Pressure</string>
     <string name="uv_index">UV Index</string>
+    <string name="weather_app_bar_title">Weather</string>
 
     <!--Welcome-->
     <string name="choose_your_location">Choose your location</string>
@@ -108,9 +109,13 @@
     <string name="error_server">Server error</string>
     <string name="error_no_internet">No internet connection</string>
     <string name="error_serialization">Data processing error</string>
+    <string name="error_cant_sync">Sync error</string>
     <string name="error_too_many_requests">Too many requests</string>
     <string name="error_unknown">An unknown error occurred</string>
     <string name="error_disk_full">Storage is full</string>
     <string name="error_cannot_save_data">Failed to save data</string>
     <string name="location_service_disabled">Location service disabled</string>
+
+    <!--Cities-->
+    <string name="locations">Locations</string>
 </resources>

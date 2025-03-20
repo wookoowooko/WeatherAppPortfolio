@@ -14,8 +14,6 @@ data class GeocodingSearchDto(
     val latitude: Double,
     @SerialName("longitude")
     val longitude: Double,
-    @SerialName("country_code")
-    val countryCode: String,
     @SerialName("country")
     val country: String? = null,
     @SerialName("admin1")

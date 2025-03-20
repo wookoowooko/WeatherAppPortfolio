@@ -21,7 +21,7 @@ data class OnSuccessFetchReversGeocodingFromApi(
 ) : Completable
 
 data class OnSuccessfullyUpdateGeolocationFromGpsSensors(val lat: Double, val long: Double) :
-    Completable
+    WelcomePageIntent
 
 data class OnSuccessSearchLocation(val results: List<GeocodingSearchModel>) : Completable
 

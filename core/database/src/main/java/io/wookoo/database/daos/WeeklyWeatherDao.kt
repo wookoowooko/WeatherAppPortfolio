@@ -17,4 +17,7 @@ interface WeeklyWeatherDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWeeklyWeather(weeklyWeatherEntity: WeeklyWeatherEntity)
+
+    @Query("SELECT last_update FROM weekly_weather WHERE geo_name_id = :geoItemId")
+    suspend fun getLastUpdateForWeekly(geoItemId: Long): Long
 }

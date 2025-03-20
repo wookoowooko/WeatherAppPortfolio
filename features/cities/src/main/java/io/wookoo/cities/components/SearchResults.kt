@@ -1,6 +1,5 @@
 package io.wookoo.cities.components
 
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
@@ -55,7 +54,7 @@ internal fun SearchResults(
             SharedLocationItem(
                 countryName = result.country,
                 cityName = result.cityName,
-                urbanArea = result.cityName,
+                urbanArea = result.urbanArea,
                 onClick = {
                     onIntent(OnSearchedGeoItemCardClick(result))
                 }
