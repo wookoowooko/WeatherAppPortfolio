@@ -1,4 +1,4 @@
-package io.wookoo.data.mappers.currentweather
+package io.wookoo.mappers.currentweather
 
 import io.wookoo.database.dbo.CurrentWeatherEntity
 import io.wookoo.database.dbo.DailyEntity
@@ -14,18 +14,6 @@ import io.wookoo.domain.model.weather.current.WindModel
 import io.wookoo.network.dto.weather.current.CurrentWeatherDto
 import io.wookoo.network.dto.weather.current.DailyDto
 import io.wookoo.network.dto.weather.current.HourlyDto
-
-// fun WeatherEntity.asWeatherResponseModel(): CurrentWeatherResponseModel {
-//    return CurrentWeatherResponseModel(
-//        cityName = cityName,
-//        countryName = countryName,
-//        geoNameId = geoNameId.toString(),
-//        timezone = timezone,
-//        current = current.asCurrentDayModel(),
-//        hourly = hourly.asHourlyModel(),
-//        daily = daily.asDailyModel()
-//    )
-// }
 
 fun CurrentWeatherDto.asCurrentWeatherEntity(): CurrentWeatherEntity {
     return CurrentWeatherEntity(
@@ -45,7 +33,7 @@ fun CurrentWeatherDto.asCurrentWeatherEntity(): CurrentWeatherEntity {
         windGusts = windGusts,
         weatherCode = weatherCode,
         currentId = 0,
-        id = 0
+        id = 0,
     )
 }
 
@@ -53,11 +41,10 @@ fun WeatherWithDetails.asCurrentWeatherResponseModel(): CurrentWeatherResponseMo
     return CurrentWeatherResponseModel(
         cityName = geo.cityName,
         countryName = geo.countryName,
-        geoNameId = geo.geoNameId.toString(),
-        timezone = geo.timezone,
+        geoNameId = geo.geoNameId,
         current = current.asCurrentDayModel(),
         hourly = hourly.asHourlyModel(),
-        daily = daily.asDailyModel()
+        daily = daily.asDailyModel(),
     )
 }
 

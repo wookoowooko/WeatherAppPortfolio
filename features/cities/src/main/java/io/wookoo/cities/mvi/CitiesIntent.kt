@@ -17,7 +17,5 @@ data object OnLoadingFinish : Completable
 data object OnQueryIsEmpty : Completable
 data object OnErrorSearchLocation : Completable
 
-
 // Success Completable
 data class OnSuccessSearchLocation(val results: List<GeocodingSearchModel>) : Completable
-

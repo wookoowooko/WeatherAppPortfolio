@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.wookoo.database.migrations.DatabaseMigrations
 import io.wookoo.database.weatherdatabase.WeatherDataBase
 import javax.inject.Singleton
 
@@ -24,5 +25,15 @@ internal object DatabaseModule {
         context,
         WeatherDataBase::class.java,
         DATABASE_NAME,
-    ).build()
+    ).addMigrations(
+        DatabaseMigrations.MIGRATION_1_2,
+        DatabaseMigrations.MIGRATION_2_3,
+        DatabaseMigrations.MIGRATION_3_4,
+        DatabaseMigrations.MIGRATION_4_5,
+        DatabaseMigrations.MIGRATION_5_6,
+        DatabaseMigrations.MIGRATION_6_7,
+        DatabaseMigrations.MIGRATION_7_8,
+        DatabaseMigrations.MIGRATION_8_9,
+    )
+        .build()
 }

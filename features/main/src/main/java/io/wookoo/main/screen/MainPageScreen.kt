@@ -1,14 +1,9 @@
 package io.wookoo.main.screen
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -16,49 +11,35 @@ import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddLocation
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import io.wookoo.common.ext.asLocalizedString
 import io.wookoo.common.ext.asLocalizedUiWeatherMap
 import io.wookoo.common.ext.asLocalizedUnitValueString
 import io.wookoo.common.ext.isFineLocationPermissionGranted
 import io.wookoo.designsystem.ui.components.SharedLottieLoader
-import io.wookoo.designsystem.ui.components.SharedSurfaceIcon
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.designsystem.ui.theme.large
-import io.wookoo.designsystem.ui.theme.small
 import io.wookoo.designsystem.ui.theme.ultraLarge
 import io.wookoo.main.components.BottomContent
 import io.wookoo.main.components.Header
 import io.wookoo.main.components.HourlyRow
 import io.wookoo.main.components.MainCardMedium
-import io.wookoo.main.components.PagerIndicator
 import io.wookoo.main.components.TodayRowTitle
 import io.wookoo.main.components.WeatherProperties
 import io.wookoo.main.mvi.MainPageIntent
@@ -66,11 +47,6 @@ import io.wookoo.main.mvi.MainPageState
 import io.wookoo.main.mvi.OnGeolocationIconClick
 import io.wookoo.main.mvi.OnNavigateToWeekly
 import io.wookoo.main.mvi.OnRequestGeoLocationPermission
-import io.wookoo.main.mvi.SetPagerPosition
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-
-private const val TAG = "MainPageScreen"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -89,7 +65,6 @@ fun MainPageScreen(
 
 //    val scope = rememberCoroutineScope()
 
-
     BackHandler(enabled = state.isGeolocationSearchInProgress) {}
 
     Crossfade(
@@ -102,7 +77,6 @@ fun MainPageScreen(
         when (screenState) {
             io.wookoo.designsystem.ui.Crossfade.LOADING -> SharedLottieLoader()
             io.wookoo.designsystem.ui.Crossfade.CONTENT -> {
-
                 val pagerState = rememberPagerState(pageCount = {
                     state.cityListCount
                 })
@@ -111,38 +85,41 @@ fun MainPageScreen(
                     modifier = Modifier
                         .fillMaxSize(),
                     bottomBar = {
-                        BottomContent(onIntent, state, pagerState)
+                        BottomAppBar {
+                            BottomContent(onIntent, state, pagerState)
+                        }
                     },
                     topBar = {
                         TopAppBar(
                             title = {
-                                SharedText("Погода")
+                                SharedText(stringResource(io.wookoo.androidresources.R.string.weather_app_bar_title))
                             }
                         )
 
-////                            SearchBarMain(
-////                                onSearchQueryChange = { query ->
-////                                    onIntent(OnSearchQueryChange(query))
-////                                },
-////                                onClose = { onIntent(OnExpandSearchBar(false)) },
-////                                searchQuery = state.searchQuery,
-////                                onSearchNotExpandedIconClick = {
-////                                    onIntent(OnExpandSearchBar(true))
-////                                },
-////                                isExpanded = state.searchExpanded,
-////                                results = state.searchResults,
-////                                onItemClick = { geoItem ->
-////                                    onIntent(OnSearchedGeoItemCardClick(geoItem))
-////                                },
-////                                isLoading = state.isLoading,
-////                                isGeolocationSearchInProgress = isGeolocationSearchInProgress
-////                            )
+// //                            SearchBarMain(
+// //                                onSearchQueryChange = { query ->
+// //                                    onIntent(OnSearchQueryChange(query))
+// //                                },
+// //                                onClose = { onIntent(OnExpandSearchBar(false)) },
+// //                                searchQuery = state.searchQuery,
+// //                                onSearchNotExpandedIconClick = {
+// //                                    onIntent(OnExpandSearchBar(true))
+// //                                },
+// //                                isExpanded = state.searchExpanded,
+// //                                results = state.searchResults,
+// //                                onItemClick = { geoItem ->
+// //                                    onIntent(OnSearchedGeoItemCardClick(geoItem))
+// //                                },
+// //                                isLoading = state.isLoading,
+// //                                isGeolocationSearchInProgress = isGeolocationSearchInProgress
+// //                            )
                     }
                 ) { paddings ->
                     HorizontalPager(
                         state = pagerState,
                         modifier = Modifier
-                            .fillMaxSize().padding(paddings)
+                            .fillMaxSize()
+                            .padding(paddings)
                     ) {
                         LazyColumn(
                             Modifier
@@ -230,14 +207,18 @@ fun MainPageScreen(
                                         state = state,
                                         modifier = Modifier.padding(horizontal = large),
                                         onNextSevenDaysClick = {
-                                            onIntent(OnNavigateToWeekly(state.city))
+                                            onIntent(
+                                                OnNavigateToWeekly(
+                                                    geoItemId = state.currentWeather.geoNameId,
+                                                )
+                                            )
                                         },
                                     )
                                     Spacer(modifier = Modifier.height(ultraLarge))
                                 }
                             }
                             item {
-                                HourlyRow(state)
+                                HourlyRow(state, modifier = Modifier.padding(bottom = large))
                             }
                         }
                     }
@@ -249,9 +230,6 @@ fun MainPageScreen(
     }
 }
 
-
-
-
 @Composable
 @Preview
 private fun MainPageScreenPreview() {
@@ -262,4 +240,3 @@ private fun MainPageScreenPreview() {
         )
     }
 }
-

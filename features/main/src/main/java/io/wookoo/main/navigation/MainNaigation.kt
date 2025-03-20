@@ -2,12 +2,15 @@ package io.wookoo.main.navigation
 
 import android.content.Intent
 import android.provider.Settings
+import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
@@ -16,6 +19,7 @@ import androidx.navigation.compose.composable
 import io.wookoo.common.ext.asLocalizedString
 import io.wookoo.main.mvi.MainPageEffect
 import io.wookoo.main.mvi.MainPageViewModel
+import io.wookoo.main.mvi.OnNavigateToCities
 import io.wookoo.main.mvi.OnNavigateToWeekly
 import io.wookoo.main.mvi.OnRequestGeoLocationPermission
 import io.wookoo.main.screen.MainPageScreen
@@ -26,13 +30,15 @@ data object MainRoute
 
 fun NavGraphBuilder.mainPage(
     onRequestLocationPermissions: () -> Unit,
-    onNavigate: (String) -> Unit,
+    onNavigateToWeekly: (geoItemId: Long) -> Unit,
+    onNavigateToCities: () -> Unit,
     onShowSnackBar: (String) -> Unit,
 ) {
     composable<MainRoute> {
         MainPageScreenRoot(
             onRequestLocationPermissions = onRequestLocationPermissions,
-            onNavigate = onNavigate,
+            onNavigateToWeekly = onNavigateToWeekly,
+            onNavigateToCities = onNavigateToCities,
             onShowSnackBar = onShowSnackBar
         )
     }
@@ -42,7 +48,8 @@ fun NavGraphBuilder.mainPage(
 private fun MainPageScreenRoot(
     viewModel: MainPageViewModel = hiltViewModel(),
     onRequestLocationPermissions: () -> Unit,
-    onNavigate: (String) -> Unit,
+    onNavigateToWeekly: (geoItemId: Long) -> Unit,
+    onNavigateToCities: () -> Unit,
     onShowSnackBar: (String) -> Unit,
 ) {
     val owner = LocalLifecycleOwner.current
@@ -70,12 +77,26 @@ private fun MainPageScreenRoot(
         }
     }
 
+    DisposableEffect(owner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_DESTROY) {
+                Log.d("MainPageScreenRoot", "MainPageScreenRoot is destroyed")
+            }
+        }
+        owner.lifecycle.addObserver(observer)
+        onDispose { owner.lifecycle.removeObserver(observer) }
+    }
+
     MainPageScreen(
         state = state,
         onIntent = { intent ->
             when (intent) {
                 OnRequestGeoLocationPermission -> onRequestLocationPermissions()
-                is OnNavigateToWeekly -> onNavigate(intent.cityName)
+                is OnNavigateToWeekly -> onNavigateToWeekly(
+                    intent.geoItemId,
+                )
+
+                is OnNavigateToCities -> onNavigateToCities()
                 else -> Unit
             }
             viewModel.onIntent(intent)

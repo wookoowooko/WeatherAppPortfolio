@@ -25,6 +25,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -40,9 +41,11 @@ import io.wookoo.cities.mvi.CitiesIntent
 import io.wookoo.cities.mvi.CitiesState
 import io.wookoo.cities.mvi.OnSearchQueryChange
 import io.wookoo.designsystem.ui.components.SharedText
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, FlowPreview::class)
 internal fun CitiesSearchBar(
     state: CitiesState,
     onIntent: (CitiesIntent) -> Unit,
@@ -51,11 +54,26 @@ internal fun CitiesSearchBar(
 ) {
     val focusRequester = remember { FocusRequester() }
 
-    val textFieldValue = remember(state.searchQuery) {
+    var textFieldValue = remember(state.searchQuery) {
         TextFieldValue(
             text = state.searchQuery,
             selection = TextRange(state.searchQuery.length)
         )
+    }
+
+    LaunchedEffect(textFieldValue) {
+        snapshotFlow { textFieldValue }
+            .debounce(1000)
+            .collect { latestValue ->
+                val trimmed = latestValue.text.trim()
+                if (trimmed != latestValue.text) {
+                    val newValue = latestValue.copy(text = trimmed)
+                    textFieldValue = newValue
+                    onIntent(OnSearchQueryChange(newValue.text))
+                } else {
+                    onIntent(OnSearchQueryChange(latestValue.text))
+                }
+            }
     }
 
     LaunchedEffect(Unit) {
@@ -77,9 +95,9 @@ internal fun CitiesSearchBar(
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 value = textFieldValue,
-                onValueChange = {
-                    val trimmed = it.text.trim()
-                    onIntent(OnSearchQueryChange(trimmed))
+                onValueChange = { newValue ->
+                    textFieldValue = newValue
+                    onIntent(OnSearchQueryChange(newValue.text))
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -144,8 +162,6 @@ internal fun CitiesSearchBar(
     }
 }
 
-
-
 @Composable
 @Preview
 private fun WelcomeSearchBarPreview() {
@@ -155,4 +171,3 @@ private fun WelcomeSearchBarPreview() {
         onHideBottomSheet = {}
     )
 }
-

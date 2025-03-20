@@ -14,9 +14,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data object CitiesRoute
 
-fun NavGraphBuilder.citiesScreen() {
+fun NavGraphBuilder.citiesScreen(
+    onBackIconClick: () -> Unit,
+) {
     composable<CitiesRoute> {
-        CitiesScreenRoot()
+        CitiesScreenRoot(
+            onBackIconClick = onBackIconClick
+        )
     }
 }
 
@@ -27,10 +31,12 @@ fun NavHostController.navigateToCities() {
 @Composable
 private fun CitiesScreenRoot(
     viewModel: CitiesViewModel = hiltViewModel(),
+    onBackIconClick: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     CitiesScreen(
+        onBackIconClick = onBackIconClick,
         state = state,
         onIntent = viewModel::onIntent
     )

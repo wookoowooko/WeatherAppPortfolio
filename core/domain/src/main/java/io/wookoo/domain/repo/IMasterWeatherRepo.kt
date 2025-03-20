@@ -13,23 +13,21 @@ interface IMasterWeatherRepo {
 
     fun currentWeather(geoNameId: Long): Flow<CurrentWeatherResponseModel>
 
-    suspend fun syncCurrentWeather(
-        latitude: Double,
-        longitude: Double,
-    ): EmptyResult<DataError>
-
-    fun weeklyWeather(geoNameId: Long): Flow<WeeklyWeatherResponseModel>
+    fun weeklyWeatherForecastFlowFromDB(geoNameId: Long): Flow<WeeklyWeatherResponseModel>
 
     fun getCurrentWeatherIds(): Flow<List<Long>>
 
     fun getAllCitiesCurrentWeather(): Flow<List<CurrentWeatherResponseModel>>
 
-    suspend fun syncWeeklyWeather(
-        latitude: Double,
-        longitude: Double,
+    suspend fun syncWeeklyWeatherFromAPIAndSaveToCache(
+        geoItemId: Long,
     ): EmptyResult<DataError>
 
-    suspend fun getSearchedLocation(
+    suspend fun synchronizeCurrentWeather(
+        geoItemId: Long,
+    ): AppResult<Unit, DataError>
+
+    suspend fun searchLocation(
         query: String,
         language: String,
     ): AppResult<GeocodingResponseModel, DataError.Remote>
@@ -39,9 +37,4 @@ interface IMasterWeatherRepo {
         longitude: Double,
         language: String,
     ): AppResult<ReverseGeocodingResponseModel, DataError.Remote>
-
-    suspend fun getWeeklyWeather(
-        latitude: Double,
-        longitude: Double,
-    ): AppResult<WeeklyWeatherResponseModel, DataError.Remote>
 }

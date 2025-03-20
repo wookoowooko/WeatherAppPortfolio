@@ -1,4 +1,4 @@
-package io.wookoo.data.mappers.geocoding
+package io.wookoo.mappers.geocoding
 
 import io.wookoo.domain.model.geocoding.GeocodingResponseModel
 import io.wookoo.domain.model.geocoding.GeocodingSearchModel
@@ -20,10 +20,9 @@ fun GeocodingSearchDto.asGeocodingSearchModel(): GeocodingSearchModel {
         cityName = name,
         latitude = latitude,
         longitude = longitude,
-        countryCode = countryCode,
         country = country.orEmpty(),
         urbanArea = admin1,
-        geoNameId = geoNameId
+        geoItemId = geoNameId
     )
 }
 

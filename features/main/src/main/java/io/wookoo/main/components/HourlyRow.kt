@@ -1,6 +1,5 @@
 package io.wookoo.main.components
 
-
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -22,10 +21,11 @@ import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.domain.model.weather.current.HourlyModelItem
 import io.wookoo.main.mvi.MainPageState
 
-
 @Composable
-internal fun HourlyRow(state: MainPageState) {
-
+internal fun HourlyRow(
+    state: MainPageState,
+    modifier: Modifier = Modifier,
+) {
     val context = LocalContext.current
     val rowState = rememberLazyListState()
     var nowPosition by remember { mutableIntStateOf(0) }
@@ -39,7 +39,7 @@ internal fun HourlyRow(state: MainPageState) {
     }
 
     LazyRow(
-        modifier = Modifier,
+        modifier = modifier,
         state = rowState,
     ) {
         items(state.currentWeather.hourlyList) { item: HourlyModelItem ->

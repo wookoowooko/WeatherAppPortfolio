@@ -23,6 +23,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -39,23 +40,41 @@ import io.wookoo.welcome.mvi.OnAppBarExpandChange
 import io.wookoo.welcome.mvi.OnSearchQueryChange
 import io.wookoo.welcome.mvi.WelcomePageIntent
 import io.wookoo.welcome.mvi.WelcomePageState
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, FlowPreview::class)
 internal fun WelcomeSearchBar(
     onIntent: (WelcomePageIntent) -> Unit,
-    searchQuery: String,
+
     state: WelcomePageState,
     isLoading: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val focusRequester = remember { FocusRequester() }
 
-    val textFieldValue = remember(searchQuery) {
+    var textFieldValue = remember(state.searchQuery) {
         TextFieldValue(
-            text = searchQuery,
-            selection = TextRange(searchQuery.length)
+            text = state.searchQuery,
+            selection = TextRange(state.searchQuery.length)
         )
+    }
+
+
+    LaunchedEffect(textFieldValue) {
+        snapshotFlow { textFieldValue }
+            .debounce(1000)
+            .collect { latestValue ->
+                val trimmed = latestValue.text.trim()
+                if (trimmed != latestValue.text) {
+                    val newValue = latestValue.copy(text = trimmed)
+                    textFieldValue = newValue
+                    onIntent(OnSearchQueryChange(newValue.text))
+                } else {
+                    onIntent(OnSearchQueryChange(latestValue.text))
+                }
+            }
     }
 
     LaunchedEffect(Unit) {
@@ -78,9 +97,9 @@ internal fun WelcomeSearchBar(
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
                 value = textFieldValue,
-                onValueChange = {
-                    val trimmed = it.text.trim()
-                    onIntent(OnSearchQueryChange(trimmed))
+                onValueChange = { newValue ->
+                    textFieldValue = newValue
+                    onIntent(OnSearchQueryChange(newValue.text))
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -95,7 +114,7 @@ internal fun WelcomeSearchBar(
                     ),
                 visualTransformation = VisualTransformation.None,
                 placeholder = {
-                    if (searchQuery.isEmpty()) {
+                    if (state.searchQuery.isEmpty()) {
                         Text(
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                             text = stringResource(io.wookoo.androidresources.R.string.search_your_location),
@@ -105,7 +124,7 @@ internal fun WelcomeSearchBar(
                 },
                 trailingIcon = {
                     IconButton(onClick = {
-                        if (searchQuery.isNotEmpty()) {
+                        if (state.searchQuery.isNotEmpty()) {
                             onIntent(OnSearchQueryChange(""))
                         } else {
                             onIntent(
@@ -152,7 +171,6 @@ internal fun WelcomeSearchBar(
 private fun WelcomeSearchBarPreview() {
     WelcomeSearchBar(
         onIntent = {},
-        searchQuery = "",
         state = WelcomePageState(),
         isLoading = false
     )

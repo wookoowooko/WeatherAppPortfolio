@@ -16,7 +16,4 @@ data class GeoEntity(
 
     @ColumnInfo("country_name")
     val countryName: String,
-
-    @ColumnInfo("timezone")
-    val timezone: String,
 )

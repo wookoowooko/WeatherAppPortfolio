@@ -11,6 +11,7 @@ fun AppError.asLocalizedString(context: Context): String {
         DataError.Remote.NO_INTERNET -> context.getString(io.wookoo.androidresources.R.string.error_no_internet)
         DataError.Remote.UNKNOWN -> context.getString(io.wookoo.androidresources.R.string.error_unknown)
         DataError.Remote.SERIALIZATION -> context.getString(io.wookoo.androidresources.R.string.error_serialization)
+        DataError.Remote.CANT_SYNC -> context.getString(io.wookoo.androidresources.R.string.error_cant_sync)
         DataError.Remote.TOO_MANY_REQUESTS -> context.getString(
             io.wookoo.androidresources.R.string.error_too_many_requests
         )

@@ -70,4 +70,7 @@ data class CurrentWeatherEntity(
 
     @ColumnInfo("weather_code")
     val weatherCode: Int,
+
+    @ColumnInfo("last_update")
+    val lastUpdate: Long = System.currentTimeMillis()
 )

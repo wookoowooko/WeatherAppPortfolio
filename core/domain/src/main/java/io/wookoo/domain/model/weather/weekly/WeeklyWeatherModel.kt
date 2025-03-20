@@ -5,6 +5,7 @@ import io.wookoo.domain.model.weather.current.SunCyclesModel
 import io.wookoo.domain.model.weather.current.WindModel
 
 data class WeeklyWeatherModel(
+    val cityName: String,
     val time: List<Long>,
     val weatherCode: List<Int>,
     val tempMax: List<Double>,

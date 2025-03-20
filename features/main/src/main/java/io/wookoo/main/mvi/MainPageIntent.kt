@@ -26,7 +26,9 @@ data class OnSuccessFetchCurrentWeatherFromApi(val cachedResult: CurrentWeatherR
 data object OnLoading : MainPageIntent
 data object OnGeolocationIconClick : MainPageIntent
 data object OnRequestGeoLocationPermission : MainPageIntent
-data class OnNavigateToWeekly(val cityName: String) : MainPageIntent
+data class OnNavigateToWeekly(val geoItemId: Long) :
+    MainPageIntent
+data object OnNavigateToCities : MainPageIntent
 
 // data MainPageIntent
 data class OnSearchQueryChange(val query: String) : MainPageIntent
