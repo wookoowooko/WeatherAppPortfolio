@@ -1,5 +1,6 @@
 package io.wookoo.cities.mvi
 
+import android.util.Log
 import io.wookoo.common.mvi.Store
 import io.wookoo.domain.annotations.StoreViewModelScope
 import io.wookoo.domain.model.weather.current.CurrentWeatherResponseModel
@@ -87,16 +88,12 @@ class CitiesStore @Inject constructor(
 
     private suspend fun syncWeather(intent: OnSearchedGeoItemCardClick) {
         masterRepository.synchronizeCurrentWeather(
-            latitude = intent.geoItem.latitude,
-            longitude = intent.geoItem.longitude,
-            geoItemId = intent.geoItem.geoItemId,
-            countryName = intent.geoItem.country,
-            cityName = intent.geoItem.cityName
+            geoItemId = intent.geoItem.geoItemId
         )
     }
 
-
     override fun clear() {
+        Log.d(TAG, "clear: ")
         storeScope.cancel()
     }
 

@@ -26,6 +26,9 @@ interface CurrentWeatherDao {
     @Query("SELECT * FROM geo_entity")
     fun getAllCitiesCurrentWeather(): Flow<List<WeatherWithDetails>>
 
+    @Query("SELECT last_update FROM current_weather WHERE currentId = :geoItemId")
+    suspend fun getLastUpdateForCurrent(geoItemId: Long): Long
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGeo(geo: GeoEntity): Long
 

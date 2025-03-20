@@ -69,7 +69,8 @@ class WeeklyReducer @Inject constructor(
                         convertWeatherCodeToEnumUseCase = convertWeatherCodeToEnumUseCase,
                         formatWindDirectionUseCase = formatWindDirectionUseCase,
                         convertUnixTimeUseCase = convertUnixTimeUseCase
-                    )
+                    ),
+                    isLoading = false
                 )
             }
 

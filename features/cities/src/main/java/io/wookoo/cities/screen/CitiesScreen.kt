@@ -23,7 +23,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import io.wookoo.cities.R
 import io.wookoo.cities.components.CitiesFromDB
 import io.wookoo.cities.components.CitiesSearchBar
 import io.wookoo.cities.mvi.CitiesIntent
@@ -63,7 +62,6 @@ internal fun CitiesScreen(
                             contentDescription = null
                         )
                     }
-
                 },
                 title = {
                     SharedText(stringResource(io.wookoo.androidresources.R.string.locations))

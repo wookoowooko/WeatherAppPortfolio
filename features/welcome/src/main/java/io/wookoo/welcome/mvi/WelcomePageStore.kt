@@ -39,7 +39,6 @@ class WelcomePageStore @Inject constructor(
     storeScope = storeScope,
     reducer = reducer,
 ) {
-    private var geonamesJob: Job? = null
     private var searchJob: Job? = null
 
     private val isOffline = networkMonitor.isOnline
@@ -54,7 +53,6 @@ class WelcomePageStore @Inject constructor(
         )
 
     override fun initializeObservers() {
-//        observeLocationChanges()
         observeSearchQuery()
     }
 
@@ -87,17 +85,6 @@ class WelcomePageStore @Inject constructor(
             .launchIn(storeScope)
     }
 
-//    private fun observeLocationChanges() {
-//        state
-//            .map { it.latitude to it.longitude }
-//            .distinctUntilChanged()
-//            .filter { (lat, lon) -> lat != 0.0 && lon != 0.0 }
-//            .onEach {
-//                geonamesJob?.cancel()
-//                geonamesJob = fetchReversGeocoding()
-//            }
-//            .launchIn(storeScope)
-//    }
 
     // Functions
     private fun searchLocationFromApi(query: String) = storeScope.launch {
@@ -138,6 +125,7 @@ class WelcomePageStore @Inject constructor(
         }
     }
 
+
     private fun fetchReversGeocoding(
         latitude: Double,
         longitude: Double,
@@ -163,16 +151,12 @@ class WelcomePageStore @Inject constructor(
 
     private suspend fun saveUserOnboardingDone() {
         dispatch(OnLoading)
-        Log.d(TAG, "state: ${state.value.isLoading}") // Теперь должно быть true
         if (isOffline.value) {
             emitSideEffect(WelcomeSideEffect.ShowSnackBar(DataError.Remote.NO_INTERNET))
         } else {
+            Log.d(TAG, "startSynchronize:Onboarding")
             masterRepository.synchronizeCurrentWeather(
-                latitude = state.value.latitude,
-                longitude = state.value.longitude,
                 geoItemId = state.value.geoItemId,
-                countryName = state.value.country,
-                cityName = state.value.city
             ).onSuccess {
                 dataStore.saveInitialLocationPicked(true).asEmptyDataResult()
                     .onError { prefError ->
@@ -185,31 +169,8 @@ class WelcomePageStore @Inject constructor(
     }
 
 
-//                    .onSuccess {
-//                        masterRepository.insertGeo(
-//                            geoNameId = state.value.geoItemId,
-//                            cityName = state.value.city,
-//                            countryName = state.value.country
-//                        )
-//                    }
-
-
-//                dataStore.saveUserLocation(state.value.latitude, state.value.longitude)
-//                    .asEmptyDataResult()
-//                    .onSuccess {
-//                        dataStore.saveInitialLocationPicked(true).asEmptyDataResult()
-//                            .onError { prefError ->
-//                                emitSideEffect(WelcomeSideEffect.ShowSnackBar(prefError))
-//                            }
-//                    }
-//                    .onError { prefError ->
-//                        emitSideEffect(WelcomeSideEffect.ShowSnackBar(prefError))
-//                    }.onFinally {
-//                        dispatch(OnLoadingFinish)
-//                    }
-
-
     override fun clear() {
+        Log.d(TAG, "cleared")
         storeScope.cancel()
     }
 

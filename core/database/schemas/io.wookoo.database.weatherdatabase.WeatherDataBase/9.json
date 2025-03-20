@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 7,
-    "identityHash": "c06544e59c7b4b9f67908afe6e624bb5",
+    "version": 9,
+    "identityHash": "5e4431cc5a33addeae1ef1a87ff9205a",
     "entities": [
       {
         "tableName": "geo_entity",
@@ -176,7 +176,7 @@
       },
       {
         "tableName": "current_weather",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `currentId` INTEGER NOT NULL, `time` INTEGER NOT NULL, `temperature_2m` REAL NOT NULL, `relative_humidity_2m` INTEGER NOT NULL, `apparent_temperature` REAL NOT NULL, `is_day` INTEGER NOT NULL, `precipitation` REAL NOT NULL, `rain` REAL NOT NULL, `showers` REAL NOT NULL, `snowfall` REAL NOT NULL, `cloud_cover` INTEGER NOT NULL, `pressure_msl` REAL NOT NULL, `wind_direction_10m` INTEGER NOT NULL, `wind_speed_10m` REAL NOT NULL, `wind_gusts_10m` REAL NOT NULL, `weather_code` INTEGER NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `last_update` INTEGER NOT NULL, FOREIGN KEY(`currentId`) REFERENCES `geo_entity`(`geo_name_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `currentId` INTEGER NOT NULL, `time` INTEGER NOT NULL, `temperature_2m` REAL NOT NULL, `relative_humidity_2m` INTEGER NOT NULL, `apparent_temperature` REAL NOT NULL, `is_day` INTEGER NOT NULL, `precipitation` REAL NOT NULL, `rain` REAL NOT NULL, `showers` REAL NOT NULL, `snowfall` REAL NOT NULL, `cloud_cover` INTEGER NOT NULL, `pressure_msl` REAL NOT NULL, `wind_direction_10m` INTEGER NOT NULL, `wind_speed_10m` REAL NOT NULL, `wind_gusts_10m` REAL NOT NULL, `weather_code` INTEGER NOT NULL, `last_update` INTEGER NOT NULL, FOREIGN KEY(`currentId`) REFERENCES `geo_entity`(`geo_name_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -278,18 +278,6 @@
             "fieldPath": "weatherCode",
             "columnName": "weather_code",
             "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "latitude",
-            "columnName": "latitude",
-            "affinity": "REAL",
-            "notNull": true
-          },
-          {
-            "fieldPath": "longitude",
-            "columnName": "longitude",
-            "affinity": "REAL",
             "notNull": true
           },
           {
@@ -486,7 +474,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c06544e59c7b4b9f67908afe6e624bb5')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5e4431cc5a33addeae1ef1a87ff9205a')"
     ]
   }
 }

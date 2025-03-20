@@ -11,6 +11,7 @@ import io.wookoo.domain.utils.onError
 import io.wookoo.domain.utils.onFinally
 import io.wookoo.weekly.navigation.WeeklyRoute
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -61,18 +62,14 @@ class WeeklyStore @Inject constructor(
             .onEach { weeklyWeather: WeeklyWeatherResponseModel ->
                 Log.d(TAG, "observeWeeklyWeather: $weeklyWeather")
                 dispatch(OnObserveWeeklyForecast(weeklyWeather))
-
             }.launchIn(storeScope)
     }
 
     private fun synchronizeWeatherOnStart() = storeScope.launch {
-        dispatch(OnLoading)
         masterRepository.syncWeeklyWeatherFromAPIAndSaveToCache(
             geoItemId = geoItemId,
         ).onError { syncError ->
             emitSideEffect(WeeklyEffect.OnShowSnackBar(syncError))
-        }.onFinally {
-            dispatch(OnLoadingFinish)
         }
     }
 

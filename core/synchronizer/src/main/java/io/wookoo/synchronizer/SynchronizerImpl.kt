@@ -18,7 +18,6 @@ import io.wookoo.mappers.weeklyweather.asWeeklyWeatherEntity
 import io.wookoo.network.api.geocoding.IGeoCodingService
 import io.wookoo.network.api.weather.IWeatherService
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import java.sql.SQLException
 import javax.inject.Inject
@@ -74,14 +73,11 @@ class SynchronizerImpl @Inject constructor(
                     weatherResponse.week.asWeeklyWeatherEntity(
                         isDay = weatherResponse.currentShort.isDay == 1,
                         geoNameId = geoItemId,
-                        longitude = weatherResponse.longitude,
-                        latitude = weatherResponse.latitude,
                         cityName = geoInfo.name
                     )
                 )
 
                 result = AppResult.Success(Unit)
-
             } catch (e: SQLException) {
                 Log.e(TAG, "Database error: $e")
                 result = AppResult.Error(DataError.Local.DISK_FULL)
@@ -92,55 +88,60 @@ class SynchronizerImpl @Inject constructor(
     }
 
     override suspend fun synchronizeCurrentWeather(
-        latitude: Double,
-        longitude: Double,
         geoItemId: Long,
-        countryName: String,
-        cityName: String,
     ): AppResult<Unit, DataError> {
         Log.d(TAG, "syncCurrentWeather")
 
-        return withContext(ioDispatcher) {
-            val weatherDeferred = async {
-                weatherRemoteDataSource.getCurrentWeather(latitude, longitude)
-            }
-            val weatherResult = weatherDeferred.await()
-            when {
-                weatherResult is AppResult.Success -> {
+        var result: AppResult<Unit, DataError>
 
-                    val remoteWeather = weatherResult.data
+        withContext(ioDispatcher) {
+            try {
+                // 1. Check data freshness
+                val lastUpdate: Long = currentWeatherDao.getLastUpdateForCurrent(geoItemId)
+                Log.d(TAG, "lastUpdate: $lastUpdate")
+                val oneHourAgo = System.currentTimeMillis() - 60 * 60 * 1000
 
-                    try {
-                        currentWeatherDao.insertFullWeather(
-                            geo = GeoEntity(
-                                geoNameId = geoItemId,
-                                countryName = countryName,
-                                cityName = cityName
-                            ),
-                            current = remoteWeather.current.asCurrentWeatherEntity(
-                                latitude = remoteWeather.latitude,
-                                longitude = remoteWeather.longitude,
-                            ),
-                            hourly = remoteWeather.hourly.asHourlyEntity(),
-                            daily = remoteWeather.daily.asDailyEntity()
-                        )
-
-                        AppResult.Success(Unit)
-                    } catch (e: SQLException) {
-                        Log.e(TAG, "Database error: $e")
-                        AppResult.Error(DataError.Local.DISK_FULL)
-                    }
+                if (lastUpdate > oneHourAgo) {
+                    Log.d(TAG, "Weather data is fresh, skipping update")
+                    result = AppResult.Success(Unit)
+                    return@withContext
                 }
-
-                else -> {
-                    val error = when {
-                        weatherResult is AppResult.Error -> weatherResult.error
-                        else -> DataError.Remote.CANT_SYNC // Fallback, если что-то пошло не так
-                    }
-                    AppResult.Error(error)
+                // 2. Get geo information
+                val geoResult = geoCodingService.getInfoByGeoItemId(geoItemId, language = "ru")
+                if (geoResult is AppResult.Error) {
+                    result = AppResult.Error(geoResult.error)
+                    return@withContext
                 }
+                val geoInfo = (geoResult as AppResult.Success).data
+
+                // 3. Get weather data
+                val weatherResult = weatherRemoteDataSource.getCurrentWeather(
+                    geoInfo.latitude,
+                    geoInfo.longitude
+                )
+                if (weatherResult is AppResult.Error) {
+                    result = AppResult.Error(weatherResult.error)
+                    return@withContext
+                }
+                val weatherResponse = (weatherResult as AppResult.Success).data
+
+                currentWeatherDao.insertFullWeather(
+                    geo = GeoEntity(
+                        geoNameId = geoItemId,
+                        countryName = geoInfo.country.orEmpty(),
+                        cityName = geoInfo.name
+                    ),
+                    current = weatherResponse.current.asCurrentWeatherEntity(),
+                    hourly = weatherResponse.hourly.asHourlyEntity(),
+                    daily = weatherResponse.daily.asDailyEntity()
+                )
+                result = AppResult.Success(Unit)
+            } catch (e: SQLException) {
+                Log.e(TAG, "Database error: $e")
+                result = AppResult.Error(DataError.Local.DISK_FULL)
             }
         }
+        return result
     }
 
     companion object {

@@ -15,22 +15,7 @@ import io.wookoo.network.dto.weather.current.CurrentWeatherDto
 import io.wookoo.network.dto.weather.current.DailyDto
 import io.wookoo.network.dto.weather.current.HourlyDto
 
-// fun WeatherEntity.asWeatherResponseModel(): CurrentWeatherResponseModel {
-//    return CurrentWeatherResponseModel(
-//        cityName = cityName,
-//        countryName = countryName,
-//        geoNameId = geoNameId.toString(),
-//        timezone = timezone,
-//        current = current.asCurrentDayModel(),
-//        hourly = hourly.asHourlyModel(),
-//        daily = daily.asDailyModel()
-//    )
-// }
-
-fun CurrentWeatherDto.asCurrentWeatherEntity(
-    latitude: Double,
-    longitude: Double,
-): CurrentWeatherEntity {
+fun CurrentWeatherDto.asCurrentWeatherEntity(): CurrentWeatherEntity {
     return CurrentWeatherEntity(
         time = time,
         temperature = temperature,
@@ -49,8 +34,6 @@ fun CurrentWeatherDto.asCurrentWeatherEntity(
         weatherCode = weatherCode,
         currentId = 0,
         id = 0,
-        latitude = latitude,
-        longitude = longitude
     )
 }
 
@@ -62,8 +45,6 @@ fun WeatherWithDetails.asCurrentWeatherResponseModel(): CurrentWeatherResponseMo
         current = current.asCurrentDayModel(),
         hourly = hourly.asHourlyModel(),
         daily = daily.asDailyModel(),
-        latitude = this.current.latitude,
-        longitude = this.current.longitude
     )
 }
 

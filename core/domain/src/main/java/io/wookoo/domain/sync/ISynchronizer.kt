@@ -9,10 +9,6 @@ interface ISynchronizer {
     ): AppResult<Unit, DataError>
 
     suspend fun synchronizeCurrentWeather(
-        latitude: Double,
-        longitude: Double,
         geoItemId: Long,
-        countryName: String,
-        cityName: String,
     ): AppResult<Unit, DataError>
 }

@@ -24,11 +24,7 @@ interface IMasterWeatherRepo {
     ): EmptyResult<DataError>
 
     suspend fun synchronizeCurrentWeather(
-        latitude: Double,
-        longitude: Double,
         geoItemId: Long,
-        countryName: String,
-        cityName: String,
     ): AppResult<Unit, DataError>
 
     suspend fun searchLocation(
@@ -41,5 +37,4 @@ interface IMasterWeatherRepo {
         longitude: Double,
         language: String,
     ): AppResult<ReverseGeocodingResponseModel, DataError.Remote>
-
 }

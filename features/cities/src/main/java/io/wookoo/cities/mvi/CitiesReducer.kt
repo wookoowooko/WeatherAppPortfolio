@@ -8,7 +8,7 @@ import javax.inject.Inject
 class CitiesReducer @Inject constructor(
     private val convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,
 
-    ) : Reducer<CitiesState, CitiesIntent> {
+) : Reducer<CitiesState, CitiesIntent> {
     override fun reduce(
         state: CitiesState,
         intent: CitiesIntent,
@@ -26,7 +26,6 @@ class CitiesReducer @Inject constructor(
                     }
                 )
             }
-
 
             is OnSearchedGeoItemCardClick ->
                 state.copy(

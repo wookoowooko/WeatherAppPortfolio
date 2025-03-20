@@ -84,21 +84,12 @@ class MasterRepoImpl @Inject constructor(
     }
 
     override suspend fun synchronizeCurrentWeather(
-        latitude: Double,
-        longitude: Double,
         geoItemId: Long,
-        countryName: String,
-        cityName: String,
     ): AppResult<Unit, DataError> {
         Log.d(TAG, "syncCurrentWeather")
         return synchronizer.synchronizeCurrentWeather(
-            latitude = latitude,
-            longitude = longitude,
-            geoItemId = geoItemId,
-            countryName = countryName,
-            cityName = cityName,
-
-            )
+            geoItemId = geoItemId
+        )
     }
 
     override suspend fun searchLocation(
@@ -130,5 +121,4 @@ class MasterRepoImpl @Inject constructor(
             }
         }
     }
-
 }

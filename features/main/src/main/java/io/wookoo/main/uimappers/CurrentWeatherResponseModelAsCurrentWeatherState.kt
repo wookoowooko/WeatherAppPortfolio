@@ -19,8 +19,6 @@ fun CurrentWeatherResponseModel.asUICurrentWeather(
     formatWindDirectionUseCase: WindDirectionFromDegreesToDirectionFormatUseCase,
 ): UiCurrentWeatherModel {
     return UiCurrentWeatherModel(
-        latitude = this.latitude,
-        longitude = this.longitude,
         geoNameId = this.geoNameId,
         hourlyList = hourlyModelToHourlyListUseCase(hourlyModel = this.hourly),
         date = convertDateUseCase(this.current.time),

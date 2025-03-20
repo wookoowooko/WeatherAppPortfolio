@@ -118,7 +118,5 @@ internal fun Navigation(
     }
 }
 
-private const val TAG = "Navigation"
-
 private val NavHostController.canGoBack: Boolean
     get() = this.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED

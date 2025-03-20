@@ -1,6 +1,5 @@
 package io.wookoo.main.screen
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Arrangement
@@ -230,7 +229,6 @@ fun MainPageScreen(
         }
     }
 }
-private const val TAG = "MainPageScreen"
 
 @Composable
 @Preview
