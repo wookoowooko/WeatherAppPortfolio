@@ -19,7 +19,7 @@ fun CurrentWeatherResponseModel.asUICurrentWeather(
     formatWindDirectionUseCase: WindDirectionFromDegreesToDirectionFormatUseCase,
 ): UiCurrentWeatherModel {
     return UiCurrentWeatherModel(
-        geoNameId = this.geoNameId,
+        geoNameId = this.geoItemId,
         hourlyList = hourlyModelToHourlyListUseCase(hourlyModel = this.hourly),
         date = convertDateUseCase(this.current.time),
         isDay = this.current.isDay,

@@ -15,6 +15,8 @@ class CitiesReducer @Inject constructor(
     ): CitiesState {
         return when (intent) {
             is OnLoading -> state.copy(isLoading = true)
+            is OnSearchInProgress -> state.copy(isSearchProcessing = true)
+            is OnSearchInProgressDone -> state.copy(isSearchProcessing = false)
             is OnSearchQueryChange -> state.copy(searchQuery = intent.query)
             is OnCitiesLoaded -> {
                 state.copy(

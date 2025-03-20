@@ -37,4 +37,6 @@ interface IMasterWeatherRepo {
         longitude: Double,
         language: String,
     ): AppResult<ReverseGeocodingResponseModel, DataError.Remote>
+
+    suspend fun deleteWeatherWithDetailsByGeoId(geoItemId: Long): AppResult<Unit, DataError>
 }

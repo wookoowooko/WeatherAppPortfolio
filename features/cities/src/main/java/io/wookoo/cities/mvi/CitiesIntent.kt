@@ -7,13 +7,17 @@ sealed interface CitiesIntent
 interface Completable : CitiesIntent
 
 data object OnLoading : CitiesIntent
+data object OnSearchInProgress : CitiesIntent
 data class OnSearchQueryChange(val query: String) : CitiesIntent
 data class OnCitiesLoaded(val cities: List<CurrentWeatherResponseModel>) : CitiesIntent
 data class OnSearchedGeoItemCardClick(val geoItem: GeocodingSearchModel) : CitiesIntent
 data class OnChangeBottomSheetVisibility(val expandValue: Boolean) : CitiesIntent
+data class OnDeleteCity(val geoItemId: Long) : CitiesIntent
+data object OnSearchInProgressDone : CitiesIntent
 
 // Unit And Error Completable
 data object OnLoadingFinish : Completable
+
 data object OnQueryIsEmpty : Completable
 data object OnErrorSearchLocation : Completable
 

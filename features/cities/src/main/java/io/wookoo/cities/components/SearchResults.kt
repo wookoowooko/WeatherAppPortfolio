@@ -51,7 +51,9 @@ internal fun SearchResults(
         horizontalAlignment = Alignment.Start
     ) {
         items(state.results) { result ->
+
             SharedLocationItem(
+                modifier = Modifier,
                 countryName = result.country,
                 cityName = result.cityName,
                 urbanArea = result.urbanArea,

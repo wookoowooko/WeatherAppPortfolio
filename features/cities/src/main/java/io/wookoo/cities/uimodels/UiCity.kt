@@ -4,6 +4,7 @@ import io.wookoo.domain.enums.WeatherCondition
 import io.wookoo.domain.units.WeatherValueWithUnit
 
 data class UiCity(
+    val geoItemId: Long,
     val isDay: Boolean,
     val cityName: String,
     val countryName: String,

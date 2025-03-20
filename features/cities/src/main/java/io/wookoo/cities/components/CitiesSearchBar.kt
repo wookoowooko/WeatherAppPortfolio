@@ -141,7 +141,7 @@ internal fun CitiesSearchBar(
             Box(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                if (state.isLoading) {
+                if (state.isSearchProcessing) {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center)
                     )

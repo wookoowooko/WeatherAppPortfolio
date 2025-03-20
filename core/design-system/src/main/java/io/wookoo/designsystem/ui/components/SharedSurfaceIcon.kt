@@ -27,11 +27,13 @@ fun SharedSurfaceIcon(
     image: Int? = null,
     icon: ImageVector? = null,
     iconPadding: Dp = large,
+    surfaceColor: Color = Color.White,
+    iconTint: Color = Color.Black
 ) {
     Surface(
         modifier = modifier.size(size_80),
         shape = rounded_shape_20_percent,
-        color = Color.White,
+        color = surfaceColor,
         shadowElevation = small,
     ) {
         IconButton(
@@ -41,7 +43,7 @@ fun SharedSurfaceIcon(
             onClick = onClick
         ) {
             if (icon != null) {
-                Icon(imageVector = icon, contentDescription = null, tint = Color.Black)
+                Icon(imageVector = icon, contentDescription = null, tint = iconTint)
             }
             if (image != null) {
                 Image(painter = painterResource(id = image), contentDescription = null)

@@ -1,5 +1,6 @@
 package io.wookoo.cities.screen
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.displayCutout
@@ -13,6 +14,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
@@ -28,6 +30,7 @@ import io.wookoo.cities.components.CitiesSearchBar
 import io.wookoo.cities.mvi.CitiesIntent
 import io.wookoo.cities.mvi.CitiesState
 import io.wookoo.cities.mvi.OnChangeBottomSheetVisibility
+import io.wookoo.designsystem.ui.components.SharedLottieLoader
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import kotlinx.coroutines.launch
@@ -76,31 +79,45 @@ internal fun CitiesScreen(
             }
         }
     ) {
-        CitiesFromDB(state, modifier = Modifier.padding(it))
+        Crossfade(
+            targetState = when {
+                state.isLoading -> io.wookoo.designsystem.ui.Crossfade.LOADING
+                else -> io.wookoo.designsystem.ui.Crossfade.CONTENT
+            },
+            label = ""
+        ) { screenState ->
+            when (screenState) {
+                io.wookoo.designsystem.ui.Crossfade.LOADING -> SharedLottieLoader()
+                io.wookoo.designsystem.ui.Crossfade.CONTENT -> {
+                    CitiesFromDB(state, modifier = Modifier.padding(it), onIntent = onIntent)
 
-        if (state.bottomSheetExpanded) {
-            ModalBottomSheet(
-                modifier = Modifier.fillMaxSize(),
-                onDismissRequest = {
-                    scope.launch { sheetState.hide() }.invokeOnCompletion {
-                        if (!sheetState.isVisible) {
-                            onIntent(OnChangeBottomSheetVisibility(false))
+                    if (state.bottomSheetExpanded) {
+                        ModalBottomSheet(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            modifier = Modifier.fillMaxSize(),
+                            onDismissRequest = {
+                                scope.launch { sheetState.hide() }.invokeOnCompletion {
+                                    if (!sheetState.isVisible) {
+                                        onIntent(OnChangeBottomSheetVisibility(false))
+                                    }
+                                }
+                            },
+                            sheetState = sheetState
+                        ) {
+                            CitiesSearchBar(
+                                onIntent = onIntent,
+                                state = state,
+                                onHideBottomSheet = {
+                                    scope.launch { sheetState.hide() }.invokeOnCompletion {
+                                        if (!sheetState.isVisible) {
+                                            onIntent(OnChangeBottomSheetVisibility(false))
+                                        }
+                                    }
+                                }
+                            )
                         }
                     }
-                },
-                sheetState = sheetState
-            ) {
-                CitiesSearchBar(
-                    onIntent = onIntent,
-                    state = state,
-                    onHideBottomSheet = {
-                        scope.launch { sheetState.hide() }.invokeOnCompletion {
-                            if (!sheetState.isVisible) {
-                                onIntent(OnChangeBottomSheetVisibility(false))
-                            }
-                        }
-                    }
-                )
+                }
             }
         }
     }

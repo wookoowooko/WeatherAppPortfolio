@@ -113,6 +113,7 @@
     <string name="error_too_many_requests">Too many requests</string>
     <string name="error_unknown">An unknown error occurred</string>
     <string name="error_disk_full">Storage is full</string>
+    <string name="error_cannot_delete_data">Can\'t delete data</string>
     <string name="error_cannot_save_data">Failed to save data</string>
     <string name="location_service_disabled">Location service disabled</string>
 

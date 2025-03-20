@@ -21,7 +21,7 @@ fun CurrentWeatherResponseModel.asUiCity(
             unit = ApiUnit.CELSIUS
         ),
         isDay = this.current.isDay,
-        weatherStatus = convertWeatherCodeToEnumUseCase(this.current.weatherStatus)
-
+        weatherStatus = convertWeatherCodeToEnumUseCase(this.current.weatherStatus),
+        geoItemId = this.geoItemId,
     )
 }
