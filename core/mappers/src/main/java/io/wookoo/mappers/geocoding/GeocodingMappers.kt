@@ -20,7 +20,6 @@ fun GeocodingSearchDto.asGeocodingSearchModel(): GeocodingSearchModel {
         cityName = name,
         latitude = latitude,
         longitude = longitude,
-        countryCode = countryCode,
         country = country.orEmpty(),
         urbanArea = admin1,
         geoItemId = geoNameId

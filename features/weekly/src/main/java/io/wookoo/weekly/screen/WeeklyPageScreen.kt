@@ -30,10 +30,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.toRoute
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.weekly.navigation.WeeklyRoute
-import io.wookoo.weekly.screen.RouteConsts.CITY_NAME_KEY
 import io.wookoo.weekly.screen.RouteConsts.GEO_ITEM_ID_KEY
-import io.wookoo.weekly.screen.RouteConsts.LATITUDE_KEY
-import io.wookoo.weekly.screen.RouteConsts.LONGITUDE_KEY
 
 private const val TAG = "WeeklyPageScreen"
 
@@ -48,9 +45,6 @@ internal fun WeeklyPageScreen(
 
     LaunchedEffect(Unit) {
         Log.d(TAG, "WeeklyPageScreen: ${args.geoItemId}")
-        Log.d(TAG, "WeeklyPageScreen: ${args.latitude}")
-        Log.d(TAG, "WeeklyPageScreen: ${args.longitude}")
-        Log.d(TAG, "WeeklyPageScreen: ${args.cityName}")
 
     }
     val state = rememberFragmentState()
@@ -80,9 +74,6 @@ internal fun WeeklyPageScreen(
         AndroidFragment<WeeklyFragment>(
             arguments = bundleOf(
                 GEO_ITEM_ID_KEY to args.geoItemId,
-                LATITUDE_KEY to args.latitude,
-                LONGITUDE_KEY to args.longitude,
-                CITY_NAME_KEY to args.cityName
             ),
             fragmentState = state,
             modifier = Modifier
@@ -113,9 +104,6 @@ internal fun WeeklyPageScreen(
 
 internal object RouteConsts {
     const val GEO_ITEM_ID_KEY = "geoItemId"
-    const val LATITUDE_KEY = "latitude"
-    const val LONGITUDE_KEY = "longitude"
-    const val CITY_NAME_KEY = "cityName"
 }
 
 

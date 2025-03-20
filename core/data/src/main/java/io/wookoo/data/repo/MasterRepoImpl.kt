@@ -74,17 +74,12 @@ class MasterRepoImpl @Inject constructor(
     }
 
     override suspend fun syncWeeklyWeatherFromAPIAndSaveToCache(
-        latitude: Double,
-        longitude: Double,
         geoItemId: Long,
-        cityName: String,
     ): EmptyResult<DataError> {
         Log.d(TAG, "syncWeeklyWeather")
         return synchronizer.synchronizeWeeklyWeather(
-            latitude = latitude,
-            longitude = longitude,
             geoItemId = geoItemId,
-            cityName = cityName,
+
         )
     }
 
@@ -103,22 +98,19 @@ class MasterRepoImpl @Inject constructor(
             countryName = countryName,
             cityName = cityName,
 
-        )
+            )
     }
 
-    override suspend fun getSearchedLocation(
+    override suspend fun searchLocation(
         query: String,
         language: String,
     ): AppResult<GeocodingResponseModel, DataError.Remote> {
         return withContext(ioDispatcher) {
-            geoCodingRemoteDataSource.getSearchedLocation(
+            geoCodingRemoteDataSource.searchLocation(
                 name = query,
                 language = language
             ).map { dto ->
-                Log.d(TAG, "getSearchedLocation: $dto")
-                val b = dto.asGeocodingResponseModel()
-                Log.d(TAG, "mapped: $b")
-                b
+                dto.asGeocodingResponseModel()
             }
         }
     }

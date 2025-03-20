@@ -20,10 +20,7 @@ interface IMasterWeatherRepo {
     fun getAllCitiesCurrentWeather(): Flow<List<CurrentWeatherResponseModel>>
 
     suspend fun syncWeeklyWeatherFromAPIAndSaveToCache(
-        latitude: Double,
-        longitude: Double,
         geoItemId: Long,
-        cityName: String,
     ): EmptyResult<DataError>
 
     suspend fun synchronizeCurrentWeather(
@@ -34,7 +31,7 @@ interface IMasterWeatherRepo {
         cityName: String,
     ): AppResult<Unit, DataError>
 
-    suspend fun getSearchedLocation(
+    suspend fun searchLocation(
         query: String,
         language: String,
     ): AppResult<GeocodingResponseModel, DataError.Remote>

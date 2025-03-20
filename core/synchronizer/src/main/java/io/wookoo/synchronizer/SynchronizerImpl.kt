@@ -6,7 +6,7 @@ import io.wookoo.database.daos.WeeklyWeatherDao
 import io.wookoo.database.dbo.GeoEntity
 import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
-import io.wookoo.domain.annotations.ReverseGeoCodingApi
+import io.wookoo.domain.annotations.GeoCodingApi
 import io.wookoo.domain.annotations.WeatherApi
 import io.wookoo.domain.sync.ISynchronizer
 import io.wookoo.domain.utils.AppResult
@@ -15,7 +15,7 @@ import io.wookoo.mappers.currentweather.asCurrentWeatherEntity
 import io.wookoo.mappers.currentweather.asDailyEntity
 import io.wookoo.mappers.currentweather.asHourlyEntity
 import io.wookoo.mappers.weeklyweather.asWeeklyWeatherEntity
-import io.wookoo.network.api.reversegeocoding.IReverseGeoCodingService
+import io.wookoo.network.api.geocoding.IGeoCodingService
 import io.wookoo.network.api.weather.IWeatherService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
@@ -27,78 +27,68 @@ class SynchronizerImpl @Inject constructor(
     private val weeklyWeatherDao: WeeklyWeatherDao,
     private val currentWeatherDao: CurrentWeatherDao,
     @WeatherApi private val weatherRemoteDataSource: IWeatherService,
-    @ReverseGeoCodingApi private val reverseGeoCodingRemoteDataSource: IReverseGeoCodingService,
+    @GeoCodingApi private val geoCodingService: IGeoCodingService,
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
 ) : ISynchronizer {
 
     override suspend fun synchronizeWeeklyWeather(
-        latitude: Double,
-        longitude: Double,
         geoItemId: Long,
-        cityName: String,
     ): AppResult<Unit, DataError> {
-        Log.d(TAG, "syncWeeklyWeather")
+        Log.d(TAG, "syncWeeklyWeather for geoItemId: $geoItemId")
 
-        return withContext(ioDispatcher) {
-            val lastUpdate = weeklyWeatherDao.getLastUpdateForWeekly(geoItemId)
-            val oneHourAgo = System.currentTimeMillis() - 60 * 60 * 1000
+        var result: AppResult<Unit, DataError>
 
-            if (lastUpdate > oneHourAgo) {
-                Log.d(TAG, "Weather data is fresh, skipping update")
-                return@withContext AppResult.Success(Unit)
-            }
+        withContext(ioDispatcher) {
+            try {
+                // 1. Check data freshness
+                val lastUpdate = weeklyWeatherDao.getLastUpdateForWeekly(geoItemId)
+                val oneHourAgo = System.currentTimeMillis() - 60 * 60 * 1000
 
-//            val geoDeferred = async {
-//                reverseGeoCodingRemoteDataSource.getReversedSearchedLocation(
-//                    latitude,
-//                    longitude,
-//                    language = "ru"
-//                )
-//            }
-            val weatherDeferred = async {
-                weatherRemoteDataSource.getWeeklyWeather(latitude, longitude)
-            }
+                if (lastUpdate > oneHourAgo) {
+                    Log.d(TAG, "Weather data is fresh, skipping update")
+                    result = AppResult.Success(Unit)
+                    return@withContext
+                }
 
-//            val geoResult = geoDeferred.await()
-            val weatherResult = weatherDeferred.await()
+                // 2. Get geo information
+                val geoResult = geoCodingService.getInfoByGeoItemId(geoItemId, language = "ru")
+                if (geoResult is AppResult.Error) {
+                    result = AppResult.Error(geoResult.error)
+                    return@withContext
+                }
+                val geoInfo = (geoResult as AppResult.Success).data
 
-            when {
-//                geoResult is AppResult.Success &&
-                        weatherResult is AppResult.Success -> {
+                // 3. Get weather data
+                val weatherResult = weatherRemoteDataSource.getWeeklyWeather(
+                    geoInfo.latitude,
+                    geoInfo.longitude
+                )
+                if (weatherResult is AppResult.Error) {
+                    result = AppResult.Error(weatherResult.error)
+                    return@withContext
+                }
+                val weatherResponse = (weatherResult as AppResult.Success).data
 
-
-
-//                    val geoData = geoResult.data.geonames?.firstOrNull()
-                    val remoteWeather = weatherResult.data
-
-                    val weeklyWeatherEntity = remoteWeather.week.asWeeklyWeatherEntity(
-                        isDay = remoteWeather.currentShort.isDay == 1,
+                // 4. Create and save entity
+                weeklyWeatherDao.insertWeeklyWeather(
+                    weatherResponse.week.asWeeklyWeatherEntity(
+                        isDay = weatherResponse.currentShort.isDay == 1,
                         geoNameId = geoItemId,
-                        longitude = remoteWeather.longitude,
-                        latitude = remoteWeather.latitude,
-//                        cityName = geoData?.name.orEmpty()
-                        cityName = cityName
+                        longitude = weatherResponse.longitude,
+                        latitude = weatherResponse.latitude,
+                        cityName = geoInfo.name
                     )
+                )
 
-                    try {
-                        weeklyWeatherDao.insertWeeklyWeather(weeklyWeatherEntity)
-                        AppResult.Success(Unit)
-                    } catch (e: SQLException) {
-                        Log.e(TAG, "Database error: $e")
-                        AppResult.Error(DataError.Local.DISK_FULL)
-                    }
-                }
+                result = AppResult.Success(Unit)
 
-                else -> {
-                    val error = when {
-//                        geoResult is AppResult.Error -> geoResult.error
-                        weatherResult is AppResult.Error -> weatherResult.error
-                        else -> DataError.Remote.CANT_SYNC // Fallback, если что-то пошло не так
-                    }
-                    AppResult.Error(error)
-                }
+            } catch (e: SQLException) {
+                Log.e(TAG, "Database error: $e")
+                result = AppResult.Error(DataError.Local.DISK_FULL)
             }
         }
+
+        return result
     }
 
     override suspend fun synchronizeCurrentWeather(

@@ -10,10 +10,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class WeeklyRoute(
-    val latitude: Double,
-    val longitude: Double,
-    val geoItemId: Long,
-    val cityName: String,
+    val geoItemId: Long
 )
 
 fun NavGraphBuilder.weeklyPage(
@@ -30,12 +27,10 @@ fun NavGraphBuilder.weeklyPage(
 }
 
 fun NavHostController.navigateToWeeklyPage(
-    latitude: Double,
-    longitude: Double,
     geoItemId: Long,
-    cityName: String,
+
 ) {
-    navigate(WeeklyRoute(latitude, longitude, geoItemId, cityName))
+    navigate(WeeklyRoute(geoItemId))
 }
 
 @Composable

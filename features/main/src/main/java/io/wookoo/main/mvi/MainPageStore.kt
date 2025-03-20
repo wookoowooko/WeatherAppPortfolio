@@ -26,7 +26,6 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -166,7 +165,7 @@ class MainPageStore @Inject constructor(
 
     private fun searchLocationFromApi(query: String) = storeScope.launch {
         dispatch(OnLoading)
-        masterRepository.getSearchedLocation(query, language = "ru")
+        masterRepository.searchLocation(query, language = "ru")
             .onSuccess { searchResults ->
                 Log.d(TAG, "searchLocationFromApi: $searchResults")
                 dispatch(OnSuccessSearchLocation(results = searchResults.results))

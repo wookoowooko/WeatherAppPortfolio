@@ -80,7 +80,6 @@ fun WelcomePageScreen(
             } else {
                 WelcomeSearchBar(
                     onIntent,
-                    searchQuery,
                     state,
                     isLoading,
                 )
@@ -128,7 +127,6 @@ fun WelcomePageScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center,
                     ) {
-
                         SharedHeadlineText(
                             style = MaterialTheme.typography.displayMedium,
                             text = state.city,

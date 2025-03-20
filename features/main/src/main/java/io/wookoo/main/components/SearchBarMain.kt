@@ -206,7 +206,6 @@ val result = GeocodingSearchModel(
     cityName = "Moscow",
     latitude = 55.7558,
     longitude = 37.6176,
-    countryCode = "RU",
     country = "Russia",
     geoItemId = 1
 )

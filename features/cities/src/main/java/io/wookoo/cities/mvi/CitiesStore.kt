@@ -72,7 +72,7 @@ class CitiesStore @Inject constructor(
     // Functions
     private fun searchLocationFromApi(query: String) = storeScope.launch {
         dispatch(OnLoading)
-        masterRepository.getSearchedLocation(query, language = "ru")
+        masterRepository.searchLocation(query, language = "ru")
             .onSuccess { searchResults ->
                 dispatch(OnSuccessSearchLocation(results = searchResults.results))
             }

@@ -30,8 +30,6 @@ fun WeeklyWeatherEntity.asWeeklyWeatherResponseModel(): WeeklyWeatherResponseMod
             isDay = isDay
         ),
         weekly = this.asWeeklyWeatherModel(),
-        latitude = latitude,
-        longitude = longitude
 
     )
 }
@@ -143,8 +141,6 @@ fun WeeklyWeatherDto.asWeeklyWeatherEntity(
         windDirectionMax = windDirectionMax,
         isDay = isDay,
         geoNameId = geoNameId,
-        latitude = latitude,
-        longitude = longitude,
         cityName = cityName
     )
 }

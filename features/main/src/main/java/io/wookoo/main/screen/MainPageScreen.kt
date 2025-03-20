@@ -208,19 +208,9 @@ fun MainPageScreen(
                                         state = state,
                                         modifier = Modifier.padding(horizontal = large),
                                         onNextSevenDaysClick = {
-                                            val latitude = state.currentWeather.latitude
-                                            val longitude = state.currentWeather.longitude
-                                            val geoNameId = state.currentWeather.geoNameId
-                                            val cityName = state.city
-
-                                            Log.d(TAG, "MainPageScreen: " +
-                                                    "latitude: $latitude, " + "longitude: $longitude, " + "geoItemId: $geoNameId")
                                             onIntent(
                                                 OnNavigateToWeekly(
-                                                    latitude = latitude,
-                                                    longitude = longitude,
-                                                    geoItemId = geoNameId,
-                                                    cityName = cityName
+                                                    geoItemId = state.currentWeather.geoNameId,
                                                 )
                                             )
                                         },

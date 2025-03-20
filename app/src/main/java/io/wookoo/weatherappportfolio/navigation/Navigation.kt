@@ -1,6 +1,5 @@
 package io.wookoo.weatherappportfolio.navigation
 
-import android.util.Log
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
@@ -95,10 +94,8 @@ internal fun Navigation(
         ) {
             mainPage(
                 onRequestLocationPermissions = onRequestLocationPermission,
-                onNavigateToWeekly = { latitude, longitude, geoItemId, cityName ->
-                    Log.d(TAG, "Navigation: " +
-                            "latitude: $latitude, " + "longitude: $longitude, " + "geoItemId: $geoItemId")
-                    navController.navigateToWeeklyPage(latitude, longitude, geoItemId, cityName = cityName)
+                onNavigateToWeekly = { geoItemId ->
+                    navController.navigateToWeeklyPage(geoItemId)
                 },
                 onNavigateToCities = {
                     navController.navigateToCities()

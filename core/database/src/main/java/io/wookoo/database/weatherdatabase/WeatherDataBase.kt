@@ -24,10 +24,6 @@ import io.wookoo.database.weatherdatabase.WeatherDataBase.Companion.LATEST_VERSI
         WeeklyWeatherEntity::class
     ],
     version = LATEST_VERSION,
-
-    autoMigrations = [
-        AutoMigration(from = 5, to = 6, spec = DatabaseMigrations.Migration5to6::class),
-    ],
     exportSchema = true,
 )
 @TypeConverters(
@@ -36,7 +32,7 @@ import io.wookoo.database.weatherdatabase.WeatherDataBase.Companion.LATEST_VERSI
 abstract class WeatherDataBase : RoomDatabase() {
 
     companion object {
-        const val LATEST_VERSION = 6
+        const val LATEST_VERSION = 7
     }
 
     abstract fun currentWeatherDao(): CurrentWeatherDao
