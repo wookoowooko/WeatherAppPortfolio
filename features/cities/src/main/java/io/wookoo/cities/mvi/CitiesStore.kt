@@ -40,8 +40,20 @@ class CitiesStore @Inject constructor(
     override fun handleSideEffects(intent: CitiesIntent) {
         when (intent) {
             is OnSearchedGeoItemCardClick -> storeScope.launch { syncWeather(intent) }
+            is OnDeleteCity -> storeScope.launch { deleteCity(intent.geoItemId) }
             else -> Unit
         }
+    }
+
+    private suspend fun deleteCity(geoItemId: Long) {
+        dispatch(OnLoading)
+        masterRepository.deleteWeatherWithDetailsByGeoId(geoItemId)
+            .onError {
+                emitSideEffect(CitiesSideEffect.ShowSnackBar(it))
+            }
+            .onFinally {
+                dispatch(OnLoadingFinish)
+            }
     }
 
     // Observers
@@ -72,7 +84,7 @@ class CitiesStore @Inject constructor(
 
     // Functions
     private fun searchLocationFromApi(query: String) = storeScope.launch {
-        dispatch(OnLoading)
+        dispatch(OnSearchInProgress)
         masterRepository.searchLocation(query, language = "ru")
             .onSuccess { searchResults ->
                 dispatch(OnSuccessSearchLocation(results = searchResults.results))
@@ -82,7 +94,7 @@ class CitiesStore @Inject constructor(
                 emitSideEffect(CitiesSideEffect.ShowSnackBar(error))
             }
             .onFinally {
-                dispatch(OnLoadingFinish)
+                dispatch(OnSearchInProgressDone)
             }
     }
 

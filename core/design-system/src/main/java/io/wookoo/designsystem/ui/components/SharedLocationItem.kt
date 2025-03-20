@@ -16,6 +16,7 @@ fun SharedLocationItem(
     countryName: String,
     cityName: String,
     urbanArea: String?,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
     ListItem(
@@ -26,7 +27,7 @@ fun SharedLocationItem(
             )
         },
         shadowElevation = small,
-        modifier = Modifier
+        modifier = modifier
             .padding(vertical = ultraSmall)
             .clickableSingle {
                 onClick()

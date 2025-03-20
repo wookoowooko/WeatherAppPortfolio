@@ -18,6 +18,9 @@ fun AppError.asLocalizedString(context: Context): String {
 
         DataError.Local.UNKNOWN -> context.getString(io.wookoo.androidresources.R.string.error_unknown)
         DataError.Local.DISK_FULL -> context.getString(io.wookoo.androidresources.R.string.error_disk_full)
+        DataError.Local.CANT_DELETE_DATA -> context.getString(
+            io.wookoo.androidresources.R.string.error_cannot_delete_data
+        )
         DataError.Local.CAN_NOT_SAVE_DATA_TO_DATASTORE -> context.getString(
             io.wookoo.androidresources.R.string.error_cannot_save_data
         )

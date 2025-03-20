@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
+import java.sql.SQLException
 import javax.inject.Inject
 
 private const val TAG = "MasterRepoImpl"
@@ -119,6 +120,16 @@ class MasterRepoImpl @Inject constructor(
             ).map { dto ->
                 dto.asReverseGeocodingResponseModel()
             }
+        }
+    }
+
+    override suspend fun deleteWeatherWithDetailsByGeoId(geoItemId: Long): AppResult<Unit, DataError> {
+        try {
+            currentWeatherDao.deleteWeatherWithDetailsByGeoId(geoItemId)
+            return AppResult.Success(Unit)
+        } catch (e: SQLException) {
+            println(e)
+            return AppResult.Error(DataError.Local.CANT_DELETE_DATA)
         }
     }
 }
