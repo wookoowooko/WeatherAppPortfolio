@@ -38,6 +38,8 @@ view-binding-delegate = "2.0.0"
 adapter = "4.3.2"
 fragmentCompose = "1.8.6"
 constraintlayout = "2.2.1"
+androidxWork = "2.10.0"
+hiltExt = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -86,6 +88,9 @@ hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
+hilt-ext-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltExt" }
+hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltExt" }
+
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
 hilt-nav-compose = {module =  "androidx.hilt:hilt-navigation-compose", version.ref="hilt-nav-compose"}
 
@@ -118,6 +123,7 @@ ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devto
 androidx-lifecycle-common-jvm = { group = "androidx.lifecycle", name = "lifecycle-common-jvm", version.ref = "lifecycleCommonJvm" }
 androidx-lifecycle-runtime-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-android", version.ref = "lifecycleRuntimeAndroid" }
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room-version" }
+androidx-work-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidxWork" }
 
 
 #Room

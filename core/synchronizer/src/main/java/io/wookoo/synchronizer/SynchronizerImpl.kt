@@ -8,6 +8,7 @@ import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
 import io.wookoo.domain.annotations.GeoCodingApi
 import io.wookoo.domain.annotations.WeatherApi
+import io.wookoo.domain.enums.UpdateIntent
 import io.wookoo.domain.sync.ISynchronizer
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.domain.utils.DataError
@@ -30,8 +31,9 @@ class SynchronizerImpl @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
 ) : ISynchronizer {
 
-    override suspend fun synchronizeWeeklyWeather(
+    override suspend fun syncWeeklyWeatherFromAPIAndSaveToCache(
         geoItemId: Long,
+        updateIntent: UpdateIntent
     ): AppResult<Unit, DataError> {
         Log.d(TAG, "syncWeeklyWeather for geoItemId: $geoItemId")
 
@@ -39,15 +41,19 @@ class SynchronizerImpl @Inject constructor(
 
         withContext(ioDispatcher) {
             try {
-                // 1. Check data freshness
-                val lastUpdate = weeklyWeatherDao.getLastUpdateForWeekly(geoItemId)
-                val oneHourAgo = System.currentTimeMillis() - 60 * 60 * 1000
 
-                if (lastUpdate > oneHourAgo) {
-                    Log.d(TAG, "Weather data is fresh, skipping update")
-                    result = AppResult.Success(Unit)
-                    return@withContext
+                if (updateIntent == UpdateIntent.FROM_USER){
+                    // 1. Check data freshness
+                    val lastUpdate = weeklyWeatherDao.getLastUpdateForWeekly(geoItemId)
+                    val oneHourAgo = System.currentTimeMillis() - 60 * 60 * 1000
+
+                    if (lastUpdate > oneHourAgo) {
+                        Log.d(TAG, "Weather data is fresh, skipping update")
+                        result = AppResult.Success(Unit)
+                        return@withContext
+                    }
                 }
+
 
                 // 2. Get geo information
                 val geoResult = geoCodingService.getInfoByGeoItemId(geoItemId, language = "ru")
@@ -96,16 +102,16 @@ class SynchronizerImpl @Inject constructor(
 
         withContext(ioDispatcher) {
             try {
-                // 1. Check data freshness
-                val lastUpdate: Long = currentWeatherDao.getLastUpdateForCurrent(geoItemId)
-                Log.d(TAG, "lastUpdate: $lastUpdate")
-                val oneHourAgo = System.currentTimeMillis() - 60 * 60 * 1000
-
-                if (lastUpdate > oneHourAgo) {
-                    Log.d(TAG, "Weather data is fresh, skipping update")
-                    result = AppResult.Success(Unit)
-                    return@withContext
-                }
+//                // 1. Check data freshness
+//                val lastUpdate: Long = currentWeatherDao.getLastUpdateForCurrent(geoItemId)
+//                Log.d(TAG, "lastUpdate: $lastUpdate")
+//                val oneHourAgo = System.currentTimeMillis() - 60 * 60 * 1000
+//
+//                if (lastUpdate > oneHourAgo) {
+//                    Log.d(TAG, "Weather data is fresh, skipping update")
+//                    result = AppResult.Success(Unit)
+//                    return@withContext
+//                }
                 // 2. Get geo information
                 val geoResult = geoCodingService.getInfoByGeoItemId(geoItemId, language = "ru")
                 if (geoResult is AppResult.Error) {

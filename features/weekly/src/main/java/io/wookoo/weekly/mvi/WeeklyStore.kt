@@ -5,13 +5,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
 import io.wookoo.common.mvi.Store
 import io.wookoo.domain.annotations.StoreViewModelScope
+import io.wookoo.domain.enums.UpdateIntent
 import io.wookoo.domain.model.weather.weekly.WeeklyWeatherResponseModel
 import io.wookoo.domain.repo.IMasterWeatherRepo
 import io.wookoo.domain.utils.onError
-import io.wookoo.domain.utils.onFinally
 import io.wookoo.weekly.navigation.WeeklyRoute
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -39,7 +38,7 @@ class WeeklyStore @Inject constructor(
         Log.d(TAG, "initializeObservers: ")
         observeSelectedDayPositionChanged()
         observeWeeklyWeather()
-        synchronizeWeatherOnStart()
+        syncWeeklyWeatherFromAPIAndSaveToCache()
     }
 
 
@@ -65,9 +64,10 @@ class WeeklyStore @Inject constructor(
             }.launchIn(storeScope)
     }
 
-    private fun synchronizeWeatherOnStart() = storeScope.launch {
+    private fun syncWeeklyWeatherFromAPIAndSaveToCache() = storeScope.launch {
         masterRepository.syncWeeklyWeatherFromAPIAndSaveToCache(
             geoItemId = geoItemId,
+            updateIntent = UpdateIntent.FROM_USER
         ).onError { syncError ->
             emitSideEffect(WeeklyEffect.OnShowSnackBar(syncError))
         }
