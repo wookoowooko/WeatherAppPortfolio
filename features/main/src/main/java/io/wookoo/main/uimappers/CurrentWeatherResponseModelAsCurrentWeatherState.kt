@@ -20,8 +20,8 @@ fun CurrentWeatherResponseModel.asUICurrentWeather(
 ): UiCurrentWeatherModel {
     return UiCurrentWeatherModel(
         geoNameId = this.geoItemId,
-        hourlyList = hourlyModelToHourlyListUseCase(hourlyModel = this.hourly),
-        date = convertDateUseCase(this.current.time),
+        hourlyList = hourlyModelToHourlyListUseCase(hourlyModel = this.hourly, utcOffsetSeconds = utcOffsetSeconds),
+        date = convertDateUseCase(this.current.time, utcOffsetSeconds),
         isDay = this.current.isDay,
         humidity = WeatherValueWithUnit(
             value = this.current.relativeHumidity,
@@ -53,8 +53,8 @@ fun CurrentWeatherResponseModel.asUICurrentWeather(
         ),
         uvIndex = this.daily.uvIndexMax.first().roundToInt().toString(),
         weatherStatus = convertWeatherCodeToEnumUseCase(this.current.weatherStatus),
-        sunriseTime = convertUnixTimeUseCase.executeList(this.daily.sunCycles.sunrise).first(),
-        sunsetTime = convertUnixTimeUseCase.executeList(this.daily.sunCycles.sunset).first(),
+        sunriseTime = convertUnixTimeUseCase.executeList(this.daily.sunCycles.sunrise, utcOffsetSeconds).first(),
+        sunsetTime = convertUnixTimeUseCase.executeList(this.daily.sunCycles.sunset, utcOffsetSeconds).first(),
         windDirection = formatWindDirectionUseCase(this.current.wind.direction)
     )
 }

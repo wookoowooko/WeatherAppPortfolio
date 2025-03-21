@@ -15,6 +15,7 @@ fun WeeklyWeatherEntity.asWeeklyWeatherResponseModel(): WeeklyWeatherResponseMod
             isDay = isDay
         ),
         weekly = this.asWeeklyWeatherModel(),
+        utcOffsetSeconds = this.utcOffsetSeconds
 
     )
 }
@@ -57,7 +58,8 @@ fun WeeklyWeatherEntity.asWeeklyWeatherModel(): WeeklyWeatherModel {
 fun WeeklyWeatherDto.asWeeklyWeatherEntity(
     isDay: Boolean,
     geoNameId: Long,
-    cityName: String
+    cityName: String,
+    utcOffsetSeconds: Long
 ): WeeklyWeatherEntity {
     return WeeklyWeatherEntity(
         time = time,
@@ -81,6 +83,7 @@ fun WeeklyWeatherDto.asWeeklyWeatherEntity(
         windDirectionMax = windDirectionMax,
         isDay = isDay,
         geoNameId = geoNameId,
-        cityName = cityName
+        cityName = cityName,
+        utcOffsetSeconds = utcOffsetSeconds
     )
 }

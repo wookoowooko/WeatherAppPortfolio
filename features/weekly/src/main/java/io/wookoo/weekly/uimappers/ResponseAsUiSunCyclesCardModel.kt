@@ -12,12 +12,14 @@ fun WeeklyWeatherResponseModel.asUiSunCyclesCardModel(
     return UiSuncyclesModel(
         sunsetTime = StringUnit(
             convertUnixTimeUseCase.execute(
-                this@asUiSunCyclesCardModel.weekly.sunCycles.sunrise[selectedCalendarItemIndex]
+                this@asUiSunCyclesCardModel.weekly.sunCycles.sunrise[selectedCalendarItemIndex],
+                this@asUiSunCyclesCardModel.utcOffsetSeconds
             )
         ),
         sunriseTime = StringUnit(
             convertUnixTimeUseCase.execute(
-                this@asUiSunCyclesCardModel.weekly.sunCycles.sunset[selectedCalendarItemIndex]
+                this@asUiSunCyclesCardModel.weekly.sunCycles.sunset[selectedCalendarItemIndex],
+                this@asUiSunCyclesCardModel.utcOffsetSeconds
             )
         )
     )

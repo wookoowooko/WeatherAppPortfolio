@@ -7,4 +7,5 @@ data class CurrentWeatherResponseModel(
     val current: CurrentDayModel,
     val hourly: HourlyModel,
     val daily: DailyModel,
+    val utcOffsetSeconds: Long
 )

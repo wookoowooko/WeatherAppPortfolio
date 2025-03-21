@@ -29,7 +29,6 @@ import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import java.util.concurrent.TimeUnit
 
-
 @HiltWorker
 class SyncWorker @AssistedInject constructor(
     @Assisted private val appContext: Context,
@@ -39,7 +38,6 @@ class SyncWorker @AssistedInject constructor(
 ) : CoroutineWorker(appContext, workerParams) {
 
     private val weatherList: Flow<List<Long>> = repo.getCurrentWeatherIds()
-
 
     override suspend fun doWork(): Result = withContext(ioDispatcher) {
         val geoItemIds = weatherList.first()
@@ -78,7 +76,8 @@ class SyncWorker @AssistedInject constructor(
 
             return PeriodicWorkRequest.Builder(
                 SyncWorker::class.java,
-                PERIODIC_DURATION, TimeUnit.HOURS // Повторение раз в час
+                PERIODIC_DURATION,
+                TimeUnit.HOURS // Повторение раз в час
             )
                 .setConstraints(SyncConstraints)
                 .setInitialDelay(delayMillis, TimeUnit.MILLISECONDS) // Только для первого запуска!
@@ -88,18 +87,14 @@ class SyncWorker @AssistedInject constructor(
     }
 }
 
-
 object SyncWeather {
     fun initialize(context: Context) {
-        WorkManager.getInstance(context).apply {
-            enqueueUniquePeriodicWork(
-                SYNC_WORK_NAME,
-                ExistingPeriodicWorkPolicy.UPDATE,
-                SyncWorker.startSyncWeatherPeriodically()
-            )
-        }
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            SYNC_WORK_NAME,
+            ExistingPeriodicWorkPolicy.UPDATE,
+            SyncWorker.startSyncWeatherPeriodically()
+        )
     }
-
 
     internal val SyncConstraints
         get() = Constraints.Builder()
@@ -108,7 +103,4 @@ object SyncWeather {
 
     private const val SYNC_WORK_NAME = "SyncWorkName"
     const val SYNC_WORK_TAG = "SyncWorkTag"
-
 }
-
-
