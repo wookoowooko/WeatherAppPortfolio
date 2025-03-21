@@ -95,7 +95,7 @@ class MasterRepoImpl @Inject constructor(
         )
     }
 
-    override suspend fun searchLocation(
+    override suspend fun searchLocationFromApiByQuery(
         query: String,
         language: String,
     ): AppResult<GeocodingResponseModel, DataError.Remote> {

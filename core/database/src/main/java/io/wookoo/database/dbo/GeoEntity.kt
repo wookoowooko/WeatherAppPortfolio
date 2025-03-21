@@ -16,4 +16,7 @@ data class GeoEntity(
 
     @ColumnInfo("country_name")
     val countryName: String,
+
+    @ColumnInfo("utc_offset_seconds")
+    val utcOffsetSeconds: Long
 )

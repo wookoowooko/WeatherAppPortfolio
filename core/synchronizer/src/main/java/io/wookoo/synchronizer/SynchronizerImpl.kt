@@ -18,6 +18,7 @@ import io.wookoo.mappers.currentweather.asHourlyEntity
 import io.wookoo.mappers.weeklyweather.asWeeklyWeatherEntity
 import io.wookoo.network.api.geocoding.IGeoCodingService
 import io.wookoo.network.api.weather.IWeatherService
+import io.wookoo.network.dto.weather.weekly.WeeklyWeatherResponseDto
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import java.sql.SQLException
@@ -33,7 +34,7 @@ class SynchronizerImpl @Inject constructor(
 
     override suspend fun syncWeeklyWeatherFromAPIAndSaveToCache(
         geoItemId: Long,
-        updateIntent: UpdateIntent
+        updateIntent: UpdateIntent,
     ): AppResult<Unit, DataError> {
         Log.d(TAG, "syncWeeklyWeather for geoItemId: $geoItemId")
 
@@ -41,8 +42,7 @@ class SynchronizerImpl @Inject constructor(
 
         withContext(ioDispatcher) {
             try {
-
-                if (updateIntent == UpdateIntent.FROM_USER){
+                if (updateIntent == UpdateIntent.FROM_USER) {
                     // 1. Check data freshness
                     val lastUpdate = weeklyWeatherDao.getLastUpdateForWeekly(geoItemId)
                     val oneHourAgo = System.currentTimeMillis() - 60 * 60 * 1000
@@ -53,7 +53,6 @@ class SynchronizerImpl @Inject constructor(
                         return@withContext
                     }
                 }
-
 
                 // 2. Get geo information
                 val geoResult = geoCodingService.getInfoByGeoItemId(geoItemId, language = "ru")
@@ -72,14 +71,16 @@ class SynchronizerImpl @Inject constructor(
                     result = AppResult.Error(weatherResult.error)
                     return@withContext
                 }
-                val weatherResponse = (weatherResult as AppResult.Success).data
+                val weatherResponse: WeeklyWeatherResponseDto =
+                    (weatherResult as AppResult.Success).data
 
                 // 4. Create and save entity
                 weeklyWeatherDao.insertWeeklyWeather(
                     weatherResponse.week.asWeeklyWeatherEntity(
                         isDay = weatherResponse.currentShort.isDay == 1,
                         geoNameId = geoItemId,
-                        cityName = geoInfo.name
+                        cityName = geoInfo.name,
+                        utcOffsetSeconds = weatherResponse.utcOffsetSeconds
                     )
                 )
 
@@ -102,17 +103,7 @@ class SynchronizerImpl @Inject constructor(
 
         withContext(ioDispatcher) {
             try {
-//                // 1. Check data freshness
-//                val lastUpdate: Long = currentWeatherDao.getLastUpdateForCurrent(geoItemId)
-//                Log.d(TAG, "lastUpdate: $lastUpdate")
-//                val oneHourAgo = System.currentTimeMillis() - 60 * 60 * 1000
-//
-//                if (lastUpdate > oneHourAgo) {
-//                    Log.d(TAG, "Weather data is fresh, skipping update")
-//                    result = AppResult.Success(Unit)
-//                    return@withContext
-//                }
-                // 2. Get geo information
+                // 1. Get geo information
                 val geoResult = geoCodingService.getInfoByGeoItemId(geoItemId, language = "ru")
                 if (geoResult is AppResult.Error) {
                     result = AppResult.Error(geoResult.error)
@@ -120,7 +111,7 @@ class SynchronizerImpl @Inject constructor(
                 }
                 val geoInfo = (geoResult as AppResult.Success).data
 
-                // 3. Get weather data
+                // 2. Get weather data
                 val weatherResult = weatherRemoteDataSource.getCurrentWeather(
                     geoInfo.latitude,
                     geoInfo.longitude
@@ -135,7 +126,8 @@ class SynchronizerImpl @Inject constructor(
                     geo = GeoEntity(
                         geoNameId = geoItemId,
                         countryName = geoInfo.country.orEmpty(),
-                        cityName = geoInfo.name
+                        cityName = geoInfo.name,
+                        utcOffsetSeconds = weatherResponse.utcOffsetSeconds
                     ),
                     current = weatherResponse.current.asCurrentWeatherEntity(),
                     hourly = weatherResponse.hourly.asHourlyEntity(),

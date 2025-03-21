@@ -34,21 +34,12 @@ class MainPageStore @Inject constructor(
     reducer = reducer,
 ) {
     private var searchJob: Job? = null
-    private var synchronizeJob: Job? = null
 
     override fun initializeObservers() {
         observeSearchQuery()
         viewPagerCount
         observeCurrentWeather()
-//        observePagerPosition()
     }
-
-//    private fun observePagerPosition() {
-//        state.map { it.pagerPosition }
-//            .distinctUntilChanged()
-//            .onEach { synchronizeWeather() }
-//            .launchIn(storeScope)
-//    }
 
     /** Observers */
 
@@ -91,7 +82,7 @@ class MainPageStore @Inject constructor(
             .onEach { query ->
                 if (query.length >= 2) {
                     searchJob?.cancel()
-                    searchJob = searchLocationFromApi(query)
+                    searchJob = searchLocationFromApiByQuery(query)
                 } else {
                     dispatch(OnQueryIsEmpty)
                 }
@@ -101,9 +92,9 @@ class MainPageStore @Inject constructor(
 
     /** Functions */
 
-    private fun searchLocationFromApi(query: String) = storeScope.launch {
+    private fun searchLocationFromApiByQuery(query: String) = storeScope.launch {
         dispatch(OnLoading)
-        masterRepository.searchLocation(query, language = "ru")
+        masterRepository.searchLocationFromApiByQuery(query, language = "ru")
             .onSuccess { searchResults ->
                 Log.d(TAG, "searchLocationFromApi: $searchResults")
                 dispatch(OnSuccessSearchLocation(results = searchResults.results))
@@ -113,23 +104,6 @@ class MainPageStore @Inject constructor(
                 emitSideEffect(MainPageEffect.OnShowSnackBar(error))
             }
     }
-
-//    private fun synchronizeWeather() {
-//        synchronizeJob?.cancel()
-//
-//        synchronizeJob = storeScope.launch {
-//            val geoNameIds = viewPagerCount.value
-//            val position = state.value.pagerPosition
-//
-//            if (geoNameIds.isNotEmpty() && position in geoNameIds.indices) {
-//                Log.d(TAG, "synchronizeWeatherOnStart started for position $position")
-//                masterRepository.synchronizeCurrentWeather(geoNameIds[position])
-//                    .onError { syncError ->
-//                        emitSideEffect(MainPageEffect.OnShowSnackBar(syncError))
-//                    }
-//            }
-//        }
-//    }
 
     private companion object {
         private const val THRESHOLD = 500L

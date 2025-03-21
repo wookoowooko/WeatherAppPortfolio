@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 9,
-    "identityHash": "84156a6d6df77f7fe0f9a7bad39fe00a",
+    "version": 11,
+    "identityHash": "506407e581d9f8eb083ceba1de8e4609",
     "entities": [
       {
         "tableName": "geo_entity",
@@ -326,7 +326,7 @@
       },
       {
         "tableName": "weekly_weather",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`geo_name_id` INTEGER NOT NULL, `city_name` TEXT NOT NULL, `is_day` INTEGER NOT NULL, `time` TEXT NOT NULL, `weather_code` TEXT NOT NULL, `temperature_2m_max` TEXT NOT NULL, `temperature_2m_min` TEXT NOT NULL, `apparent_temperature_max` TEXT NOT NULL, `apparent_temperature_min` TEXT NOT NULL, `sunrise` TEXT NOT NULL, `sunset` TEXT NOT NULL, `daylight_duration` TEXT NOT NULL, `sunshine_duration` TEXT NOT NULL, `uv_index_max` TEXT NOT NULL, `precipitation_sum` TEXT NOT NULL, `rain_sum` TEXT NOT NULL, `showers_sum` TEXT NOT NULL, `snowfall_sum` TEXT NOT NULL, `precipitation_probability_max` TEXT NOT NULL, `wind_speed_10m_max` TEXT NOT NULL, `wind_gusts_10m_max` TEXT NOT NULL, `wind_direction_10m_dominant` TEXT NOT NULL, `last_update` INTEGER NOT NULL, PRIMARY KEY(`geo_name_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`geo_name_id` INTEGER NOT NULL, `city_name` TEXT NOT NULL, `is_day` INTEGER NOT NULL, `time` TEXT NOT NULL, `weather_code` TEXT NOT NULL, `temperature_2m_max` TEXT NOT NULL, `temperature_2m_min` TEXT NOT NULL, `apparent_temperature_max` TEXT NOT NULL, `apparent_temperature_min` TEXT NOT NULL, `sunrise` TEXT NOT NULL, `sunset` TEXT NOT NULL, `daylight_duration` TEXT NOT NULL, `sunshine_duration` TEXT NOT NULL, `uv_index_max` TEXT NOT NULL, `precipitation_sum` TEXT NOT NULL, `rain_sum` TEXT NOT NULL, `showers_sum` TEXT NOT NULL, `snowfall_sum` TEXT NOT NULL, `precipitation_probability_max` TEXT NOT NULL, `wind_speed_10m_max` TEXT NOT NULL, `wind_gusts_10m_max` TEXT NOT NULL, `wind_direction_10m_dominant` TEXT NOT NULL, `last_update` INTEGER NOT NULL, `utc_offset_seconds` INTEGER NOT NULL, PRIMARY KEY(`geo_name_id`))",
         "fields": [
           {
             "fieldPath": "geoNameId",
@@ -465,6 +465,12 @@
             "columnName": "last_update",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "utcOffsetSeconds",
+            "columnName": "utc_offset_seconds",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -480,7 +486,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '84156a6d6df77f7fe0f9a7bad39fe00a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '506407e581d9f8eb083ceba1de8e4609')"
     ]
   }
 }

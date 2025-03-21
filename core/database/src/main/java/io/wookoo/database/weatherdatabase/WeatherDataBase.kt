@@ -30,7 +30,7 @@ import io.wookoo.database.weatherdatabase.WeatherDataBase.Companion.LATEST_VERSI
 abstract class WeatherDataBase : RoomDatabase() {
 
     companion object {
-        const val LATEST_VERSION = 9
+        const val LATEST_VERSION = 11
     }
 
     abstract fun currentWeatherDao(): CurrentWeatherDao

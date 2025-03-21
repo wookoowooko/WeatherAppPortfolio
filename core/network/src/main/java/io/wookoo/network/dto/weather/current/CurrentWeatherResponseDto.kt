@@ -5,17 +5,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CurrentWeatherResponseDto(
-    @SerialName("latitude")
-    val latitude: Double,
-    @SerialName("longitude")
-    val longitude: Double,
-    @SerialName("timezone")
-    val timezone: String,
     @SerialName("current")
     val current: CurrentWeatherDto,
     @SerialName("hourly")
     val hourly: HourlyDto,
     @SerialName("daily")
-    val daily: DailyDto
-
+    val daily: DailyDto,
+    @SerialName("utc_offset_seconds")
+    val utcOffsetSeconds: Long,
 )

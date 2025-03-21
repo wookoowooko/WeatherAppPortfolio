@@ -9,11 +9,11 @@ import javax.inject.Inject
 
 class ConvertDateUseCase @Inject constructor() {
 
-    operator fun invoke(stamp: Long): String = format(stamp)
+    operator fun invoke(stamp: Long, offset: Long): String = format(stamp, offset)
 
-    private fun format(unix: Long): String {
-        val date = Instant.fromEpochSeconds(unix)
-            .toLocalDateTime(TimeZone.currentSystemDefault())
+    private fun format(unix: Long, offset: Long): String {
+        val date = Instant.fromEpochSeconds(unix + offset)
+            .toLocalDateTime(TimeZone.UTC)
 
         return StringBuilder()
             .append(

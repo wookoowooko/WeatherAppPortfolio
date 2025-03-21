@@ -14,4 +14,3 @@ interface ISynchronizer {
         geoItemId: Long,
     ): AppResult<Unit, DataError>
 }
-

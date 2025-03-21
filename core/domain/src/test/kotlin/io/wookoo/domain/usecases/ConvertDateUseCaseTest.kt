@@ -16,7 +16,7 @@ class ConvertDateUseCaseTest {
     @Test
     fun methodShouldReturnCorrectParsedDate() {
         val expected = "Среда, 26 Февр."
-        val actual = useCase(1740563100)
+        val actual = useCase(1740563100, offset = 0)
         assertEquals(expected, actual)
     }
 }

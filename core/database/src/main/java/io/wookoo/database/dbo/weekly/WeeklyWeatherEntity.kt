@@ -75,6 +75,9 @@ data class WeeklyWeatherEntity(
     val windDirectionMax: List<Double>,
 
     @ColumnInfo("last_update")
-    val lastUpdate: Long = System.currentTimeMillis()
+    val lastUpdate: Long = System.currentTimeMillis(),
+
+    @ColumnInfo("utc_offset_seconds")
+    val utcOffsetSeconds: Long
 
 )

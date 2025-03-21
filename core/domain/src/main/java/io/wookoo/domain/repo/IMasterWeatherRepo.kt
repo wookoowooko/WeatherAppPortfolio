@@ -29,7 +29,7 @@ interface IMasterWeatherRepo {
         geoItemId: Long,
     ): AppResult<Unit, DataError>
 
-    suspend fun searchLocation(
+    suspend fun searchLocationFromApiByQuery(
         query: String,
         language: String,
     ): AppResult<GeocodingResponseModel, DataError.Remote>

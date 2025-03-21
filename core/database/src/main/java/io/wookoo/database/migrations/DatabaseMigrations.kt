@@ -199,4 +199,15 @@ internal object DatabaseMigrations {
             db.execSQL("CREATE INDEX index_current_weather_currentId ON current_weather(currentId)")
         }
     }
+
+    val MIGRATION_9_10 = object : Migration(9, 10) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE geo_entity ADD COLUMN utc_offset_seconds INTEGER NOT NULL DEFAULT 0")
+        }
+    }
+    val MIGRATION_10_11 = object : Migration(10, 11) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE weekly_weather ADD COLUMN utc_offset_seconds INTEGER NOT NULL DEFAULT 0")
+        }
+    }
 }
