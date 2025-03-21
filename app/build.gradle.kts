@@ -31,6 +31,7 @@ dependencies {
         implementation(core.geolocation)
         implementation(core.permissions)
         implementation(core.connectivityObserver)
+        implementation(core.worker)
         implementation(features.main)
         implementation(features.welcome)
         implementation(features.weekly)
@@ -41,5 +42,6 @@ dependencies {
         implementation(androidx.appcompat)
         implementation(bundles.material)
         implementation(hilt.android)
+        implementation(hilt.ext.work)
     }
 }

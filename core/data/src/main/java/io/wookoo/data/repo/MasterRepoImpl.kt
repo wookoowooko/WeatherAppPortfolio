@@ -7,6 +7,7 @@ import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
 import io.wookoo.domain.annotations.GeoCodingApi
 import io.wookoo.domain.annotations.ReverseGeoCodingApi
+import io.wookoo.domain.enums.UpdateIntent
 import io.wookoo.domain.model.geocoding.GeocodingResponseModel
 import io.wookoo.domain.model.reversegeocoding.ReverseGeocodingResponseModel
 import io.wookoo.domain.model.weather.current.CurrentWeatherResponseModel
@@ -76,11 +77,12 @@ class MasterRepoImpl @Inject constructor(
 
     override suspend fun syncWeeklyWeatherFromAPIAndSaveToCache(
         geoItemId: Long,
+        updateIntent: UpdateIntent,
     ): EmptyResult<DataError> {
         Log.d(TAG, "syncWeeklyWeather")
-        return synchronizer.synchronizeWeeklyWeather(
+        return synchronizer.syncWeeklyWeatherFromAPIAndSaveToCache(
             geoItemId = geoItemId,
-
+            updateIntent = updateIntent
         )
     }
 

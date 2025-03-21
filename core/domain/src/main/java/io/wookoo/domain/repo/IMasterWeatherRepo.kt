@@ -1,5 +1,6 @@
 package io.wookoo.domain.repo
 
+import io.wookoo.domain.enums.UpdateIntent
 import io.wookoo.domain.model.geocoding.GeocodingResponseModel
 import io.wookoo.domain.model.reversegeocoding.ReverseGeocodingResponseModel
 import io.wookoo.domain.model.weather.current.CurrentWeatherResponseModel
@@ -21,6 +22,7 @@ interface IMasterWeatherRepo {
 
     suspend fun syncWeeklyWeatherFromAPIAndSaveToCache(
         geoItemId: Long,
+        updateIntent: UpdateIntent
     ): EmptyResult<DataError>
 
     suspend fun synchronizeCurrentWeather(

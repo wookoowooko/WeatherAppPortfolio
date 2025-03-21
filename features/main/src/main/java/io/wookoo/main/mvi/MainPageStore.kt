@@ -40,15 +40,15 @@ class MainPageStore @Inject constructor(
         observeSearchQuery()
         viewPagerCount
         observeCurrentWeather()
-        observePagerPosition()
+//        observePagerPosition()
     }
 
-    private fun observePagerPosition() {
-        state.map { it.pagerPosition }
-            .distinctUntilChanged()
-            .onEach { synchronizeWeather() }
-            .launchIn(storeScope)
-    }
+//    private fun observePagerPosition() {
+//        state.map { it.pagerPosition }
+//            .distinctUntilChanged()
+//            .onEach { synchronizeWeather() }
+//            .launchIn(storeScope)
+//    }
 
     /** Observers */
 
@@ -114,22 +114,22 @@ class MainPageStore @Inject constructor(
             }
     }
 
-    private fun synchronizeWeather() {
-        synchronizeJob?.cancel()
-
-        synchronizeJob = storeScope.launch {
-            val geoNameIds = viewPagerCount.value
-            val position = state.value.pagerPosition
-
-            if (geoNameIds.isNotEmpty() && position in geoNameIds.indices) {
-                Log.d(TAG, "synchronizeWeatherOnStart started for position $position")
-                masterRepository.synchronizeCurrentWeather(geoNameIds[position])
-                    .onError { syncError ->
-                        emitSideEffect(MainPageEffect.OnShowSnackBar(syncError))
-                    }
-            }
-        }
-    }
+//    private fun synchronizeWeather() {
+//        synchronizeJob?.cancel()
+//
+//        synchronizeJob = storeScope.launch {
+//            val geoNameIds = viewPagerCount.value
+//            val position = state.value.pagerPosition
+//
+//            if (geoNameIds.isNotEmpty() && position in geoNameIds.indices) {
+//                Log.d(TAG, "synchronizeWeatherOnStart started for position $position")
+//                masterRepository.synchronizeCurrentWeather(geoNameIds[position])
+//                    .onError { syncError ->
+//                        emitSideEffect(MainPageEffect.OnShowSnackBar(syncError))
+//                    }
+//            }
+//        }
+//    }
 
     private companion object {
         private const val THRESHOLD = 500L
