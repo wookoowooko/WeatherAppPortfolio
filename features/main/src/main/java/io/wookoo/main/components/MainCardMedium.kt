@@ -1,8 +1,6 @@
 package io.wookoo.main.components
 
 import android.content.res.Configuration
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,9 +19,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import io.wookoo.common.ext.asLocalizedUiWeatherMap
+import io.wookoo.common.ext.asLocalizedUnitValueString
 import io.wookoo.designsystem.ui.components.SharedGradientText
 import io.wookoo.designsystem.ui.components.SharedHeadlineText
 import io.wookoo.designsystem.ui.components.SharedText
@@ -34,13 +35,15 @@ import io.wookoo.designsystem.ui.theme.padding_50
 import io.wookoo.designsystem.ui.theme.rounded_shape_20_percent
 import io.wookoo.designsystem.ui.theme.size_170
 import io.wookoo.designsystem.ui.theme.small
+import io.wookoo.domain.enums.WeatherCondition
+import io.wookoo.domain.units.ApiUnit
+import io.wookoo.domain.units.WeatherValueWithUnit
+import io.wookoo.main.mvi.MainPageState
+import io.wookoo.main.uimodels.UiCurrentWeatherModel
 
 @Composable
 fun MainCardMedium(
-    temperature: String,
-    temperatureFeelsLike: String,
-    @DrawableRes weatherImage: Int,
-    @StringRes weatherName: Int,
+    state: MainPageState,
     modifier: Modifier = Modifier,
 ) {
     val linearGradient = Brush.linearGradient(
@@ -49,6 +52,7 @@ fun MainCardMedium(
             MaterialTheme.colorScheme.primary.copy(0.6f),
         ),
     )
+    val context = LocalContext.current
 
     Box(
         modifier = modifier
@@ -81,7 +85,11 @@ fun MainCardMedium(
                         SharedHeadlineText(
                             modifier = Modifier.padding(bottom = medium),
                             color = Color.White,
-                            text = stringResource(weatherName),
+                            text = stringResource(
+                                state.currentWeather.weatherStatus.asLocalizedUiWeatherMap(
+                                    state.currentWeather.isDay
+                                ).second
+                            ),
                             style = MaterialTheme.typography.headlineSmall,
                         )
                     }
@@ -97,7 +105,10 @@ fun MainCardMedium(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         SharedGradientText(
-                            text = temperature,
+                            text = state.currentWeather.temperature.value.asLocalizedUnitValueString(
+                                state.currentWeather.temperature.unit,
+                                context
+                            ),
                             style = MaterialTheme.typography.displayMedium,
                         )
                         Row {
@@ -111,7 +122,10 @@ fun MainCardMedium(
                             SharedText(
                                 modifier = Modifier.padding(start = small),
                                 color = Color.White,
-                                text = temperatureFeelsLike,
+                                text = state.currentWeather.temperatureFeelsLike.value.asLocalizedUnitValueString(
+                                    state.currentWeather.temperatureFeelsLike.unit,
+                                    context
+                                ),
                                 style = MaterialTheme.typography.titleSmall,
                             )
                         }
@@ -120,7 +134,11 @@ fun MainCardMedium(
             }
         }
         Image(
-            painter = painterResource(id = weatherImage),
+            painter = painterResource(
+                id = state.currentWeather.weatherStatus.asLocalizedUiWeatherMap(
+                    state.currentWeather.isDay
+                ).first
+            ),
             contentDescription = null,
             modifier = Modifier
                 .size(size_170)
@@ -134,10 +152,19 @@ fun MainCardMedium(
 private fun ClearSkySunny0() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherImage = io.wookoo.design.system.R.drawable.ic_clear_sky,
-            temperatureFeelsLike = "32°",
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.CLEAR_SKY_0,
+                )
+            )
         )
     }
 }
@@ -147,10 +174,19 @@ private fun ClearSkySunny0() {
 private fun PartlyCloudy1_or_2() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherImage = io.wookoo.design.system.R.drawable.ic_partly_cloudy,
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.PARTLY_CLOUDY_1_OR_2,
+                )
+            )
         )
     }
 }
@@ -160,10 +196,19 @@ private fun PartlyCloudy1_or_2() {
 private fun Overcast3() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°C",
-            weatherImage = io.wookoo.design.system.R.drawable.ic_overcast,
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.OVERCAST_3,
+                )
+            )
         )
     }
 }
@@ -173,10 +218,19 @@ private fun Overcast3() {
 private fun Fog45_48() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherImage = io.wookoo.design.system.R.drawable.ic_fog,
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.FOG_45_OR_48,
+                )
+            )
         )
     }
 }
@@ -186,10 +240,19 @@ private fun Fog45_48() {
 private fun DrizzleLight51() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            weatherImage = io.wookoo.design.system.R.drawable.ic_drizzle_light,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.DRIZZLE_LIGHT_51,
+                )
+            )
         )
     }
 }
@@ -199,10 +262,19 @@ private fun DrizzleLight51() {
 private fun DrizzleModerate53() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            weatherImage = io.wookoo.design.system.R.drawable.ic_drizzle_moderate,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.DRIZZLE_MODERATE_53,
+                )
+            )
         )
     }
 }
@@ -212,10 +284,19 @@ private fun DrizzleModerate53() {
 private fun DrizzleHeavy55() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            weatherImage = io.wookoo.design.system.R.drawable.ic_drizzle_heavy,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.DRIZZLE_HEAVY_55,
+                )
+            )
         )
     }
 }
@@ -225,10 +306,19 @@ private fun DrizzleHeavy55() {
 private fun FreezingDrizzleLight56() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            weatherImage = io.wookoo.design.system.R.drawable.ic_freezing_drizzle_light,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.FREEZING_DRIZZLE_LIGHT_56,
+                )
+            )
         )
     }
 }
@@ -238,10 +328,19 @@ private fun FreezingDrizzleLight56() {
 private fun FreezingDrizzleHeavy57() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            weatherImage = io.wookoo.design.system.R.drawable.ic_freezing_drizzle_heavy,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.FREEZING_DRIZZLE_HEAVY_57,
+                )
+            )
         )
     }
 }
@@ -251,10 +350,19 @@ private fun FreezingDrizzleHeavy57() {
 private fun RainLight61() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            weatherImage = io.wookoo.design.system.R.drawable.ic_rain_light,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.RAIN_LIGHT_61,
+                )
+            )
         )
     }
 }
@@ -264,10 +372,19 @@ private fun RainLight61() {
 private fun RainModerate63() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            weatherImage = io.wookoo.design.system.R.drawable.ic_rain_moderate,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.RAIN_MODERATE_63,
+                )
+            )
         )
     }
 }
@@ -277,10 +394,19 @@ private fun RainModerate63() {
 private fun HeavyRain65() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherImage = io.wookoo.design.system.R.drawable.ic_rain_heavy,
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.HEAVY_RAIN_65,
+                )
+            )
         )
     }
 }
@@ -290,23 +416,41 @@ private fun HeavyRain65() {
 private fun FreezingRainLight66() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherImage = io.wookoo.design.system.R.drawable.ic_freezing_rain_light,
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.FREEZING_RAIN_LIGHT_66,
+                )
+            )
         )
     }
 }
 
 @Composable
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_NO)
-private fun FreezingRainLight67() {
+private fun FreezingRainHeavy67() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherImage = io.wookoo.design.system.R.drawable.ic_freezing_rain_heavy,
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.FREEZING_RAIN_HEAVY_67,
+                )
+            )
         )
     }
 }
@@ -316,10 +460,19 @@ private fun FreezingRainLight67() {
 private fun SnowLight71() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherImage = io.wookoo.design.system.R.drawable.ic_snow_light,
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.SNOW_LIGHT_71,
+                )
+            )
         )
     }
 }
@@ -329,10 +482,19 @@ private fun SnowLight71() {
 private fun SnowModerate73() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherImage = io.wookoo.design.system.R.drawable.ic_snow_moderate,
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.SNOW_MODERATE_73,
+                )
+            )
         )
     }
 }
@@ -342,10 +504,19 @@ private fun SnowModerate73() {
 private fun SnowHeavy75() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherImage = io.wookoo.design.system.R.drawable.ic_snow_heavy,
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.SNOW_HEAVY_75,
+                )
+            )
         )
     }
 }
@@ -355,10 +526,19 @@ private fun SnowHeavy75() {
 private fun SnowGrains77() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherImage = io.wookoo.design.system.R.drawable.ic_snow_grains,
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.SNOW_GRAINS_77,
+                )
+            )
         )
     }
 }
@@ -368,10 +548,19 @@ private fun SnowGrains77() {
 private fun RainShowersLight80() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherImage = io.wookoo.design.system.R.drawable.ic_rain_showers_light,
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.RAIN_SHOWERS_LIGHT_80,
+                )
+            )
         )
     }
 }
@@ -381,10 +570,19 @@ private fun RainShowersLight80() {
 private fun RainShowersModerate81() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherImage = io.wookoo.design.system.R.drawable.ic_rain_showers_moderate,
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.RAIN_SHOWERS_MODERATE_81,
+                )
+            )
         )
     }
 }
@@ -394,10 +592,19 @@ private fun RainShowersModerate81() {
 private fun RainShowersHeavy82() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherImage = io.wookoo.design.system.R.drawable.ic_rain_showers_heavy,
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.RAIN_SHOWERS_HEAVY_82,
+                )
+            )
         )
     }
 }
@@ -407,10 +614,19 @@ private fun RainShowersHeavy82() {
 private fun SnowShowersLight85() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherImage = io.wookoo.design.system.R.drawable.ic_snow_showers_light,
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.SNOW_SHOWERS_LIGHT_85,
+                )
+            )
         )
     }
 }
@@ -420,10 +636,19 @@ private fun SnowShowersLight85() {
 private fun SnowShowersHeavy86() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherImage = io.wookoo.design.system.R.drawable.ic_snow_showers_heavy,
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.SNOW_SHOWERS_HEAVY_86,
+                )
+            )
         )
     }
 }
@@ -433,10 +658,19 @@ private fun SnowShowersHeavy86() {
 private fun ThunderStorm95() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherImage = io.wookoo.design.system.R.drawable.ic_thunderstorm,
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.THUNDERSTORM_95,
+                )
+            )
         )
     }
 }
@@ -446,10 +680,19 @@ private fun ThunderStorm95() {
 private fun ThunderStormHail96_99() {
     WeatherAppPortfolioTheme {
         MainCardMedium(
-            temperature = "25°",
-            weatherImage = io.wookoo.design.system.R.drawable.ic_thunderstorm_hail,
-            weatherName = io.wookoo.androidresources.R.string.clear_sky,
-            temperatureFeelsLike = "32°"
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = ApiUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.CLEAR_SKY_0,
+                )
+            )
         )
     }
 }

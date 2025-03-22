@@ -1,5 +1,7 @@
 package io.wookoo.main.components
 
+import androidx.compose.foundation.MarqueeSpacing
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,22 +17,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import io.wookoo.designsystem.ui.components.SharedHeadlineText
 import io.wookoo.designsystem.ui.components.SharedSurfaceIcon
 import io.wookoo.designsystem.ui.components.SharedText
+import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.designsystem.ui.theme.size_30
 import io.wookoo.designsystem.ui.theme.size_40
 import io.wookoo.designsystem.ui.theme.small
 import io.wookoo.designsystem.ui.theme.ultraSmall
 import io.wookoo.main.mvi.MainPageState
+import io.wookoo.main.uimodels.UiCurrentWeatherModel
 
 @Composable
 internal fun Header(
-    country: String,
-    city: String,
-    sunriseTime: String,
-    sunsetTime: String,
     state: MainPageState,
     modifier: Modifier = Modifier,
     onGeoLocationClick: () -> Unit,
@@ -71,17 +72,22 @@ internal fun Header(
                     CircularProgressIndicator(
                         modifier = Modifier
                             .padding(end = small)
-                            .size(size_40),
+                            .size(size_40)
                     )
                 }
                 SharedHeadlineText(
-                    maxLines = 2,
-                    text = city
+                    maxLines = 1,
+                    text = state.city,
+                    modifier = Modifier.basicMarquee(
+                        iterations = Int.MAX_VALUE,
+                        repeatDelayMillis = 300,
+                        spacing = MarqueeSpacing(20.dp)
+                    )
                 )
             }
 
             SharedText(
-                text = country,
+                text = state.country,
                 maxLines = 2,
             )
             SharedText(
@@ -109,7 +115,7 @@ internal fun Header(
                         style = MaterialTheme.typography.titleSmall
                     )
                     SharedText(
-                        text = sunriseTime,
+                        text = state.currentWeather.sunriseTime,
                         style = MaterialTheme.typography.titleSmall
                     )
                 }
@@ -129,7 +135,7 @@ internal fun Header(
                         style = MaterialTheme.typography.titleSmall
                     )
                     SharedText(
-                        text = sunsetTime,
+                        text = state.currentWeather.sunsetTime,
                         style = MaterialTheme.typography.titleSmall
                     )
                 }
@@ -141,12 +147,18 @@ internal fun Header(
 @Composable
 @Preview(showBackground = true)
 private fun HeaderPreview() {
-    Header(
-        state = MainPageState(),
-        sunriseTime = "06:00",
-        sunsetTime = "18:00",
-        city = "London",
-        country = "UK",
-        onGeoLocationClick = {}
-    )
+    WeatherAppPortfolioTheme {
+        Header(
+            state = MainPageState(
+                city = "London",
+                country = "UK",
+                currentWeather = UiCurrentWeatherModel(
+                    sunsetTime = "06:00",
+                    sunriseTime = "18:00",
+                    date = "Sunday, 23 Mar."
+                )
+            ),
+            onGeoLocationClick = {}
+        )
+    }
 }

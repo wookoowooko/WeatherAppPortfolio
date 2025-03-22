@@ -28,14 +28,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.common.ext.asLocalizedString
-import io.wookoo.common.ext.asLocalizedUiWeatherMap
 import io.wookoo.common.ext.asLocalizedUnitValueString
 import io.wookoo.common.ext.isFineLocationPermissionGranted
 import io.wookoo.designsystem.ui.components.SharedLottieLoader
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.designsystem.ui.theme.large
-import io.wookoo.designsystem.ui.theme.ultraLarge
+import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.main.components.BottomContent
 import io.wookoo.main.components.Header
 import io.wookoo.main.components.HourlyRow
@@ -142,10 +141,6 @@ fun MainPageScreen(
                                     Header(
                                         state = state,
                                         modifier = Modifier.padding(horizontal = large),
-                                        sunriseTime = state.currentWeather.sunriseTime,
-                                        sunsetTime = state.currentWeather.sunsetTime,
-                                        city = state.city,
-                                        country = state.country,
                                         onGeoLocationClick = {
                                             if (context.isFineLocationPermissionGranted()) {
                                                 onIntent(OnGeolocationIconClick)
@@ -154,26 +149,13 @@ fun MainPageScreen(
                                             }
                                         }
                                     )
-                                    with(context) {
-                                        MainCardMedium(
-                                            modifier = Modifier.padding(horizontal = large),
-                                            temperature = state.currentWeather.temperature.value.asLocalizedUnitValueString(
-                                                state.currentWeather.temperature.unit,
-                                                this
-                                            ),
-                                            weatherName = state.currentWeather.weatherStatus.asLocalizedUiWeatherMap(
-                                                state.currentWeather.isDay
-                                            ).second,
-                                            weatherImage = state.currentWeather.weatherStatus.asLocalizedUiWeatherMap(
-                                                state.currentWeather.isDay
-                                            ).first,
-                                            temperatureFeelsLike = state.currentWeather.temperatureFeelsLike.value.asLocalizedUnitValueString(
-                                                state.currentWeather.temperatureFeelsLike.unit,
-                                                this
-                                            ),
-                                        )
-                                    }
-                                    Spacer(modifier = Modifier.height(ultraLarge))
+
+                                    MainCardMedium(
+                                        state = state,
+                                        modifier = Modifier.padding(horizontal = large)
+                                    )
+
+                                    Spacer(modifier = Modifier.height(medium))
                                     with(context) {
                                         WeatherProperties(
                                             humidity = state.currentWeather.humidity.value.asLocalizedUnitValueString(
@@ -207,14 +189,9 @@ fun MainPageScreen(
                                         state = state,
                                         modifier = Modifier.padding(horizontal = large),
                                         onNextSevenDaysClick = {
-                                            onIntent(
-                                                OnNavigateToWeekly(
-                                                    geoItemId = state.currentWeather.geoNameId,
-                                                )
-                                            )
+                                            onIntent(OnNavigateToWeekly(geoItemId = state.currentWeather.geoNameId))
                                         },
                                     )
-                                    Spacer(modifier = Modifier.height(ultraLarge))
                                 }
                             }
                             item {

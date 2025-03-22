@@ -2,11 +2,14 @@ package io.wookoo.cities.mvi
 
 import io.wookoo.cities.uimappers.asUiCity
 import io.wookoo.common.mvi.Reducer
+import io.wookoo.domain.model.weather.current.CurrentWeatherResponseModel
+import io.wookoo.domain.usecases.ConvertDateUseCase
 import io.wookoo.domain.usecases.ConvertWeatherCodeToEnumUseCase
 import javax.inject.Inject
 
 class CitiesReducer @Inject constructor(
     private val convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,
+    private val convertDateUseCase: ConvertDateUseCase,
 
 ) : Reducer<CitiesState, CitiesIntent> {
     override fun reduce(
@@ -20,10 +23,10 @@ class CitiesReducer @Inject constructor(
             is OnSearchQueryChange -> state.copy(searchQuery = intent.query)
             is OnCitiesLoaded -> {
                 state.copy(
-                    cities =
-                    intent.cities.map { currentWeather ->
+                    cities = intent.cities.map { currentWeather: CurrentWeatherResponseModel ->
                         currentWeather.asUiCity(
-                            convertWeatherCodeToEnumUseCase = convertWeatherCodeToEnumUseCase
+                            convertWeatherCodeToEnumUseCase = convertWeatherCodeToEnumUseCase,
+                            convertDateUseCase = convertDateUseCase
                         )
                     }
                 )
