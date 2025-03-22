@@ -14,15 +14,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.wookoo.cities.mvi.CitiesIntent
 import io.wookoo.cities.mvi.CitiesState
 import io.wookoo.cities.mvi.OnDeleteCity
 import io.wookoo.cities.uimodels.UiCity
-import io.wookoo.common.ext.asLocalizedUiWeatherMap
-import io.wookoo.common.ext.asLocalizedUnitValueString
 import io.wookoo.designsystem.ui.animateLazyItem
 import io.wookoo.designsystem.ui.components.SharedDraggableBox
 import io.wookoo.designsystem.ui.components.SharedSurfaceIcon
@@ -34,7 +31,6 @@ internal fun CitiesFromDB(
     modifier: Modifier = Modifier,
     onIntent: (CitiesIntent) -> Unit,
 ) {
-    val context = LocalContext.current
     LazyColumn(
         modifier = modifier.fillMaxWidth()
     ) {
@@ -46,23 +42,8 @@ internal fun CitiesFromDB(
                     .animateLazyItem(this),
                 firstContent = { mod ->
                     CityCard(
+                        uiCity = uiCity,
                         modifier = mod,
-                        cityName = uiCity.cityName,
-                        temperature = uiCity.temperature.value.asLocalizedUnitValueString(
-                            uiCity.temperature.unit,
-                            context
-                        ),
-                        countryName = uiCity.countryName,
-                        temperatureFeelsLike = uiCity.temperatureFeelsLike.value.asLocalizedUnitValueString(
-                            uiCity.temperatureFeelsLike.unit,
-                            context
-                        ),
-                        weatherImage = uiCity.weatherStatus.asLocalizedUiWeatherMap(
-                            isDay = uiCity.isDay,
-                        ).first,
-                        weatherName = uiCity.weatherStatus.asLocalizedUiWeatherMap(
-                            isDay = uiCity.isDay
-                        ).second
                     )
                 },
                 secondContent = { mod ->
