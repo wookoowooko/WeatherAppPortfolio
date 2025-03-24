@@ -41,7 +41,6 @@ interface CurrentWeatherDao {
     )
     fun getCurrentWeatherIds(): Flow<List<Long>>
 
-
     @Transaction
     @Query(
         """
@@ -63,7 +62,6 @@ interface CurrentWeatherDao {
 //    @Insert(onConflict = OnConflictStrategy.REPLACE)
 //    suspend fun insertGeo(geo: GeoEntity): Long
 
-
     @Query(
         """
     INSERT OR REPLACE INTO geo_entity (geo_name_id, city_name, country_name, utc_offset_seconds, is_current)
@@ -81,7 +79,6 @@ interface CurrentWeatherDao {
         utcOffsetSeconds: Long,
         isCurrent: Boolean,
     ): Long
-
 
     @Insert
     suspend fun insertCurrent(current: CurrentWeatherEntity)

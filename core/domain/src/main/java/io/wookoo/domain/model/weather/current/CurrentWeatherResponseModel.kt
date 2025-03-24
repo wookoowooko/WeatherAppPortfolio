@@ -1,7 +1,7 @@
 package io.wookoo.domain.model.weather.current
 
 data class CurrentWeatherResponseModel(
-    val isCurrentLocation:Boolean,
+    val isCurrentLocation: Boolean,
     val time: Long,
     val cityName: String,
     val countryName: String,

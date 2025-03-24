@@ -211,10 +211,9 @@ internal object DatabaseMigrations {
         }
     }
 
-    val MIGRATION_11_12 = object :Migration(11,12){
+    val MIGRATION_11_12 = object : Migration(11, 12) {
         override fun migrate(db: SupportSQLiteDatabase) {
             db.execSQL("ALTER TABLE geo_entity ADD COLUMN is_current INTEGER NOT NULL DEFAULT 0")
         }
     }
-
 }

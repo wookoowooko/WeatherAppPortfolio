@@ -138,7 +138,8 @@ internal fun CitiesSearchBar(
                             } else {
                                 onHideBottomSheet()
                             }
-                        }) {
+                        }
+                    ) {
                         Icon(
                             imageVector = Icons.Default.Clear,
                             contentDescription = null
@@ -164,7 +165,6 @@ internal fun CitiesSearchBar(
                 } else {
                     onIntent(OnRequestGeoLocationPermission)
                 }
-
             }
         ) {
             Icon(Icons.Default.NearMe, null, Modifier.padding(end = medium))
@@ -229,8 +229,6 @@ internal fun CitiesSearchBar(
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }
-
-
 }
 
 @Composable
@@ -256,4 +254,3 @@ private fun WelcomeSearchBarPreview2() {
         )
     }
 }
-

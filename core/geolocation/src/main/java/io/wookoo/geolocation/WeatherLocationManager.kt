@@ -46,16 +46,10 @@ class WeatherLocationManager @Inject constructor(
                 return
             }
             locationManager.requestLocationUpdates(provider, 0L, 0f, this@WeatherLocationManager)
-
-
         } catch (e: SecurityException) {
             Log.e(TAG, "security", e)
             onError(DataError.Hardware.UNKNOWN)
-        } catch (e: Exception) {
-            Log.e(TAG, "exe", e)
-            onError(DataError.Hardware.LOCATION_SERVICE_DISABLED)
         }
-
     }
 
     override fun onLocationChanged(location: Location) {

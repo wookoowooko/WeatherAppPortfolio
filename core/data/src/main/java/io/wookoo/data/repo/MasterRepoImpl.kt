@@ -50,6 +50,7 @@ class MasterRepoImpl @Inject constructor(
                 currentWeatherDao.updateCurrentLocation(geoItemId)
                 AppResult.Success(Unit)
             } catch (e: SQLException) {
+                Log.d(TAG, "sqlException: $e")
                 AppResult.Error(DataError.Local.DISK_FULL)
             }
         }

@@ -13,15 +13,9 @@ data object OnErrorUpdateGeolocationFromGpsSensors : Completable
 data object OnErrorFetchReversGeocodingFromApi : Completable
 data object OnErrorSearchLocation : Completable
 
-// Success Completable
 data class OnSuccessFetchReversGeocodingFromApi(
-    val city: String,
-    val country: String,
-    val geoItemId: Long,
+    val gpsItem: GeocodingModel
 ) : Completable
-
-data class OnSuccessfullyUpdateGeolocationFromGpsSensors(val lat: Double, val long: Double) :
-    WelcomePageIntent
 
 data class OnSuccessSearchLocation(val results: List<GeocodingModel>) : Completable
 

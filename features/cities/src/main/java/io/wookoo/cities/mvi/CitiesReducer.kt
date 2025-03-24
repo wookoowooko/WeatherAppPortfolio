@@ -11,7 +11,7 @@ class CitiesReducer @Inject constructor(
     private val convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,
     private val convertDateUseCase: ConvertDateUseCase,
 
-    ) : Reducer<CitiesState, CitiesIntent> {
+) : Reducer<CitiesState, CitiesIntent> {
     override fun reduce(
         state: CitiesState,
         intent: CitiesIntent,

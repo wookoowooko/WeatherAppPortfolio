@@ -32,13 +32,13 @@ import io.wookoo.designsystem.ui.components.SharedLottieLoader
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.designsystem.ui.theme.medium
+import io.wookoo.domain.model.geocoding.GeocodingModel
 import io.wookoo.welcome.components.ChooseYourLocationCard
 import io.wookoo.welcome.components.ContinueButton
 import io.wookoo.welcome.components.DetectGeolocationCard
 import io.wookoo.welcome.components.WelcomeSearchBar
 import io.wookoo.welcome.mvi.WelcomePageIntent
 import io.wookoo.welcome.mvi.WelcomePageState
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,7 +51,7 @@ fun WelcomePageScreen(
     Scaffold(
         floatingActionButton = {
             if (!state.isGeolocationSearchInProgress || !state.isLoading) {
-                if (state.city.isNotEmpty()) {
+                if (!state.geoItem?.cityName.isNullOrBlank()) {
                     ContinueButton(onIntent)
                 }
             }
@@ -62,11 +62,12 @@ fun WelcomePageScreen(
             if (!isSearchBarVisible) {
                 TopAppBar(
                     windowInsets = (
-                            TopAppBarDefaults.windowInsets.add(
-                                WindowInsets.displayCutout.only(
-                                    WindowInsetsSides.Horizontal
-                                )
-                            )),
+                        TopAppBarDefaults.windowInsets.add(
+                            WindowInsets.displayCutout.only(
+                                WindowInsetsSides.Horizontal
+                            )
+                        )
+                        ),
                     title = {
                         SharedText(
                             stringResource(io.wookoo.androidresources.R.string.choose_your_location)
@@ -115,17 +116,19 @@ fun WelcomePageScreen(
                         modifier = Modifier.size(120.dp)
                     )
                 } else {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                    ) {
-                        SharedHeadlineText(
-                            style = MaterialTheme.typography.displayMedium,
-                            text = state.city,
-                        )
-                        SharedText(
-                            text = state.country,
-                        )
+                    state.geoItem?.let { geo ->
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center,
+                        ) {
+                            SharedHeadlineText(
+                                style = MaterialTheme.typography.displayMedium,
+                                text = geo.cityName,
+                            )
+                            SharedText(
+                                text = geo.countryName,
+                            )
+                        }
                     }
                 }
             }
@@ -139,8 +142,13 @@ private fun WelcomePagePreview() {
     WeatherAppPortfolioTheme {
         WelcomePageScreen(
             state = WelcomePageState(
-                city = "Seoul",
-                country = "Korea",
+                geoItem = GeocodingModel(
+                    cityName = "Seoul",
+                    countryName = "Korea",
+                    geoItemId = 1,
+                    latitude = 0.0,
+                    longitude = 0.0
+                )
             ),
             onIntent = {}
         )

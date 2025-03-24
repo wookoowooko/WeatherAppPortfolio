@@ -24,10 +24,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import io.wookoo.common.ext.isFineLocationPermissionGranted
 import io.wookoo.designsystem.ui.components.SharedLottieLoader
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
@@ -41,9 +39,7 @@ import io.wookoo.main.components.TodayRowTitle
 import io.wookoo.main.components.WeatherProperties
 import io.wookoo.main.mvi.MainPageIntent
 import io.wookoo.main.mvi.MainPageState
-import io.wookoo.main.mvi.OnGeolocationIconClick
 import io.wookoo.main.mvi.OnNavigateToWeekly
-import io.wookoo.main.mvi.OnRequestGeoLocationPermission
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,7 +47,6 @@ fun MainPageScreen(
     state: MainPageState,
     onIntent: (MainPageIntent) -> Unit,
 ) {
-    val context = LocalContext.current
     BackHandler(enabled = state.isGeolocationSearchInProgress) {}
 
     Crossfade(
@@ -78,7 +73,11 @@ fun MainPageScreen(
                     },
                     topBar = {
                         TopAppBar(
-                            title = { SharedText(stringResource(io.wookoo.androidresources.R.string.weather_app_bar_title)) }
+                            title = {
+                                SharedText(
+                                    stringResource(io.wookoo.androidresources.R.string.weather_app_bar_title)
+                                )
+                            }
                         )
                     }
                 ) { paddings ->
@@ -108,14 +107,7 @@ fun MainPageScreen(
                                 ) {
                                     Header(
                                         state = state,
-                                        modifier = Modifier.padding(horizontal = large),
-                                        onGeoLocationClick = {
-                                            if (context.isFineLocationPermissionGranted()) {
-                                                onIntent(OnGeolocationIconClick)
-                                            } else {
-                                                onIntent(OnRequestGeoLocationPermission)
-                                            }
-                                        }
+                                        modifier = Modifier.padding(horizontal = large)
                                     )
 
                                     MainCardMedium(

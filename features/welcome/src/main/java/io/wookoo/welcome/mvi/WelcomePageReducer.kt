@@ -15,12 +15,8 @@ class WelcomePageReducer @Inject constructor() :
             is OnSearchQueryChange -> state.copy(searchQuery = intent.query)
             is OnSearchedGeoItemClick ->
                 state.copy(
-                    geoItemId = intent.geoItem.geoItemId,
+                    geoItem = intent.geoItem,
                     isSearchExpanded = false,
-                    city = intent.geoItem.cityName,
-                    country = intent.geoItem.countryName,
-                    latitude = intent.geoItem.latitude,
-                    longitude = intent.geoItem.longitude,
                     searchQuery = "",
                     results = emptyList()
                 )
@@ -36,15 +32,6 @@ class WelcomePageReducer @Inject constructor() :
                 isGeolocationSearchInProgress = true
             )
 
-
-            //todo нужны ли?
-            is OnSuccessfullyUpdateGeolocationFromGpsSensors -> {
-                state.copy(
-                    latitude = intent.lat,
-                    longitude = intent.long,
-                )
-            }
-
             is OnErrorSearchLocation -> state.copy(results = emptyList())
 
             is OnSuccessSearchLocation -> state.copy(results = intent.results)
@@ -52,11 +39,8 @@ class WelcomePageReducer @Inject constructor() :
             is Completable ->
                 state.copy(isLoading = false, isGeolocationSearchInProgress = false).let {
                     when (intent) {
-                        is OnErrorFetchReversGeocodingFromApi -> it.copy(city = "", country = "")
                         is OnSuccessFetchReversGeocodingFromApi -> it.copy(
-                            city = intent.city,
-                            country = intent.country,
-                            geoItemId = intent.geoItemId
+                            geoItem = intent.gpsItem,
                         )
                         is OnQueryIsEmptyClearResults -> it.copy(results = emptyList())
                         else -> it

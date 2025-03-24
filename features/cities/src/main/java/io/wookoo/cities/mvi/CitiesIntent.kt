@@ -20,7 +20,7 @@ data object OnErrorUpdateGeolocationFromGpsSensors : Completable
 data object OnErrorFetchReversGeocodingFromApi : Completable
 
 data class OnSuccessFetchReversGeocodingFromApi(
-    val gpsItem: GeocodingModel,
+    val gpsItem: GeocodingModel
 ) : Completable
 
 data object OnQueryIsEmpty : Completable

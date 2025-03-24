@@ -5,9 +5,7 @@ import io.wookoo.domain.utils.AppError
 
 data class WelcomePageState(
     val isOffline: Boolean = false,
-    val city: String = "",
-    val country: String = "",
-    val geoItemId: Long = 0,
+    val geoItem: GeocodingModel? = null,
     val isSearchExpanded: Boolean = false,
     val isLoading: Boolean = false,
     val errorMessage: AppError? = null,

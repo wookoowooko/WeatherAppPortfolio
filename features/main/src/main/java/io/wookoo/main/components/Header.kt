@@ -34,7 +34,6 @@ import io.wookoo.main.uimodels.UiCurrentWeatherModel
 internal fun Header(
     state: MainPageState,
     modifier: Modifier = Modifier,
-    onGeoLocationClick: () -> Unit,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -52,15 +51,6 @@ internal fun Header(
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
             ) {
                 if (!state.isGeolocationSearchInProgress) {
-//                    SharedSurfaceIcon(
-//                        onClick = onGeoLocationClick,
-//                        modifier = Modifier
-//                            .padding(end = small)
-//                            .size(size_40),
-//                        iconPadding = ultraSmall,
-//                        icon = Icons.Default.LocationOn,
-//                    )
-
                     Icon(
                         Icons.Default.LocationOn,
                         null,
@@ -157,8 +147,7 @@ private fun HeaderPreview() {
                     sunriseTime = "18:00",
                     date = "Sunday, 23 Mar."
                 )
-            ),
-            onGeoLocationClick = {}
+            )
         )
     }
 }

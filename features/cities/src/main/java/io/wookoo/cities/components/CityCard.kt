@@ -265,7 +265,7 @@ fun getWeatherGradient(condition: WeatherCondition): Brush {
             )
             WeatherCondition.PARTLY_CLOUDY_1_OR_2 -> listOf(
                 Color(0xFFB0E0E6), // Powder Blue
-                Color(0xFF87CEEB)  // Light Sky Blue
+                Color(0xFF87CEEB) // Light Sky Blue
             )
             WeatherCondition.OVERCAST_3 -> listOf(
                 Color(0xFF778899), // Light Slate Gray
@@ -273,56 +273,56 @@ fun getWeatherGradient(condition: WeatherCondition): Brush {
             )
             WeatherCondition.FOG_45_OR_48 -> listOf(
                 Color(0xFF696969), // Dim Gray
-                Color(0xFF808080)  // Gray
+                Color(0xFF808080) // Gray
             )
             WeatherCondition.DRIZZLE_LIGHT_51,
             WeatherCondition.DRIZZLE_MODERATE_53,
             WeatherCondition.DRIZZLE_HEAVY_55 -> listOf(
                 Color(0xFF4682B4), // Steel Blue
-                Color(0xFF5F9EA0)  // Cadet Blue
+                Color(0xFF5F9EA0) // Cadet Blue
             )
             WeatherCondition.FREEZING_DRIZZLE_LIGHT_56,
             WeatherCondition.FREEZING_DRIZZLE_HEAVY_57 -> listOf(
                 Color(0xFF6A5ACD), // Slate Blue
-                Color(0xFF483D8B)  // Dark Slate Blue
+                Color(0xFF483D8B) // Dark Slate Blue
             )
             WeatherCondition.RAIN_LIGHT_61,
             WeatherCondition.RAIN_MODERATE_63,
             WeatherCondition.HEAVY_RAIN_65 -> listOf(
                 Color(0xFF4169E1), // Royal Blue
-                Color(0xFF00008B)  // Dark Blue
+                Color(0xFF00008B) // Dark Blue
             )
             WeatherCondition.FREEZING_RAIN_LIGHT_66,
             WeatherCondition.FREEZING_RAIN_HEAVY_67 -> listOf(
                 Color(0xFF000080), // Navy
-                Color(0xFF191970)  // Midnight Blue
+                Color(0xFF191970) // Midnight Blue
             )
             WeatherCondition.SNOW_LIGHT_71,
             WeatherCondition.SNOW_MODERATE_73,
             WeatherCondition.SNOW_HEAVY_75,
             WeatherCondition.SNOW_GRAINS_77 -> listOf(
                 Color(0xFFE0FFFF), // Light Cyan
-                Color(0xFFAFEEEE)  // Pale Turquoise
+                Color(0xFFAFEEEE) // Pale Turquoise
             )
             WeatherCondition.RAIN_SHOWERS_LIGHT_80,
             WeatherCondition.RAIN_SHOWERS_MODERATE_81,
             WeatherCondition.RAIN_SHOWERS_HEAVY_82 -> listOf(
                 Color(0xFF1E90FF), // Dodger Blue
-                Color(0xFF0000CD)  // Medium Blue
+                Color(0xFF0000CD) // Medium Blue
             )
             WeatherCondition.SNOW_SHOWERS_LIGHT_85,
             WeatherCondition.SNOW_SHOWERS_HEAVY_86 -> listOf(
                 Color(0xFFF0F8FF), // Alice Blue
-                Color(0xFFE6E6FA)  // Lavender
+                Color(0xFFE6E6FA) // Lavender
             )
             WeatherCondition.THUNDERSTORM_95,
             WeatherCondition.THUNDERSTORM_HAIL_96_OR_99 -> listOf(
                 Color(0xFF00008B), // Dark Blue
-                Color(0xFF000000)  // Black
+                Color(0xFF000000) // Black
             )
             WeatherCondition.UNKNOWN -> listOf(
                 Color(0xFFA9A9A9), // Dark Gray
-                Color(0xFF808080)  // Gray
+                Color(0xFF808080) // Gray
             )
         }
     )

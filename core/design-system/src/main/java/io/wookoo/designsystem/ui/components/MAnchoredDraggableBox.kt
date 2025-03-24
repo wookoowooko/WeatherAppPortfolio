@@ -32,7 +32,7 @@ fun SharedDraggableBox(
     firstContent: @Composable (modifier: Modifier) -> Unit,
     secondContent: @Composable (modifier: Modifier) -> Unit,
 
-    ) {
+) {
     val density = LocalDensity.current
     val positionalThresholds: (totalDistance: Float) -> Float =
         { totalDistance -> totalDistance * 0.5f }

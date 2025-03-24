@@ -82,7 +82,7 @@ internal fun Navigation(
         navigation<WelcomeGraph>(
             startDestination = WelcomeRoute,
 
-            ) {
+        ) {
             welcomePage(
                 onRequestLocationPermission = onRequestLocationPermission,
                 onShowSnackBar = onShowSnackBar

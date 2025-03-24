@@ -28,7 +28,7 @@ fun NavGraphBuilder.citiesScreen(
     onBackIconClick: () -> Unit,
     onRequestLocationPermission: () -> Unit,
     onShowSnackBar: (String) -> Unit
-    ) {
+) {
     composable<CitiesRoute> {
         CitiesScreenRoot(
             onBackIconClick = onBackIconClick,
@@ -48,11 +48,10 @@ private fun CitiesScreenRoot(
     onBackIconClick: () -> Unit,
     onRequestLocationPermission: () -> Unit,
     onShowSnackBar: (String) -> Unit
-    ) {
+) {
     val owner = LocalLifecycleOwner.current
     val context = LocalContext.current
     val state by viewModel.state.collectAsStateWithLifecycle()
-
 
     LaunchedEffect(Unit) {
         owner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -73,7 +72,6 @@ private fun CitiesScreenRoot(
             }
         }
     }
-
 
     CitiesScreen(
         onBackIconClick = onBackIconClick,

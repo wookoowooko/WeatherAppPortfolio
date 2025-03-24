@@ -39,7 +39,6 @@ class CitiesStore @Inject constructor(
 
     private var searchJob: Job? = null
 
-
     private val isOffline = networkMonitor.isOnline
         .map(Boolean::not)
         .onEach {
@@ -50,7 +49,6 @@ class CitiesStore @Inject constructor(
             started = SharingStarted.Eagerly,
             false
         )
-
 
     override fun initializeObservers() {
         observeSearchQuery()
@@ -140,7 +138,6 @@ class CitiesStore @Inject constructor(
         }
     }
 
-
     private fun getGeolocationFromGpsSensors() {
         if (isOffline.value) {
             emitSideEffect(CitiesSideEffect.ShowSnackBar(DataError.Remote.NO_INTERNET))
@@ -168,8 +165,8 @@ class CitiesStore @Inject constructor(
     ) = storeScope.launch {
         masterRepository.getReverseGeocodingLocation(latitude, longitude, "ru")
             .onSuccess { gpsItems ->
-                gpsItems.geonames.firstOrNull()?.let { geoname ->
-                    dispatch(OnSuccessFetchReversGeocodingFromApi(geoname))
+                gpsItems.geonames.firstOrNull()?.let { geoName ->
+                    dispatch(OnSuccessFetchReversGeocodingFromApi(geoName))
                 } ?: run {
                     dispatch(OnErrorFetchReversGeocodingFromApi)
                     emitSideEffect(CitiesSideEffect.ShowSnackBar(DataError.Remote.UNKNOWN))
@@ -189,5 +186,4 @@ class CitiesStore @Inject constructor(
         private const val THRESHOLD = 500L
         private const val TAG = "CitiesStore"
     }
-
 }

@@ -36,11 +36,14 @@ fun PagerIndicator(
         items(pageCount) { iteration ->
             val color = if (currentPageIndex == iteration) Color.DarkGray else Color.LightGray
 
-            if (iteration == 0){
-                Icon(Icons.Default.NearMe, null,
+            if (iteration == 0) {
+                Icon(
+                    Icons.Default.NearMe,
+                    null,
                     modifier = Modifier.size(large),
-                    tint = color)
-            } else{
+                    tint = color
+                )
+            } else {
                 Box(
                     modifier = Modifier
                         .padding(ultraSmall)

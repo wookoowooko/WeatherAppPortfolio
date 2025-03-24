@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface IMasterWeatherRepo {
 
-    suspend fun updateCurrentLocation(geoItemId: Long):AppResult<Unit, DataError>
+    suspend fun updateCurrentLocation(geoItemId: Long): AppResult<Unit, DataError>
 
     fun currentWeather(geoNameId: Long): Flow<CurrentWeatherResponseModel>
 

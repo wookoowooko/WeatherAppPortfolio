@@ -45,7 +45,6 @@ internal fun WeeklyPageScreen(
 
     LaunchedEffect(Unit) {
         Log.d(TAG, "WeeklyPageScreen: ${args.geoItemId}")
-
     }
     val state = rememberFragmentState()
     var titleText by remember { mutableStateOf("") }
@@ -99,11 +98,8 @@ internal fun WeeklyPageScreen(
             }
         }
     }
-
 }
 
 internal object RouteConsts {
     const val GEO_ITEM_ID_KEY = "geoItemId"
 }
-
-

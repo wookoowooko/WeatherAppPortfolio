@@ -60,7 +60,6 @@ internal fun WelcomeSearchBar(
         )
     }
 
-
     LaunchedEffect(textFieldValue) {
         snapshotFlow { textFieldValue }
             .debounce(1000)

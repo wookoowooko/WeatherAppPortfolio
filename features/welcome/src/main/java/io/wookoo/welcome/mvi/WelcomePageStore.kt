@@ -85,7 +85,6 @@ class WelcomePageStore @Inject constructor(
             .launchIn(storeScope)
     }
 
-
     // Functions
     private fun searchLocationFromApi(query: String) = storeScope.launch {
         dispatch(OnLoading)
@@ -110,7 +109,6 @@ class WelcomePageStore @Inject constructor(
             dispatch(OnLoading)
             weatherLocationManager.getGeolocationFromGpsSensors(
                 onSuccessfullyLocationReceived = { lat, lon ->
-                    dispatch(OnSuccessfullyUpdateGeolocationFromGpsSensors(lat, lon))
                     fetchReversGeocoding(
                         latitude = lat,
                         longitude = lon
@@ -125,28 +123,23 @@ class WelcomePageStore @Inject constructor(
         }
     }
 
-
     private fun fetchReversGeocoding(
         latitude: Double,
         longitude: Double,
     ) = storeScope.launch {
-        dispatch(OnLoading)
-        masterRepository.getReverseGeocodingLocation(
-            latitude = latitude,
-            longitude = longitude,
-            language = "ru"
-        ).onSuccess { searchResults ->
-            dispatch(
-                OnSuccessFetchReversGeocodingFromApi(
-                    city = searchResults.geonames.firstOrNull()?.cityName.orEmpty(),
-                    country = searchResults.geonames.firstOrNull()?.countryName.orEmpty(),
-                    geoItemId = searchResults.geonames.firstOrNull()?.geoItemId ?: 0
-                )
-            )
-        }.onError { apiError: DataError.Remote ->
-            dispatch(OnErrorFetchReversGeocodingFromApi)
-            emitSideEffect(WelcomeSideEffect.ShowSnackBar(apiError))
-        }
+        masterRepository.getReverseGeocodingLocation(latitude, longitude, "ru")
+            .onSuccess { gpsItems ->
+                gpsItems.geonames.firstOrNull()?.let { geoName ->
+                    dispatch(OnSuccessFetchReversGeocodingFromApi(geoName))
+                } ?: run {
+                    dispatch(OnErrorFetchReversGeocodingFromApi)
+                    emitSideEffect(WelcomeSideEffect.ShowSnackBar(DataError.Remote.UNKNOWN))
+                }
+            }
+            .onError { apiError ->
+                dispatch(OnErrorFetchReversGeocodingFromApi)
+                emitSideEffect(WelcomeSideEffect.ShowSnackBar(apiError))
+            }
     }
 
     private suspend fun saveUserOnboardingDone() {
@@ -155,25 +148,26 @@ class WelcomePageStore @Inject constructor(
             emitSideEffect(WelcomeSideEffect.ShowSnackBar(DataError.Remote.NO_INTERNET))
         } else {
             Log.d(TAG, "startSynchronize:Onboarding")
-            masterRepository.synchronizeCurrentWeather(
-                geoItemId = state.value.geoItemId,
-            ).onSuccess {
-                masterRepository.updateCurrentLocation(state.value.geoItemId)
-                    .onSuccess {
-                        dataStore.saveInitialLocationPicked(true).asEmptyDataResult()
-                            .onError { prefError ->
-                                emitSideEffect(WelcomeSideEffect.ShowSnackBar(prefError))
-                            }
-                    }
-                    .onError { dataBaseError ->
-                        emitSideEffect(WelcomeSideEffect.ShowSnackBar(dataBaseError))
-                    }
-            }.onError { dataBaseError ->
-                emitSideEffect(WelcomeSideEffect.ShowSnackBar(dataBaseError))
+            state.value.geoItem?.geoItemId?.let { id ->
+                masterRepository.synchronizeCurrentWeather(
+                    geoItemId = id
+                ).onSuccess {
+                    masterRepository.updateCurrentLocation(id)
+                        .onSuccess {
+                            dataStore.saveInitialLocationPicked(true).asEmptyDataResult()
+                                .onError { prefError ->
+                                    emitSideEffect(WelcomeSideEffect.ShowSnackBar(prefError))
+                                }
+                        }
+                        .onError { dataBaseError ->
+                            emitSideEffect(WelcomeSideEffect.ShowSnackBar(dataBaseError))
+                        }
+                }.onError { dataBaseError ->
+                    emitSideEffect(WelcomeSideEffect.ShowSnackBar(dataBaseError))
+                }
             }
         }
     }
-
 
     override fun clear() {
         Log.d(TAG, "cleared")
