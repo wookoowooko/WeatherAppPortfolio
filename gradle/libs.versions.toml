@@ -40,6 +40,7 @@ fragmentCompose = "1.8.6"
 constraintlayout = "2.2.1"
 androidxWork = "2.10.0"
 hiltExt = "1.2.0"
+location = "21.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -64,6 +65,9 @@ androidx-datastore = { group = "androidx.datastore", name = "datastore", version
 google-protobuf-kotlin = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobufLite" }
 google-protobuf-java = { group = "com.google.protobuf", name = "protobuf-javalite", version.ref = "protobufLite" }
 google-protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobufLite" }
+
+#Location
+play-services-location = {module ="com.google.android.gms:play-services-location", version.ref = "location"}
 
 #Coroutines
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines-core" }

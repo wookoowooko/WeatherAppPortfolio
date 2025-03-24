@@ -18,6 +18,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -57,7 +58,7 @@ class CitiesStore @Inject constructor(
 
     override fun handleSideEffects(intent: CitiesIntent) {
         when (intent) {
-            is OnGPSClick -> getGeolocationFromGpsSensors()
+            is OnGPSClick -> storeScope.launch { getGeolocationFromGpsSensors() }
             is OnSearchedGeoItemCardClick -> storeScope.launch { syncWeather(intent.geoItem.geoItemId) }
             is OnDeleteCity -> storeScope.launch { deleteCity(intent.geoItemId) }
             is OnUpdateCurrentGeo -> storeScope.launch {
@@ -138,24 +139,66 @@ class CitiesStore @Inject constructor(
         }
     }
 
-    private fun getGeolocationFromGpsSensors() {
+//    private fun getGeolocationFromGpsSensors() {
+//        if (isOffline.value) {
+//            emitSideEffect(CitiesSideEffect.ShowSnackBar(DataError.Remote.NO_INTERNET))
+//        } else {
+//            weatherLocationManager.getGeolocationFromGpsSensors(
+//                onSuccessfullyLocationReceived = { lat, lon ->
+//                    Log.d(TAG, "success: $lat $lon")
+//                    fetchReversGeocoding(latitude = lat, longitude = lon)
+//                },
+//                onError = { geoError: AppError ->
+//
+//                    Log.d(TAG, "geoError: $geoError")
+//
+//                    dispatch(OnErrorUpdateGeolocationFromGpsSensors)
+//                    emitSideEffect(CitiesSideEffect.ShowSnackBar(geoError))
+//                    emitSideEffect(CitiesSideEffect.OnShowSettingsDialog(geoError))
+//                }
+//            )
+//        }
+//    }
+
+//    private suspend fun getGeolocationFromGpsSensors() {
+//        if (isOffline.value) {
+//            emitSideEffect(CitiesSideEffect.ShowSnackBar(DataError.Remote.NO_INTERNET))
+//        } else {
+//            weatherLocationManager.getGeolocationFromGpsSensors().collect { result ->
+//                result.onSuccess { geoLocation ->
+//                    Log.d(TAG, "success: ${geoLocation.first} ${geoLocation.second}")
+//                    fetchReversGeocoding(
+//                        latitude = geoLocation.first,
+//                        longitude = geoLocation.second
+//                    )
+//                }
+//                    .onError { geoError: AppError ->
+//                        Log.d(TAG, "geoError: $geoError")
+//
+//                        dispatch(OnErrorUpdateGeolocationFromGpsSensors)
+//                        emitSideEffect(CitiesSideEffect.ShowSnackBar(geoError))
+//                        emitSideEffect(CitiesSideEffect.OnShowSettingsDialog(geoError))
+//                    }
+//            }
+//        }
+//    }
+
+    private suspend fun getGeolocationFromGpsSensors() {
         if (isOffline.value) {
             emitSideEffect(CitiesSideEffect.ShowSnackBar(DataError.Remote.NO_INTERNET))
         } else {
-            weatherLocationManager.getGeolocationFromGpsSensors(
-                onSuccessfullyLocationReceived = { lat, lon ->
-                    Log.d(TAG, "success: $lat $lon")
-                    fetchReversGeocoding(latitude = lat, longitude = lon)
-                },
-                onError = { geoError: AppError ->
-
-                    Log.d(TAG, "geoError: $geoError")
-
+            weatherLocationManager.getGeolocationFromGpsSensors().first()
+                .onSuccess { geoLocation ->
+                    Log.d(TAG, "geoLocation: $geoLocation")
+                    fetchReversGeocoding(
+                        latitude = geoLocation.first,
+                        longitude = geoLocation.second
+                    )
+                }.onError { geoError: AppError ->
                     dispatch(OnErrorUpdateGeolocationFromGpsSensors)
                     emitSideEffect(CitiesSideEffect.ShowSnackBar(geoError))
                     emitSideEffect(CitiesSideEffect.OnShowSettingsDialog(geoError))
                 }
-            )
         }
     }
 

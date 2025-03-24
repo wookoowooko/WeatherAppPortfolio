@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import io.wookoo.common.ext.isFineLocationPermissionGranted
+import io.wookoo.common.ext.hasLocationPermissions
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
@@ -36,7 +36,7 @@ internal fun DetectGeolocationCard(
     Card(
         enabled = !state.isGeolocationSearchInProgress,
         onClick = {
-            if (context.isFineLocationPermissionGranted()) {
+            if (context.hasLocationPermissions()) {
                 onIntent(OnSearchGeoLocationClick)
             } else {
                 onIntent(OnRequestGeoLocationPermission)

@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import dagger.hilt.android.AndroidEntryPoint
-import io.wookoo.common.ext.isFineLocationPermissionGranted
+import io.wookoo.common.ext.hasLocationPermissions
 import io.wookoo.common.ext.openAndroidSettings
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.domain.repo.IDataStoreRepo
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             )
 
             LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
-                if (this.isFineLocationPermissionGranted()) {
+                if (this.hasLocationPermissions()) {
                     permissions.dismissDialog()
                 }
             }

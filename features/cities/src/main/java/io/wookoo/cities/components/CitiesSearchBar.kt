@@ -48,7 +48,7 @@ import io.wookoo.cities.mvi.OnGPSClick
 import io.wookoo.cities.mvi.OnRequestGeoLocationPermission
 import io.wookoo.cities.mvi.OnSearchQueryChange
 import io.wookoo.cities.mvi.OnUpdateCurrentGeo
-import io.wookoo.common.ext.isFineLocationPermissionGranted
+import io.wookoo.common.ext.hasLocationPermissions
 import io.wookoo.designsystem.ui.components.SharedLocationItem
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
@@ -160,7 +160,7 @@ internal fun CitiesSearchBar(
                 .padding(top = small)
                 .align(Alignment.CenterHorizontally),
             onClick = {
-                if (context.isFineLocationPermissionGranted()) {
+                if (context.hasLocationPermissions()) {
                     onIntent(OnGPSClick)
                 } else {
                     onIntent(OnRequestGeoLocationPermission)
