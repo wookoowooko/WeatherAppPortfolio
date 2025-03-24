@@ -8,11 +8,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.NearMe
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.designsystem.ui.theme.ultraSmall
 
@@ -25,18 +30,29 @@ fun PagerIndicator(
 ) {
     LazyRow(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         items(pageCount) { iteration ->
             val color = if (currentPageIndex == iteration) Color.DarkGray else Color.LightGray
-            Box(
-                modifier = Modifier
-                    .padding(ultraSmall)
-                    .clip(CircleShape)
-                    .background(color)
-                    .size(medium)
-                    .clickable { onPagerIndicatorClick(iteration) }
-            )
+
+            if (iteration == 0) {
+                Icon(
+                    Icons.Default.NearMe,
+                    null,
+                    modifier = Modifier.size(large),
+                    tint = color
+                )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .padding(ultraSmall)
+                        .clip(CircleShape)
+                        .background(color)
+                        .size(medium)
+                        .clickable { onPagerIndicatorClick(iteration) }
+                )
+            }
         }
     }
 }
@@ -44,5 +60,9 @@ fun PagerIndicator(
 @Composable
 @Preview
 private fun PagerIndicatorPreview() {
-    PagerIndicator(pageCount = 3, currentPageIndex = 1, onPagerIndicatorClick = {})
+    PagerIndicator(
+        pageCount = 3,
+        currentPageIndex = 1,
+        onPagerIndicatorClick = {},
+    )
 }

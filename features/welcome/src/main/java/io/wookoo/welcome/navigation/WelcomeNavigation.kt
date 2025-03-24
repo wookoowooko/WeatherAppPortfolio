@@ -50,9 +50,7 @@ private fun WelcomePageScreenRoot(
             viewModel.sideEffect.collect { sideEffect ->
                 when (sideEffect) {
                     is WelcomeSideEffect.ShowSnackBar -> onShowSnackBar(
-                        sideEffect.message.asLocalizedString(
-                            context
-                        )
+                        sideEffect.message.asLocalizedString(context)
                     )
 
                     is WelcomeSideEffect.OnShowSettingsDialog -> {

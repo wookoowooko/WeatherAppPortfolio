@@ -1,6 +1,6 @@
 package io.wookoo.main.mvi
 
-import io.wookoo.domain.model.geocoding.GeocodingSearchModel
+import io.wookoo.domain.model.geocoding.GeocodingModel
 import io.wookoo.domain.model.weather.current.CurrentWeatherResponseModel
 import io.wookoo.domain.utils.AppError
 
@@ -18,7 +18,7 @@ data object OnErrorFetchReversGeocodingFromApi : Completable
 // Success Completable
 data class OnSuccessFetchReversGeocodingFromApi(val city: String, val country: String) : Completable
 data object OnSuccessfullyUpdateGeolocationFromGpsSensors : Completable
-data class OnSuccessSearchLocation(val results: List<GeocodingSearchModel>) : Completable
+data class OnSuccessSearchLocation(val results: List<GeocodingModel>) : Completable
 data class OnSuccessFetchCurrentWeatherFromApi(val cachedResult: CurrentWeatherResponseModel) :
     Completable
 
@@ -33,7 +33,7 @@ data object OnNavigateToCities : MainPageIntent
 // data MainPageIntent
 data class OnSearchQueryChange(val query: String) : MainPageIntent
 data class OnExpandSearchBar(val expandValue: Boolean) : MainPageIntent
-data class OnSearchedGeoItemCardClick(val geoItem: GeocodingSearchModel) : MainPageIntent
+data class OnSearchedGeoItemCardClick(val geoItem: GeocodingModel) : MainPageIntent
 data class UpdateCityListCount(val count: Int) : MainPageIntent
 data class SetPagerPosition(val position: Int) : MainPageIntent
 

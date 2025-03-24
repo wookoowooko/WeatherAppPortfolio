@@ -18,5 +18,8 @@ data class GeoEntity(
     val countryName: String,
 
     @ColumnInfo("utc_offset_seconds")
-    val utcOffsetSeconds: Long
+    val utcOffsetSeconds: Long,
+
+    @ColumnInfo("is_current")
+    val isCurrent: Boolean = false
 )

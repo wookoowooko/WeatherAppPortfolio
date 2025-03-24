@@ -47,9 +47,8 @@ import kotlinx.coroutines.flow.debounce
 @OptIn(ExperimentalMaterial3Api::class, FlowPreview::class)
 internal fun WelcomeSearchBar(
     onIntent: (WelcomePageIntent) -> Unit,
-
     state: WelcomePageState,
-    isLoading: Boolean,
+
     modifier: Modifier = Modifier,
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -60,7 +59,6 @@ internal fun WelcomeSearchBar(
             selection = TextRange(state.searchQuery.length)
         )
     }
-
 
     LaunchedEffect(textFieldValue) {
         snapshotFlow { textFieldValue }
@@ -145,7 +143,7 @@ internal fun WelcomeSearchBar(
             Box(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                if (isLoading) {
+                if (state.isLoading) {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center)
                     )
@@ -171,7 +169,6 @@ internal fun WelcomeSearchBar(
 private fun WelcomeSearchBarPreview() {
     WelcomeSearchBar(
         onIntent = {},
-        state = WelcomePageState(),
-        isLoading = false
+        state = WelcomePageState()
     )
 }

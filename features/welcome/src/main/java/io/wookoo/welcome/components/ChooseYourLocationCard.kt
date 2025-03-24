@@ -50,8 +50,16 @@ internal fun ChooseYourLocationCard(
                 null,
                 modifier = Modifier.padding(medium)
             )
+
+            val text =
+                if (state.geoItem?.cityName.isNullOrEmpty()) {
+                    stringResource(io.wookoo.androidresources.R.string.choose_your_location)
+                } else {
+                    state.geoItem?.cityName.orEmpty()
+                }
+
             SharedText(
-                text = state.city.ifEmpty { stringResource(io.wookoo.androidresources.R.string.choose_your_location) },
+                text = text,
                 style = MaterialTheme.typography.titleMedium
             )
         }

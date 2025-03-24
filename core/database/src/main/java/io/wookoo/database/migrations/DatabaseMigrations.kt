@@ -210,4 +210,10 @@ internal object DatabaseMigrations {
             db.execSQL("ALTER TABLE weekly_weather ADD COLUMN utc_offset_seconds INTEGER NOT NULL DEFAULT 0")
         }
     }
+
+    val MIGRATION_11_12 = object : Migration(11, 12) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE geo_entity ADD COLUMN is_current INTEGER NOT NULL DEFAULT 0")
+        }
+    }
 }

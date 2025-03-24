@@ -61,7 +61,8 @@ internal fun CitiesFromDB(
                     )
                 },
                 offsetSize = 100.dp,
-                isDeleted = isDeleted
+                isDeleted = isDeleted,
+                isCurrentLocation = uiCity.isCurrentLocation
             )
         }
     }

@@ -112,7 +112,9 @@ internal fun Navigation(
             citiesScreen(
                 onBackIconClick = {
                     if (navController.canGoBack) navController.popBackStack()
-                }
+                },
+                onRequestLocationPermission = onRequestLocationPermission,
+                onShowSnackBar = onShowSnackBar
             )
         }
     }

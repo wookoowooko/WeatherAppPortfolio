@@ -1,9 +1,8 @@
 package io.wookoo.mappers.geocoding
 
+import io.wookoo.domain.model.geocoding.GeocodingModel
 import io.wookoo.domain.model.geocoding.GeocodingResponseModel
-import io.wookoo.domain.model.geocoding.GeocodingSearchModel
-import io.wookoo.domain.model.reversegeocoding.ReverseGeocodingResponseModel
-import io.wookoo.domain.model.reversegeocoding.ReverseGeocodingSearchModel
+import io.wookoo.domain.model.geocoding.ReverseGeocodingResponseModel
 import io.wookoo.network.dto.geocoding.GeocodingResponseDto
 import io.wookoo.network.dto.geocoding.GeocodingSearchDto
 import io.wookoo.network.dto.reversegeocoding.ReverseGeocodingResponseDto
@@ -15,12 +14,12 @@ fun GeocodingResponseDto.asGeocodingResponseModel(): GeocodingResponseModel {
     )
 }
 
-fun GeocodingSearchDto.asGeocodingSearchModel(): GeocodingSearchModel {
-    return GeocodingSearchModel(
+fun GeocodingSearchDto.asGeocodingSearchModel(): GeocodingModel {
+    return GeocodingModel(
         cityName = name,
         latitude = latitude,
         longitude = longitude,
-        country = country.orEmpty(),
+        countryName = country.orEmpty(),
         urbanArea = admin1,
         geoItemId = geoNameId
     )
@@ -32,12 +31,13 @@ fun ReverseGeocodingResponseDto.asReverseGeocodingResponseModel(): ReverseGeocod
     )
 }
 
-fun ReverseGeocodingSearchDto.asReverseGeocodingSearchModel(): ReverseGeocodingSearchModel {
-    return ReverseGeocodingSearchModel(
-        name = name,
-        toponymName = toponymName,
+fun ReverseGeocodingSearchDto.asReverseGeocodingSearchModel(): GeocodingModel {
+    return GeocodingModel(
+        cityName = cityName,
+        latitude = 0.0,
+        longitude = 0.0,
         countryName = countryName,
-        areaName = areaName.orEmpty(),
+        urbanArea = areaName,
         geoItemId = geoNameId
     )
 }

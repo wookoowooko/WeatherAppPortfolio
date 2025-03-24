@@ -24,15 +24,12 @@ class WeeklyStore @Inject constructor(
     savedStateHandle: SavedStateHandle,
     reducer: WeeklyReducer,
 ) : Store<WeeklyState, WeeklyIntent, WeeklyEffect>(
-    reducer = reducer, storeScope = storeScope, initialState = WeeklyState()
+    reducer = reducer,
+    storeScope = storeScope,
+    initialState = WeeklyState()
 ) {
 
     private val geoItemId: Long = savedStateHandle.toRoute<WeeklyRoute>().geoItemId
-
-    init {
-        Log.d(TAG, "geoItemId: $geoItemId")
-    }
-
 
     override fun initializeObservers() {
         Log.d(TAG, "initializeObservers: ")
@@ -40,7 +37,6 @@ class WeeklyStore @Inject constructor(
         observeWeeklyWeather()
         syncWeeklyWeatherFromAPIAndSaveToCache()
     }
-
 
     private fun observeSelectedDayPositionChanged() {
         Log.d(TAG, "observeSelectedDayPositionChanged")
