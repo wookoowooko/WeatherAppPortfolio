@@ -13,5 +13,5 @@ dependencies {
         implementation(core.common)
         implementation(core.domain)
     }
-
+    implementation(libs.play.services.location)
 }

@@ -20,6 +20,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -58,7 +59,7 @@ class WelcomePageStore @Inject constructor(
 
     override fun handleSideEffects(intent: WelcomePageIntent) {
         when (intent) {
-            is OnSearchGeoLocationClick -> getGeolocationFromGpsSensors()
+            is OnSearchGeoLocationClick -> storeScope.launch { getGeolocationFromGpsSensors() }
             is OnContinueButtonClick -> storeScope.launch { saveUserOnboardingDone() }
             is OnAppBarExpandChange ->
                 if (state.value.isOffline) emitSideEffect(WelcomeSideEffect.ShowSnackBar(DataError.Remote.NO_INTERNET))
@@ -101,25 +102,60 @@ class WelcomePageStore @Inject constructor(
             }
     }
 
-    private fun getGeolocationFromGpsSensors() {
+//    private fun getGeolocationFromGpsSensors() {
+//        if (isOffline.value) {
+//            emitSideEffect(WelcomeSideEffect.ShowSnackBar(DataError.Remote.NO_INTERNET))
+//            dispatch(OnLoadingFinish)
+//        } else {
+//            dispatch(OnLoading)
+//            weatherLocationManager.getGeolocationFromGpsSensors(
+//                onSuccessfullyLocationReceived = { lat, lon ->
+//                    fetchReversGeocoding(
+//                        latitude = lat,
+//                        longitude = lon
+//                    )
+//                },
+//                onError = { geoError: AppError ->
+//                    dispatch(OnErrorUpdateGeolocationFromGpsSensors)
+//                    emitSideEffect(WelcomeSideEffect.ShowSnackBar(geoError))
+//                    emitSideEffect(WelcomeSideEffect.OnShowSettingsDialog(geoError))
+//                }
+//            )
+//        }
+//    }
+
+    private suspend fun getGeolocationFromGpsSensors() {
         if (isOffline.value) {
             emitSideEffect(WelcomeSideEffect.ShowSnackBar(DataError.Remote.NO_INTERNET))
             dispatch(OnLoadingFinish)
         } else {
             dispatch(OnLoading)
-            weatherLocationManager.getGeolocationFromGpsSensors(
-                onSuccessfullyLocationReceived = { lat, lon ->
+            weatherLocationManager.getGeolocationFromGpsSensors().first()
+                .onSuccess { geoLocation ->
+                    Log.d(TAG, "geoLocation: $geoLocation")
                     fetchReversGeocoding(
-                        latitude = lat,
-                        longitude = lon
+                        latitude = geoLocation.first,
+                        longitude = geoLocation.second
                     )
-                },
-                onError = { geoError: AppError ->
+                }.onError { geoError: AppError ->
                     dispatch(OnErrorUpdateGeolocationFromGpsSensors)
                     emitSideEffect(WelcomeSideEffect.ShowSnackBar(geoError))
                     emitSideEffect(WelcomeSideEffect.OnShowSettingsDialog(geoError))
+
+
+//            weatherLocationManager.getGeolocationFromGpsSensors().collect {
+//                it.onSuccess { geoLocation ->
+//                    Log.d(TAG, "geoLocation: $geoLocation")
+//                    fetchReversGeocoding(
+//                        latitude = geoLocation.first,
+//                        longitude = geoLocation.second
+//                    )
+//                }.onError { geoError: AppError ->
+//                    dispatch(OnErrorUpdateGeolocationFromGpsSensors)
+//                    emitSideEffect(WelcomeSideEffect.ShowSnackBar(geoError))
+//                    emitSideEffect(WelcomeSideEffect.OnShowSettingsDialog(geoError))
+//                }
                 }
-            )
         }
     }
 
