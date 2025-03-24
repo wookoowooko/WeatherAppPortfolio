@@ -1,5 +1,6 @@
 package io.wookoo.cities.screen
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.add
@@ -42,6 +43,7 @@ internal fun CitiesScreen(
     onIntent: (CitiesIntent) -> Unit,
     onBackIconClick: () -> Unit,
 ) {
+    BackHandler(enabled = !state.isProcessing) { }
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
@@ -58,6 +60,7 @@ internal fun CitiesScreen(
                 ),
                 navigationIcon = {
                     IconButton(
+                        enabled = !state.isProcessing,
                         onClick = onBackIconClick
                     ) {
                         Icon(
@@ -90,7 +93,6 @@ internal fun CitiesScreen(
                 io.wookoo.designsystem.ui.Crossfade.LOADING -> SharedLottieLoader()
                 io.wookoo.designsystem.ui.Crossfade.CONTENT -> {
                     CitiesFromDB(state, modifier = Modifier.padding(it), onIntent = onIntent)
-
                     if (state.bottomSheetExpanded) {
                         ModalBottomSheet(
                             containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -128,7 +130,9 @@ internal fun CitiesScreen(
 private fun CitiesScreenPreview() {
     WeatherAppPortfolioTheme {
         CitiesScreen(
-            state = CitiesState(),
+            state = CitiesState(
+                isLoading = false
+            ),
             onIntent = {},
             onBackIconClick = {}
         )

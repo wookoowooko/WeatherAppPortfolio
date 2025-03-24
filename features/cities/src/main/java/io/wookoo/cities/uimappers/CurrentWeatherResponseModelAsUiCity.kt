@@ -12,6 +12,7 @@ fun CurrentWeatherResponseModel.asUiCity(
     convertDateUseCase: ConvertDateUseCase,
 ): UiCity {
     return UiCity(
+        isCurrentLocation = this.isCurrentLocation,
         minTemperature = WeatherValueWithUnit(
             this.hourly.temperature.min(),
             ApiUnit.CELSIUS

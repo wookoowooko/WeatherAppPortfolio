@@ -42,12 +42,10 @@ class WeeklyReducer @Inject constructor(
                             day.copy(isSelected = false)
                         }
                     }
-                    )
+                )
             }
 
-
             is OnObserveWeeklyForecast -> {
-
                 state.copy(
                     cityName = intent.forecast.weekly.cityName,
                     weatherResponse = intent.forecast,
@@ -61,8 +59,7 @@ class WeeklyReducer @Inject constructor(
                             } else {
                                 day.copy(isSelected = false)
                             }
-                        }
-                    ,
+                        },
                     mainWeatherRecyclerItems = state.mainWeatherRecyclerItems.mapFromResponse(
                         weekResponse = intent.forecast,
                         selectedIndex = state.selectedCalendarItemIndex,

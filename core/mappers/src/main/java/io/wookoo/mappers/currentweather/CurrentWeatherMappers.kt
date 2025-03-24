@@ -46,7 +46,8 @@ fun WeatherWithDetails.asCurrentWeatherResponseModel(): CurrentWeatherResponseMo
         hourly = hourly.asHourlyModel(),
         daily = daily.asDailyModel(),
         utcOffsetSeconds = geo.utcOffsetSeconds,
-        time = current.time
+        time = current.time,
+        isCurrentLocation = this.geo.isCurrent
     )
 }
 

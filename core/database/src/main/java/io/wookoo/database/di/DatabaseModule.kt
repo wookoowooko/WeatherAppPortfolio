@@ -36,6 +36,7 @@ internal object DatabaseModule {
         DatabaseMigrations.MIGRATION_8_9,
         DatabaseMigrations.MIGRATION_9_10,
         DatabaseMigrations.MIGRATION_10_11,
+        DatabaseMigrations.MIGRATION_11_12,
     )
         .build()
 }

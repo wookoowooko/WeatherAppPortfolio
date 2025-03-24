@@ -119,4 +119,5 @@
 
     <!--Cities-->
     <string name="locations">Locations</string>
+    <string name="find_me_button">Find me</string>
 </resources>

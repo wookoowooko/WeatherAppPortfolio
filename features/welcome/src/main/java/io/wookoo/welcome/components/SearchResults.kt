@@ -52,7 +52,7 @@ internal fun SearchResults(
     ) {
         items(state.results) { result ->
             SharedLocationItem(
-                countryName = result.country,
+                countryName = result.countryName,
                 cityName = result.cityName,
                 urbanArea = result.urbanArea,
                 onClick = {
