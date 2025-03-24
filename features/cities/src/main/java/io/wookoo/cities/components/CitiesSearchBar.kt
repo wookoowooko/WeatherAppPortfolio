@@ -47,7 +47,7 @@ import io.wookoo.cities.mvi.CitiesState
 import io.wookoo.cities.mvi.OnGPSClick
 import io.wookoo.cities.mvi.OnRequestGeoLocationPermission
 import io.wookoo.cities.mvi.OnSearchQueryChange
-import io.wookoo.cities.mvi.OnSearchedGeoItemCardClick
+import io.wookoo.cities.mvi.OnUpdateCurrentGeo
 import io.wookoo.common.ext.isFineLocationPermissionGranted
 import io.wookoo.designsystem.ui.components.SharedLocationItem
 import io.wookoo.designsystem.ui.components.SharedText
@@ -185,9 +185,10 @@ internal fun CitiesSearchBar(
                 cityName = gpsItem.cityName,
                 urbanArea = gpsItem.urbanArea,
                 onClick = {
-                    singleClick{
-                        onIntent(OnSearchedGeoItemCardClick(gpsItem)) }
+                    singleClick {
+                        onIntent(OnUpdateCurrentGeo(gpsItem.geoItemId))
                     }
+                }
 
             )
         }

@@ -15,23 +15,20 @@ data class OnChangeBottomSheetVisibility(val expandValue: Boolean) : CitiesInten
 data class OnDeleteCity(val geoItemId: Long) : CitiesIntent
 data object OnSearchInProgressDone : Completable
 
-// Unit And Error Completable
 data object OnLoadingFinish : Completable
 data object OnErrorUpdateGeolocationFromGpsSensors : Completable
 data object OnErrorFetchReversGeocodingFromApi : Completable
 
-// Success Completable
 data class OnSuccessFetchReversGeocodingFromApi(
-   val gpsItem: GeocodingModel
+    val gpsItem: GeocodingModel,
 ) : Completable
 
 data object OnQueryIsEmpty : Completable
 data object OnErrorSearchLocation : Completable
 
-// Success Completable
 data class OnSuccessSearchLocation(val results: List<GeocodingModel>) : Completable
 
-//objects
 data object OnRequestGeoLocationPermission : CitiesIntent
 data object OnGPSClick : CitiesIntent
 data class OnUpdateNetworkState(val isOffline: Boolean) : CitiesIntent
+data class OnUpdateCurrentGeo(val geoItemId: Long) : Completable

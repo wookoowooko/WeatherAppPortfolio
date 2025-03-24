@@ -1,7 +1,6 @@
 package io.wookoo.cities.mvi
 
 import android.util.Log
-import androidx.compose.ui.Modifier
 import io.wookoo.common.mvi.Store
 import io.wookoo.domain.annotations.StoreViewModelScope
 import io.wookoo.domain.repo.ILocationProvider
@@ -63,6 +62,10 @@ class CitiesStore @Inject constructor(
             is OnGPSClick -> getGeolocationFromGpsSensors()
             is OnSearchedGeoItemCardClick -> storeScope.launch { syncWeather(intent.geoItem.geoItemId) }
             is OnDeleteCity -> storeScope.launch { deleteCity(intent.geoItemId) }
+            is OnUpdateCurrentGeo -> storeScope.launch {
+                updateCurrentAndSync(intent.geoItemId)
+            }
+
             else -> Unit
         }
     }

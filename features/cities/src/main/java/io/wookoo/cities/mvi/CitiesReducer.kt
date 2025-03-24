@@ -34,7 +34,7 @@ class CitiesReducer @Inject constructor(
                 )
             }
 
-            is OnSearchedGeoItemCardClick ->
+            is OnSearchedGeoItemCardClick, is OnUpdateCurrentGeo ->
                 state.copy(
                     bottomSheetExpanded = false,
                     searchQuery = "",

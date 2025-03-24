@@ -62,12 +62,12 @@ private fun CitiesScreenRoot(
                         sideEffect.message.asLocalizedString(context)
                     )
 
-//                    is CitiesSideEffect.OnShowSettingsDialog -> {
-//                        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
-//                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
-//                        }
-//                        context.startActivity(intent)
-//                    }
+                    is CitiesSideEffect.OnShowSettingsDialog -> {
+                        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                        }
+                        context.startActivity(intent)
+                    }
                     else -> Unit
                 }
             }
