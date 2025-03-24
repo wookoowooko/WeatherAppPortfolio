@@ -18,7 +18,7 @@ class WelcomePageReducer @Inject constructor() :
                     geoItemId = intent.geoItem.geoItemId,
                     isSearchExpanded = false,
                     city = intent.geoItem.cityName,
-                    country = intent.geoItem.country,
+                    country = intent.geoItem.countryName,
                     latitude = intent.geoItem.latitude,
                     longitude = intent.geoItem.longitude,
                     searchQuery = "",
@@ -36,6 +36,8 @@ class WelcomePageReducer @Inject constructor() :
                 isGeolocationSearchInProgress = true
             )
 
+
+            //todo нужны ли?
             is OnSuccessfullyUpdateGeolocationFromGpsSensors -> {
                 state.copy(
                     latitude = intent.lat,
@@ -56,8 +58,6 @@ class WelcomePageReducer @Inject constructor() :
                             country = intent.country,
                             geoItemId = intent.geoItemId
                         )
-
-
                         is OnQueryIsEmptyClearResults -> it.copy(results = emptyList())
                         else -> it
                     }

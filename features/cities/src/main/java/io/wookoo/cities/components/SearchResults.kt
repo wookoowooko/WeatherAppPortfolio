@@ -51,10 +51,10 @@ internal fun SearchResults(
         horizontalAlignment = Alignment.Start
     ) {
         items(state.results) { result ->
-
             SharedLocationItem(
+                enabled = !state.isProcessing,
                 modifier = Modifier,
-                countryName = result.country,
+                countryName = result.countryName,
                 cityName = result.cityName,
                 urbanArea = result.urbanArea,
                 onClick = {

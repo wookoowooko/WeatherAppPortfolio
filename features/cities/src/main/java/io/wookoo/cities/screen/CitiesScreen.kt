@@ -1,5 +1,6 @@
 package io.wookoo.cities.screen
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.add
@@ -21,7 +22,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,10 +45,12 @@ internal fun CitiesScreen(
     onIntent: (CitiesIntent) -> Unit,
     onBackIconClick: () -> Unit,
 ) {
+    BackHandler(enabled = !state.isProcessing) { }
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
     val scope = rememberCoroutineScope()
+
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -58,6 +63,7 @@ internal fun CitiesScreen(
                 ),
                 navigationIcon = {
                     IconButton(
+                        enabled = !state.isProcessing,
                         onClick = onBackIconClick
                     ) {
                         Icon(
@@ -90,7 +96,6 @@ internal fun CitiesScreen(
                 io.wookoo.designsystem.ui.Crossfade.LOADING -> SharedLottieLoader()
                 io.wookoo.designsystem.ui.Crossfade.CONTENT -> {
                     CitiesFromDB(state, modifier = Modifier.padding(it), onIntent = onIntent)
-
                     if (state.bottomSheetExpanded) {
                         ModalBottomSheet(
                             containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -128,7 +133,9 @@ internal fun CitiesScreen(
 private fun CitiesScreenPreview() {
     WeatherAppPortfolioTheme {
         CitiesScreen(
-            state = CitiesState(),
+            state = CitiesState(
+                isLoading = false
+            ),
             onIntent = {},
             onBackIconClick = {}
         )

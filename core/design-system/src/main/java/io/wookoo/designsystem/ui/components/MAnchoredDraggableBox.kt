@@ -27,11 +27,12 @@ import kotlin.math.roundToInt
 fun SharedDraggableBox(
     offsetSize: Dp,
     isDeleted: Boolean,
+    isCurrentLocation: Boolean,
     modifier: Modifier = Modifier,
     firstContent: @Composable (modifier: Modifier) -> Unit,
     secondContent: @Composable (modifier: Modifier) -> Unit,
 
-) {
+    ) {
     val density = LocalDensity.current
     val positionalThresholds: (totalDistance: Float) -> Float =
         { totalDistance -> totalDistance * 0.5f }
@@ -74,7 +75,11 @@ fun SharedDraggableBox(
                         0
                     )
                 }
-                .anchoredDraggable(state, Orientation.Horizontal)
+                .anchoredDraggable(
+                    enabled = !isCurrentLocation,
+                    state = state,
+                    orientation = Orientation.Horizontal
+                )
         )
         secondContent(
             Modifier
@@ -85,7 +90,11 @@ fun SharedDraggableBox(
                         0
                     )
                 }
-                .anchoredDraggable(state, Orientation.Horizontal)
+                .anchoredDraggable(
+                    enabled = !isCurrentLocation,
+                    state = state,
+                    orientation = Orientation.Horizontal
+                )
         )
     }
 }

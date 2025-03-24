@@ -138,7 +138,7 @@ class WelcomePageStore @Inject constructor(
         ).onSuccess { searchResults ->
             dispatch(
                 OnSuccessFetchReversGeocodingFromApi(
-                    city = searchResults.geonames.firstOrNull()?.name.orEmpty(),
+                    city = searchResults.geonames.firstOrNull()?.cityName.orEmpty(),
                     country = searchResults.geonames.firstOrNull()?.countryName.orEmpty(),
                     geoItemId = searchResults.geonames.firstOrNull()?.geoItemId ?: 0
                 )
@@ -158,9 +158,15 @@ class WelcomePageStore @Inject constructor(
             masterRepository.synchronizeCurrentWeather(
                 geoItemId = state.value.geoItemId,
             ).onSuccess {
-                dataStore.saveInitialLocationPicked(true).asEmptyDataResult()
-                    .onError { prefError ->
-                        emitSideEffect(WelcomeSideEffect.ShowSnackBar(prefError))
+                masterRepository.updateCurrentLocation(state.value.geoItemId)
+                    .onSuccess {
+                        dataStore.saveInitialLocationPicked(true).asEmptyDataResult()
+                            .onError { prefError ->
+                                emitSideEffect(WelcomeSideEffect.ShowSnackBar(prefError))
+                            }
+                    }
+                    .onError { dataBaseError ->
+                        emitSideEffect(WelcomeSideEffect.ShowSnackBar(dataBaseError))
                     }
             }.onError { dataBaseError ->
                 emitSideEffect(WelcomeSideEffect.ShowSnackBar(dataBaseError))

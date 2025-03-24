@@ -8,7 +8,7 @@ data class ReverseGeocodingSearchDto(
     @SerialName("geonameId")
     val geoNameId: Long,
     @SerialName("name")
-    val name: String,
+    val cityName: String,
     @SerialName("toponymName")
     val toponymName: String,
     @SerialName("countryName")

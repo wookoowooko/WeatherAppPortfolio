@@ -27,8 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import io.wookoo.common.ext.asLocalizedString
-import io.wookoo.common.ext.asLocalizedUnitValueString
 import io.wookoo.common.ext.isFineLocationPermissionGranted
 import io.wookoo.designsystem.ui.components.SharedLottieLoader
 import io.wookoo.designsystem.ui.components.SharedText
@@ -53,17 +51,7 @@ fun MainPageScreen(
     state: MainPageState,
     onIntent: (MainPageIntent) -> Unit,
 ) {
-//    val rowState = rememberLazyListState()
-//
-//    val hourlyList = state.currentWeather.hourlyList
-//
-
     val context = LocalContext.current
-
-    val isGeolocationSearchInProgress = state.isGeolocationSearchInProgress
-
-//    val scope = rememberCoroutineScope()
-
     BackHandler(enabled = state.isGeolocationSearchInProgress) {}
 
     Crossfade(
@@ -90,28 +78,8 @@ fun MainPageScreen(
                     },
                     topBar = {
                         TopAppBar(
-                            title = {
-                                SharedText(stringResource(io.wookoo.androidresources.R.string.weather_app_bar_title))
-                            }
+                            title = { SharedText(stringResource(io.wookoo.androidresources.R.string.weather_app_bar_title)) }
                         )
-
-// //                            SearchBarMain(
-// //                                onSearchQueryChange = { query ->
-// //                                    onIntent(OnSearchQueryChange(query))
-// //                                },
-// //                                onClose = { onIntent(OnExpandSearchBar(false)) },
-// //                                searchQuery = state.searchQuery,
-// //                                onSearchNotExpandedIconClick = {
-// //                                    onIntent(OnExpandSearchBar(true))
-// //                                },
-// //                                isExpanded = state.searchExpanded,
-// //                                results = state.searchResults,
-// //                                onItemClick = { geoItem ->
-// //                                    onIntent(OnSearchedGeoItemCardClick(geoItem))
-// //                                },
-// //                                isLoading = state.isLoading,
-// //                                isGeolocationSearchInProgress = isGeolocationSearchInProgress
-// //                            )
                     }
                 ) { paddings ->
                     HorizontalPager(
@@ -156,35 +124,7 @@ fun MainPageScreen(
                                     )
 
                                     Spacer(modifier = Modifier.height(medium))
-                                    with(context) {
-                                        WeatherProperties(
-                                            humidity = state.currentWeather.humidity.value.asLocalizedUnitValueString(
-                                                state.currentWeather.humidity.unit,
-                                                this
-                                            ),
-                                            windSpeed = state.currentWeather.windSpeed.value.asLocalizedUnitValueString(
-                                                state.currentWeather.windSpeed.unit,
-                                                this
-                                            ),
-                                            windDirection = state.currentWeather.windDirection.asLocalizedString(
-                                                this
-                                            ),
-                                            windGust = state.currentWeather.windGust.value.asLocalizedUnitValueString(
-                                                state.currentWeather.windGust.unit,
-                                                this
-                                            ),
-                                            precipitation = state.currentWeather.precipitation.value.asLocalizedUnitValueString(
-                                                state.currentWeather.precipitation.unit,
-                                                this
-                                            ),
-                                            pressureMsl = state.currentWeather.pressureMsl.value.asLocalizedUnitValueString(
-                                                state.currentWeather.pressureMsl.unit,
-                                                this
-                                            ),
-                                            uvIndex = state.currentWeather.uvIndex
-                                        )
-                                    }
-
+                                    WeatherProperties(state = state)
                                     TodayRowTitle(
                                         state = state,
                                         modifier = Modifier.padding(horizontal = large),

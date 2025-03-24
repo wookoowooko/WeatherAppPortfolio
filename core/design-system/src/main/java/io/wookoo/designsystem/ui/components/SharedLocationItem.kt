@@ -1,6 +1,9 @@
 package io.wookoo.designsystem.ui.components
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.NearMe
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -17,7 +20,9 @@ fun SharedLocationItem(
     cityName: String,
     urbanArea: String?,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
+    isCurrent: Boolean = false,
+    enabled: Boolean = true,
+    onClick: () -> Unit
 ) {
     ListItem(
         overlineContent = {
@@ -29,7 +34,7 @@ fun SharedLocationItem(
         shadowElevation = small,
         modifier = modifier
             .padding(vertical = ultraSmall)
-            .clickableSingle {
+            .clickableSingle(enabled) {
                 onClick()
             },
         tonalElevation = ultraSmall,
@@ -43,6 +48,12 @@ fun SharedLocationItem(
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f)
                 )
             )
+        },
+
+        trailingContent = {
+            if (isCurrent) {
+                Icon(Icons.Default.NearMe, contentDescription = null)
+            }
         }
     )
 }
@@ -59,3 +70,18 @@ private fun LocationItemPreview() {
         )
     }
 }
+
+@Composable
+@Preview
+private fun LocationItemPreview2() {
+    WeatherAppPortfolioTheme {
+        SharedLocationItem(
+            countryName = "Korea",
+            cityName = "Seoul",
+            urbanArea = "Gangnam-gu",
+            onClick = {},
+            isCurrent = true
+        )
+    }
+}
+

@@ -127,7 +127,7 @@ class SynchronizerImpl @Inject constructor(
                         geoNameId = geoItemId,
                         countryName = geoInfo.country.orEmpty(),
                         cityName = geoInfo.name,
-                        utcOffsetSeconds = weatherResponse.utcOffsetSeconds
+                        utcOffsetSeconds = weatherResponse.utcOffsetSeconds,
                     ),
                     current = weatherResponse.current.asCurrentWeatherEntity(),
                     hourly = weatherResponse.hourly.asHourlyEntity(),

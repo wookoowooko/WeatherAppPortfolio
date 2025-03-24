@@ -1,6 +1,6 @@
 package io.wookoo.geolocation
 
-import android.Manifest
+import android.Manifest.permission
 import android.content.Context
 import android.location.Location
 import android.location.LocationListener
@@ -25,32 +25,37 @@ class WeatherLocationManager @Inject constructor(
         null
     private var onError: ((AppError) -> Unit)? = null
 
-    @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+    @RequiresPermission(anyOf = [permission.ACCESS_COARSE_LOCATION, permission.ACCESS_FINE_LOCATION])
     override fun getGeolocationFromGpsSensors(
         onSuccessfullyLocationReceived: (latitude: Double, longitude: Double) -> Unit,
         onError: (AppError) -> Unit,
     ) {
-        if (!context.isFineLocationPermissionGranted()) return
-
-        this.onSuccessfullyLocationReceived = onSuccessfullyLocationReceived
-        this.onError = onError
-
-        val provider = when {
-            locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) -> LocationManager.GPS_PROVIDER
-            locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) -> LocationManager.NETWORK_PROVIDER
-            else -> null
-        }
-        if (provider == null) {
-            onError(DataError.Hardware.LOCATION_SERVICE_DISABLED)
-            return
-        }
-
         try {
+            if (!context.isFineLocationPermissionGranted()) return
+
+            this.onSuccessfullyLocationReceived = onSuccessfullyLocationReceived
+            this.onError = onError
+
+            val provider = when {
+                locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) -> LocationManager.GPS_PROVIDER
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) -> LocationManager.NETWORK_PROVIDER
+                else -> null
+            }
+            if (provider == null) {
+                onError(DataError.Hardware.LOCATION_SERVICE_DISABLED)
+                return
+            }
             locationManager.requestLocationUpdates(provider, 0L, 0f, this@WeatherLocationManager)
+
+
         } catch (e: SecurityException) {
-            Log.e(TAG, "SecurityException occurred", e)
+            Log.e(TAG, "security", e)
             onError(DataError.Hardware.UNKNOWN)
+        } catch (e: Exception) {
+            Log.e(TAG, "exe", e)
+            onError(DataError.Hardware.LOCATION_SERVICE_DISABLED)
         }
+
     }
 
     override fun onLocationChanged(location: Location) {

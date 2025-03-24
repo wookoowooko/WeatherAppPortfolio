@@ -82,7 +82,7 @@ internal fun Navigation(
         navigation<WelcomeGraph>(
             startDestination = WelcomeRoute,
 
-        ) {
+            ) {
             welcomePage(
                 onRequestLocationPermission = onRequestLocationPermission,
                 onShowSnackBar = onShowSnackBar
@@ -112,7 +112,9 @@ internal fun Navigation(
             citiesScreen(
                 onBackIconClick = {
                     if (navController.canGoBack) navController.popBackStack()
-                }
+                },
+                onRequestLocationPermission = onRequestLocationPermission,
+                onShowSnackBar = onShowSnackBar
             )
         }
     }

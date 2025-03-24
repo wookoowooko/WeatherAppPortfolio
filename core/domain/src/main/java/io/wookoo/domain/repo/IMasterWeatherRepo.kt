@@ -2,7 +2,7 @@ package io.wookoo.domain.repo
 
 import io.wookoo.domain.enums.UpdateIntent
 import io.wookoo.domain.model.geocoding.GeocodingResponseModel
-import io.wookoo.domain.model.reversegeocoding.ReverseGeocodingResponseModel
+import io.wookoo.domain.model.geocoding.ReverseGeocodingResponseModel
 import io.wookoo.domain.model.weather.current.CurrentWeatherResponseModel
 import io.wookoo.domain.model.weather.weekly.WeeklyWeatherResponseModel
 import io.wookoo.domain.utils.AppResult
@@ -11,6 +11,8 @@ import io.wookoo.domain.utils.EmptyResult
 import kotlinx.coroutines.flow.Flow
 
 interface IMasterWeatherRepo {
+
+    suspend fun updateCurrentLocation(geoItemId: Long):AppResult<Unit, DataError>
 
     fun currentWeather(geoNameId: Long): Flow<CurrentWeatherResponseModel>
 
@@ -22,7 +24,7 @@ interface IMasterWeatherRepo {
 
     suspend fun syncWeeklyWeatherFromAPIAndSaveToCache(
         geoItemId: Long,
-        updateIntent: UpdateIntent
+        updateIntent: UpdateIntent,
     ): EmptyResult<DataError>
 
     suspend fun synchronizeCurrentWeather(

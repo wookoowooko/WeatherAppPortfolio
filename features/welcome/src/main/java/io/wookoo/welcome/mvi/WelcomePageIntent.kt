@@ -1,6 +1,6 @@
 package io.wookoo.welcome.mvi
 
-import io.wookoo.domain.model.geocoding.GeocodingSearchModel
+import io.wookoo.domain.model.geocoding.GeocodingModel
 
 sealed interface WelcomePageIntent
 
@@ -23,7 +23,7 @@ data class OnSuccessFetchReversGeocodingFromApi(
 data class OnSuccessfullyUpdateGeolocationFromGpsSensors(val lat: Double, val long: Double) :
     WelcomePageIntent
 
-data class OnSuccessSearchLocation(val results: List<GeocodingSearchModel>) : Completable
+data class OnSuccessSearchLocation(val results: List<GeocodingModel>) : Completable
 
 // object WelcomePageIntent
 data object OnLoading : WelcomePageIntent
@@ -33,6 +33,6 @@ data object OnRequestGeoLocationPermission : WelcomePageIntent
 
 // data WelcomePageIntent
 data class OnSearchQueryChange(val query: String) : WelcomePageIntent
-data class OnSearchedGeoItemClick(val geoItem: GeocodingSearchModel) : WelcomePageIntent
+data class OnSearchedGeoItemClick(val geoItem: GeocodingModel) : WelcomePageIntent
 data class OnAppBarExpandChange(val state: Boolean) : WelcomePageIntent
 data class OnUpdateNetworkState(val isOffline: Boolean) : WelcomePageIntent

@@ -9,7 +9,7 @@ import io.wookoo.domain.annotations.GeoCodingApi
 import io.wookoo.domain.annotations.ReverseGeoCodingApi
 import io.wookoo.domain.enums.UpdateIntent
 import io.wookoo.domain.model.geocoding.GeocodingResponseModel
-import io.wookoo.domain.model.reversegeocoding.ReverseGeocodingResponseModel
+import io.wookoo.domain.model.geocoding.ReverseGeocodingResponseModel
 import io.wookoo.domain.model.weather.current.CurrentWeatherResponseModel
 import io.wookoo.domain.model.weather.weekly.WeeklyWeatherResponseModel
 import io.wookoo.domain.repo.IMasterWeatherRepo
@@ -43,6 +43,17 @@ class MasterRepoImpl @Inject constructor(
     private val weeklyWeatherDao: WeeklyWeatherDao,
     private val synchronizer: ISynchronizer,
 ) : IMasterWeatherRepo {
+
+    override suspend fun updateCurrentLocation(geoItemId: Long): AppResult<Unit, DataError> {
+        return withContext(ioDispatcher) {
+            try {
+                currentWeatherDao.updateCurrentLocation(geoItemId)
+                AppResult.Success(Unit)
+            } catch (e: SQLException) {
+                AppResult.Error(DataError.Local.DISK_FULL)
+            }
+        }
+    }
 
     override fun currentWeather(geoNameId: Long): Flow<CurrentWeatherResponseModel> {
         Log.d(TAG, "currentWeather: $geoNameId")
@@ -126,12 +137,14 @@ class MasterRepoImpl @Inject constructor(
     }
 
     override suspend fun deleteWeatherWithDetailsByGeoId(geoItemId: Long): AppResult<Unit, DataError> {
-        try {
-            currentWeatherDao.deleteWeatherWithDetailsByGeoId(geoItemId)
-            return AppResult.Success(Unit)
-        } catch (e: SQLException) {
-            println(e)
-            return AppResult.Error(DataError.Local.CANT_DELETE_DATA)
+        return withContext(ioDispatcher) {
+            try {
+                currentWeatherDao.deleteWeatherWithDetailsByGeoId(geoItemId)
+                AppResult.Success(Unit)
+            } catch (e: SQLException) {
+                println(e)
+                AppResult.Error(DataError.Local.CANT_DELETE_DATA)
+            }
         }
     }
 }
