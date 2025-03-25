@@ -1,4 +1,4 @@
-package io.wookoo.domain.model.weather.current
+package io.wookoo.domain.model.weather.current.additional
 
 import io.wookoo.domain.enums.WeatherCondition
 import io.wookoo.domain.units.WeatherValueWithUnit

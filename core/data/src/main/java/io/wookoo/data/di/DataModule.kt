@@ -4,11 +4,13 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.wookoo.data.AndroidStringProvider
 import io.wookoo.data.repo.DataStoreRepoImpl
 import io.wookoo.data.repo.MasterRepoImpl
 import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.domain.repo.ILocationProvider
 import io.wookoo.domain.repo.IMasterWeatherRepo
+import io.wookoo.domain.utils.IStringProvider
 import io.wookoo.geolocation.WeatherLocationManager
 
 @Module
@@ -29,4 +31,9 @@ interface DataModule {
     fun bindsLocationProvider(
         weatherLocationManager: WeatherLocationManager,
     ): ILocationProvider
+
+    @Binds
+    fun bindsStringProvider(
+        androidStringProvider: AndroidStringProvider,
+    ): IStringProvider
 }

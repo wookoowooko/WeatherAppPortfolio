@@ -1,24 +1,19 @@
 package io.wookoo.data.repo
 
-import android.util.Log
 import io.wookoo.database.daos.CurrentWeatherDao
 import io.wookoo.database.daos.WeeklyWeatherDao
 import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
 import io.wookoo.domain.annotations.GeoCodingApi
 import io.wookoo.domain.annotations.ReverseGeoCodingApi
-import io.wookoo.domain.enums.UpdateIntent
-import io.wookoo.domain.model.geocoding.GeocodingResponseModel
-import io.wookoo.domain.model.geocoding.ReverseGeocodingResponseModel
-import io.wookoo.domain.model.weather.current.CurrentWeatherResponseModel
-import io.wookoo.domain.model.weather.weekly.WeeklyWeatherResponseModel
+import io.wookoo.domain.model.geocoding.GeocodingResponseDomainUi
+import io.wookoo.domain.model.weather.current.CurrentWeatherDomain
+import io.wookoo.domain.model.weather.weekly.WeeklyWeatherDomainUI
 import io.wookoo.domain.repo.IMasterWeatherRepo
-import io.wookoo.domain.sync.ISynchronizer
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.domain.utils.DataError
-import io.wookoo.domain.utils.EmptyResult
 import io.wookoo.domain.utils.map
-import io.wookoo.mappers.currentweather.asCurrentWeatherResponseModel
+import io.wookoo.mappers.currentweather.FromDatabaseToUi.asCurrentWeatherDomainUi
 import io.wookoo.mappers.geocoding.asGeocodingResponseModel
 import io.wookoo.mappers.geocoding.asReverseGeocodingResponseModel
 import io.wookoo.mappers.weeklyweather.asWeeklyWeatherResponseModel
@@ -33,15 +28,12 @@ import kotlinx.coroutines.withContext
 import java.sql.SQLException
 import javax.inject.Inject
 
-private const val TAG = "MasterRepoImpl"
-
 class MasterRepoImpl @Inject constructor(
     @GeoCodingApi private val geoCodingRemoteDataSource: IGeoCodingService,
     @ReverseGeoCodingApi private val reverseGeoCodingRemoteDataSource: IReverseGeoCodingService,
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     private val currentWeatherDao: CurrentWeatherDao,
     private val weeklyWeatherDao: WeeklyWeatherDao,
-    private val synchronizer: ISynchronizer,
 ) : IMasterWeatherRepo {
 
     override suspend fun updateCurrentLocation(geoItemId: Long): AppResult<Unit, DataError> {
@@ -50,23 +42,21 @@ class MasterRepoImpl @Inject constructor(
                 currentWeatherDao.updateCurrentLocation(geoItemId)
                 AppResult.Success(Unit)
             } catch (e: SQLException) {
-                Log.d(TAG, "sqlException: $e")
+                println(e)
                 AppResult.Error(DataError.Local.DISK_FULL)
             }
         }
     }
 
-    override fun currentWeather(geoNameId: Long): Flow<CurrentWeatherResponseModel> {
-        Log.d(TAG, "currentWeather: $geoNameId")
+    override fun currentWeather(geoNameId: Long): Flow<CurrentWeatherDomain> {
         return currentWeatherDao.getCurrentWeather(geoNameId)
             .mapNotNull {
-                Log.d(TAG, "currentWeather: $it")
-                it?.asCurrentWeatherResponseModel()
+                it?.asCurrentWeatherDomainUi()
             }
             .flowOn(ioDispatcher)
     }
 
-    override fun weeklyWeatherForecastFlowFromDB(geoNameId: Long): Flow<WeeklyWeatherResponseModel> {
+    override fun weeklyWeatherForecastFlowFromDB(geoNameId: Long): Flow<WeeklyWeatherDomainUI> {
         return weeklyWeatherDao.getWeeklyWeatherByGeoItemId(geoNameId)
             .mapNotNull {
                 it?.asWeeklyWeatherResponseModel()
@@ -79,38 +69,18 @@ class MasterRepoImpl @Inject constructor(
             .flowOn(ioDispatcher)
     }
 
-    override fun getAllCitiesCurrentWeather(): Flow<List<CurrentWeatherResponseModel>> {
+    override fun getAllCitiesCurrentWeather(): Flow<List<CurrentWeatherDomain>> {
         return currentWeatherDao.getAllCitiesCurrentWeather().mapNotNull {
             it.map { weather ->
-                weather.asCurrentWeatherResponseModel()
+                weather.asCurrentWeatherDomainUi()
             }
         }.flowOn(ioDispatcher)
-    }
-
-    override suspend fun syncWeeklyWeatherFromAPIAndSaveToCache(
-        geoItemId: Long,
-        updateIntent: UpdateIntent,
-    ): EmptyResult<DataError> {
-        Log.d(TAG, "syncWeeklyWeather")
-        return synchronizer.syncWeeklyWeatherFromAPIAndSaveToCache(
-            geoItemId = geoItemId,
-            updateIntent = updateIntent
-        )
-    }
-
-    override suspend fun synchronizeCurrentWeather(
-        geoItemId: Long,
-    ): AppResult<Unit, DataError> {
-        Log.d(TAG, "syncCurrentWeather")
-        return synchronizer.synchronizeCurrentWeather(
-            geoItemId = geoItemId
-        )
     }
 
     override suspend fun searchLocationFromApiByQuery(
         query: String,
         language: String,
-    ): AppResult<GeocodingResponseModel, DataError.Remote> {
+    ): AppResult<GeocodingResponseDomainUi, DataError.Remote> {
         return withContext(ioDispatcher) {
             geoCodingRemoteDataSource.searchLocation(
                 name = query,
@@ -125,7 +95,7 @@ class MasterRepoImpl @Inject constructor(
         latitude: Double,
         longitude: Double,
         language: String,
-    ): AppResult<ReverseGeocodingResponseModel, DataError.Remote> {
+    ): AppResult<GeocodingResponseDomainUi, DataError.Remote> {
         return withContext(ioDispatcher) {
             reverseGeoCodingRemoteDataSource.getReversedSearchedLocation(
                 latitude = latitude,

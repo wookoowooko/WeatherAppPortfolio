@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="celsius">°C</string>
+    <string name="unit_fahrenheit">°F</string>
+    <string name="unit_kmh">км/ч</string>
+    <string name="unit_meter_sec">м/с</string>
+    <string name="centimetres_unit">см</string>
+    <string name="millimeters_unit">мм</string>
+    <string name="percent_unit">"%"</string>
+    <string name="pressure_unit">гПа</string>
+    <string name="sunrise_time">Время восхода</string>
+    <string name="sunset_time">Время заката</string>
+    <string name="daylight_duration">Продолжительность дня</string>
+    <string name="sunshine_duration">Длительность солнечного света</string>
+    <string name="maximum_uv_index">Максимальный УФ-индекс</string>
+    <string name="total_precipitation">Общее количество осадков</string>
+    <string name="total_rainfall">Общий объем дождя</string>
+    <string name="total_showers">Общее количество ливней</string>
+    <string name="total_snowfall">Общий объем снегопада</string>
+    <string name="precipitation_probability">Вероятность осадков</string>
+    <string name="maximum_wind_speed_10m">Максимальная скорость ветра</string>
+    <string name="maximum_wind_gusts_10m">Максимальные порывы ветра</string>
+    <string name="wind_direction_10m">Направление ветра</string>
+    <string name="min_unit">мин</string>
+    <string name="hour_unit">ч</string>
+
+    <string name="north_east">Северо-восток</string>
+    <string name="north">Север</string>
+    <string name="east">Восток</string>
+    <string name="south_east">Юго-восток</string>
+    <string name="south">Юг</string>
+    <string name="south_west">Юго-запад</string>
+    <string name="west">Запад</string>
+    <string name="north_west">Северо-запад</string>
+    <string name="undetected">Не определено</string>
+
+    <string name="clear_sky">Ясное небо</string>
+    <string name="partly_cloudy">Переменная облачность</string>
+    <string name="overcast">Пасмурно</string>
+    <string name="fog">Туман</string>
+    <string name="drizzle_light">Легкая морось</string>
+    <string name="drizzle_moderate">Умеренная морось</string>
+    <string name="drizzle_heavy">Сильная морось</string>
+    <string name="freezing_drizzle_light">Легкая ледяная морось</string>
+    <string name="freezing_drizzle_heavy">Сильная ледяная морось</string>
+    <string name="rain_light">Легкий дождь</string>
+    <string name="rain_moderate">Умеренный дождь</string>
+    <string name="rain_heavy">Сильный дождь</string>
+    <string name="freezing_rain_light">Легкий ледяной дождь</string>
+    <string name="freezing_rain_heavy">Сильный ледяной дождь</string>
+    <string name="snow_light">Легкий снег</string>
+    <string name="snow_moderate">Умеренный снег</string>
+    <string name="snow_heavy">Сильный снег</string>
+    <string name="snow_grains">Снежная крупа</string>
+    <string name="rain_showers_light">Легкие ливни</string>
+    <string name="rain_showers_moderate">Умеренные ливни</string>
+    <string name="rain_showers_heavy">Сильные ливни</string>
+    <string name="snow_showers_light">Легкие снегопады</string>
+    <string name="snow_showers_heavy">Сильные снегопады</string>
+    <string name="thunderstorm">Гроза</string>
+    <string name="thunderstorm_hail">Гроза с градом</string>
+    <string name="weather_error">Нет данных о погоде</string>
+    <string name="search_your_location">Поиск местоположения…</string>
+    <string name="no_results_found">Результатов не найдено</string>
+    <string name="min">Мин</string>
+    <string name="max">Макс</string>
+    <string name="delimeter">/</string>
+    <string name="feels_like_weekly">Ощущается как</string>
+
+    <!-- Разрешения -->
+    <string name="denied_permanently">"Похоже, вы навсегда отключили разрешение на определение местоположения. " +
+                "Вы можете перейти в настройки приложения, чтобы его предоставить."</string>
+    <string name="denied_perm">
+           "Этому приложению требуется доступ к вашему местоположению"
+    </string>
+    <string name="permission_required">Требуется разрешение</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="dismiss">Отклонить</string>
+
+    <!-- Главная -->
+    <string name="feels_like">Ощущается как</string>
+    <string name="today_titile">Сегодня</string>
+    <string name="next_7_days_title">Следующие 7 дней</string>
+    <string name="humidity_prop">Влажность</string>
+    <string name="wind_speed_prop">Скорость</string>
+    <string name="wind_direction_prop">Направление</string>
+    <string name="wind_gust_prop">Порывы</string>
+    <string name="precipitation_prop">Осадки</string>
+    <string name="sunrise">Восход</string>
+    <string name="sunset">Закат</string>
+    <string name="pressure">Давление</string>
+    <string name="uv_index">УФ-индекс</string>
+    <string name="weather_app_bar_title">Погода</string>
+
+    <!-- Приветствие -->
+    <string name="choose_your_location">Выберите местоположение</string>
+    <string name="continue_string">Продолжить</string>
+    <string name="or">или</string>
+    <string name="detect_automatically">Определить автоматически</string>
+    <string name="wind">Ветер</string>
+    <string name="maximum_wind_speed">Максимальная скорость ветра</string>
+    <string name="wind_direction">Направление ветра</string>
+    <string name="precipitation">Осадки</string>
+    <string name="total">Всего: </string>
+    <string name="suncycles">Солнечные циклы</string>
+
+    <!-- Ошибки -->
+    <string name="error_request_timeout">Время ожидания запроса истекло</string>
+    <string name="error_server">Ошибка сервера</string>
+    <string name="error_no_internet">Нет подключения к интернету</string>
+    <string name="error_serialization">Ошибка обработки данных</string>
+    <string name="error_cant_sync">Ошибка синхронизации</string>
+    <string name="error_too_many_requests">Слишком много запросов</string>
+    <string name="error_unknown">Произошла неизвестная ошибка</string>
+    <string name="error_disk_full">Недостаточно места на диске</string>
+    <string name="error_cannot_delete_data">Невозможно удалить данные</string>
+    <string name="error_cannot_save_data">Не удалось сохранить данные</string>
+    <string name="location_service_disabled">Служба определения местоположения отключена</string>
+
+    <!-- Города -->
+    <string name="locations">Местоположения</string>
+    <string name="find_me_button">Найти меня</string>
+</resources>

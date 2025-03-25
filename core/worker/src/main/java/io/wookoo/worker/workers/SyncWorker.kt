@@ -1,23 +1,19 @@
-package io.wookoo.worker
+package io.wookoo.worker.workers
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker
-import androidx.work.Constraints
 import androidx.work.CoroutineWorker
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
-import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
-import io.wookoo.domain.enums.UpdateIntent
 import io.wookoo.domain.repo.IMasterWeatherRepo
+import io.wookoo.domain.sync.ISynchronizer
 import io.wookoo.domain.utils.AppResult
-import io.wookoo.worker.SyncWeather.SYNC_WORK_TAG
-import io.wookoo.worker.SyncWeather.SyncConstraints
+import io.wookoo.worker.utils.Constraints
+import io.wookoo.worker.utils.PERIODIC_SYNC_WORK_NAME
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -34,7 +30,8 @@ class SyncWorker @AssistedInject constructor(
     @Assisted private val appContext: Context,
     @Assisted workerParams: WorkerParameters,
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
-    private val repo: IMasterWeatherRepo,
+    private val synchronizer: ISynchronizer,
+    repo: IMasterWeatherRepo,
 ) : CoroutineWorker(appContext, workerParams) {
 
     private val weatherList: Flow<List<Long>> = repo.getCurrentWeatherIds()
@@ -45,11 +42,10 @@ class SyncWorker @AssistedInject constructor(
 
         geoItemIds.forEach { geoItemId ->
             val syncResults = awaitAll(
-                async { repo.synchronizeCurrentWeather(geoItemId) },
+                async { synchronizer.synchronizeCurrentWeatherFromAPIAndSaveToCache(geoItemId) },
                 async {
-                    repo.syncWeeklyWeatherFromAPIAndSaveToCache(
-                        geoItemId,
-                        updateIntent = UpdateIntent.FROM_WORKER
+                    synchronizer.syncWeeklyWeatherFromAPIAndSaveToCache(
+                        geoItemId
                     )
                 }
             )
@@ -77,30 +73,12 @@ class SyncWorker @AssistedInject constructor(
             return PeriodicWorkRequest.Builder(
                 SyncWorker::class.java,
                 PERIODIC_DURATION,
-                TimeUnit.HOURS // Повторение раз в час
+                TimeUnit.HOURS
             )
-                .setConstraints(SyncConstraints)
+                .setConstraints(Constraints.syncConstraints)
                 .setInitialDelay(delayMillis, TimeUnit.MILLISECONDS) // Только для первого запуска!
-                .addTag(SYNC_WORK_TAG)
+                .addTag(PERIODIC_SYNC_WORK_NAME)
                 .build()
         }
     }
-}
-
-object SyncWeather {
-    fun initialize(context: Context) {
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            SYNC_WORK_NAME,
-            ExistingPeriodicWorkPolicy.UPDATE,
-            SyncWorker.startSyncWeatherPeriodically()
-        )
-    }
-
-    internal val SyncConstraints
-        get() = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-
-    private const val SYNC_WORK_NAME = "SyncWorkName"
-    const val SYNC_WORK_TAG = "SyncWorkTag"
 }

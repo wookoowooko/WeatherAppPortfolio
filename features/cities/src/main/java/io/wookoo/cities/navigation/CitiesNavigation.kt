@@ -27,13 +27,15 @@ data object CitiesRoute
 fun NavGraphBuilder.citiesScreen(
     onBackIconClick: () -> Unit,
     onRequestLocationPermission: () -> Unit,
-    onShowSnackBar: (String) -> Unit
+    onShowSnackBar: (String) -> Unit,
+    onSyncRequest: (Long, Boolean) -> Unit,
 ) {
     composable<CitiesRoute> {
         CitiesScreenRoot(
             onBackIconClick = onBackIconClick,
             onRequestLocationPermission = onRequestLocationPermission,
-            onShowSnackBar = onShowSnackBar
+            onShowSnackBar = onShowSnackBar,
+            onSyncRequest = onSyncRequest
         )
     }
 }
@@ -47,7 +49,8 @@ private fun CitiesScreenRoot(
     viewModel: CitiesViewModel = hiltViewModel(),
     onBackIconClick: () -> Unit,
     onRequestLocationPermission: () -> Unit,
-    onShowSnackBar: (String) -> Unit
+    onShowSnackBar: (String) -> Unit,
+    onSyncRequest: (Long, Boolean) -> Unit,
 ) {
     val owner = LocalLifecycleOwner.current
     val context = LocalContext.current
@@ -67,7 +70,11 @@ private fun CitiesScreenRoot(
                         }
                         context.startActivity(intent)
                     }
-                    else -> Unit
+
+                    is CitiesSideEffect.OnSyncRequest -> onSyncRequest(
+                        sideEffect.geoItemId,
+                        sideEffect.isNeedToUpdate
+                    )
                 }
             }
         }

@@ -21,6 +21,7 @@ import io.wookoo.weatherappportfolio.navigation.Navigation
 internal fun WeatherApp(
     appState: AppState,
     onRequestLocationPermission: () -> Unit,
+    onSyncRequest: (Long, Boolean) -> Unit,
 ) {
     val userSettings by appState.settings.collectAsState(initial = null)
     val isOffline by appState.isOffline.collectAsStateWithLifecycle()
@@ -61,7 +62,8 @@ internal fun WeatherApp(
                     onShowSnackBar = { message ->
                         snackBarMessage = message
                         isSnackBarVisible = true
-                    }
+                    },
+                    onSyncRequest = onSyncRequest
                 )
                 SharedCustomSnackBar(
                     snackBarColor = snackBarColor,

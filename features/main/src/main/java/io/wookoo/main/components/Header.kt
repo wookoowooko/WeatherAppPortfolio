@@ -16,19 +16,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.wookoo.designsystem.ui.components.SharedHeadlineText
 import io.wookoo.designsystem.ui.components.SharedSurfaceIcon
 import io.wookoo.designsystem.ui.components.SharedText
-import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.designsystem.ui.theme.size_30
 import io.wookoo.designsystem.ui.theme.size_40
 import io.wookoo.designsystem.ui.theme.small
 import io.wookoo.designsystem.ui.theme.ultraSmall
 import io.wookoo.main.mvi.MainPageState
-import io.wookoo.main.uimodels.UiCurrentWeatherModel
 
 @Composable
 internal fun Header(
@@ -134,20 +131,20 @@ internal fun Header(
     }
 }
 
-@Composable
-@Preview(showBackground = true)
-private fun HeaderPreview() {
-    WeatherAppPortfolioTheme {
-        Header(
-            state = MainPageState(
-                city = "London",
-                country = "UK",
-                currentWeather = UiCurrentWeatherModel(
-                    sunsetTime = "06:00",
-                    sunriseTime = "18:00",
-                    date = "Sunday, 23 Mar."
-                )
-            )
-        )
-    }
-}
+// @Composable
+// @Preview(showBackground = true)
+// private fun HeaderPreview() {
+//    WeatherAppPortfolioTheme {
+//        Header(
+//            state = MainPageState(
+//                city = "London",
+//                country = "UK",
+//                currentWeather = UiCurrentWeatherModel(
+//                    sunsetTime = "06:00",
+//                    sunriseTime = "18:00",
+//                    date = "Sunday, 23 Mar."
+//                )
+//            )
+//        )
+//    }
+// }

@@ -24,9 +24,9 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-//class WeatherLocationManager @Inject constructor(
+// class WeatherLocationManager @Inject constructor(
 //    @ApplicationContext private val context: Context,
-//) :
+// ) :
 //    LocationListener, ILocationProvider {
 //    private val locationManager =
 //        context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -70,14 +70,11 @@ import javax.inject.Inject
 //    private companion object {
 //        private const val TAG = "WeatherLocationManager"
 //    }
-//}
+// }
 
-@OptIn(ExperimentalCoroutinesApi::class)
-
-
-//class WeatherLocationManager @Inject constructor(
+// class WeatherLocationManager @Inject constructor(
 //    @ApplicationContext private val context: Context,
-//) : ILocationProvider {
+// ) : ILocationProvider {
 //
 //    private val locationManager =
 //        context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -126,9 +123,9 @@ import javax.inject.Inject
 //    companion object{
 //        private const val TAG = "WeatherLocationManager"
 //    }
-//}
+// }
 
-
+@OptIn(ExperimentalCoroutinesApi::class)
 class WeatherLocationManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val client: FusedLocationProviderClient,
@@ -172,7 +169,6 @@ class WeatherLocationManager @Inject constructor(
                 }
             }
 
-
             client.requestLocationUpdates(
                 request,
                 locationCallback,
@@ -191,4 +187,3 @@ class WeatherLocationManager @Inject constructor(
         private const val TAG = "WeatherLocationManager"
     }
 }
-

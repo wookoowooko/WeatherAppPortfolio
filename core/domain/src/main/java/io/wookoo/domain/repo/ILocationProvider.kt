@@ -1,6 +1,5 @@
 package io.wookoo.domain.repo
 
-import io.wookoo.domain.utils.AppError
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.domain.utils.DataError
 import kotlinx.coroutines.flow.Flow
@@ -11,5 +10,4 @@ interface ILocationProvider {
 //        onError: (AppError) -> Unit,
 //    )
     fun getGeolocationFromGpsSensors(): Flow<AppResult<Pair<Double, Double>, DataError.Hardware>>
-
 }

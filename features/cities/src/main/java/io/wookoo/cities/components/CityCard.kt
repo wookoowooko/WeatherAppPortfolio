@@ -38,7 +38,7 @@ import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.designsystem.ui.theme.rounded_shape_20_percent
 import io.wookoo.designsystem.ui.theme.small
 import io.wookoo.domain.enums.WeatherCondition
-import io.wookoo.domain.units.ApiUnit
+import io.wookoo.domain.units.WeatherUnit
 import io.wookoo.domain.units.WeatherValueWithUnit
 
 @Composable
@@ -210,12 +210,12 @@ private fun CityCardPreview() {
                 countryName = "UK",
                 temperature = WeatherValueWithUnit(
                     value = 18.0,
-                    unit = ApiUnit.CELSIUS
+                    unit = WeatherUnit.CELSIUS
                 ),
                 temperatureFeelsLike =
                 WeatherValueWithUnit(
                     value = 18.0,
-                    unit = ApiUnit.CELSIUS
+                    unit = WeatherUnit.CELSIUS
                 ),
                 isDay = true,
                 geoItemId = 1,
@@ -237,17 +237,17 @@ private fun CityCardPreview2() {
                 countryName = "UK",
                 temperature = WeatherValueWithUnit(
                     value = 18.0,
-                    unit = ApiUnit.CELSIUS
+                    unit = WeatherUnit.CELSIUS
                 ),
                 isDay = false,
                 geoItemId = 1,
                 minTemperature = WeatherValueWithUnit(
                     value = 18.0,
-                    unit = ApiUnit.CELSIUS
+                    unit = WeatherUnit.CELSIUS
                 ),
                 maxTemperature = WeatherValueWithUnit(
                     value = 21.0,
-                    unit = ApiUnit.CELSIUS
+                    unit = WeatherUnit.CELSIUS
                 ),
                 date = "Sunday, 22 Mar.",
                 isCurrentLocation = false
