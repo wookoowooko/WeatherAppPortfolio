@@ -14,3 +14,5 @@ data class CurrentWeatherDomain(
     val daily: DailyModel,
     val utcOffsetSeconds: Long,
 )
+
+

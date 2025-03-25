@@ -1,11 +1,20 @@
 package io.wookoo.main.mvi
 
 import io.wookoo.common.mvi.Reducer
-import io.wookoo.domain.usecases.MapCurrentWeatherUiDataUseCase
+import io.wookoo.domain.usecases.ConvertDateUseCase
+import io.wookoo.domain.usecases.ConvertUnixTimeUseCase
+import io.wookoo.domain.usecases.ConvertWeatherCodeToEnumUseCase
+import io.wookoo.domain.usecases.HourlyModelToHourlyListUseCase
+import io.wookoo.domain.usecases.WindDirectionFromDegreesToDirectionFormatUseCase
+import io.wookoo.main.uimappers.asUICurrentWeather
 import javax.inject.Inject
 
 class MainPageReducer @Inject constructor(
-    private val mapper: MapCurrentWeatherUiDataUseCase,
+    private val convertDateUseCase: ConvertDateUseCase,
+    private val formatWindDirectionUseCase: WindDirectionFromDegreesToDirectionFormatUseCase,
+    private val convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,
+    private val hourlyModelToHourlyListUseCase: HourlyModelToHourlyListUseCase,
+    private val convertUnixTimeUseCase: ConvertUnixTimeUseCase,
 ) : Reducer<MainPageState, MainPageIntent> {
 
     override fun reduce(state: MainPageState, intent: MainPageIntent): MainPageState {
@@ -37,7 +46,13 @@ class MainPageReducer @Inject constructor(
                             it.copy(
                                 city = intent.cachedResult.geo.cityName,
                                 country = intent.cachedResult.geo.countryName,
-                                currentWeather = mapper(intent.cachedResult)
+                                currentWeather = intent.cachedResult.asUICurrentWeather(
+                                    hourlyModelToHourlyListUseCase = hourlyModelToHourlyListUseCase,
+                                    convertDateUseCase = convertDateUseCase,
+                                    convertWeatherCodeToEnumUseCase = convertWeatherCodeToEnumUseCase,
+                                    convertUnixTimeUseCase = convertUnixTimeUseCase,
+                                    formatWindDirectionUseCase = formatWindDirectionUseCase
+                                )
                             )
                         }
 

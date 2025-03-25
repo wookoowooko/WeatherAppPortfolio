@@ -1,8 +1,8 @@
 package io.wookoo.main.mvi
 
 import io.wookoo.domain.model.geocoding.GeocodingDomainUI
-import io.wookoo.domain.model.weather.current.CurrentWeatherUi
 import io.wookoo.domain.settings.UserSettingsModel
+import io.wookoo.main.uimodels.UiCurrentWeatherModel
 
 data class MainPageState(
     val searchExpanded: Boolean = false,
@@ -14,7 +14,7 @@ data class MainPageState(
     val country: String = "",
     val userSettings: UserSettingsModel = UserSettingsModel(),
     val isGeolocationSearchInProgress: Boolean = false,
-    val currentWeather: CurrentWeatherUi = CurrentWeatherUi(),
+    val currentWeather: UiCurrentWeatherModel = UiCurrentWeatherModel(),
     val cityListCount: Int = 0,
-    val pagerPosition: Int = 0
+    val pagerPosition: Int = 0,
 )
