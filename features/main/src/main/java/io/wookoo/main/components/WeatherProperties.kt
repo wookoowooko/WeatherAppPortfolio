@@ -14,7 +14,7 @@ import io.wookoo.common.ext.asLocalizedUnitValueString
 import io.wookoo.designsystem.ui.components.SharedWeatherItem
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.designsystem.ui.theme.medium
-import io.wookoo.domain.units.ApiUnit
+import io.wookoo.domain.units.WeatherUnit
 import io.wookoo.domain.units.WeatherValueWithUnit
 import io.wookoo.domain.units.WindDirection
 import io.wookoo.main.mvi.MainPageState
@@ -62,7 +62,7 @@ fun WeatherProperties(
             ),
             title = stringResource(io.wookoo.androidresources.R.string.wind_gust_prop),
 
-        )
+            )
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_precipitation,
@@ -72,7 +72,7 @@ fun WeatherProperties(
             ),
             title = stringResource(io.wookoo.androidresources.R.string.precipitation_prop),
 
-        )
+            )
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_pressure_msl,
@@ -89,7 +89,7 @@ fun WeatherProperties(
             text = state.currentWeather.uvIndex,
             title = stringResource(io.wookoo.androidresources.R.string.uv_index),
 
-        )
+            )
     }
 }
 
@@ -102,24 +102,24 @@ private fun WeatherPropertiesPreview() {
                 currentWeather = UiCurrentWeatherModel(
                     humidity = WeatherValueWithUnit(
                         value = 28,
-                        unit = ApiUnit.PERCENT
+                        unit = WeatherUnit.PERCENT
                     ),
                     windSpeed = WeatherValueWithUnit(
                         value = 8,
-                        unit = ApiUnit.KMH
+                        unit = WeatherUnit.KMH
                     ),
                     windDirection = WindDirection.NORTH,
                     windGust = WeatherValueWithUnit(
                         value = 10,
-                        unit = ApiUnit.KMH
+                        unit = WeatherUnit.KMH
                     ),
                     precipitation = WeatherValueWithUnit(
                         10,
-                        ApiUnit.PERCENT
+                        WeatherUnit.PERCENT
                     ),
                     pressureMsl = WeatherValueWithUnit(
                         1000,
-                        ApiUnit.PRESSURE
+                        WeatherUnit.PRESSURE
                     ),
                     uvIndex = "10"
                 )

@@ -1,8 +1,8 @@
-package io.wookoo.domain.model.weather.weekly
+package io.wookoo.domain.model.weather.weekly.additional
 
-import io.wookoo.domain.model.weather.current.PrecipitationModel
-import io.wookoo.domain.model.weather.current.SunCyclesModel
-import io.wookoo.domain.model.weather.current.WindModel
+import io.wookoo.domain.model.weather.current.additional.PrecipitationModel
+import io.wookoo.domain.model.weather.current.additional.SunCyclesModel
+import io.wookoo.domain.model.weather.current.additional.WindModel
 
 data class WeeklyWeatherModel(
     val cityName: String,

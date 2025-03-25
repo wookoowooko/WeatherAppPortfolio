@@ -36,7 +36,8 @@ import io.wookoo.designsystem.ui.theme.rounded_shape_20_percent
 import io.wookoo.designsystem.ui.theme.size_170
 import io.wookoo.designsystem.ui.theme.small
 import io.wookoo.domain.enums.WeatherCondition
-import io.wookoo.domain.units.ApiUnit
+import io.wookoo.domain.units.WeatherUnit
+
 import io.wookoo.domain.units.WeatherValueWithUnit
 import io.wookoo.main.mvi.MainPageState
 import io.wookoo.main.uimodels.UiCurrentWeatherModel
@@ -156,11 +157,11 @@ private fun ClearSkySunny0() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.CLEAR_SKY_0,
                 )
@@ -178,11 +179,11 @@ private fun PartlyCloudy1_or_2() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.PARTLY_CLOUDY_1_OR_2,
                 )
@@ -200,11 +201,11 @@ private fun Overcast3() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.OVERCAST_3,
                 )
@@ -222,11 +223,11 @@ private fun Fog45_48() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.FOG_45_OR_48,
                 )
@@ -244,11 +245,11 @@ private fun DrizzleLight51() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.DRIZZLE_LIGHT_51,
                 )
@@ -266,11 +267,11 @@ private fun DrizzleModerate53() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.DRIZZLE_MODERATE_53,
                 )
@@ -288,11 +289,11 @@ private fun DrizzleHeavy55() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.DRIZZLE_HEAVY_55,
                 )
@@ -310,11 +311,11 @@ private fun FreezingDrizzleLight56() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.FREEZING_DRIZZLE_LIGHT_56,
                 )
@@ -332,11 +333,11 @@ private fun FreezingDrizzleHeavy57() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.FREEZING_DRIZZLE_HEAVY_57,
                 )
@@ -354,11 +355,11 @@ private fun RainLight61() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.RAIN_LIGHT_61,
                 )
@@ -376,11 +377,11 @@ private fun RainModerate63() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.RAIN_MODERATE_63,
                 )
@@ -398,11 +399,11 @@ private fun HeavyRain65() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.HEAVY_RAIN_65,
                 )
@@ -420,11 +421,11 @@ private fun FreezingRainLight66() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.FREEZING_RAIN_LIGHT_66,
                 )
@@ -442,11 +443,11 @@ private fun FreezingRainHeavy67() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.FREEZING_RAIN_HEAVY_67,
                 )
@@ -464,11 +465,11 @@ private fun SnowLight71() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.SNOW_LIGHT_71,
                 )
@@ -486,11 +487,11 @@ private fun SnowModerate73() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.SNOW_MODERATE_73,
                 )
@@ -508,11 +509,11 @@ private fun SnowHeavy75() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.SNOW_HEAVY_75,
                 )
@@ -530,11 +531,11 @@ private fun SnowGrains77() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.SNOW_GRAINS_77,
                 )
@@ -552,11 +553,11 @@ private fun RainShowersLight80() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.RAIN_SHOWERS_LIGHT_80,
                 )
@@ -574,11 +575,11 @@ private fun RainShowersModerate81() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.RAIN_SHOWERS_MODERATE_81,
                 )
@@ -596,11 +597,11 @@ private fun RainShowersHeavy82() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.RAIN_SHOWERS_HEAVY_82,
                 )
@@ -618,11 +619,11 @@ private fun SnowShowersLight85() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.SNOW_SHOWERS_LIGHT_85,
                 )
@@ -640,11 +641,11 @@ private fun SnowShowersHeavy86() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.SNOW_SHOWERS_HEAVY_86,
                 )
@@ -662,11 +663,11 @@ private fun ThunderStorm95() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.THUNDERSTORM_95,
                 )
@@ -684,11 +685,11 @@ private fun ThunderStormHail96_99() {
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
                         value = 25.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     temperatureFeelsLike = WeatherValueWithUnit(
                         value = 32.0,
-                        unit = ApiUnit.CELSIUS
+                        unit = WeatherUnit.CELSIUS
                     ),
                     weatherStatus = WeatherCondition.CLEAR_SKY_0,
                 )

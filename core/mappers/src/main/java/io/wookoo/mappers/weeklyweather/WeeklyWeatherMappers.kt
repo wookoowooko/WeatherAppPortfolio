@@ -1,19 +1,16 @@
 package io.wookoo.mappers.weeklyweather
 
 import io.wookoo.database.dbo.weekly.WeeklyWeatherEntity
-import io.wookoo.domain.model.weather.current.PrecipitationModel
-import io.wookoo.domain.model.weather.current.SunCyclesModel
-import io.wookoo.domain.model.weather.current.WindModel
-import io.wookoo.domain.model.weather.weekly.CurrentWeatherShortModel
-import io.wookoo.domain.model.weather.weekly.WeeklyWeatherModel
-import io.wookoo.domain.model.weather.weekly.WeeklyWeatherResponseModel
+import io.wookoo.domain.model.weather.current.additional.PrecipitationModel
+import io.wookoo.domain.model.weather.current.additional.SunCyclesModel
+import io.wookoo.domain.model.weather.current.additional.WindModel
+import io.wookoo.domain.model.weather.weekly.WeeklyWeatherDomainUI
+import io.wookoo.domain.model.weather.weekly.additional.WeeklyWeatherModel
 import io.wookoo.network.dto.weather.weekly.WeeklyWeatherDto
 
-fun WeeklyWeatherEntity.asWeeklyWeatherResponseModel(): WeeklyWeatherResponseModel {
-    return WeeklyWeatherResponseModel(
-        currentShort = CurrentWeatherShortModel(
-            isDay = isDay
-        ),
+fun WeeklyWeatherEntity.asWeeklyWeatherResponseModel(): WeeklyWeatherDomainUI {
+    return WeeklyWeatherDomainUI(
+        isDay = isDay,
         weekly = this.asWeeklyWeatherModel(),
         utcOffsetSeconds = this.utcOffsetSeconds
 
@@ -59,7 +56,7 @@ fun WeeklyWeatherDto.asWeeklyWeatherEntity(
     isDay: Boolean,
     geoNameId: Long,
     cityName: String,
-    utcOffsetSeconds: Long
+    utcOffsetSeconds: Long,
 ): WeeklyWeatherEntity {
     return WeeklyWeatherEntity(
         time = time,

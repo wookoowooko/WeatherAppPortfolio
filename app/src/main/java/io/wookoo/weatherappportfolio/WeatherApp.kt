@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
-import io.wookoo.worker.SyncWeather
+import io.wookoo.worker.utils.Sync
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -20,6 +20,6 @@ class WeatherApp : Application(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
-        SyncWeather.initialize(this)
+        Sync.initializePeriodic(this@WeatherApp.applicationContext)
     }
 }

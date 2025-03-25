@@ -18,7 +18,7 @@ import io.wookoo.common.ext.asLocalizedUnitValueString
 import io.wookoo.designsystem.ui.components.SharedHourlyComponent
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.designsystem.ui.theme.medium
-import io.wookoo.domain.model.weather.current.HourlyModelItem
+import io.wookoo.domain.model.weather.current.additional.HourlyModelItem
 import io.wookoo.main.mvi.MainPageState
 
 @Composable

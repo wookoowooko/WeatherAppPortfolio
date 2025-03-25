@@ -59,11 +59,21 @@ class CitiesStore @Inject constructor(
     override fun handleSideEffects(intent: CitiesIntent) {
         when (intent) {
             is OnGPSClick -> storeScope.launch { getGeolocationFromGpsSensors() }
-            is OnSearchedGeoItemCardClick -> storeScope.launch { syncWeather(intent.geoItem.geoItemId) }
+            is OnSearchedGeoItemCardClick ->
+                emitSideEffect(
+                    CitiesSideEffect.OnSyncRequest(
+                        geoItemId = intent.geoItem.geoItemId,
+                    )
+                )
+
             is OnDeleteCity -> storeScope.launch { deleteCity(intent.geoItemId) }
-            is OnUpdateCurrentGeo -> storeScope.launch {
-                updateCurrentAndSync(intent.geoItemId)
-            }
+            is OnUpdateCurrentGeo ->
+                emitSideEffect(
+                    CitiesSideEffect.OnSyncRequest(
+                        geoItemId = intent.geoItemId,
+                        isNeedToUpdate = true
+                    )
+                )
 
             else -> Unit
         }
@@ -122,22 +132,22 @@ class CitiesStore @Inject constructor(
             }
     }
 
-    private suspend fun syncWeather(geoItemId: Long) {
-        masterRepository.synchronizeCurrentWeather(
-            geoItemId = geoItemId
-        )
-    }
-
-    private suspend fun updateCurrentAndSync(geoItemId: Long) {
-        masterRepository.synchronizeCurrentWeather(
-            geoItemId = geoItemId
-        ).onSuccess {
-            masterRepository.updateCurrentLocation(geoItemId)
-                .onError { dataError ->
-                    emitSideEffect(CitiesSideEffect.ShowSnackBar(dataError))
-                }
-        }
-    }
+//    private suspend fun syncWeather(geoItemId: Long) {
+//        masterRepository.synchronizeCurrentWeather(
+//            geoItemId = geoItemId
+//        )
+//    }
+//
+//    private suspend fun updateCurrentAndSync(geoItemId: Long) {
+//        masterRepository.synchronizeCurrentWeather(
+//            geoItemId = geoItemId
+//        ).onSuccess {
+//            masterRepository.updateCurrentLocation(geoItemId)
+//                .onError { dataError ->
+//                    emitSideEffect(CitiesSideEffect.ShowSnackBar(dataError))
+//                }
+//        }
+//    }
 
 //    private fun getGeolocationFromGpsSensors() {
 //        if (isOffline.value) {
@@ -208,7 +218,7 @@ class CitiesStore @Inject constructor(
     ) = storeScope.launch {
         masterRepository.getReverseGeocodingLocation(latitude, longitude, "ru")
             .onSuccess { gpsItems ->
-                gpsItems.geonames.firstOrNull()?.let { geoName ->
+                gpsItems.results.firstOrNull()?.let { geoName ->
                     dispatch(OnSuccessFetchReversGeocodingFromApi(geoName))
                 } ?: run {
                     dispatch(OnErrorFetchReversGeocodingFromApi)

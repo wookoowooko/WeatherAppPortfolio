@@ -8,13 +8,12 @@ import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
 import io.wookoo.domain.annotations.GeoCodingApi
 import io.wookoo.domain.annotations.WeatherApi
-import io.wookoo.domain.enums.UpdateIntent
 import io.wookoo.domain.sync.ISynchronizer
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.domain.utils.DataError
-import io.wookoo.mappers.currentweather.asCurrentWeatherEntity
-import io.wookoo.mappers.currentweather.asDailyEntity
-import io.wookoo.mappers.currentweather.asHourlyEntity
+import io.wookoo.mappers.currentweather.FromApiToDatabase.asCurrentWeatherEntity
+import io.wookoo.mappers.currentweather.FromApiToDatabase.asDailyEntity
+import io.wookoo.mappers.currentweather.FromApiToDatabase.asHourlyEntity
 import io.wookoo.mappers.weeklyweather.asWeeklyWeatherEntity
 import io.wookoo.network.api.geocoding.IGeoCodingService
 import io.wookoo.network.api.weather.IWeatherService
@@ -34,7 +33,7 @@ class SynchronizerImpl @Inject constructor(
 
     override suspend fun syncWeeklyWeatherFromAPIAndSaveToCache(
         geoItemId: Long,
-        updateIntent: UpdateIntent,
+
     ): AppResult<Unit, DataError> {
         Log.d(TAG, "syncWeeklyWeather for geoItemId: $geoItemId")
 
@@ -42,18 +41,6 @@ class SynchronizerImpl @Inject constructor(
 
         withContext(ioDispatcher) {
             try {
-                if (updateIntent == UpdateIntent.FROM_USER) {
-                    // 1. Check data freshness
-                    val lastUpdate = weeklyWeatherDao.getLastUpdateForWeekly(geoItemId)
-                    val oneHourAgo = System.currentTimeMillis() - 60 * 60 * 1000
-
-                    if (lastUpdate > oneHourAgo) {
-                        Log.d(TAG, "Weather data is fresh, skipping update")
-                        result = AppResult.Success(Unit)
-                        return@withContext
-                    }
-                }
-
                 // 2. Get geo information
                 val geoResult = geoCodingService.getInfoByGeoItemId(geoItemId, language = "ru")
                 if (geoResult is AppResult.Error) {
@@ -94,7 +81,7 @@ class SynchronizerImpl @Inject constructor(
         return result
     }
 
-    override suspend fun synchronizeCurrentWeather(
+    override suspend fun synchronizeCurrentWeatherFromAPIAndSaveToCache(
         geoItemId: Long,
     ): AppResult<Unit, DataError> {
         Log.d(TAG, "syncCurrentWeather")

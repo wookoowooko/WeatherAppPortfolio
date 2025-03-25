@@ -32,6 +32,7 @@ internal fun Navigation(
     userSettings: UserSettingsModel?,
     onRequestLocationPermission: () -> Unit,
     onShowSnackBar: (String) -> Unit,
+    onSyncRequest: (Long, Boolean) -> Unit,
 ) {
     val navController = rememberNavController()
 
@@ -85,7 +86,8 @@ internal fun Navigation(
         ) {
             welcomePage(
                 onRequestLocationPermission = onRequestLocationPermission,
-                onShowSnackBar = onShowSnackBar
+                onShowSnackBar = onShowSnackBar,
+                onSyncRequest = onSyncRequest
             )
         }
 
@@ -114,7 +116,8 @@ internal fun Navigation(
                     if (navController.canGoBack) navController.popBackStack()
                 },
                 onRequestLocationPermission = onRequestLocationPermission,
-                onShowSnackBar = onShowSnackBar
+                onShowSnackBar = onShowSnackBar,
+                onSyncRequest = onSyncRequest
             )
         }
     }

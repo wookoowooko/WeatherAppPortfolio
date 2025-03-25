@@ -142,7 +142,6 @@ class WelcomePageStore @Inject constructor(
                     emitSideEffect(WelcomeSideEffect.ShowSnackBar(geoError))
                     emitSideEffect(WelcomeSideEffect.OnShowSettingsDialog(geoError))
 
-
 //            weatherLocationManager.getGeolocationFromGpsSensors().collect {
 //                it.onSuccess { geoLocation ->
 //                    Log.d(TAG, "geoLocation: $geoLocation")
@@ -165,7 +164,7 @@ class WelcomePageStore @Inject constructor(
     ) = storeScope.launch {
         masterRepository.getReverseGeocodingLocation(latitude, longitude, "ru")
             .onSuccess { gpsItems ->
-                gpsItems.geonames.firstOrNull()?.let { geoName ->
+                gpsItems.results.firstOrNull()?.let { geoName ->
                     dispatch(OnSuccessFetchReversGeocodingFromApi(geoName))
                 } ?: run {
                     dispatch(OnErrorFetchReversGeocodingFromApi)
@@ -178,30 +177,52 @@ class WelcomePageStore @Inject constructor(
             }
     }
 
+//    private suspend fun saveUserOnboardingDone() {
+//        dispatch(OnLoading)
+//        if (isOffline.value) {
+//            emitSideEffect(WelcomeSideEffect.ShowSnackBar(DataError.Remote.NO_INTERNET))
+//        } else {
+//            Log.d(TAG, "startSynchronize:Onboarding")
+//            state.value.geoItem?.geoItemId?.let { id ->
+//                masterRepository.synchronizeCurrentWeather(
+//                    geoItemId = id
+//                ).onSuccess {
+//                    masterRepository.updateCurrentLocation(id)
+//                        .onSuccess {
+//                            dataStore.saveInitialLocationPicked(true)
+//                                .asEmptyDataResult()
+//                                .onError { prefError ->
+//                                    emitSideEffect(WelcomeSideEffect.ShowSnackBar(prefError))
+//                                }
+//                        }
+//                        .onError { dataBaseError ->
+//                            emitSideEffect(WelcomeSideEffect.ShowSnackBar(dataBaseError))
+//                        }
+//                }.onError { dataBaseError ->
+//                    emitSideEffect(WelcomeSideEffect.ShowSnackBar(dataBaseError))
+//                }
+//            }
+//        }
+//    }
+
     private suspend fun saveUserOnboardingDone() {
         dispatch(OnLoading)
         if (isOffline.value) {
             emitSideEffect(WelcomeSideEffect.ShowSnackBar(DataError.Remote.NO_INTERNET))
         } else {
-            Log.d(TAG, "startSynchronize:Onboarding")
-            state.value.geoItem?.geoItemId?.let { id ->
-                masterRepository.synchronizeCurrentWeather(
-                    geoItemId = id
-                ).onSuccess {
-                    masterRepository.updateCurrentLocation(id)
-                        .onSuccess {
-                            dataStore.saveInitialLocationPicked(true).asEmptyDataResult()
-                                .onError { prefError ->
-                                    emitSideEffect(WelcomeSideEffect.ShowSnackBar(prefError))
-                                }
-                        }
-                        .onError { dataBaseError ->
-                            emitSideEffect(WelcomeSideEffect.ShowSnackBar(dataBaseError))
-                        }
-                }.onError { dataBaseError ->
-                    emitSideEffect(WelcomeSideEffect.ShowSnackBar(dataBaseError))
+            emitSideEffect(
+                WelcomeSideEffect.OnSyncRequest(
+                    geoItemId = state.value.geoItem?.geoItemId ?: -1,
+                    isNeedToUpdate = true
+                )
+            )
+            dataStore.saveInitialLocationPicked(true)
+                .asEmptyDataResult()
+                .onError { prefError ->
+                    emitSideEffect(WelcomeSideEffect.ShowSnackBar(prefError))
+                }.onFinally {
+                    dispatch(OnLoadingFinish)
                 }
-            }
         }
     }
 

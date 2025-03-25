@@ -1,7 +1,9 @@
 package io.wookoo.weatherappportfolio
 
 import android.Manifest
+import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -20,6 +22,7 @@ import io.wookoo.permissions.PermissionDialog
 import io.wookoo.permissions.Permissions
 import io.wookoo.weatherappportfolio.appstate.rememberAppState
 import io.wookoo.weatherappportfolio.composeapp.WeatherApp
+import io.wookoo.worker.utils.Sync
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -36,6 +39,12 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var connectivityObserver: IConnectivityObserver
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        val locales = newConfig.locales
+        Log.d(TAG, "onConfigurationChanged: $locales")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,12 +88,26 @@ class MainActivity : AppCompatActivity() {
                         )
                     }
 
-                WeatherApp(appState, onRequestLocationPermission = {
-                    locationPermissionResultLauncher.launch(
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                    )
-                })
+                WeatherApp(
+                    appState,
+                    onRequestLocationPermission = {
+                        locationPermissionResultLauncher.launch(
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        )
+                    },
+                    onSyncRequest = { geoItemId, isNeedToUpdate ->
+                        Sync.initializeOneTime(
+                            context = this@MainActivity,
+                            locationId = geoItemId,
+                            isNeedToUpdate = isNeedToUpdate
+                        )
+                    }
+                )
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "MainActivity"
     }
 }

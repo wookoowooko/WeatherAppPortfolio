@@ -17,4 +17,5 @@ dependencies {
     api(projects.core.geolocation)
     api(projects.core.mappers)
     api(projects.core.synchronizer)
+    api(projects.core.common)
 }
