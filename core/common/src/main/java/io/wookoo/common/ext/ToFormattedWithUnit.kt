@@ -1,11 +1,11 @@
 package io.wookoo.common.ext
 
 import android.content.Context
-import io.wookoo.domain.units.ApiUnit
+import io.wookoo.domain.units.WeatherUnit
 import java.util.Locale
 
 fun Number.asLocalizedUnitValueString(
-    unit: ApiUnit?,
+    unit: WeatherUnit?,
     context: Context,
 ): String {
     return String.format(

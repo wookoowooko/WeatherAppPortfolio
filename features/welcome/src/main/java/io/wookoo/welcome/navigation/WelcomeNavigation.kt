@@ -26,11 +26,13 @@ data object WelcomeRoute
 fun NavGraphBuilder.welcomePage(
     onRequestLocationPermission: () -> Unit,
     onShowSnackBar: (String) -> Unit,
+    onSyncRequest: (Long, Boolean) -> Unit,
 ) {
     composable<WelcomeRoute> {
         WelcomePageScreenRoot(
             onRequestLocationPermission = onRequestLocationPermission,
             onShowSnackBar = onShowSnackBar,
+            onSyncRequest = onSyncRequest
         )
     }
 }
@@ -40,6 +42,7 @@ private fun WelcomePageScreenRoot(
     viewModel: WelcomePageViewModel = hiltViewModel(),
     onRequestLocationPermission: () -> Unit,
     onShowSnackBar: (String) -> Unit,
+    onSyncRequest: (Long, Boolean) -> Unit,
 ) {
     val owner = LocalLifecycleOwner.current
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -59,6 +62,11 @@ private fun WelcomePageScreenRoot(
                         }
                         context.startActivity(intent)
                     }
+
+                    is WelcomeSideEffect.OnSyncRequest -> onSyncRequest(
+                        sideEffect.geoItemId,
+                        sideEffect.isNeedToUpdate
+                    )
                 }
             }
         }

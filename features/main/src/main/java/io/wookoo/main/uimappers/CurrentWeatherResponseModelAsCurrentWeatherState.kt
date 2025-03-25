@@ -1,7 +1,7 @@
 package io.wookoo.main.uimappers
 
-import io.wookoo.domain.model.weather.current.CurrentWeatherResponseModel
-import io.wookoo.domain.units.ApiUnit
+import io.wookoo.domain.model.weather.current.CurrentWeatherDomain
+import io.wookoo.domain.units.WeatherUnit
 import io.wookoo.domain.units.WeatherValueWithUnit
 import io.wookoo.domain.usecases.ConvertDateUseCase
 import io.wookoo.domain.usecases.ConvertUnixTimeUseCase
@@ -11,7 +11,7 @@ import io.wookoo.domain.usecases.WindDirectionFromDegreesToDirectionFormatUseCas
 import io.wookoo.main.uimodels.UiCurrentWeatherModel
 import kotlin.math.roundToInt
 
-fun CurrentWeatherResponseModel.asUICurrentWeather(
+fun CurrentWeatherDomain.asUICurrentWeather(
     hourlyModelToHourlyListUseCase: HourlyModelToHourlyListUseCase,
     convertDateUseCase: ConvertDateUseCase,
     convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,
@@ -19,42 +19,51 @@ fun CurrentWeatherResponseModel.asUICurrentWeather(
     formatWindDirectionUseCase: WindDirectionFromDegreesToDirectionFormatUseCase,
 ): UiCurrentWeatherModel {
     return UiCurrentWeatherModel(
-        geoNameId = this.geoItemId,
-        hourlyList = hourlyModelToHourlyListUseCase(hourlyModel = this.hourly, utcOffsetSeconds = utcOffsetSeconds),
+        geoNameId = this.geo.geoItemId,
+        hourlyList = hourlyModelToHourlyListUseCase(
+            hourlyModel = this.hourly,
+            utcOffsetSeconds = utcOffsetSeconds
+        ),
         date = convertDateUseCase(this.current.time, utcOffsetSeconds),
         isDay = this.current.isDay,
         humidity = WeatherValueWithUnit(
             value = this.current.relativeHumidity,
-            unit = ApiUnit.PERCENT
+            unit = WeatherUnit.PERCENT
         ),
         windSpeed = WeatherValueWithUnit(
             value = this.current.wind.speed,
-            unit = ApiUnit.KMH
+            unit = WeatherUnit.KMH
         ),
         windGust = WeatherValueWithUnit(
             value = this.current.wind.gust,
-            unit = ApiUnit.KMH
+            unit = WeatherUnit.KMH
         ),
         precipitation = WeatherValueWithUnit(
             value = this.current.precipitation.level,
-            unit = ApiUnit.MM
+            unit = WeatherUnit.MM
         ),
         temperature = WeatherValueWithUnit(
             value = this.current.temperature,
-            unit = ApiUnit.CELSIUS
+            unit = WeatherUnit.CELSIUS
         ),
         temperatureFeelsLike = WeatherValueWithUnit(
             value = this.current.feelsLike,
-            unit = ApiUnit.CELSIUS
+            unit = WeatherUnit.CELSIUS
         ),
         pressureMsl = WeatherValueWithUnit(
             value = this.current.pressureMSL,
-            unit = ApiUnit.PRESSURE
+            unit = WeatherUnit.PRESSURE
         ),
         uvIndex = this.daily.uvIndexMax.first().roundToInt().toString(),
         weatherStatus = convertWeatherCodeToEnumUseCase(this.current.weatherStatus),
-        sunriseTime = convertUnixTimeUseCase.executeList(this.daily.sunCycles.sunrise, utcOffsetSeconds).first(),
-        sunsetTime = convertUnixTimeUseCase.executeList(this.daily.sunCycles.sunset, utcOffsetSeconds).first(),
+        sunriseTime = convertUnixTimeUseCase.executeList(
+            this.daily.sunCycles.sunrise,
+            utcOffsetSeconds
+        ).first(),
+        sunsetTime = convertUnixTimeUseCase.executeList(
+            this.daily.sunCycles.sunset,
+            utcOffsetSeconds
+        ).first(),
         windDirection = formatWindDirectionUseCase(this.current.wind.direction)
     )
 }

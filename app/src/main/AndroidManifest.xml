@@ -10,6 +10,7 @@
     <application
         android:name=".WeatherApp"
         android:allowBackup="true"
+        android:configChanges="screenSize|screenLayout|keyboardHidden|orientation|uiMode|layoutDirection|fontScale|density|smallestScreenSize"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fontProviderCerts="@array/com_google_android_gms_fonts_certs"
         android:fullBackupContent="@xml/backup_rules"

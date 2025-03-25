@@ -1,7 +1,7 @@
 package io.wookoo.main.uimodels
 
 import io.wookoo.domain.enums.WeatherCondition
-import io.wookoo.domain.model.weather.current.HourlyModelItem
+import io.wookoo.domain.model.weather.current.additional.HourlyModelItem
 import io.wookoo.domain.units.WeatherValueWithUnit
 import io.wookoo.domain.units.WindDirection
 

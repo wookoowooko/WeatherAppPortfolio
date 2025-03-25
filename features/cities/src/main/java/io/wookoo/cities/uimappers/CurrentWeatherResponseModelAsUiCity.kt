@@ -1,13 +1,13 @@
 package io.wookoo.cities.uimappers
 
 import io.wookoo.cities.uimodels.UiCity
-import io.wookoo.domain.model.weather.current.CurrentWeatherResponseModel
-import io.wookoo.domain.units.ApiUnit
+import io.wookoo.domain.model.weather.current.CurrentWeatherDomain
+import io.wookoo.domain.units.WeatherUnit
 import io.wookoo.domain.units.WeatherValueWithUnit
 import io.wookoo.domain.usecases.ConvertDateUseCase
 import io.wookoo.domain.usecases.ConvertWeatherCodeToEnumUseCase
 
-fun CurrentWeatherResponseModel.asUiCity(
+fun CurrentWeatherDomain.asUiCity(
     convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,
     convertDateUseCase: ConvertDateUseCase,
 ): UiCity {
@@ -15,25 +15,25 @@ fun CurrentWeatherResponseModel.asUiCity(
         isCurrentLocation = this.isCurrentLocation,
         minTemperature = WeatherValueWithUnit(
             this.hourly.temperature.min(),
-            ApiUnit.CELSIUS
+            WeatherUnit.CELSIUS
         ),
         maxTemperature = WeatherValueWithUnit(
             this.hourly.temperature.max(),
-            ApiUnit.CELSIUS
+            WeatherUnit.CELSIUS
         ),
-        cityName = this.cityName,
-        countryName = this.countryName,
+        cityName = this.geo.cityName,
+        countryName = this.geo.countryName,
         temperature = WeatherValueWithUnit(
             value = this.current.temperature,
-            unit = ApiUnit.CELSIUS
+            unit = WeatherUnit.CELSIUS
         ),
         temperatureFeelsLike = WeatherValueWithUnit(
             value = this.current.feelsLike,
-            unit = ApiUnit.CELSIUS
+            unit = WeatherUnit.CELSIUS
         ),
         isDay = this.current.isDay,
         weatherStatus = convertWeatherCodeToEnumUseCase(this.current.weatherStatus),
-        geoItemId = this.geoItemId,
+        geoItemId = this.geo.geoItemId,
         date = convertDateUseCase(this.current.time, utcOffsetSeconds),
     )
 }
