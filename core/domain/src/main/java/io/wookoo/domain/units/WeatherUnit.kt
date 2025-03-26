@@ -10,5 +10,7 @@ enum class WeatherUnit {
     PERCENT,
     PRESSURE,
     MM,
-    CM
+    CM,
+    Undefined
 }
+

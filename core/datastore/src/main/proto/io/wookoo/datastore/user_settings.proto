@@ -5,4 +5,7 @@ option java_multiple_files = true;
 
 message UserSettings {
   bool isLocationChoose = 1;
+  string temperatureUnit = 2;
+  string windSpeedUnit = 3;
+  string precipitationUnit = 4;
 }

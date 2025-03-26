@@ -1,7 +1,7 @@
 package io.wookoo.main.mvi
 
 import io.wookoo.domain.model.geocoding.GeocodingDomainUI
-import io.wookoo.domain.settings.UserSettingsModel
+import io.wookoo.domain.model.settings.UserSettingsModel
 import io.wookoo.main.uimodels.UiCurrentWeatherModel
 
 data class MainPageState(

@@ -9,10 +9,16 @@ interface IWeatherService {
     suspend fun getCurrentWeather(
         latitude: Double,
         longitude: Double,
+        temperatureUnit: String,
+        windSpeedUnit: String,
+        precipitationUnit: String,
     ): AppResult<CurrentWeatherResponseDto, DataError.Remote>
 
     suspend fun getWeeklyWeather(
         latitude: Double,
         longitude: Double,
+        temperatureUnit: String,
+        windSpeedUnit: String,
+        precipitationUnit: String,
     ): AppResult<WeeklyWeatherResponseDto, DataError.Remote>
 }

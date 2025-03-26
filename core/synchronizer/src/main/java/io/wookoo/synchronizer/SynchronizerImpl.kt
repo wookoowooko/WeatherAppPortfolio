@@ -8,6 +8,8 @@ import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
 import io.wookoo.domain.annotations.GeoCodingApi
 import io.wookoo.domain.annotations.WeatherApi
+import io.wookoo.domain.model.settings.UserSettingsModel
+import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.domain.sync.ISynchronizer
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.domain.utils.DataError
@@ -19,6 +21,7 @@ import io.wookoo.network.api.geocoding.IGeoCodingService
 import io.wookoo.network.api.weather.IWeatherService
 import io.wookoo.network.dto.weather.weekly.WeeklyWeatherResponseDto
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import java.sql.SQLException
 import javax.inject.Inject
@@ -29,17 +32,32 @@ class SynchronizerImpl @Inject constructor(
     @WeatherApi private val weatherRemoteDataSource: IWeatherService,
     @GeoCodingApi private val geoCodingService: IGeoCodingService,
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
+    dataStore: IDataStoreRepo,
 ) : ISynchronizer {
+
+    private val settings = dataStore.userSettings
 
     override suspend fun syncWeeklyWeatherFromAPIAndSaveToCache(
         geoItemId: Long,
-
     ): AppResult<Unit, DataError> {
         Log.d(TAG, "syncWeeklyWeather for geoItemId: $geoItemId")
 
         var result: AppResult<Unit, DataError>
 
         withContext(ioDispatcher) {
+
+            //1. checkPrefs
+            val settings: UserSettingsModel = settings.first()
+            val temperatureUnit = settings.temperatureUnit
+            val windSpeedUnit = settings.windSpeedUnit
+            val precipitationUnit = settings.precipitationUnit
+
+            if (temperatureUnit.isEmpty() || windSpeedUnit.isEmpty() || precipitationUnit.isEmpty()) {
+                //todo do new exception
+                result = AppResult.Error(DataError.Local.UNKNOWN)
+                return@withContext
+            }
+
             try {
                 // 2. Get geo information
                 val geoResult = geoCodingService.getInfoByGeoItemId(geoItemId, language = "ru")
@@ -52,7 +70,10 @@ class SynchronizerImpl @Inject constructor(
                 // 3. Get weather data
                 val weatherResult = weatherRemoteDataSource.getWeeklyWeather(
                     geoInfo.latitude,
-                    geoInfo.longitude
+                    geoInfo.longitude,
+                    temperatureUnit,
+                    windSpeedUnit,
+                    precipitationUnit
                 )
                 if (weatherResult is AppResult.Error) {
                     result = AppResult.Error(weatherResult.error)
@@ -89,8 +110,21 @@ class SynchronizerImpl @Inject constructor(
         var result: AppResult<Unit, DataError>
 
         withContext(ioDispatcher) {
+
+            //1. checkPrefs
+            val settings: UserSettingsModel = settings.first()
+            val temperatureUnit = settings.temperatureUnit
+            val windSpeedUnit = settings.windSpeedUnit
+            val precipitationUnit = settings.precipitationUnit
+
+            if (temperatureUnit.isEmpty() || windSpeedUnit.isEmpty() || precipitationUnit.isEmpty()) {
+                //todo do new exception
+                result = AppResult.Error(DataError.Local.UNKNOWN)
+                return@withContext
+            }
+
             try {
-                // 1. Get geo information
+                // 2. Get geo information
                 val geoResult = geoCodingService.getInfoByGeoItemId(geoItemId, language = "ru")
                 if (geoResult is AppResult.Error) {
                     result = AppResult.Error(geoResult.error)
@@ -101,7 +135,10 @@ class SynchronizerImpl @Inject constructor(
                 // 2. Get weather data
                 val weatherResult = weatherRemoteDataSource.getCurrentWeather(
                     geoInfo.latitude,
-                    geoInfo.longitude
+                    geoInfo.longitude,
+                    temperatureUnit,
+                    windSpeedUnit,
+                    precipitationUnit
                 )
                 if (weatherResult is AppResult.Error) {
                     result = AppResult.Error(weatherResult.error)

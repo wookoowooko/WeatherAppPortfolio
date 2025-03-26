@@ -1,7 +1,6 @@
 package io.wookoo.weatherappportfolio
 
 import android.Manifest
-import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -15,10 +14,12 @@ import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import io.wookoo.common.ext.hasLocationPermissions
 import io.wookoo.common.ext.openAndroidSettings
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
+import io.wookoo.domain.model.settings.UserSettingsModel
 import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.domain.service.IConnectivityObserver
 import io.wookoo.geolocation.WeatherLocationManager
@@ -27,6 +28,7 @@ import io.wookoo.permissions.Permissions
 import io.wookoo.weatherappportfolio.appstate.rememberAppState
 import io.wookoo.weatherappportfolio.composeapp.WeatherApp
 import io.wookoo.worker.utils.Sync
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -46,16 +48,17 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var connectivityObserver: IConnectivityObserver
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        val locales = newConfig.locales
-        Log.d(TAG, "onConfigurationChanged: $locales")
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen().setKeepOnScreenCondition {
             splashViewModel.splashState.value.shouldKeepSplashScreen()
+        }
+
+        lifecycleScope.launch {
+            dataStore.userSettings.collect { settings: UserSettingsModel ->
+                Log.d(TAG, "onCreate: $settings")
+            }
         }
 
         enableEdgeToEdge()

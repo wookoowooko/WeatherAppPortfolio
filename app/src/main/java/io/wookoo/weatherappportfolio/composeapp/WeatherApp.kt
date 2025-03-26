@@ -43,6 +43,7 @@ internal fun WeatherApp(
         }
     }
 
+
     Navigation(
         startDestination = startDestination,
         onRequestLocationPermission = onRequestLocationPermission,

@@ -17,8 +17,11 @@ interface IWeatherRetrofit {
         @Query("hourly") hourly: String = HOURLY,
         @Query("forecast_days") forecastDays: Int = FORECAST_DAYS,
         @Query("timezone") timezone: String = TIMEZONE,
-        @Query("timeformat") temperatureUnit: String = TIME_FORMAT,
-        @Query("daily") timeFormat: String = DAILY,
+        @Query("timeformat") timeFormat: String = TIME_FORMAT,
+        @Query("daily") daily: String = DAILY,
+        @Query("temperature_unit") temperatureUnit: String,
+        @Query("wind_speed_unit") windSpeedUnit: String,
+        @Query("precipitation_unit") precipitationUnit: String,
     ): Response<CurrentWeatherResponseDto>
 
 
@@ -27,9 +30,12 @@ interface IWeatherRetrofit {
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
         @Query("current") current: String = CURRENT_WEEKLY,
-        @Query("daily") timeFormat: String = DAILY_WEEK,
+        @Query("daily") daily: String = DAILY_WEEK,
         @Query("timezone") timezone: String = TIMEZONE,
-        @Query("timeformat") temperatureUnit: String = TIME_FORMAT,
+        @Query("timeformat") timeFormat: String = TIME_FORMAT,
+        @Query("temperature_unit") temperatureUnit: String,
+        @Query("wind_speed_unit") windSpeedUnit: String,
+        @Query("precipitation_unit") precipitationUnit: String,
     ): Response<WeeklyWeatherResponseDto>
 
     private companion object {

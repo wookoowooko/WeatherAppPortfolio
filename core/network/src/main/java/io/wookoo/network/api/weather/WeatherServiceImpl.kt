@@ -13,11 +13,17 @@ class WeatherServiceImpl @Inject constructor(
     override suspend fun getCurrentWeather(
         latitude: Double,
         longitude: Double,
+        temperatureUnit: String,
+        windSpeedUnit: String,
+        precipitationUnit: String,
     ): AppResult<CurrentWeatherResponseDto, DataError.Remote> {
         return safeCall {
             weatherApi.getCurrentWeather(
                 latitude = latitude,
-                longitude = longitude
+                longitude = longitude,
+                temperatureUnit = temperatureUnit,
+                windSpeedUnit = windSpeedUnit,
+                precipitationUnit = precipitationUnit,
             )
         }
     }
@@ -25,11 +31,17 @@ class WeatherServiceImpl @Inject constructor(
     override suspend fun getWeeklyWeather(
         latitude: Double,
         longitude: Double,
+        temperatureUnit: String,
+        windSpeedUnit: String,
+        precipitationUnit: String,
     ): AppResult<WeeklyWeatherResponseDto, DataError.Remote> {
         return safeCall {
             weatherApi.getWeeklyWeather(
                 latitude = latitude,
-                longitude = longitude
+                longitude = longitude,
+                temperatureUnit = temperatureUnit,
+                windSpeedUnit = windSpeedUnit,
+                precipitationUnit = precipitationUnit
             )
         }
     }
