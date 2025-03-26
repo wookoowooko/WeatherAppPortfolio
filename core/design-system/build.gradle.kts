@@ -21,5 +21,6 @@ dependencies {
         implementation(bundles.material)
         implementation(lottie.compose)
         api(androidx.ui.text.google.fonts)
+        api(androidx.core.splashscreen)
     }
 }

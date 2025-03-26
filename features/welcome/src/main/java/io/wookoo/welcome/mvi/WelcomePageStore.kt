@@ -218,6 +218,9 @@ class WelcomePageStore @Inject constructor(
             )
             dataStore.saveInitialLocationPicked(true)
                 .asEmptyDataResult()
+                .onSuccess {
+                    emitSideEffect(WelcomeSideEffect.OnNavigateToMain)
+                }
                 .onError { prefError ->
                     emitSideEffect(WelcomeSideEffect.ShowSnackBar(prefError))
                 }.onFinally {

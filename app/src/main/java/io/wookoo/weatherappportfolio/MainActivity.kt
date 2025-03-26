@@ -8,7 +8,11 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,6 +31,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    private val splashViewModel: SplashViewModel by viewModels()
 
     @Inject
     lateinit var locationManager: WeatherLocationManager
@@ -48,8 +54,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen().setKeepOnScreenCondition {
+            splashViewModel.splashState.value.shouldKeepSplashScreen()
+        }
+
         enableEdgeToEdge()
+
         setContent {
+            val startScreenState by splashViewModel.splashState.collectAsState()
+            val startDestination = startScreenState.startDestination()
             val appState = rememberAppState(
                 networkMonitor = connectivityObserver,
                 dataStore = dataStore,
@@ -88,21 +101,24 @@ class MainActivity : AppCompatActivity() {
                         )
                     }
 
-                WeatherApp(
-                    appState,
-                    onRequestLocationPermission = {
-                        locationPermissionResultLauncher.launch(
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                        )
-                    },
-                    onSyncRequest = { geoItemId, isNeedToUpdate ->
-                        Sync.initializeOneTime(
-                            context = this@MainActivity,
-                            locationId = geoItemId,
-                            isNeedToUpdate = isNeedToUpdate
-                        )
-                    }
-                )
+                if (startDestination != null) {
+                    WeatherApp(
+                        startDestination = startDestination,
+                        appState = appState,
+                        onRequestLocationPermission = {
+                            locationPermissionResultLauncher.launch(
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                            )
+                        },
+                        onSyncRequest = { geoItemId, isNeedToUpdate ->
+                            Sync.initializeOneTime(
+                                context = this@MainActivity,
+                                locationId = geoItemId,
+                                isNeedToUpdate = isNeedToUpdate
+                            )
+                        }
+                    )
+                }
             }
         }
     }

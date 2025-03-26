@@ -15,6 +15,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import io.wookoo.common.ext.asLocalizedString
 import io.wookoo.main.mvi.MainPageEffect
@@ -27,6 +28,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data object MainRoute
+
+fun NavHostController.navigateToMainPage() {
+    navigate(MainRoute)
+}
 
 fun NavGraphBuilder.mainPage(
     onRequestLocationPermissions: () -> Unit,
