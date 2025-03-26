@@ -27,14 +27,12 @@ fun NavGraphBuilder.welcomePage(
     onRequestLocationPermission: () -> Unit,
     onShowSnackBar: (String) -> Unit,
     onSyncRequest: (Long, Boolean) -> Unit,
-    onNavigateToMain: () -> Unit,
 ) {
     composable<WelcomeRoute> {
         WelcomePageScreenRoot(
             onRequestLocationPermission = onRequestLocationPermission,
             onShowSnackBar = onShowSnackBar,
-            onSyncRequest = onSyncRequest,
-            onNavigateToMain = onNavigateToMain
+            onSyncRequest = onSyncRequest
         )
     }
 }
@@ -45,7 +43,6 @@ private fun WelcomePageScreenRoot(
     onRequestLocationPermission: () -> Unit,
     onShowSnackBar: (String) -> Unit,
     onSyncRequest: (Long, Boolean) -> Unit,
-    onNavigateToMain: () -> Unit,
 ) {
     val owner = LocalLifecycleOwner.current
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -71,7 +68,6 @@ private fun WelcomePageScreenRoot(
                         sideEffect.isNeedToUpdate
                     )
 
-                    WelcomeSideEffect.OnNavigateToMain -> onNavigateToMain()
                 }
             }
         }

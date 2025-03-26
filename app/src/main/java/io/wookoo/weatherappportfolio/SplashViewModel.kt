@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.main.navigation.MainRoute
+import io.wookoo.weatherappportfolio.navigation.MainGraph
+import io.wookoo.weatherappportfolio.navigation.WelcomeGraph
 import io.wookoo.welcome.navigation.WelcomeRoute
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,9 +20,9 @@ class SplashViewModel @Inject constructor(
 ) : ViewModel() {
     val splashState: StateFlow<SplashState> = dataStore.userSettings.map { settings ->
         if (settings.isLocationChoose) {
-            SplashState.Success(startDestination = MainRoute)
+            SplashState.Success(startDestination = MainGraph)
         } else {
-            SplashState.Success(startDestination = WelcomeRoute)
+            SplashState.Success(startDestination = WelcomeGraph)
         }
     }.stateIn(
         scope = viewModelScope,

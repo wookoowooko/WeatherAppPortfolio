@@ -29,10 +29,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data object MainRoute
 
-fun NavHostController.navigateToMainPage() {
-    navigate(MainRoute)
-}
-
 fun NavGraphBuilder.mainPage(
     onRequestLocationPermissions: () -> Unit,
     onNavigateToWeekly: (geoItemId: Long) -> Unit,
@@ -82,15 +78,6 @@ private fun MainPageScreenRoot(
         }
     }
 
-    DisposableEffect(owner) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_DESTROY) {
-                Log.d("MainPageScreenRoot", "MainPageScreenRoot is destroyed")
-            }
-        }
-        owner.lifecycle.addObserver(observer)
-        onDispose { owner.lifecycle.removeObserver(observer) }
-    }
 
     MainPageScreen(
         state = state,

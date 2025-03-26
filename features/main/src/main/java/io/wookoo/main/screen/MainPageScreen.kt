@@ -51,7 +51,7 @@ fun MainPageScreen(
     BackHandler(enabled = state.isGeolocationSearchInProgress) {}
 
     Crossfade(
-        animationSpec = tween(2000),
+        animationSpec = tween(1000),
         targetState = when {
             state.isLoading -> io.wookoo.designsystem.ui.Crossfade.LOADING
             else -> io.wookoo.designsystem.ui.Crossfade.CONTENT

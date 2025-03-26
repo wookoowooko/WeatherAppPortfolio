@@ -8,21 +8,24 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import io.wookoo.cities.navigation.citiesScreen
 import io.wookoo.cities.navigation.navigateToCities
+import io.wookoo.main.navigation.MainRoute
 import io.wookoo.main.navigation.mainPage
 import io.wookoo.main.navigation.navigateToMainPage
 import io.wookoo.weekly.navigation.navigateToWeeklyPage
 import io.wookoo.weekly.navigation.weeklyPage
+import io.wookoo.welcome.navigation.WelcomeRoute
 import io.wookoo.welcome.navigation.welcomePage
 import kotlinx.serialization.Serializable
 
 @Serializable
-private data object WelcomeGraph
+internal data object WelcomeGraph
 
 @Serializable
-private data object MainGraph
+internal data object MainGraph
 
 @Composable
 internal fun Navigation(
@@ -73,39 +76,47 @@ internal fun Navigation(
             )
         },
     ) {
-        welcomePage(
-            onRequestLocationPermission = onRequestLocationPermission,
-            onShowSnackBar = onShowSnackBar,
-            onSyncRequest = onSyncRequest,
-            onNavigateToMain = {
-                navController.navigateToMainPage()
-            }
-        )
-        mainPage(
-            onRequestLocationPermissions = onRequestLocationPermission,
-            onNavigateToWeekly = { geoItemId ->
-                navController.navigateToWeeklyPage(geoItemId)
-            },
-            onNavigateToCities = {
-                navController.navigateToCities()
-            },
-            onShowSnackBar = onShowSnackBar
-        )
-        weeklyPage(
-            onBackIconClick = {
-                if (navController.canGoBack) navController.popBackStack()
-            },
-            onShowSnackBar = onShowSnackBar
-        )
+        navigation<WelcomeGraph>(
+            startDestination = WelcomeRoute,
 
-        citiesScreen(
-            onBackIconClick = {
-                if (navController.canGoBack) navController.popBackStack()
-            },
-            onRequestLocationPermission = onRequestLocationPermission,
-            onShowSnackBar = onShowSnackBar,
-            onSyncRequest = onSyncRequest
-        )
+            ) {
+            welcomePage(
+                onRequestLocationPermission = onRequestLocationPermission,
+                onShowSnackBar = onShowSnackBar,
+                onSyncRequest = onSyncRequest,
+            )
+        }
+
+        navigation<MainGraph>(
+            startDestination = MainRoute,
+        ) {
+            mainPage(
+                onRequestLocationPermissions = onRequestLocationPermission,
+                onNavigateToWeekly = { geoItemId ->
+                    navController.navigateToWeeklyPage(geoItemId)
+                },
+                onNavigateToCities = {
+                    navController.navigateToCities()
+                },
+                onShowSnackBar = onShowSnackBar
+            )
+            weeklyPage(
+                onBackIconClick = {
+                    if (navController.canGoBack) navController.popBackStack()
+                },
+                onShowSnackBar = onShowSnackBar
+            )
+
+            citiesScreen(
+                onBackIconClick = {
+                    if (navController.canGoBack) navController.popBackStack()
+                },
+                onRequestLocationPermission = onRequestLocationPermission,
+                onShowSnackBar = onShowSnackBar,
+                onSyncRequest = onSyncRequest
+            )
+        }
+
     }
 }
 
