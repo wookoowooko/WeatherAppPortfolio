@@ -28,6 +28,7 @@ dependencies {
 
     projects.apply {
         implementation(core.data)
+        implementation(core.androidresources)
         implementation(core.geolocation)
         implementation(core.permissions)
         implementation(core.connectivityObserver)

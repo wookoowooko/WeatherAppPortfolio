@@ -2,7 +2,6 @@ package io.wookoo.weatherappportfolio.navigation
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.Lifecycle
@@ -12,7 +11,6 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import io.wookoo.cities.navigation.citiesScreen
 import io.wookoo.cities.navigation.navigateToCities
-import io.wookoo.domain.settings.UserSettingsModel
 import io.wookoo.main.navigation.MainRoute
 import io.wookoo.main.navigation.mainPage
 import io.wookoo.weekly.navigation.navigateToWeeklyPage
@@ -22,48 +20,26 @@ import io.wookoo.welcome.navigation.welcomePage
 import kotlinx.serialization.Serializable
 
 @Serializable
-private data object WelcomeGraph
+internal data object WelcomeGraph
 
 @Serializable
-private data object MainGraph
+internal data object MainGraph
 
 @Composable
 internal fun Navigation(
-    userSettings: UserSettingsModel?,
     onRequestLocationPermission: () -> Unit,
     onShowSnackBar: (String) -> Unit,
     onSyncRequest: (Long, Boolean) -> Unit,
+    startDestination: Any,
 ) {
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
-        startDestination = if (userSettings?.isLocationChoose == true) {
-            MainGraph
-        } else {
-            WelcomeGraph
-        },
-        popEnterTransition = {
-            slideInHorizontally(
-                initialOffsetX = { fullWidth -> -fullWidth },
-                animationSpec = tween(
-                    durationMillis = 300,
-                    easing = FastOutSlowInEasing
-                )
-            )
-        },
+        startDestination = startDestination,
         popExitTransition = {
             slideOutHorizontally(
                 targetOffsetX = { fullWidth -> fullWidth },
-                animationSpec = tween(
-                    durationMillis = 300,
-                    easing = FastOutSlowInEasing
-                )
-            )
-        },
-        enterTransition = {
-            slideInHorizontally(
-                initialOffsetX = { fullWidth -> fullWidth },
                 animationSpec = tween(
                     durationMillis = 300,
                     easing = FastOutSlowInEasing
@@ -83,11 +59,11 @@ internal fun Navigation(
         navigation<WelcomeGraph>(
             startDestination = WelcomeRoute,
 
-        ) {
+            ) {
             welcomePage(
                 onRequestLocationPermission = onRequestLocationPermission,
                 onShowSnackBar = onShowSnackBar,
-                onSyncRequest = onSyncRequest
+                onSyncRequest = onSyncRequest,
             )
         }
 
@@ -120,6 +96,7 @@ internal fun Navigation(
                 onSyncRequest = onSyncRequest
             )
         }
+
     }
 }
 
