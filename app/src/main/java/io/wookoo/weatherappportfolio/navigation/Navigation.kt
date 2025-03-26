@@ -2,7 +2,6 @@ package io.wookoo.weatherappportfolio.navigation
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.Lifecycle
@@ -14,7 +13,6 @@ import io.wookoo.cities.navigation.citiesScreen
 import io.wookoo.cities.navigation.navigateToCities
 import io.wookoo.main.navigation.MainRoute
 import io.wookoo.main.navigation.mainPage
-import io.wookoo.main.navigation.navigateToMainPage
 import io.wookoo.weekly.navigation.navigateToWeeklyPage
 import io.wookoo.weekly.navigation.weeklyPage
 import io.wookoo.welcome.navigation.WelcomeRoute
@@ -39,27 +37,9 @@ internal fun Navigation(
     NavHost(
         navController = navController,
         startDestination = startDestination,
-        popEnterTransition = {
-            slideInHorizontally(
-                initialOffsetX = { fullWidth -> -fullWidth },
-                animationSpec = tween(
-                    durationMillis = 300,
-                    easing = FastOutSlowInEasing
-                )
-            )
-        },
         popExitTransition = {
             slideOutHorizontally(
                 targetOffsetX = { fullWidth -> fullWidth },
-                animationSpec = tween(
-                    durationMillis = 300,
-                    easing = FastOutSlowInEasing
-                )
-            )
-        },
-        enterTransition = {
-            slideInHorizontally(
-                initialOffsetX = { fullWidth -> fullWidth },
                 animationSpec = tween(
                     durationMillis = 300,
                     easing = FastOutSlowInEasing

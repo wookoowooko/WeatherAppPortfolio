@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name" translatable="false">WeatherAppPortfolio</string>
+
     <string name="celsius">°C</string>
     <string name="unit_fahrenheit">°F</string>
     <string name="unit_kmh">km/h</string>

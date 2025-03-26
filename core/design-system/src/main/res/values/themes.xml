@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="WeatherApp" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/md_theme_primary</item>
@@ -50,12 +50,11 @@
     </style>
 
 
-    <style name="Theme.SplashScreenCustom" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenAnimatedIcon">?windowSplashScreenAnimatedIcon</item>
-        <item name="windowSplashScreenBackground">?windowSplashScreenBackground</item>
-        <item name="windowSplashScreenAnimationDuration">
-            ?windowSplashScreenAnimationDuration
-        </item>
+    <style name="Theme.WeatherAppPortfolio.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+
         <item name="postSplashScreenTheme">@style/WeatherApp</item>
     </style>
 
