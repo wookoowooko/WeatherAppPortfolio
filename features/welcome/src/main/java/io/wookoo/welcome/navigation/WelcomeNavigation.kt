@@ -67,6 +67,7 @@ private fun WelcomePageScreenRoot(
                         sideEffect.geoItemId,
                         sideEffect.isNeedToUpdate
                     )
+
                 }
             }
         }

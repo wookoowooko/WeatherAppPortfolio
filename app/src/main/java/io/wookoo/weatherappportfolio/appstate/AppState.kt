@@ -46,10 +46,9 @@ class AppState(
             initialValue = false,
         )
 
-    val settings = dataStore.userSettings
-        .stateIn(
-            scope = coroutineScope,
-            started = SharingStarted.WhileSubscribed(5_000L),
-            initialValue = UserSettingsModel(),
-        )
+    val settings = dataStore.userSettings.stateIn(
+        scope = coroutineScope,
+        started = SharingStarted.WhileSubscribed(5_000L),
+        initialValue = UserSettingsModel(),
+    )
 }

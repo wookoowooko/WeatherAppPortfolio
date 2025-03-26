@@ -12,7 +12,7 @@ data class MainPageState(
     val isLoading: Boolean = true,
     val city: String = "",
     val country: String = "",
-    val userSettings: UserSettingsModel = UserSettingsModel(),
+//    val userSettings: UserSettingsModel = UserSettingsModel(),
     val isGeolocationSearchInProgress: Boolean = false,
     val currentWeather: UiCurrentWeatherModel = UiCurrentWeatherModel(),
     val cityListCount: Int = 0,

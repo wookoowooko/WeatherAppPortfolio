@@ -41,6 +41,8 @@ constraintlayout = "2.2.1"
 androidxWork = "2.10.0"
 hiltExt = "1.2.0"
 location = "21.3.0"
+androidxCoreSplashscreen = "1.0.1"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -59,12 +61,17 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
+
 #Datastore
 androidx-datastore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastore" }
 androidx-datastore = { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
 google-protobuf-kotlin = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobufLite" }
 google-protobuf-java = { group = "com.google.protobuf", name = "protobuf-javalite", version.ref = "protobufLite" }
 google-protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobufLite" }
+
+#SplashScreen
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSplashscreen" }
+
 
 #Location
 play-services-location = {module ="com.google.android.gms:play-services-location", version.ref = "location"}
