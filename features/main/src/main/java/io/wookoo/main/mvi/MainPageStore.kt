@@ -1,8 +1,11 @@
 package io.wookoo.main.mvi
 
+import android.util.Log
 import io.wookoo.common.mvi.Store
 import io.wookoo.domain.annotations.StoreViewModelScope
+import io.wookoo.domain.model.weather.current.CurrentWeatherDomain
 import io.wookoo.domain.repo.ICurrentForecastRepo
+import io.wookoo.domain.usecases.PrepareCurrentForecast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
@@ -21,6 +24,7 @@ class MainPageStore @Inject constructor(
     @StoreViewModelScope private val storeScope: CoroutineScope,
     private val currentForecast: ICurrentForecastRepo,
     reducer: MainPageReducer,
+    private val prepareCurrentForecast: PrepareCurrentForecast,
 ) : Store<MainPageState, MainPageIntent, MainPageEffect>(
     storeScope = storeScope,
     initialState = MainPageState(),
@@ -58,8 +62,8 @@ class MainPageStore @Inject constructor(
                         currentForecast.getCurrentForecast(geoNameIds[position])
                     }
             }
-            .onEach { currentWeather ->
-                dispatch(OnGetCurrentForecast(currentWeather))
+            .onEach { currentWeather: CurrentWeatherDomain ->
+                dispatch(OnGetCurrentForecast((prepareCurrentForecast(currentWeather))))
             }
             .launchIn(storeScope)
     }

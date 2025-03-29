@@ -55,7 +55,7 @@ internal fun Header(
                 )
                 SharedHeadlineText(
                     maxLines = 1,
-                    text = state.city,
+                    text = state.currentWeather.city,
                     modifier = Modifier.basicMarquee(
                         iterations = Int.MAX_VALUE,
                         repeatDelayMillis = 300,
@@ -65,7 +65,7 @@ internal fun Header(
             }
 
             SharedText(
-                text = state.country,
+                text = state.currentWeather.country,
                 maxLines = 2,
             )
             SharedText(

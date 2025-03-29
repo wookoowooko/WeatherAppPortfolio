@@ -2,7 +2,6 @@ package io.wookoo.domain.usecases
 
 import io.wookoo.domain.model.weather.current.additional.HourlyModel
 import io.wookoo.domain.model.weather.current.additional.HourlyModelItem
-import io.wookoo.domain.units.WeatherUnit
 import io.wookoo.domain.units.WeatherValueWithUnit
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -15,14 +14,19 @@ import kotlin.time.toDuration
 class HourlyModelToHourlyListUseCase @Inject constructor(
     private val convertUnixTimeUseCase: ConvertUnixTimeUseCase,
     private val convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,
+    private val defineCorrectUnitsUseCase: DefineCorrectUnitsUseCase,
 ) {
 
-    operator fun invoke(
+    suspend operator fun invoke(
         hourlyModel: HourlyModel,
         utcOffsetSeconds: Long,
     ): List<HourlyModelItem> {
+
+        val units = defineCorrectUnitsUseCase.defineCorrectUnits()
+
         val listOfTime: List<Long> = hourlyModel.time
-        val convertedTimeList: List<String> = convertUnixTimeUseCase.executeList(listOfTime, utcOffsetSeconds)
+        val convertedTimeList: List<String> =
+            convertUnixTimeUseCase.executeList(listOfTime, utcOffsetSeconds)
 
         val listOfTemperature: List<Float> = hourlyModel.temperature
         val listOfIsDay: List<Boolean> = hourlyModel.isDay
@@ -34,7 +38,7 @@ class HourlyModelToHourlyListUseCase @Inject constructor(
                 time = time,
                 temperature = WeatherValueWithUnit(
                     value = listOfTemperature[index],
-                    unit = WeatherUnit.CELSIUS
+                    unit = units.temperature
                 ),
                 weatherCode = convertWeatherCodeToEnumUseCase(listOfCode[index]),
                 isNow = defineIsNow(
@@ -45,6 +49,7 @@ class HourlyModelToHourlyListUseCase @Inject constructor(
             )
         }
     }
+
     private fun defineIsNow(input: Long, offset: Long): Boolean {
         val now = Clock.System.now()
             .plus(offset.toDuration(DurationUnit.SECONDS))

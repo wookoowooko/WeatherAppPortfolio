@@ -6,9 +6,6 @@ interface DisplayableItem {
 
     fun payload(other: Any): Payload = Payload.None
 
-    /**
-     * Simple marker interface for payloads
-     */
     interface Payload {
         object None : Payload
     }

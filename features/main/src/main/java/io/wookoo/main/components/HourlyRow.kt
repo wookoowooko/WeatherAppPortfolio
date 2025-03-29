@@ -42,7 +42,10 @@ internal fun HourlyRow(
         modifier = modifier,
         state = rowState,
     ) {
-        items(state.currentWeather.hourlyList) { item: HourlyModelItem ->
+        items(
+            items = state.currentWeather.hourlyList,
+            key = { item -> item.time }) { item: HourlyModelItem ->
+
             SharedHourlyComponent(
                 modifier = Modifier.padding(medium),
                 image = item.weatherCode.asLocalizedUiWeatherMap(isDay = item.isDay).first,

@@ -17,8 +17,8 @@ import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.domain.units.WeatherUnit
 import io.wookoo.domain.units.WeatherValueWithUnit
 import io.wookoo.domain.units.WindDirection
+import io.wookoo.domain.usecases.UiCurrentWeatherModel
 import io.wookoo.main.mvi.MainPageState
-import io.wookoo.main.uimodels.UiCurrentWeatherModel
 
 @Composable
 fun WeatherProperties(

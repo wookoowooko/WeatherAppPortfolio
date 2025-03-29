@@ -1,5 +1,6 @@
 package io.wookoo.synchronizer
 
+import android.util.Log
 import io.wookoo.domain.annotations.ApplicationScope
 import io.wookoo.domain.model.settings.UserSettingsModel
 import io.wookoo.domain.repo.ICurrentForecastRepo
@@ -12,6 +13,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -48,7 +50,6 @@ class SyncManagerImpl @Inject constructor(
     override val syncChannel: Flow<Unit> = _syncChannel.receiveAsFlow()
 
     init {
-
         @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
         @Suppress("IgnoredReturnValue")
         currentForecastRepo
@@ -68,6 +69,7 @@ class SyncManagerImpl @Inject constructor(
                         }
                     }
             }
-            .shareIn(scope, SharingStarted.Eagerly)
+            .shareIn(scope, SharingStarted.Eagerly, 0)
     }
+
 }

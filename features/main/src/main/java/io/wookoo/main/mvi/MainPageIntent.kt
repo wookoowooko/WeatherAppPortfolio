@@ -1,6 +1,6 @@
 package io.wookoo.main.mvi
 
-import io.wookoo.domain.model.weather.current.CurrentWeatherDomain
+import io.wookoo.domain.usecases.UiCurrentWeatherModel
 import io.wookoo.domain.utils.AppError
 
 sealed interface MainPageIntent
@@ -8,8 +8,9 @@ sealed interface MainPageIntent
 interface Completable : MainPageIntent
 
 // Success Completable
-data class OnGetCurrentForecast(val cachedResult: CurrentWeatherDomain) :
+data class OnGetCurrentForecast(val cachedResult: UiCurrentWeatherModel) :
     Completable
+
 
 // object MainPageIntent
 data object OnLoading : MainPageIntent
