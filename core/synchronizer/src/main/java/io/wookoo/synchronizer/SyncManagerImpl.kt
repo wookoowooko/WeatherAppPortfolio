@@ -2,7 +2,7 @@ package io.wookoo.synchronizer
 
 import android.util.Log
 import io.wookoo.domain.annotations.ApplicationScope
-import io.wookoo.domain.model.settings.UserSettingsModel
+import io.wookoo.models.settings.UserSettingsModel
 import io.wookoo.domain.repo.ICurrentForecastRepo
 import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.domain.sync.ISyncManager
@@ -44,7 +44,7 @@ class SyncManagerImpl @Inject constructor(
     @ApplicationScope private val scope: CoroutineScope,
 ) : ISyncManager {
 
-    private var localSettings: UserSettingsModel? = null
+    private var localSettings: io.wookoo.models.settings.UserSettingsModel? = null
 
     private val _syncChannel = Channel<Unit>(Channel.CONFLATED)
     override val syncChannel: Flow<Unit> = _syncChannel.receiveAsFlow()

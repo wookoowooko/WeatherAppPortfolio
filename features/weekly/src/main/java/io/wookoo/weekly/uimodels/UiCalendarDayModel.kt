@@ -1,6 +1,6 @@
 package io.wookoo.weekly.uimodels
 
-import io.wookoo.domain.enums.WeatherCondition
+import io.wookoo.models.units.WeatherCondition
 
 data class UiCalendarDayModel(
     val dayName: String,

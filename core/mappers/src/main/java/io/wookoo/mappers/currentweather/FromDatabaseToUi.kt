@@ -4,20 +4,20 @@ import io.wookoo.database.dbo.CurrentWeatherEntity
 import io.wookoo.database.dbo.DailyEntity
 import io.wookoo.database.dbo.HourlyEntity
 import io.wookoo.database.relations.WeatherWithDetails
-import io.wookoo.domain.model.geocoding.GeocodingDomainUI
-import io.wookoo.domain.model.weather.current.CurrentWeatherDomain
-import io.wookoo.domain.model.weather.current.additional.CurrentDayModel
-import io.wookoo.domain.model.weather.current.additional.DailyModel
-import io.wookoo.domain.model.weather.current.additional.HourlyModel
-import io.wookoo.domain.model.weather.current.additional.PrecipitationModel
-import io.wookoo.domain.model.weather.current.additional.SunCyclesModel
-import io.wookoo.domain.model.weather.current.additional.WindModel
+import io.wookoo.models.geocoding.GeocodingDomainUI
+import io.wookoo.models.weather.current.CurrentWeatherDomain
+import io.wookoo.models.weather.current.additional.CurrentDayModel
+import io.wookoo.models.weather.current.additional.DailyModel
+import io.wookoo.models.weather.current.additional.HourlyModel
+import io.wookoo.models.weather.current.additional.PrecipitationModel
+import io.wookoo.models.weather.current.additional.SunCyclesModel
+import io.wookoo.models.weather.current.additional.WindModel
 
 object FromDatabaseToUi {
 
-    fun WeatherWithDetails.asCurrentWeatherDomainUi(): CurrentWeatherDomain {
-        return CurrentWeatherDomain(
-            geo = GeocodingDomainUI(
+    fun WeatherWithDetails.asCurrentWeatherDomainUi(): io.wookoo.models.weather.current.CurrentWeatherDomain {
+        return io.wookoo.models.weather.current.CurrentWeatherDomain(
+            geo = io.wookoo.models.geocoding.GeocodingDomainUI(
                 geoItemId = geo.geoNameId,
                 cityName = geo.cityName,
                 latitude = null,
@@ -33,21 +33,21 @@ object FromDatabaseToUi {
         )
     }
 
-    private fun CurrentWeatherEntity.asCurrentDayModel(): CurrentDayModel {
-        return CurrentDayModel(
+    private fun CurrentWeatherEntity.asCurrentDayModel(): io.wookoo.models.weather.current.additional.CurrentDayModel {
+        return io.wookoo.models.weather.current.additional.CurrentDayModel(
             time = time,
             temperature = temperature,
             relativeHumidity = relativeHumidity,
             feelsLike = feelsLike,
             isDay = isDay,
-            precipitation = PrecipitationModel(
+            precipitation = io.wookoo.models.weather.current.additional.PrecipitationModel(
                 level = precipitation,
                 rain = rain,
                 showers = showers,
                 snowfall = snowfall
             ),
             pressureMSL = pressureMSL,
-            wind = WindModel(
+            wind = io.wookoo.models.weather.current.additional.WindModel(
                 direction = windDirection,
                 speed = windSpeed,
                 gust = windGusts,
@@ -57,8 +57,8 @@ object FromDatabaseToUi {
         )
     }
 
-    private fun HourlyEntity.asHourlyModel(): HourlyModel {
-        return HourlyModel(
+    private fun HourlyEntity.asHourlyModel(): io.wookoo.models.weather.current.additional.HourlyModel {
+        return io.wookoo.models.weather.current.additional.HourlyModel(
             time = time,
             temperature = temperature,
             weatherCode = weatherCode,
@@ -66,9 +66,9 @@ object FromDatabaseToUi {
         )
     }
 
-    private fun DailyEntity.asDailyModel(): DailyModel {
-        return DailyModel(
-            sunCycles = SunCyclesModel(
+    private fun DailyEntity.asDailyModel(): io.wookoo.models.weather.current.additional.DailyModel {
+        return io.wookoo.models.weather.current.additional.DailyModel(
+            sunCycles = io.wookoo.models.weather.current.additional.SunCyclesModel(
                 sunrise = sunrise,
                 sunset = sunset
             ),

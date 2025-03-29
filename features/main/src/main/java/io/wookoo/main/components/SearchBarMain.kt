@@ -50,7 +50,7 @@ import io.wookoo.designsystem.ui.components.SharedLocationItem
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
-import io.wookoo.domain.model.geocoding.GeocodingDomainUI
+import io.wookoo.models.geocoding.GeocodingDomainUI
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -59,10 +59,10 @@ fun SearchBarMain(
     isLoading: Boolean,
     isExpanded: Boolean,
     isGeolocationSearchInProgress: Boolean,
-    results: List<GeocodingDomainUI>,
+    results: List<io.wookoo.models.geocoding.GeocodingDomainUI>,
     modifier: Modifier = Modifier,
     onSearchNotExpandedIconClick: () -> Unit,
-    onItemClick: (item: GeocodingDomainUI) -> Unit,
+    onItemClick: (item: io.wookoo.models.geocoding.GeocodingDomainUI) -> Unit,
     onSearchQueryChange: (String) -> Unit,
     onClose: () -> Unit,
 ) {
@@ -202,7 +202,7 @@ fun SearchBarMain(
     }
 }
 
-val result = GeocodingDomainUI(
+val result = io.wookoo.models.geocoding.GeocodingDomainUI(
     cityName = "Moscow",
     latitude = 55.7558,
     longitude = 37.6176,

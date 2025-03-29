@@ -8,7 +8,7 @@ import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
 import io.wookoo.domain.annotations.GeoCodingApi
 import io.wookoo.domain.annotations.WeatherApi
-import io.wookoo.domain.model.settings.UserSettingsModel
+import io.wookoo.models.settings.UserSettingsModel
 import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.domain.sync.ISynchronizer
 import io.wookoo.domain.utils.AppResult
@@ -48,7 +48,7 @@ class SynchronizerImpl @Inject constructor(
 
         withContext(ioDispatcher) {
             // 1. checkPrefs
-            val settings: UserSettingsModel = settings.first()
+            val settings: io.wookoo.models.settings.UserSettingsModel = settings.first()
             val temperatureUnit = settings.temperatureUnit
             val windSpeedUnit = settings.windSpeedUnit
             val precipitationUnit = settings.precipitationUnit
@@ -115,7 +115,7 @@ class SynchronizerImpl @Inject constructor(
 
         withContext(ioDispatcher) {
             // 1. checkPrefs
-            val settings: UserSettingsModel = settings.first()
+            val settings: io.wookoo.models.settings.UserSettingsModel = settings.first()
             val temperatureUnit = settings.temperatureUnit
             val windSpeedUnit = settings.windSpeedUnit
             val precipitationUnit = settings.precipitationUnit

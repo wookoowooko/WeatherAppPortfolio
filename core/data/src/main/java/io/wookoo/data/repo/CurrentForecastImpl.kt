@@ -3,7 +3,7 @@ package io.wookoo.data.repo
 import io.wookoo.database.daos.CurrentWeatherDao
 import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
-import io.wookoo.domain.model.weather.current.CurrentWeatherDomain
+import io.wookoo.models.weather.current.CurrentWeatherDomain
 import io.wookoo.domain.repo.ICurrentForecastRepo
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.domain.utils.DataError
@@ -34,7 +34,7 @@ class CurrentForecastImpl @Inject constructor(
         }
     }
 
-    override fun getCurrentForecast(geoNameId: Long): Flow<CurrentWeatherDomain> {
+    override fun getCurrentForecast(geoNameId: Long): Flow<io.wookoo.models.weather.current.CurrentWeatherDomain> {
         return currentWeatherDao.getCurrentForecast(geoNameId)
             .mapNotNull {
                 it?.asCurrentWeatherDomainUi()
@@ -60,7 +60,7 @@ class CurrentForecastImpl @Inject constructor(
             .flowOn(ioDispatcher)
     }
 
-    override fun getAllCurrentForecastLocations(): Flow<List<CurrentWeatherDomain>> {
+    override fun getAllCurrentForecastLocations(): Flow<List<io.wookoo.models.weather.current.CurrentWeatherDomain>> {
         return currentWeatherDao.getAllCurrentForecastLocations().mapNotNull {
             it.map { weather ->
                 weather.asCurrentWeatherDomainUi()

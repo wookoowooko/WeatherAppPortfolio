@@ -1,7 +1,7 @@
 package io.wookoo.common.ext
 
 import androidx.annotation.StringRes
-import io.wookoo.domain.units.WeatherUnit
+import io.wookoo.models.units.WeatherUnit
 
 @StringRes
 fun WeatherUnit.asUnitString(): Int {

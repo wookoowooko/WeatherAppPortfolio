@@ -4,8 +4,8 @@ import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import io.wookoo.common.ext.asLocalizedString
 import io.wookoo.common.ext.asLocalizedUnitValueString
 import io.wookoo.design.system.databinding.WindCardItemBinding
-import io.wookoo.domain.units.WeatherValueWithUnit
-import io.wookoo.domain.units.WindDirection
+import io.wookoo.models.units.WeatherValueWithUnit
+import io.wookoo.models.units.WindDirection
 import io.wookoo.weekly.uimodels.DisplayableItem
 import io.wookoo.weekly.uimodels.UIWindCardModel
 
@@ -29,7 +29,7 @@ internal fun windCardAdapterDelegate() =
                             context
                         )
 
-                windDirection.text = (item.windDirection as WindDirection).asLocalizedString(context)
+                windDirection.setText((item.windDirection as WindDirection).asLocalizedString())
             }
         }
     }

@@ -1,7 +1,7 @@
 package io.wookoo.main.mvi
 
-import io.wookoo.domain.usecases.UiCurrentWeatherModel
 import io.wookoo.domain.utils.AppError
+import io.wookoo.models.ui.UiCurrentWeatherModel
 
 sealed interface MainPageIntent
 

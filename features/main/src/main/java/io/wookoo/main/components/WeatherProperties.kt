@@ -14,11 +14,12 @@ import io.wookoo.common.ext.asLocalizedUnitValueString
 import io.wookoo.designsystem.ui.components.SharedWeatherItem
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.designsystem.ui.theme.medium
-import io.wookoo.domain.units.WeatherUnit
-import io.wookoo.domain.units.WeatherValueWithUnit
-import io.wookoo.domain.units.WindDirection
-import io.wookoo.domain.usecases.UiCurrentWeatherModel
 import io.wookoo.main.mvi.MainPageState
+import io.wookoo.models.ui.UiCurrentWeatherModel
+import io.wookoo.models.units.WeatherUnit
+import io.wookoo.models.units.WeatherValueWithUnit
+import io.wookoo.models.units.WindDirection
+
 
 @Composable
 fun WeatherProperties(
@@ -48,9 +49,7 @@ fun WeatherProperties(
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_wind_direction,
-            text = state.currentWeather.windDirection.asLocalizedString(
-                context
-            ),
+            text = stringResource(state.currentWeather.windDirection.asLocalizedString()),
             title = stringResource(io.wookoo.androidresources.R.string.wind_direction_prop)
         )
         SharedWeatherItem(
@@ -62,7 +61,7 @@ fun WeatherProperties(
             ),
             title = stringResource(io.wookoo.androidresources.R.string.wind_gust_prop),
 
-        )
+            )
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_precipitation,
@@ -72,7 +71,7 @@ fun WeatherProperties(
             ),
             title = stringResource(io.wookoo.androidresources.R.string.precipitation_prop),
 
-        )
+            )
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_pressure_msl,
@@ -89,7 +88,7 @@ fun WeatherProperties(
             text = state.currentWeather.uvIndex,
             title = stringResource(io.wookoo.androidresources.R.string.uv_index),
 
-        )
+            )
     }
 }
 

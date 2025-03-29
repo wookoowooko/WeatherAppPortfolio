@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.androidx.room) apply false
     alias(libs.plugins.google.protobuf.gp) apply false
+    alias(libs.plugins.jetbrains.kotlin.jvm) apply false
 
 }
 tasks.register("detektAll") {

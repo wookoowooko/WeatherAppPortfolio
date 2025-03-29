@@ -4,7 +4,7 @@ import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
 import io.wookoo.domain.annotations.GeoCodingApi
 import io.wookoo.domain.annotations.ReverseGeoCodingApi
-import io.wookoo.domain.model.geocoding.GeocodingResponseDomainUi
+import io.wookoo.models.geocoding.GeocodingResponseDomainUi
 import io.wookoo.domain.repo.IGeoRepo
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.domain.utils.DataError
@@ -26,7 +26,7 @@ class GeoRepoImpl @Inject constructor(
     override suspend fun searchLocationFromApiByQuery(
         query: String,
         language: String,
-    ): AppResult<GeocodingResponseDomainUi, DataError.Remote> {
+    ): AppResult<io.wookoo.models.geocoding.GeocodingResponseDomainUi, DataError.Remote> {
         return withContext(ioDispatcher) {
             geoCodingRemoteDataSource.searchLocation(
                 name = query,
@@ -41,7 +41,7 @@ class GeoRepoImpl @Inject constructor(
         latitude: Double,
         longitude: Double,
         language: String,
-    ): AppResult<GeocodingResponseDomainUi, DataError.Remote> {
+    ): AppResult<io.wookoo.models.geocoding.GeocodingResponseDomainUi, DataError.Remote> {
         return withContext(ioDispatcher) {
             reverseGeoCodingRemoteDataSource.getReversedSearchedLocation(
                 latitude = latitude,

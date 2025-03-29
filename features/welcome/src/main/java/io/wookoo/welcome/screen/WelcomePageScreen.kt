@@ -40,7 +40,7 @@ import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.designsystem.ui.theme.small
-import io.wookoo.domain.model.geocoding.GeocodingDomainUI
+import io.wookoo.models.geocoding.GeocodingDomainUI
 import io.wookoo.welcome.components.ChooseYourLocationCard
 import io.wookoo.welcome.components.ContinueButton
 import io.wookoo.welcome.components.DetectGeolocationCard
@@ -216,7 +216,7 @@ private fun WelcomePagePreview() {
     WeatherAppPortfolioTheme {
         WelcomePageScreen(
             state = WelcomePageState(
-                geoItem = GeocodingDomainUI(
+                geoItem = io.wookoo.models.geocoding.GeocodingDomainUI(
                     cityName = "Seoul",
                     countryName = "Korea",
                     geoItemId = 1,

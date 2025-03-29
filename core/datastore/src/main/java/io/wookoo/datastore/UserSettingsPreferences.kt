@@ -2,8 +2,8 @@ package io.wookoo.datastore
 
 import android.util.Log
 import androidx.datastore.core.DataStore
-import io.wookoo.domain.model.settings.UserSettingsModel
-import io.wookoo.domain.units.WeatherUnit
+import io.wookoo.models.settings.UserSettingsModel
+import io.wookoo.models.units.WeatherUnit
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -13,7 +13,7 @@ class UserSettingsPreferences @Inject constructor(
     val userData = dataStore.data.map { settings ->
 
         Log.d(TAG, ": $settings")
-        UserSettingsModel(
+        io.wookoo.models.settings.UserSettingsModel(
             isLocationChoose = settings.isLocationChoose,
             temperatureUnit = settings.temperatureUnit,
             windSpeedUnit = settings.windSpeedUnit,

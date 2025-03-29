@@ -1,7 +1,7 @@
 package io.wookoo.domain.usecases
 
 import io.wookoo.domain.repo.IDataStoreRepo
-import io.wookoo.domain.units.WeatherUnit
+import io.wookoo.models.units.WeatherUnit
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 

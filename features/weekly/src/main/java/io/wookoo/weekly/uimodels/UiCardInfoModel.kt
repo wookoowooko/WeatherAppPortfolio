@@ -1,7 +1,7 @@
 package io.wookoo.weekly.uimodels
 
-import io.wookoo.domain.enums.WeatherCondition
-import io.wookoo.domain.units.WeatherValueWithUnit
+import io.wookoo.models.units.WeatherCondition
+import io.wookoo.models.units.WeatherValueWithUnit
 
 data class UiCardInfoModel(
     val tempMax: WeatherValueWithUnit,

@@ -1,15 +1,15 @@
 package io.wookoo.mappers.weeklyweather
 
 import io.wookoo.database.dbo.weekly.WeeklyWeatherEntity
-import io.wookoo.domain.model.weather.current.additional.PrecipitationModel
-import io.wookoo.domain.model.weather.current.additional.SunCyclesModel
-import io.wookoo.domain.model.weather.current.additional.WindModel
-import io.wookoo.domain.model.weather.weekly.WeeklyWeatherDomainUI
-import io.wookoo.domain.model.weather.weekly.additional.WeeklyWeatherModel
+import io.wookoo.models.weather.current.additional.PrecipitationModel
+import io.wookoo.models.weather.current.additional.SunCyclesModel
+import io.wookoo.models.weather.current.additional.WindModel
+import io.wookoo.models.weather.weekly.WeeklyWeatherDomainUI
+import io.wookoo.models.weather.weekly.additional.WeeklyWeatherModel
 import io.wookoo.network.dto.weather.weekly.WeeklyWeatherDto
 
-fun WeeklyWeatherEntity.asWeeklyWeatherResponseModel(): WeeklyWeatherDomainUI {
-    return WeeklyWeatherDomainUI(
+fun WeeklyWeatherEntity.asWeeklyWeatherResponseModel(): io.wookoo.models.weather.weekly.WeeklyWeatherDomainUI {
+    return io.wookoo.models.weather.weekly.WeeklyWeatherDomainUI(
         isDay = isDay,
         weekly = this.asWeeklyWeatherModel(),
         utcOffsetSeconds = this.utcOffsetSeconds
@@ -17,8 +17,8 @@ fun WeeklyWeatherEntity.asWeeklyWeatherResponseModel(): WeeklyWeatherDomainUI {
     )
 }
 
-fun WeeklyWeatherEntity.asWeeklyWeatherModel(): WeeklyWeatherModel {
-    return WeeklyWeatherModel(
+fun WeeklyWeatherEntity.asWeeklyWeatherModel(): io.wookoo.models.weather.weekly.additional.WeeklyWeatherModel {
+    return io.wookoo.models.weather.weekly.additional.WeeklyWeatherModel(
         cityName = cityName,
         time = time,
         weatherCode = weatherCode,
@@ -31,19 +31,19 @@ fun WeeklyWeatherEntity.asWeeklyWeatherModel(): WeeklyWeatherModel {
         uvIndexMax = uvIndexMax,
         precipitationProbabilityMax = precipitationProbabilityMax,
         precipitationData = precipitationSum.mapIndexed { index, sum ->
-            PrecipitationModel(
+            io.wookoo.models.weather.current.additional.PrecipitationModel(
                 level = sum,
                 rain = rainSum.getOrNull(index) ?: 0.0,
                 showers = showersSum.getOrNull(index) ?: 0.0,
                 snowfall = snowfallSum.getOrNull(index) ?: 0.0
             )
         },
-        sunCycles = SunCyclesModel(
+        sunCycles = io.wookoo.models.weather.current.additional.SunCyclesModel(
             sunrise = sunrise,
             sunset = sunset
         ),
         windData = windSpeedMax.mapIndexed { index, speed ->
-            WindModel(
+            io.wookoo.models.weather.current.additional.WindModel(
                 speed = speed,
                 direction = windDirectionMax.getOrNull(index)?.toInt() ?: 0,
                 gust = windGustsMax.getOrNull(index) ?: 0.0

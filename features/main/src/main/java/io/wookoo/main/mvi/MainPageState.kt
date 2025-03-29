@@ -1,6 +1,6 @@
 package io.wookoo.main.mvi
 
-import io.wookoo.domain.usecases.UiCurrentWeatherModel
+import io.wookoo.models.ui.UiCurrentWeatherModel
 
 data class MainPageState(
     val isNow: Boolean = false,

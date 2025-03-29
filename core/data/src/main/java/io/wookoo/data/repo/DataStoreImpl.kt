@@ -3,7 +3,7 @@ package io.wookoo.data.repo
 import io.wookoo.datastore.UserSettingsPreferences
 import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
-import io.wookoo.domain.model.settings.UserSettingsModel
+import io.wookoo.models.settings.UserSettingsModel
 import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.domain.utils.DataError
@@ -18,7 +18,7 @@ class DataStoreImpl @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
 ) : IDataStoreRepo {
 
-    override val userSettings: Flow<UserSettingsModel>
+    override val userSettings: Flow<io.wookoo.models.settings.UserSettingsModel>
         get() = dataStore.userData
 
     override suspend fun setInitialWeatherUnits(): AppResult<Unit, DataError.Local> =
