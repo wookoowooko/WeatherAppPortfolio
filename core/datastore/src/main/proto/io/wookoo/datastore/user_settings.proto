@@ -8,4 +8,6 @@ message UserSettings {
   string temperatureUnit = 2;
   string windSpeedUnit = 3;
   string precipitationUnit = 4;
+  string locale = 5;
+  bool isFirstLaunch = 6;
 }

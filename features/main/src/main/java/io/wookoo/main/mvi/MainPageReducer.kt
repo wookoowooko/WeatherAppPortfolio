@@ -23,26 +23,10 @@ class MainPageReducer @Inject constructor(
             is UpdateCityListCount -> state.copy(cityListCount = intent.count)
             is SetPagerPosition -> state.copy(pagerPosition = intent.position)
 
-            is OnExpandSearchBar -> state.copy(searchExpanded = intent.expandValue)
-            is OnSearchQueryChange -> state.copy(searchQuery = intent.query)
-            is OnGeolocationIconClick -> state.copy(isGeolocationSearchInProgress = true)
-            is OnSearchedGeoItemCardClick -> state.copy(searchExpanded = false)
-
-            is Completable -> state.copy(isLoading = false, isGeolocationSearchInProgress = false)
+            is Completable -> state.copy(isLoading = false)
                 .let {
                     when (intent) {
-                        is OnErrorFetchReversGeocodingFromApi -> it.copy(city = "", country = "")
-
-                        is OnSuccessFetchReversGeocodingFromApi -> it.copy(
-                            city = intent.city,
-                            country = intent.country
-                        )
-
-                        is OnSuccessSearchLocation -> it.copy(
-                            searchResults = intent.results
-                        )
-
-                        is OnSuccessFetchCurrentWeatherFromApi -> {
+                        is OnGetCurrentForecast -> {
                             it.copy(
                                 city = intent.cachedResult.geo.cityName,
                                 country = intent.cachedResult.geo.countryName,

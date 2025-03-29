@@ -13,11 +13,11 @@ interface WeeklyWeatherDao {
 
     @Transaction
     @Query("SELECT * FROM weekly_weather WHERE geo_name_id = :geoItemId")
-    fun getWeeklyWeatherByGeoItemId(geoItemId: Long): Flow<WeeklyWeatherEntity?>
+    fun getWeeklyForecastByGeoItemId(geoItemId: Long): Flow<WeeklyWeatherEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertWeeklyWeather(weeklyWeatherEntity: WeeklyWeatherEntity)
+    suspend fun insertWeeklyForecast(weeklyWeatherEntity: WeeklyWeatherEntity)
 
     @Query("SELECT last_update FROM weekly_weather WHERE geo_name_id = :geoItemId")
-    suspend fun getLastUpdateForWeekly(geoItemId: Long): Long
+    suspend fun getLastUpdateForWeeklyForecast(geoItemId: Long): Long
 }

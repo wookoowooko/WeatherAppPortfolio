@@ -1,18 +1,12 @@
 package io.wookoo.main.mvi
 
-import android.util.Log
 import io.wookoo.common.mvi.Store
 import io.wookoo.domain.annotations.StoreViewModelScope
-import io.wookoo.domain.repo.IMasterWeatherRepo
-import io.wookoo.domain.utils.onError
-import io.wookoo.domain.utils.onSuccess
+import io.wookoo.domain.repo.ICurrentForecastRepo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -21,40 +15,37 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainPageStore @Inject constructor(
     @StoreViewModelScope private val storeScope: CoroutineScope,
-    private val masterRepository: IMasterWeatherRepo,
+    private val currentForecast: ICurrentForecastRepo,
     reducer: MainPageReducer,
 ) : Store<MainPageState, MainPageIntent, MainPageEffect>(
     storeScope = storeScope,
     initialState = MainPageState(),
-    reducer = reducer,
+    reducer = reducer
 ) {
-    private var searchJob: Job? = null
 
     override fun initializeObservers() {
-        observeSearchQuery()
         viewPagerCount
         observeCurrentWeather()
     }
 
     /** Observers */
 
-    private val viewPagerCount: StateFlow<List<Long>> = masterRepository.getCurrentWeatherIds()
-        .filterNotNull()
-        .distinctUntilChanged()
-        .onEach {
-            Log.d(TAG, "listSize: ${it.size}")
-            dispatch(UpdateCityListCount(it.size))
-        }
-        .stateIn(
-            storeScope,
-            SharingStarted.Eagerly,
-            initialValue = emptyList()
-        )
+    private val viewPagerCount: StateFlow<List<Long>> =
+        currentForecast.getCurrentForecastGeoItemIds()
+            .filterNotNull()
+            .distinctUntilChanged()
+            .onEach {
+                dispatch(UpdateCityListCount(it.size))
+            }
+            .stateIn(
+                storeScope,
+                SharingStarted.Eagerly,
+                initialValue = emptyList()
+            )
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun observeCurrentWeather() {
@@ -64,49 +55,12 @@ class MainPageStore @Inject constructor(
                 state.map { it.pagerPosition }
                     .distinctUntilChanged()
                     .flatMapLatest { position ->
-                        masterRepository.currentWeather(geoNameIds[position])
+                        currentForecast.getCurrentForecast(geoNameIds[position])
                     }
             }
             .onEach { currentWeather ->
-                dispatch(OnSuccessFetchCurrentWeatherFromApi(currentWeather))
+                dispatch(OnGetCurrentForecast(currentWeather))
             }
             .launchIn(storeScope)
-    }
-
-    @OptIn(FlowPreview::class)
-    private fun observeSearchQuery() {
-        state
-            .map { it.searchQuery }
-            .distinctUntilChanged()
-            .debounce(THRESHOLD)
-            .onEach { query ->
-                if (query.length >= 2) {
-                    searchJob?.cancel()
-                    searchJob = searchLocationFromApiByQuery(query)
-                } else {
-                    dispatch(OnQueryIsEmpty)
-                }
-            }
-            .launchIn(storeScope)
-    }
-
-    /** Functions */
-
-    private fun searchLocationFromApiByQuery(query: String) = storeScope.launch {
-        dispatch(OnLoading)
-        masterRepository.searchLocationFromApiByQuery(query, language = "ru")
-            .onSuccess { searchResults ->
-                Log.d(TAG, "searchLocationFromApi: $searchResults")
-                dispatch(OnSuccessSearchLocation(results = searchResults.results))
-            }
-            .onError { error ->
-                dispatch(OnErrorSearchLocation)
-                emitSideEffect(MainPageEffect.OnShowSnackBar(error))
-            }
-    }
-
-    private companion object {
-        private const val THRESHOLD = 500L
-        private const val TAG = "MainPageStore"
     }
 }

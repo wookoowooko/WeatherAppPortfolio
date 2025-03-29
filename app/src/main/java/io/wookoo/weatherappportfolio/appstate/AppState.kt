@@ -6,7 +6,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.domain.service.IConnectivityObserver
-import io.wookoo.domain.model.settings.UserSettingsModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map

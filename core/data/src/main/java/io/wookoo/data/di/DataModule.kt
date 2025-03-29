@@ -4,13 +4,15 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.wookoo.data.AndroidStringProvider
-import io.wookoo.data.repo.DataStoreRepoImpl
-import io.wookoo.data.repo.MasterRepoImpl
+import io.wookoo.data.repo.CurrentForecastImpl
+import io.wookoo.data.repo.DataStoreImpl
+import io.wookoo.data.repo.GeoRepoImpl
+import io.wookoo.data.repo.WeeklyForecastImpl
+import io.wookoo.domain.repo.ICurrentForecastRepo
 import io.wookoo.domain.repo.IDataStoreRepo
+import io.wookoo.domain.repo.IGeoRepo
 import io.wookoo.domain.repo.ILocationProvider
-import io.wookoo.domain.repo.IMasterWeatherRepo
-import io.wookoo.domain.utils.IStringProvider
+import io.wookoo.domain.repo.IWeeklyForecastRepo
 import io.wookoo.geolocation.WeatherLocationManager
 
 @Module
@@ -18,13 +20,13 @@ import io.wookoo.geolocation.WeatherLocationManager
 interface DataModule {
 
     @Binds
-    fun bindsMasterRepo(
-        masterRepo: MasterRepoImpl,
-    ): IMasterWeatherRepo
+    fun bindsWeeklyForecastRepo(
+        masterRepo: WeeklyForecastImpl,
+    ): IWeeklyForecastRepo
 
     @Binds
     fun bindsDataStoreRepo(
-        dataStoreRepo: DataStoreRepoImpl,
+        dataStoreRepo: DataStoreImpl,
     ): IDataStoreRepo
 
     @Binds
@@ -33,7 +35,12 @@ interface DataModule {
     ): ILocationProvider
 
     @Binds
-    fun bindsStringProvider(
-        androidStringProvider: AndroidStringProvider,
-    ): IStringProvider
+    fun bindsIGeoRepository(
+        geoRepositoryImpl: GeoRepoImpl,
+    ): IGeoRepo
+
+    @Binds
+    fun bindsCurrentForecastRepository(
+        currentForecastImpl: CurrentForecastImpl,
+    ): ICurrentForecastRepo
 }

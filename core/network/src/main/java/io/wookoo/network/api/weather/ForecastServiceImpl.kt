@@ -7,15 +7,15 @@ import io.wookoo.network.dto.weather.weekly.WeeklyWeatherResponseDto
 import io.wookoo.network.extensions.safeCall
 import javax.inject.Inject
 
-class WeatherServiceImpl @Inject constructor(
+class ForecastServiceImpl @Inject constructor(
     private val weatherApi: IWeatherRetrofit,
-) : IWeatherService {
+) : IForecastService {
     override suspend fun getCurrentWeather(
         latitude: Double,
         longitude: Double,
         temperatureUnit: String,
         windSpeedUnit: String,
-        precipitationUnit: String,
+        precipitationUnit: String
     ): AppResult<CurrentWeatherResponseDto, DataError.Remote> {
         return safeCall {
             weatherApi.getCurrentWeather(
@@ -33,7 +33,7 @@ class WeatherServiceImpl @Inject constructor(
         longitude: Double,
         temperatureUnit: String,
         windSpeedUnit: String,
-        precipitationUnit: String,
+        precipitationUnit: String
     ): AppResult<WeeklyWeatherResponseDto, DataError.Remote> {
         return safeCall {
             weatherApi.getWeeklyWeather(

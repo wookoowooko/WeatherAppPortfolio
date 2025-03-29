@@ -10,7 +10,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
-import io.wookoo.domain.repo.IMasterWeatherRepo
+import io.wookoo.domain.repo.ICurrentForecastRepo
 import io.wookoo.domain.sync.ISynchronizer
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.worker.utils.Constraints
@@ -25,7 +25,7 @@ class OneTimeSyncWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     private val synchronizer: ISynchronizer,
-    private val repo: IMasterWeatherRepo,
+    private val currentForecast: ICurrentForecastRepo,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result = withContext(ioDispatcher) {
@@ -49,7 +49,7 @@ class OneTimeSyncWorker @AssistedInject constructor(
         }
 
         if (isNeedToUpdate) {
-            val updated = repo.updateCurrentLocation(geoItemId)
+            val updated = currentForecast.updateCurrentForecastLocation(geoItemId)
             if (updated is AppResult.Error) {
                 return@withContext Result.retry()
             }

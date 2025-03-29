@@ -27,18 +27,15 @@ object Sync {
             )
     }
 
-//    fun initializeReSync(context: Context) {
-//        WorkManager.getInstance(context).apply {
-//            enqueueUniqueWork(
-//                ONETIME_RE_SYNC_WORK_NAME,
-//                ExistingWorkPolicy.KEEP,
-//                PeriodicSyncForecastWorker.startUpHardRsSyncWork()
-//            )
-//        }
-//    }
+    fun initializeReSync(context: Context) {
+        WorkManager.getInstance(context).enqueueUniqueWork(
+            ONETIME_RE_SYNC_WORK_NAME,
+            ExistingWorkPolicy.REPLACE,
+            SyncWorker.forceSyncOneTimeTask()
+        )
+    }
 }
 
-internal const val ONETIME_SYNC_WORK_NAME = "OneTimeSyncWork"
-
-// internal const val ONETIME_RE_SYNC_WORK_NAME = "OneTimeReSyncWork"
-internal const val PERIODIC_SYNC_WORK_NAME = "PeriodicSyncWork"
+private const val ONETIME_SYNC_WORK_NAME = "OneTimeSyncWork"
+private const val ONETIME_RE_SYNC_WORK_NAME = "OneTimeReSyncWork"
+private const val PERIODIC_SYNC_WORK_NAME = "PeriodicSyncWork"

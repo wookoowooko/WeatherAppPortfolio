@@ -3,7 +3,6 @@ package io.wookoo.main.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -11,6 +10,7 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -25,6 +25,7 @@ import io.wookoo.designsystem.ui.theme.small
 import io.wookoo.main.mvi.MainPageIntent
 import io.wookoo.main.mvi.MainPageState
 import io.wookoo.main.mvi.OnNavigateToCities
+import io.wookoo.main.mvi.OnNavigateToSettings
 import io.wookoo.main.mvi.SetPagerPosition
 import kotlinx.coroutines.launch
 
@@ -49,7 +50,21 @@ internal fun BottomContent(
             }
         }
 
-        Spacer(modifier = Modifier.size(40.dp))
+        Box(
+            modifier = Modifier
+                .padding(small),
+        ) {
+            SharedSurfaceIcon(
+                onClick = {
+                    onIntent(OnNavigateToSettings)
+                },
+                iconPadding = small,
+                icon = Icons.Default.Settings,
+                modifier = Modifier
+                    .size(40.dp)
+                    .align(Alignment.CenterStart)
+            )
+        }
 
         PagerIndicator(
             pageCount = state.cityListCount,

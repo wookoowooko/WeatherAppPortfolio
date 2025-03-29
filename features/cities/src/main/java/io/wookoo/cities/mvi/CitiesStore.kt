@@ -3,8 +3,9 @@ package io.wookoo.cities.mvi
 import android.util.Log
 import io.wookoo.common.mvi.Store
 import io.wookoo.domain.annotations.StoreViewModelScope
+import io.wookoo.domain.repo.ICurrentForecastRepo
+import io.wookoo.domain.repo.IGeoRepo
 import io.wookoo.domain.repo.ILocationProvider
-import io.wookoo.domain.repo.IMasterWeatherRepo
 import io.wookoo.domain.service.IConnectivityObserver
 import io.wookoo.domain.utils.AppError
 import io.wookoo.domain.utils.DataError
@@ -29,13 +30,14 @@ import javax.inject.Inject
 class CitiesStore @Inject constructor(
     @StoreViewModelScope private val storeScope: CoroutineScope,
     reducer: CitiesReducer,
-    private val masterRepository: IMasterWeatherRepo,
+    private val currentForecast: ICurrentForecastRepo,
+    private val geoRepository: IGeoRepo,
     private val weatherLocationManager: ILocationProvider,
     networkMonitor: IConnectivityObserver,
 ) : Store<CitiesState, CitiesIntent, CitiesSideEffect>(
     initialState = CitiesState(),
     reducer = reducer,
-    storeScope = storeScope,
+    storeScope = storeScope
 ) {
 
     private var searchJob: Job? = null
@@ -81,7 +83,7 @@ class CitiesStore @Inject constructor(
 
     private suspend fun deleteCity(geoItemId: Long) {
         dispatch(OnLoading)
-        masterRepository.deleteWeatherWithDetailsByGeoId(geoItemId)
+        currentForecast.deleteCurrentForecastEntryByGeoId(geoItemId)
             .onError {
                 emitSideEffect(CitiesSideEffect.ShowSnackBar(it))
             }
@@ -109,7 +111,7 @@ class CitiesStore @Inject constructor(
     }
 
     private fun observeCities() {
-        masterRepository.getAllCitiesCurrentWeather()
+        currentForecast.getAllCurrentForecastLocations()
             .onEach { listOfCitiesEntity ->
                 dispatch(OnCitiesLoaded(listOfCitiesEntity))
             }
@@ -119,7 +121,7 @@ class CitiesStore @Inject constructor(
     // Functions
     private fun searchLocationFromApi(query: String) = storeScope.launch {
         dispatch(OnSearchInProgress)
-        masterRepository.searchLocationFromApiByQuery(query, language = "ru")
+        geoRepository.searchLocationFromApiByQuery(query, language = "ru")
             .onSuccess { searchResults ->
                 dispatch(OnSuccessSearchLocation(results = searchResults.results))
             }
@@ -131,67 +133,6 @@ class CitiesStore @Inject constructor(
                 dispatch(OnSearchInProgressDone)
             }
     }
-
-//    private suspend fun syncWeather(geoItemId: Long) {
-//        masterRepository.synchronizeCurrentWeather(
-//            geoItemId = geoItemId
-//        )
-//    }
-//
-//    private suspend fun updateCurrentAndSync(geoItemId: Long) {
-//        masterRepository.synchronizeCurrentWeather(
-//            geoItemId = geoItemId
-//        ).onSuccess {
-//            masterRepository.updateCurrentLocation(geoItemId)
-//                .onError { dataError ->
-//                    emitSideEffect(CitiesSideEffect.ShowSnackBar(dataError))
-//                }
-//        }
-//    }
-
-//    private fun getGeolocationFromGpsSensors() {
-//        if (isOffline.value) {
-//            emitSideEffect(CitiesSideEffect.ShowSnackBar(DataError.Remote.NO_INTERNET))
-//        } else {
-//            weatherLocationManager.getGeolocationFromGpsSensors(
-//                onSuccessfullyLocationReceived = { lat, lon ->
-//                    Log.d(TAG, "success: $lat $lon")
-//                    fetchReversGeocoding(latitude = lat, longitude = lon)
-//                },
-//                onError = { geoError: AppError ->
-//
-//                    Log.d(TAG, "geoError: $geoError")
-//
-//                    dispatch(OnErrorUpdateGeolocationFromGpsSensors)
-//                    emitSideEffect(CitiesSideEffect.ShowSnackBar(geoError))
-//                    emitSideEffect(CitiesSideEffect.OnShowSettingsDialog(geoError))
-//                }
-//            )
-//        }
-//    }
-
-//    private suspend fun getGeolocationFromGpsSensors() {
-//        if (isOffline.value) {
-//            emitSideEffect(CitiesSideEffect.ShowSnackBar(DataError.Remote.NO_INTERNET))
-//        } else {
-//            weatherLocationManager.getGeolocationFromGpsSensors().collect { result ->
-//                result.onSuccess { geoLocation ->
-//                    Log.d(TAG, "success: ${geoLocation.first} ${geoLocation.second}")
-//                    fetchReversGeocoding(
-//                        latitude = geoLocation.first,
-//                        longitude = geoLocation.second
-//                    )
-//                }
-//                    .onError { geoError: AppError ->
-//                        Log.d(TAG, "geoError: $geoError")
-//
-//                        dispatch(OnErrorUpdateGeolocationFromGpsSensors)
-//                        emitSideEffect(CitiesSideEffect.ShowSnackBar(geoError))
-//                        emitSideEffect(CitiesSideEffect.OnShowSettingsDialog(geoError))
-//                    }
-//            }
-//        }
-//    }
 
     private suspend fun getGeolocationFromGpsSensors() {
         if (isOffline.value) {
@@ -216,7 +157,7 @@ class CitiesStore @Inject constructor(
         latitude: Double,
         longitude: Double,
     ) = storeScope.launch {
-        masterRepository.getReverseGeocodingLocation(latitude, longitude, "ru")
+        geoRepository.getReverseGeocodingLocation(latitude, longitude, "ru")
             .onSuccess { gpsItems ->
                 gpsItems.results.firstOrNull()?.let { geoName ->
                     dispatch(OnSuccessFetchReversGeocodingFromApi(geoName))

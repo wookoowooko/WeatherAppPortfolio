@@ -3,17 +3,18 @@ package io.wookoo.worker.workers
 import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
+import androidx.work.OneTimeWorkRequest
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
-import io.wookoo.domain.repo.IMasterWeatherRepo
+import io.wookoo.domain.repo.ICurrentForecastRepo
 import io.wookoo.domain.sync.ISynchronizer
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.worker.utils.Constraints
-import io.wookoo.worker.utils.PERIODIC_SYNC_WORK_NAME
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -31,14 +32,18 @@ class SyncWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     private val synchronizer: ISynchronizer,
-    repo: IMasterWeatherRepo,
+    currentForecast: ICurrentForecastRepo,
 ) : CoroutineWorker(appContext, workerParams) {
 
-    private val weatherList: Flow<List<Long>> = repo.getCurrentWeatherIds()
+    private val weatherList: Flow<List<Long>> = currentForecast.getCurrentForecastGeoItemIds()
 
     override suspend fun doWork(): Result = withContext(ioDispatcher) {
         val geoItemIds = weatherList.first()
         var syncedSuccessfully = true
+
+        if (geoItemIds.isEmpty()) {
+            return@withContext Result.failure()
+        }
 
         geoItemIds.forEach { geoItemId ->
             val syncResults = awaitAll(
@@ -63,7 +68,15 @@ class SyncWorker @AssistedInject constructor(
 
     internal companion object {
 
+        private const val FORCE_ONE_TIME_SYNC_TAG = "ForceOneTimeForecastSync"
+        private const val PERIODIC_SYNC_WORK_TAG = "PeriodicTimeForecastSync"
         private const val PERIODIC_DURATION = 1L
+
+        fun forceSyncOneTimeTask(): OneTimeWorkRequest =
+            OneTimeWorkRequestBuilder<SyncWorker>()
+                .setConstraints(Constraints.syncConstraints)
+                .addTag(FORCE_ONE_TIME_SYNC_TAG)
+                .build()
 
         fun startSyncWeatherPeriodically(): PeriodicWorkRequest {
             val now = ZonedDateTime.now(ZoneId.systemDefault())
@@ -76,8 +89,8 @@ class SyncWorker @AssistedInject constructor(
                 TimeUnit.HOURS
             )
                 .setConstraints(Constraints.syncConstraints)
-                .setInitialDelay(delayMillis, TimeUnit.MILLISECONDS) // Только для первого запуска!
-                .addTag(PERIODIC_SYNC_WORK_NAME)
+                .setInitialDelay(delayMillis, TimeUnit.MILLISECONDS)
+                .addTag(PERIODIC_SYNC_WORK_TAG)
                 .build()
         }
     }

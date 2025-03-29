@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface IDataStoreRepo {
     val userSettings: Flow<UserSettingsModel>
+    suspend fun setInitialWeatherUnits(): AppResult<Unit, DataError.Local>
     suspend fun saveInitialLocationPicked(boolean: Boolean): AppResult<Unit, DataError.Local>
     suspend fun updateTemperatureUnit(temperatureUnit: String): AppResult<Unit, DataError.Local>
     suspend fun updateWindSpeedUnit(windSpeedUnit: String): AppResult<Unit, DataError.Local>

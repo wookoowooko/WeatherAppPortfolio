@@ -11,8 +11,8 @@ import io.wookoo.network.api.geocoding.GeocodingServiceImpl
 import io.wookoo.network.api.geocoding.IGeoCodingService
 import io.wookoo.network.api.reversegeocoding.IReverseGeoCodingService
 import io.wookoo.network.api.reversegeocoding.ReverseGeocodingServiceImpl
-import io.wookoo.network.api.weather.WeatherServiceImpl
-import io.wookoo.network.api.weather.IWeatherService
+import io.wookoo.network.api.weather.ForecastServiceImpl
+import io.wookoo.network.api.weather.IForecastService
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -21,8 +21,8 @@ interface NetworkInterfaceModule {
     @Binds
     @WeatherApi
     fun bindsICurrentWeatherService(
-        currentWeatherServiceImpl: WeatherServiceImpl,
-    ): IWeatherService
+        currentWeatherServiceImpl: ForecastServiceImpl,
+    ): IForecastService
 
     @Binds
     @GeoCodingApi

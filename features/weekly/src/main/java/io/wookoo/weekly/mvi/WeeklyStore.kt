@@ -6,7 +6,7 @@ import androidx.navigation.toRoute
 import io.wookoo.common.mvi.Store
 import io.wookoo.domain.annotations.StoreViewModelScope
 import io.wookoo.domain.model.weather.weekly.WeeklyWeatherDomainUI
-import io.wookoo.domain.repo.IMasterWeatherRepo
+import io.wookoo.domain.repo.IWeeklyForecastRepo
 import io.wookoo.weekly.navigation.WeeklyRoute
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 class WeeklyStore @Inject constructor(
     @StoreViewModelScope private val storeScope: CoroutineScope,
-    private val masterRepository: IMasterWeatherRepo,
+    private val weeklyForecast: IWeeklyForecastRepo,
     savedStateHandle: SavedStateHandle,
     reducer: WeeklyReducer,
 ) : Store<WeeklyState, WeeklyIntent, WeeklyEffect>(
@@ -47,7 +47,7 @@ class WeeklyStore @Inject constructor(
 
     private fun observeWeeklyWeather() {
         Log.d(TAG, "observeWeeklyWeather started")
-        masterRepository.weeklyWeatherForecastFlowFromDB(geoItemId)
+        weeklyForecast.getWeeklyForecastByGeoItemId(geoItemId)
             .distinctUntilChanged()
             .onEach { weeklyWeather: WeeklyWeatherDomainUI ->
                 Log.d(TAG, "observeWeeklyWeather: $weeklyWeather")

@@ -1,6 +1,5 @@
 package io.wookoo.welcome.mvi
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -14,10 +13,6 @@ class WelcomePageViewModel @Inject constructor(
     fun onIntent(intent: WelcomePageIntent) = store.dispatch(intent)
 
     override fun onCleared() {
-        Log.d(TAG, "onCleared: ")
         store.clear()
-    }
-    private companion object {
-        private const val TAG = "WelcomePageViewModel"
     }
 }

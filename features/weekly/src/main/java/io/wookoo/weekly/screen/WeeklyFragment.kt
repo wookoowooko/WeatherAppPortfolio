@@ -81,6 +81,8 @@ class WeeklyFragment : Fragment() {
                         )
                     )
                 }
+
+                null -> Unit
             }
         }
     }

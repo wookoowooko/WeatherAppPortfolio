@@ -3,9 +3,11 @@
     <string name="celsius">°C</string>
     <string name="unit_fahrenheit">°F</string>
     <string name="unit_kmh">км/ч</string>
+    <string name="unit_mph">м/ч</string>
     <string name="unit_meter_sec">м/с</string>
     <string name="centimetres_unit">см</string>
     <string name="millimeters_unit">мм</string>
+    <string name="inch_unit">дюйм</string>
     <string name="percent_unit">"%"</string>
     <string name="pressure_unit">гПа</string>
     <string name="sunrise_time">Время восхода</string>
@@ -120,4 +122,7 @@
     <!-- Города -->
     <string name="locations">Местоположения</string>
     <string name="find_me_button">Найти меня</string>
+
+    <!--Settings-->
+    <string name="settings">Настройки</string>
 </resources>

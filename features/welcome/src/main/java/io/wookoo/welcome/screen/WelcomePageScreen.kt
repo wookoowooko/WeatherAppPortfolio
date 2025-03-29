@@ -1,7 +1,8 @@
 package io.wookoo.welcome.screen
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.MarqueeSpacing
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -13,8 +14,11 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
@@ -27,16 +31,23 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.wookoo.common.ext.asUnitString
 import io.wookoo.designsystem.ui.components.SharedHeadlineText
 import io.wookoo.designsystem.ui.components.SharedLottieLoader
+import io.wookoo.designsystem.ui.components.SharedRadioGroup
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
+import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
+import io.wookoo.designsystem.ui.theme.small
 import io.wookoo.domain.model.geocoding.GeocodingDomainUI
 import io.wookoo.welcome.components.ChooseYourLocationCard
 import io.wookoo.welcome.components.ContinueButton
 import io.wookoo.welcome.components.DetectGeolocationCard
 import io.wookoo.welcome.components.WelcomeSearchBar
+import io.wookoo.welcome.mvi.SaveSelectedPrecipitation
+import io.wookoo.welcome.mvi.SaveSelectedTemperature
+import io.wookoo.welcome.mvi.SaveSelectedWindSpeed
 import io.wookoo.welcome.mvi.WelcomePageIntent
 import io.wookoo.welcome.mvi.WelcomePageState
 
@@ -118,15 +129,78 @@ fun WelcomePageScreen(
                 } else {
                     state.geoItem?.let { geo ->
                         Column(
+                            modifier = Modifier
+                                .padding(horizontal = large)
+                                .align(Alignment.TopCenter)
+                                .verticalScroll(state = rememberScrollState()),
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center,
                         ) {
                             SharedHeadlineText(
-                                style = MaterialTheme.typography.displayMedium,
+                                style = MaterialTheme.typography.displaySmall,
                                 text = geo.cityName,
+                                modifier = Modifier
+                                    .basicMarquee(
+                                        iterations = Int.MAX_VALUE,
+                                        repeatDelayMillis = 300,
+                                        spacing = MarqueeSpacing(20.dp)
+                                    )
+                                    .padding(horizontal = medium)
                             )
                             SharedText(
                                 text = geo.countryName,
+                                modifier = Modifier
+                                    .basicMarquee(
+                                        iterations = Int.MAX_VALUE,
+                                        repeatDelayMillis = 300,
+                                        spacing = MarqueeSpacing(20.dp)
+                                    )
+                                    .padding(horizontal = medium)
+                            )
+                            HorizontalDivider(
+                                modifier = Modifier.padding(vertical = medium)
+                            )
+
+                            SharedText(
+                                style = MaterialTheme.typography.titleMedium,
+                                text = "Единицы измерения",
+                                modifier = Modifier.padding(horizontal = medium)
+                            )
+
+                            SharedRadioGroup(
+                                modifier = Modifier.padding(small),
+                                radioOptions = state.windSpeedUnitOptions.map { options ->
+                                    stringResource(options.stringValue.asUnitString())
+                                },
+                                selectedOption = stringResource(state.selectedWindSpeedUnit.stringValue.asUnitString()),
+                                onOptionSelect = { index ->
+                                    onIntent(SaveSelectedWindSpeed(state.windSpeedUnitOptions[index].apiValue))
+                                }
+                            )
+                            SharedRadioGroup(
+                                modifier = Modifier.padding(small),
+                                radioOptions = state.precipitationUnitOptions.map { options ->
+                                    stringResource(options.stringValue.asUnitString())
+                                },
+                                selectedOption = stringResource(
+                                    state.selectedPrecipitationUnit.stringValue.asUnitString()
+                                ),
+                                onOptionSelect = { index ->
+                                    onIntent(
+                                        SaveSelectedPrecipitation(state.precipitationUnitOptions[index].apiValue)
+                                    )
+                                }
+                            )
+                            SharedRadioGroup(
+                                modifier = Modifier.padding(small),
+                                radioOptions = state.temperatureUnitOptions.map { options ->
+                                    stringResource(options.stringValue.asUnitString())
+                                },
+                                selectedOption = stringResource(
+                                    state.selectedTemperatureUnit.stringValue.asUnitString()
+                                ),
+                                onOptionSelect = { index ->
+                                    onIntent(SaveSelectedTemperature(state.temperatureUnitOptions[index].apiValue))
+                                }
                             )
                         }
                     }

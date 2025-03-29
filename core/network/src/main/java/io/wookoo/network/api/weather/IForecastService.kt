@@ -5,13 +5,13 @@ import io.wookoo.domain.utils.DataError
 import io.wookoo.network.dto.weather.current.CurrentWeatherResponseDto
 import io.wookoo.network.dto.weather.weekly.WeeklyWeatherResponseDto
 
-interface IWeatherService {
+interface IForecastService {
     suspend fun getCurrentWeather(
         latitude: Double,
         longitude: Double,
         temperatureUnit: String,
         windSpeedUnit: String,
-        precipitationUnit: String,
+        precipitationUnit: String
     ): AppResult<CurrentWeatherResponseDto, DataError.Remote>
 
     suspend fun getWeeklyWeather(
@@ -19,6 +19,6 @@ interface IWeatherService {
         longitude: Double,
         temperatureUnit: String,
         windSpeedUnit: String,
-        precipitationUnit: String,
+        precipitationUnit: String
     ): AppResult<WeeklyWeatherResponseDto, DataError.Remote>
 }
