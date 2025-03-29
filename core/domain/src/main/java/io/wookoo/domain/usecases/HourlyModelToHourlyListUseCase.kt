@@ -1,8 +1,8 @@
 package io.wookoo.domain.usecases
 
+import io.wookoo.models.units.WeatherValueWithUnit
 import io.wookoo.models.weather.current.additional.HourlyModel
 import io.wookoo.models.weather.current.additional.HourlyModelItem
-import io.wookoo.models.units.WeatherValueWithUnit
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -21,7 +21,6 @@ class HourlyModelToHourlyListUseCase @Inject constructor(
         hourlyModel: io.wookoo.models.weather.current.additional.HourlyModel,
         utcOffsetSeconds: Long,
     ): List<io.wookoo.models.weather.current.additional.HourlyModelItem> {
-
         val units = defineCorrectUnitsUseCase.defineCorrectUnits()
 
         val listOfTime: List<Long> = hourlyModel.time

@@ -1,8 +1,8 @@
 package io.wookoo.domain.repo
 
-import io.wookoo.models.weather.current.CurrentWeatherDomain
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.domain.utils.DataError
+import io.wookoo.models.weather.current.CurrentWeatherDomain
 import kotlinx.coroutines.flow.Flow
 
 interface ICurrentForecastRepo {

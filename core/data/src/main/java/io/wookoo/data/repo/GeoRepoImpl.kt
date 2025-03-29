@@ -4,13 +4,13 @@ import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
 import io.wookoo.domain.annotations.GeoCodingApi
 import io.wookoo.domain.annotations.ReverseGeoCodingApi
-import io.wookoo.models.geocoding.GeocodingResponseDomainUi
 import io.wookoo.domain.repo.IGeoRepo
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.domain.utils.DataError
 import io.wookoo.domain.utils.map
 import io.wookoo.mappers.geocoding.asGeocodingResponseModel
 import io.wookoo.mappers.geocoding.asReverseGeocodingResponseModel
+import io.wookoo.models.geocoding.GeocodingResponseDomainUi
 import io.wookoo.network.api.geocoding.IGeoCodingService
 import io.wookoo.network.api.reversegeocoding.IReverseGeoCodingService
 import kotlinx.coroutines.CoroutineDispatcher

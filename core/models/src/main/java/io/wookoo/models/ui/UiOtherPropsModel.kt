@@ -1,4 +1,4 @@
-package io.wookoo.weekly.uimodels
+package io.wookoo.models.ui
 
 import io.wookoo.models.units.SecondsDuration
 

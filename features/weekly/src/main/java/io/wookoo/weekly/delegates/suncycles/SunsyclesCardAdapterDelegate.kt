@@ -2,8 +2,8 @@ package io.wookoo.weekly.delegates.suncycles
 
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import io.wookoo.design.system.databinding.SuncyclesCardItemBinding
-import io.wookoo.weekly.uimodels.DisplayableItem
-import io.wookoo.weekly.uimodels.UiSuncyclesModel
+import io.wookoo.models.ui.DisplayableItem
+import io.wookoo.models.ui.UiSuncyclesModel
 
 internal fun sunCyclesCardAdapterDelegate() =
     adapterDelegateViewBinding<UiSuncyclesModel, DisplayableItem, SuncyclesCardItemBinding>(

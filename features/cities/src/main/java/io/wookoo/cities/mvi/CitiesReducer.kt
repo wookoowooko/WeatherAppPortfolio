@@ -2,7 +2,6 @@ package io.wookoo.cities.mvi
 
 import io.wookoo.cities.uimappers.asUiCity
 import io.wookoo.common.mvi.Reducer
-import io.wookoo.models.weather.current.CurrentWeatherDomain
 import io.wookoo.domain.usecases.ConvertDateUseCase
 import io.wookoo.domain.usecases.ConvertWeatherCodeToEnumUseCase
 import javax.inject.Inject

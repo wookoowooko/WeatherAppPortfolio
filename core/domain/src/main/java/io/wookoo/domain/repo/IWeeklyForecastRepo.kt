@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface IWeeklyForecastRepo {
 
-    fun getWeeklyForecastByGeoItemId(geoNameId: Long): Flow<io.wookoo.models.weather.weekly.WeeklyWeatherDomainUI>
+    fun getWeeklyForecastByGeoItemId(geoNameId: Long): Flow<WeeklyWeatherDomainUI>
 }

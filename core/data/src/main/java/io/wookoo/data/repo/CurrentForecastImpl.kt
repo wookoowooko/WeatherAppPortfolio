@@ -3,11 +3,11 @@ package io.wookoo.data.repo
 import io.wookoo.database.daos.CurrentWeatherDao
 import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
-import io.wookoo.models.weather.current.CurrentWeatherDomain
 import io.wookoo.domain.repo.ICurrentForecastRepo
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.domain.utils.DataError
 import io.wookoo.mappers.currentweather.FromDatabaseToUi.asCurrentWeatherDomainUi
+import io.wookoo.models.weather.current.CurrentWeatherDomain
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull

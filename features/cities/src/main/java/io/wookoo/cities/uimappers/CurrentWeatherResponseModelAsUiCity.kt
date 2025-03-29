@@ -1,11 +1,11 @@
 package io.wookoo.cities.uimappers
 
 import io.wookoo.cities.uimodels.UiCity
-import io.wookoo.models.weather.current.CurrentWeatherDomain
 import io.wookoo.domain.usecases.ConvertDateUseCase
 import io.wookoo.domain.usecases.ConvertWeatherCodeToEnumUseCase
 import io.wookoo.models.units.WeatherUnit
 import io.wookoo.models.units.WeatherValueWithUnit
+import io.wookoo.models.weather.current.CurrentWeatherDomain
 
 fun io.wookoo.models.weather.current.CurrentWeatherDomain.asUiCity(
     convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,

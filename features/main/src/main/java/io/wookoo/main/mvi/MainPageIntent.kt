@@ -11,7 +11,6 @@ interface Completable : MainPageIntent
 data class OnGetCurrentForecast(val cachedResult: UiCurrentWeatherModel) :
     Completable
 
-
 // object MainPageIntent
 data object OnLoading : MainPageIntent
 data class OnNavigateToWeekly(val geoItemId: Long) :

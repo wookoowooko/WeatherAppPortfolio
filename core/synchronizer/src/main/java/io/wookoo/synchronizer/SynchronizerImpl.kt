@@ -8,7 +8,6 @@ import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
 import io.wookoo.domain.annotations.GeoCodingApi
 import io.wookoo.domain.annotations.WeatherApi
-import io.wookoo.models.settings.UserSettingsModel
 import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.domain.sync.ISynchronizer
 import io.wookoo.domain.utils.AppResult
@@ -17,6 +16,7 @@ import io.wookoo.mappers.currentweather.FromApiToDatabase.asCurrentWeatherEntity
 import io.wookoo.mappers.currentweather.FromApiToDatabase.asDailyEntity
 import io.wookoo.mappers.currentweather.FromApiToDatabase.asHourlyEntity
 import io.wookoo.mappers.weeklyweather.asWeeklyWeatherEntity
+import io.wookoo.models.settings.UserSettingsModel
 import io.wookoo.network.api.geocoding.IGeoCodingService
 import io.wookoo.network.api.weather.IForecastService
 import io.wookoo.network.dto.weather.weekly.WeeklyWeatherResponseDto

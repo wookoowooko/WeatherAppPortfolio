@@ -3,9 +3,9 @@ package io.wookoo.data.repo
 import io.wookoo.database.daos.WeeklyWeatherDao
 import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
-import io.wookoo.models.weather.weekly.WeeklyWeatherDomainUI
 import io.wookoo.domain.repo.IWeeklyForecastRepo
 import io.wookoo.mappers.weeklyweather.asWeeklyWeatherResponseModel
+import io.wookoo.models.weather.weekly.WeeklyWeatherDomainUI
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -17,7 +17,7 @@ class WeeklyForecastImpl @Inject constructor(
     private val weeklyWeatherDao: WeeklyWeatherDao,
 ) : IWeeklyForecastRepo {
 
-    override fun getWeeklyForecastByGeoItemId(geoNameId: Long): Flow<io.wookoo.models.weather.weekly.WeeklyWeatherDomainUI> {
+    override fun getWeeklyForecastByGeoItemId(geoNameId: Long): Flow<WeeklyWeatherDomainUI> {
         return weeklyWeatherDao.getWeeklyForecastByGeoItemId(geoNameId)
             .mapNotNull {
                 it?.asWeeklyWeatherResponseModel()

@@ -18,8 +18,8 @@ import io.wookoo.common.ext.asLocalizedUnitValueString
 import io.wookoo.designsystem.ui.components.SharedHourlyComponent
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.designsystem.ui.theme.medium
-import io.wookoo.models.weather.current.additional.HourlyModelItem
 import io.wookoo.main.mvi.MainPageState
+import io.wookoo.models.weather.current.additional.HourlyModelItem
 
 @Composable
 internal fun HourlyRow(
@@ -44,7 +44,8 @@ internal fun HourlyRow(
     ) {
         items(
             items = state.currentWeather.hourlyList,
-            key = { item -> item.time }) { item: io.wookoo.models.weather.current.additional.HourlyModelItem ->
+            key = { item -> item.time }
+        ) { item: io.wookoo.models.weather.current.additional.HourlyModelItem ->
 
             SharedHourlyComponent(
                 modifier = Modifier.padding(medium),

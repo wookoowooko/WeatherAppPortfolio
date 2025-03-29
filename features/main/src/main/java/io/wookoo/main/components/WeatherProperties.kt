@@ -20,7 +20,6 @@ import io.wookoo.models.units.WeatherUnit
 import io.wookoo.models.units.WeatherValueWithUnit
 import io.wookoo.models.units.WindDirection
 
-
 @Composable
 fun WeatherProperties(
     state: MainPageState,
@@ -61,7 +60,7 @@ fun WeatherProperties(
             ),
             title = stringResource(io.wookoo.androidresources.R.string.wind_gust_prop),
 
-            )
+        )
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_precipitation,
@@ -71,7 +70,7 @@ fun WeatherProperties(
             ),
             title = stringResource(io.wookoo.androidresources.R.string.precipitation_prop),
 
-            )
+        )
         SharedWeatherItem(
             modifier = Modifier.padding(medium),
             image = io.wookoo.design.system.R.drawable.ic_pressure_msl,
@@ -88,7 +87,7 @@ fun WeatherProperties(
             text = state.currentWeather.uvIndex,
             title = stringResource(io.wookoo.androidresources.R.string.uv_index),
 
-            )
+        )
     }
 }
 

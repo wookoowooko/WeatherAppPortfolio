@@ -2,9 +2,9 @@ package io.wookoo.main.mvi
 
 import io.wookoo.common.mvi.Store
 import io.wookoo.domain.annotations.StoreViewModelScope
-import io.wookoo.models.weather.current.CurrentWeatherDomain
 import io.wookoo.domain.repo.ICurrentForecastRepo
 import io.wookoo.domain.usecases.PrepareCurrentForecastUseCase
+import io.wookoo.models.weather.current.CurrentWeatherDomain
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted

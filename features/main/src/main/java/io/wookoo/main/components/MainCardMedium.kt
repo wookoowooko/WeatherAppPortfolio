@@ -41,7 +41,6 @@ import io.wookoo.models.units.WeatherCondition
 import io.wookoo.models.units.WeatherUnit
 import io.wookoo.models.units.WeatherValueWithUnit
 
-
 @Composable
 fun MainCardMedium(
     state: MainPageState,

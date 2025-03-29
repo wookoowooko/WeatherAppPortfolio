@@ -3,8 +3,7 @@ package io.wookoo.main.mvi
 import io.wookoo.common.mvi.Reducer
 import javax.inject.Inject
 
-class MainPageReducer @Inject constructor(
-) : Reducer<MainPageState, MainPageIntent> {
+class MainPageReducer @Inject constructor() : Reducer<MainPageState, MainPageIntent> {
 
     override fun reduce(state: MainPageState, intent: MainPageIntent): MainPageState {
         return when (intent) {

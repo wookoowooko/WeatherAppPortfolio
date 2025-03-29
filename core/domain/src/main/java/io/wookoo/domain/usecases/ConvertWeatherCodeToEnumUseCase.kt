@@ -1,6 +1,5 @@
 package io.wookoo.domain.usecases
 
-
 import io.wookoo.models.units.WeatherCondition
 import javax.inject.Inject
 

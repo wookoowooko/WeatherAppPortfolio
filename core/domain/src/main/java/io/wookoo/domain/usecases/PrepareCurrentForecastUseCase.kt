@@ -15,7 +15,6 @@ class PrepareCurrentForecastUseCase @Inject constructor(
     private val defineCorrectUnits: DefineCorrectUnitsUseCase,
 ) {
     suspend operator fun invoke(data: io.wookoo.models.weather.current.CurrentWeatherDomain): UiCurrentWeatherModel {
-
         val units = defineCorrectUnits.defineCorrectUnits()
 
         return UiCurrentWeatherModel(
@@ -70,4 +69,3 @@ class PrepareCurrentForecastUseCase @Inject constructor(
         )
     }
 }
-

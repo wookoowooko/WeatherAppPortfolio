@@ -2,6 +2,7 @@ package io.wookoo.domain.usecases
 
 import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.models.units.WeatherUnit
+import io.wookoo.models.units.WeatherUnits
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -9,7 +10,6 @@ class DefineCorrectUnitsUseCase @Inject constructor(
     private val dataStore: IDataStoreRepo,
 ) {
     suspend fun defineCorrectUnits(): WeatherUnits {
-
         val settings = dataStore.userSettings.first()
         return WeatherUnits(
             temperature = when (settings.temperatureUnit) {
@@ -29,10 +29,4 @@ class DefineCorrectUnitsUseCase @Inject constructor(
             }
         )
     }
-
-    data class WeatherUnits(
-        val temperature: WeatherUnit,
-        val precipitation: WeatherUnit,
-        val windSpeed: WeatherUnit,
-    )
 }

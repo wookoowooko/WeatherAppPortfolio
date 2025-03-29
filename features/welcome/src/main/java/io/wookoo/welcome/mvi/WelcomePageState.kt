@@ -1,7 +1,7 @@
 package io.wookoo.welcome.mvi
 
-import io.wookoo.models.geocoding.GeocodingDomainUI
 import io.wookoo.domain.utils.AppError
+import io.wookoo.models.geocoding.GeocodingDomainUI
 import io.wookoo.models.units.WeatherUnit
 
 data class WelcomePageState(

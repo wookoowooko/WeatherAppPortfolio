@@ -4,6 +4,6 @@ import io.wookoo.models.weather.weekly.additional.WeeklyWeatherModel
 
 data class WeeklyWeatherDomainUI(
     val isDay: Boolean,
-    val weekly: io.wookoo.models.weather.weekly.additional.WeeklyWeatherModel,
+    val weekly: WeeklyWeatherModel,
     val utcOffsetSeconds: Long
 )

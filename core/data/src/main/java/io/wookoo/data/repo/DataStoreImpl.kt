@@ -3,10 +3,10 @@ package io.wookoo.data.repo
 import io.wookoo.datastore.UserSettingsPreferences
 import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
-import io.wookoo.models.settings.UserSettingsModel
 import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.domain.utils.DataError
+import io.wookoo.models.settings.UserSettingsModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext

@@ -3,7 +3,6 @@ package io.wookoo.common.ext
 import androidx.annotation.StringRes
 import io.wookoo.models.units.WindDirection
 
-
 @StringRes
 fun WindDirection.asLocalizedString(): Int {
     return when (this) {
