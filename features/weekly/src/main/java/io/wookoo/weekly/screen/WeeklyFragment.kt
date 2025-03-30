@@ -89,7 +89,6 @@ class WeeklyFragment : Fragment() {
     private fun collectState() {
         viewModel.state.collectWithLifecycle(viewLifecycleOwner) { uiState: WeeklyState ->
             with(binding) {
-
                 val crossFade = when {
                     uiState.isLoading -> Crossfade.LOADING
                     else -> Crossfade.CONTENT

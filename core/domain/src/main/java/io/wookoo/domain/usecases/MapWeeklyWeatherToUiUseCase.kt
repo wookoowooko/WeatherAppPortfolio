@@ -160,10 +160,10 @@ class MapWeeklyWeatherToUiUseCase @Inject constructor(
                 units.precipitation
             ),
             showersSum =
-                WeatherValueWithUnit(
-                    this@asUiPrecipitationCardModel.weekly.precipitationData[selectedCalendarItemIndex].showers,
-                    units.precipitation
-                ),
+            WeatherValueWithUnit(
+                this@asUiPrecipitationCardModel.weekly.precipitationData[selectedCalendarItemIndex].showers,
+                units.precipitation
+            ),
             snowSum = WeatherValueWithUnit(
                 this@asUiPrecipitationCardModel.weekly.precipitationData[selectedCalendarItemIndex].snowfall,
                 if (units.precipitation == WeatherUnit.MM) WeatherUnit.CM else WeatherUnit.INCH

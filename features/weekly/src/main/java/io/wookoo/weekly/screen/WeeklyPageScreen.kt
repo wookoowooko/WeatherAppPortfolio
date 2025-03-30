@@ -39,7 +39,8 @@ private const val TAG = "WeeklyPageScreen"
 internal fun WeeklyPageScreen(
     onBackIconClick: () -> Unit,
     onShowSnackBar: (String) -> Unit,
-    navBackStackEntry: NavBackStackEntry) {
+    navBackStackEntry: NavBackStackEntry
+) {
     val viewModel = hiltViewModel<WeeklyViewModel>()
 
     val args = navBackStackEntry.toRoute<WeeklyRoute>()
@@ -48,7 +49,6 @@ internal fun WeeklyPageScreen(
         Log.d(TAG, "WeeklyPageScreen: ${args.geoItemId}")
     }
     val state = rememberFragmentState()
-
 
     val stateVm by viewModel.state.collectAsState()
 
