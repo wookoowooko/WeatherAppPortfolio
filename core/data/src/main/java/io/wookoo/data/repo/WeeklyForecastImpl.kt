@@ -40,25 +40,41 @@ class WeeklyForecastImpl @Inject constructor(
             }.flowOn(ioDispatcher)
     }
 
+    /**
+     * Synchronizes the weekly weather forecast for a given location.
+     *
+     * @param geoItemId The unique identifier of the geographical location.
+     * @return [AppResult] indicating success or failure of the synchronization.
+     */
     override suspend fun sync(geoItemId: Long): AppResult<Unit, DataError> =
         withContext(ioDispatcher) {
+
+            /**
+             * Retrieves user settings and validates required preferences.
+             */
             val settings = dataStore.userSettings.first()
             val temperatureUnit = settings.temperatureUnit
             val windSpeedUnit = settings.windSpeedUnit
             val precipitationUnit = settings.precipitationUnit
 
             if (temperatureUnit.isEmpty() || windSpeedUnit.isEmpty() || precipitationUnit.isEmpty()) {
-                return@withContext AppResult.Error(DataError.Local.UNKNOWN)
+                return@withContext AppResult.Error(DataError.Local.LOCAL_STORAGE_ERROR)
             }
 
-            val geoResult =
-                geoCodingService.getInfoByGeoItemId(
-                    geoItemId,
-                    Locale.getDefault().language.lowercase()
-                )
+            /**
+             * Fetches geo-information for the given location.
+             */
+            val geoResult = geoCodingService.getInfoByGeoItemId(
+                geoItemId,
+                Locale.getDefault().language.lowercase()
+            )
             if (geoResult is AppResult.Error) return@withContext AppResult.Error(geoResult.error)
 
             val geoInfo = (geoResult as AppResult.Success).data
+
+            /**
+             * Retrieves the weekly weather forecast for the given location.
+             */
             val weatherResult = forecastService.getWeeklyWeather(
                 latitude = geoInfo.latitude,
                 longitude = geoInfo.longitude,
@@ -70,6 +86,9 @@ class WeeklyForecastImpl @Inject constructor(
 
             val weatherResponse = (weatherResult as AppResult.Success).data
 
+            /**
+             * Saves the fetched weekly weather data into the local database.
+             */
             try {
                 weeklyWeatherDao.insertWeeklyForecast(
                     weatherResponse.week.asWeeklyWeatherEntity(

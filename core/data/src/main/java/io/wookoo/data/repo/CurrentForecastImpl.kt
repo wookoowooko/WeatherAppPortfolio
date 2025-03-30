@@ -82,23 +82,33 @@ class CurrentForecastImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
+    /**
+     * Synchronizes weather data for a given location.
+     *
+     * @param geoItemId The unique identifier of the geographical location.
+     * @return [AppResult] indicating success or failure of the synchronization.
+     */
     override suspend fun sync(geoItemId: Long): AppResult<Unit, DataError> {
         var result: AppResult<Unit, DataError>
         withContext(ioDispatcher) {
-            // 1. checkPrefs
+
+            /**
+             * Retrieves user settings and validates required preferences.
+             */
             val settings = dataStore.userSettings.first()
             val temperatureUnit = settings.temperatureUnit
             val windSpeedUnit = settings.windSpeedUnit
             val precipitationUnit = settings.precipitationUnit
 
             if (temperatureUnit.isEmpty() || windSpeedUnit.isEmpty() || precipitationUnit.isEmpty()) {
-                // todo do new exception
-                result = AppResult.Error(DataError.Local.UNKNOWN)
+                result = AppResult.Error(DataError.Local.LOCAL_STORAGE_ERROR)
                 return@withContext
             }
 
             try {
-                // 2. Get geo information
+                /**
+                 * Fetches geo-information for the given location.
+                 */
                 val geoResult = geoCodingService.getInfoByGeoItemId(
                     geoItemId = geoItemId,
                     language = Locale.getDefault().language.lowercase()
@@ -109,7 +119,9 @@ class CurrentForecastImpl @Inject constructor(
                 }
                 val geoInfo = (geoResult as AppResult.Success).data
 
-                // 2. Get weather data
+                /**
+                 * Retrieves the latest weather data for the given location.
+                 */
                 val weatherResult = forecastService.getCurrentWeather(
                     latitude = geoInfo.latitude,
                     longitude = geoInfo.longitude,
@@ -123,6 +135,9 @@ class CurrentForecastImpl @Inject constructor(
                 }
                 val weatherResponse = (weatherResult as AppResult.Success).data
 
+                /**
+                 * Saves the fetched weather data into the local database.
+                 */
                 currentWeatherDao.insertCurrentForecastWithDetails(
                     geo = GeoEntity(
                         geoNameId = geoItemId,
@@ -143,3 +158,4 @@ class CurrentForecastImpl @Inject constructor(
         return result
     }
 }
+

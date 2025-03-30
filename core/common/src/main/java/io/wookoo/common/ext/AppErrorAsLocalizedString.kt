@@ -24,6 +24,9 @@ fun AppError.asLocalizedString(context: Context): String {
         DataError.Local.CAN_NOT_SAVE_DATA_TO_DATASTORE -> context.getString(
             io.wookoo.androidresources.R.string.error_cannot_save_data
         )
+        DataError.Local.LOCAL_STORAGE_ERROR -> context.getString(
+            io.wookoo.androidresources.R.string.local_storage_error
+        )
 
         DataError.Hardware.LOCATION_SERVICE_DISABLED -> context.getString(
             io.wookoo.androidresources.R.string.location_service_disabled

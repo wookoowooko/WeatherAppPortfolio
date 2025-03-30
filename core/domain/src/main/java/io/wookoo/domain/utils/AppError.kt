@@ -17,6 +17,7 @@ sealed interface DataError : AppError {
         DISK_FULL,
         CANT_DELETE_DATA,
         CAN_NOT_SAVE_DATA_TO_DATASTORE,
+        LOCAL_STORAGE_ERROR,
         UNKNOWN
     }
 
