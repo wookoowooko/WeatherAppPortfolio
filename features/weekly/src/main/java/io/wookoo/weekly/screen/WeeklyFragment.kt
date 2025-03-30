@@ -27,7 +27,6 @@ import io.wookoo.weekly.mvi.WeeklyViewModel
 class WeeklyFragment : Fragment() {
 
     var onShowSnackBar: ((String) -> Unit)? = null
-    var onSetTitle: ((String) -> Unit)? = null
 
     private val binding by viewBinding(FragmentWeeklyBinding::bind)
     private val viewModel by viewModels<WeeklyViewModel>()
@@ -90,7 +89,7 @@ class WeeklyFragment : Fragment() {
     private fun collectState() {
         viewModel.state.collectWithLifecycle(viewLifecycleOwner) { uiState: WeeklyState ->
             with(binding) {
-                onSetTitle?.invoke(uiState.cityName)
+
                 val crossFade = when {
                     uiState.isLoading -> Crossfade.LOADING
                     else -> Crossfade.CONTENT

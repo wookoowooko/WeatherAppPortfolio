@@ -42,6 +42,7 @@ class WeeklyStore @Inject constructor(
             .onEach { response ->
                 val calendarItems = mapWeeklyWeatherToCalendarUiUseCase(response)
                 dispatch(OnSetCalendar(calendarItems))
+                dispatch(OnSetCityName(response.weekly.cityName))
                 dispatch(OnLoadWeeklyResponse(response))
             }
             .launchIn(storeScope)
@@ -54,9 +55,8 @@ class WeeklyStore @Inject constructor(
             .filter { (_, response) -> response != null }
             .flatMapLatest { (index, response) ->
                 flow {
-                    response?.let {
-                        val items = mapWeeklyWeatherToUiUseCase(it, index)
-                        emit(items)
+                    response?.let { weeklyForecast ->
+                        emit(mapWeeklyWeatherToUiUseCase(weeklyForecast, index))
                     }
                 }
             }

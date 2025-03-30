@@ -8,8 +8,8 @@ import io.wookoo.models.weather.weekly.WeeklyWeatherDomainUI
 import io.wookoo.models.weather.weekly.additional.WeeklyWeatherModel
 import io.wookoo.network.dto.weather.weekly.WeeklyWeatherDto
 
-fun WeeklyWeatherEntity.asWeeklyWeatherResponseModel(): io.wookoo.models.weather.weekly.WeeklyWeatherDomainUI {
-    return io.wookoo.models.weather.weekly.WeeklyWeatherDomainUI(
+fun WeeklyWeatherEntity.asWeeklyWeatherResponseModel(): WeeklyWeatherDomainUI {
+    return WeeklyWeatherDomainUI(
         isDay = isDay,
         weekly = this.asWeeklyWeatherModel(),
         utcOffsetSeconds = this.utcOffsetSeconds
@@ -17,8 +17,8 @@ fun WeeklyWeatherEntity.asWeeklyWeatherResponseModel(): io.wookoo.models.weather
     )
 }
 
-fun WeeklyWeatherEntity.asWeeklyWeatherModel(): io.wookoo.models.weather.weekly.additional.WeeklyWeatherModel {
-    return io.wookoo.models.weather.weekly.additional.WeeklyWeatherModel(
+fun WeeklyWeatherEntity.asWeeklyWeatherModel(): WeeklyWeatherModel {
+    return WeeklyWeatherModel(
         cityName = cityName,
         time = time,
         weatherCode = weatherCode,
@@ -31,7 +31,7 @@ fun WeeklyWeatherEntity.asWeeklyWeatherModel(): io.wookoo.models.weather.weekly.
         uvIndexMax = uvIndexMax,
         precipitationProbabilityMax = precipitationProbabilityMax,
         precipitationData = precipitationSum.mapIndexed { index, sum ->
-            io.wookoo.models.weather.current.additional.PrecipitationModel(
+            PrecipitationModel(
                 level = sum,
                 rain = rainSum.getOrNull(index) ?: 0.0,
                 showers = showersSum.getOrNull(index) ?: 0.0,

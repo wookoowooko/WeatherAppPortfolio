@@ -16,3 +16,4 @@ data class OnSetWeeklyForecast(
 ) : WeeklyIntent
 
 data class OnLoadWeeklyResponse(val weatherResponse: WeeklyWeatherDomainUI) : WeeklyIntent
+data class OnSetCityName(val cityName: String) : WeeklyIntent

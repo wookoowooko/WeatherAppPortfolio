@@ -29,6 +29,7 @@ class WeeklyReducer @Inject constructor() : Reducer<WeeklyState, WeeklyIntent> {
 
             is OnLoadWeeklyResponse -> state.copy(weatherResponse = intent.weatherResponse)
             is OnSetWeeklyForecast -> state.copy(mainWeatherRecyclerItems = intent.items)
+            is OnSetCityName -> state.copy(cityName = intent.cityName)
         }
     }
 
