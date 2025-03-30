@@ -58,11 +58,6 @@ interface CurrentWeatherDao {
     )
     fun getAllCurrentForecastLocations(): Flow<List<WeatherWithDetails>>
 
-    @CoveredByTest
-    @Transaction
-    @Query("DELETE FROM geo_entity WHERE geo_name_id = :geoItemId")
-    suspend fun deleteCurrentForecastEntryByGeoId(geoItemId: Long)
-
     @Query("SELECT last_update FROM current_weather WHERE currentId = :geoItemId")
     suspend fun getLastUpdateForCurrentForecast(geoItemId: Long): Long
 

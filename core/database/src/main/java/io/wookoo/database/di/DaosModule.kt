@@ -14,4 +14,7 @@ internal object DaosModule {
 
     @Provides
     fun providesWeeklyWeatherDao(database: WeatherDataBase) = database.weeklyWeatherDao()
+
+    @Provides
+    fun provideDeleteForecastsDao(database: WeatherDataBase) = database.deleteForecastsDao()
 }

@@ -36,18 +36,6 @@ class CurrentForecastImpl @Inject constructor(
     private val dataStore: IDataStoreRepo,
 ) : ICurrentForecastRepo, Syncable {
 
-    override suspend fun deleteCurrentForecastEntryByGeoId(geoItemId: Long): AppResult<Unit, DataError> {
-        return withContext(ioDispatcher) {
-            try {
-                currentWeatherDao.deleteCurrentForecastEntryByGeoId(geoItemId)
-                AppResult.Success(Unit)
-            } catch (e: SQLException) {
-                println(e)
-                AppResult.Error(DataError.Local.CANT_DELETE_DATA)
-            }
-        }
-    }
-
     override fun getCurrentForecast(geoNameId: Long): Flow<io.wookoo.models.weather.current.CurrentWeatherDomain> {
         return currentWeatherDao.getCurrentForecast(geoNameId)
             .mapNotNull {

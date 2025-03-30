@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import io.wookoo.database.converters.PrimitiveConverters
 import io.wookoo.database.daos.CurrentWeatherDao
+import io.wookoo.database.daos.DeleteForecastsDao
 import io.wookoo.database.daos.WeeklyWeatherDao
 import io.wookoo.database.dbo.CurrentWeatherEntity
 import io.wookoo.database.dbo.DailyEntity
@@ -35,4 +36,5 @@ abstract class WeatherDataBase : RoomDatabase() {
 
     abstract fun currentWeatherDao(): CurrentWeatherDao
     abstract fun weeklyWeatherDao(): WeeklyWeatherDao
+    abstract fun deleteForecastsDao(): DeleteForecastsDao
 }

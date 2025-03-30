@@ -5,15 +5,13 @@ import io.wookoo.database.weatherdatabase.TestData.dailyWeather
 import io.wookoo.database.weatherdatabase.TestData.geoEntity
 import io.wookoo.database.weatherdatabase.TestData.hourlyWeather
 import io.wookoo.database.weatherdatabase.TestData.testWeatherWithDetails
-import junit.framework.TestCase.assertNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-internal class CurrentWeatherDaoTest : WeatherDataBaseTest() {
+internal class CurrentForecastDaoTest : WeatherDataBaseTest() {
 
     @Test
     fun insertAndGetCurrentForecast() = runTest {
@@ -73,21 +71,6 @@ internal class CurrentWeatherDaoTest : WeatherDataBaseTest() {
         }
         val result = currentWeatherDao.getCurrentForecastGeoItemIds().first()
         assertEquals(list, result)
-    }
-
-    @Test
-    fun deleteCurrentForecastEntryByGeoIdCascade() = runTest {
-        currentWeatherDao.insertCurrentForecastWithDetails(
-            geoEntity.copy(geoItemId = 2L),
-            currentWeather,
-            hourlyWeather,
-            dailyWeather
-        )
-        assertNotNull(currentWeatherDao.getCurrentForecast(2L).first())
-
-        currentWeatherDao.deleteCurrentForecastEntryByGeoId(2L)
-
-        assertNull(currentWeatherDao.getCurrentForecast(2L).first())
     }
 
     @Test

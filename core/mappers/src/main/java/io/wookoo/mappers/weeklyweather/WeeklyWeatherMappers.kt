@@ -79,7 +79,7 @@ fun WeeklyWeatherDto.asWeeklyWeatherEntity(
         windGustsMax = windGustsMax,
         windDirectionMax = windDirectionMax,
         isDay = isDay,
-        geoNameId = geoNameId,
+        geoItemId = geoNameId,
         cityName = cityName,
         utcOffsetSeconds = utcOffsetSeconds
     )

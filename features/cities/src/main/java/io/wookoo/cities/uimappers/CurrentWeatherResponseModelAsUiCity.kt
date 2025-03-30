@@ -7,7 +7,7 @@ import io.wookoo.models.units.WeatherUnit
 import io.wookoo.models.units.WeatherValueWithUnit
 import io.wookoo.models.weather.current.CurrentWeatherDomain
 
-fun io.wookoo.models.weather.current.CurrentWeatherDomain.asUiCity(
+fun CurrentWeatherDomain.asUiCity(
     convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,
     convertDateUseCase: ConvertDateUseCase,
 ): UiCity {

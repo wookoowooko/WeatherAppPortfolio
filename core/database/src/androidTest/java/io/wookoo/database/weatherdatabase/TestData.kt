@@ -4,6 +4,7 @@ import io.wookoo.database.dbo.CurrentWeatherEntity
 import io.wookoo.database.dbo.DailyEntity
 import io.wookoo.database.dbo.GeoEntity
 import io.wookoo.database.dbo.HourlyEntity
+import io.wookoo.database.dbo.weekly.WeeklyWeatherEntity
 import io.wookoo.database.relations.WeatherWithDetails
 
 internal object TestData {
@@ -59,5 +60,31 @@ internal object TestData {
         currentWeather,
         hourlyWeather,
         dailyWeather
+    )
+
+    val testWeeklyForecastEntity = WeeklyWeatherEntity(
+        geoItemId = 1L,
+        cityName = "Moscow",
+        isDay = true,
+        time = listOf(1609459200L, 1609462800L, 1609466400L),
+        weatherCode = listOf(200, 201, 202),
+        tempMax = listOf(14.0, 15.0, 16.0),
+        tempMin = listOf(10.0, 11.0, 12.0),
+        apparentTempMax = listOf(12.0, 13.0, 14.0),
+        apparentTempMin = listOf(8.0, 9.0, 10.0),
+        sunset = listOf(1609490400L),
+        sunrise = listOf(1609444800L),
+        dayLightDuration = listOf(200.0, 201.0, 202.0),
+        sunshineDuration = listOf(200.0, 201.0, 202.0),
+        uvIndexMax = listOf(6.0, 7.0, 8.0),
+        precipitationSum = listOf(1.0, 2.0, 3.0),
+        rainSum = listOf(1.0, 2.0, 3.0),
+        snowfallSum = listOf(1.0, 2.0, 3.0),
+        showersSum = listOf(1.0, 2.0, 3.0),
+        precipitationProbabilityMax = listOf(1.0, 2.0, 3.0),
+        windSpeedMax = listOf(1.0, 2.0, 3.0),
+        windDirectionMax = listOf(1.0, 2.0, 3.0),
+        windGustsMax = listOf(1.0, 2.0, 3.0),
+        utcOffsetSeconds = 123124124L
     )
 }
