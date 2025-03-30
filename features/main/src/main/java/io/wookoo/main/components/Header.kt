@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -47,24 +46,16 @@ internal fun Header(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
             ) {
-                if (!state.isGeolocationSearchInProgress) {
-                    Icon(
-                        Icons.Default.LocationOn,
-                        null,
-                        modifier = Modifier
-                            .padding(end = small)
-                            .size(size_30)
-                    )
-                } else {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .padding(end = small)
-                            .size(size_40)
-                    )
-                }
+                Icon(
+                    Icons.Default.LocationOn,
+                    null,
+                    modifier = Modifier
+                        .padding(end = small)
+                        .size(size_30)
+                )
                 SharedHeadlineText(
                     maxLines = 1,
-                    text = state.city,
+                    text = state.currentWeather.city,
                     modifier = Modifier.basicMarquee(
                         iterations = Int.MAX_VALUE,
                         repeatDelayMillis = 300,
@@ -74,7 +65,7 @@ internal fun Header(
             }
 
             SharedText(
-                text = state.country,
+                text = state.currentWeather.country,
                 maxLines = 2,
             )
             SharedText(
@@ -130,21 +121,3 @@ internal fun Header(
         }
     }
 }
-
-// @Composable
-// @Preview(showBackground = true)
-// private fun HeaderPreview() {
-//    WeatherAppPortfolioTheme {
-//        Header(
-//            state = MainPageState(
-//                city = "London",
-//                country = "UK",
-//                currentWeather = UiCurrentWeatherModel(
-//                    sunsetTime = "06:00",
-//                    sunriseTime = "18:00",
-//                    date = "Sunday, 23 Mar."
-//                )
-//            )
-//        )
-//    }
-// }

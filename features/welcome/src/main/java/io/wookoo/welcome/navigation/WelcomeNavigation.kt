@@ -68,6 +68,7 @@ private fun WelcomePageScreenRoot(
                         sideEffect.isNeedToUpdate
                     )
 
+                    null -> Unit
                 }
             }
         }

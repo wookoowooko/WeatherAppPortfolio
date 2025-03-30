@@ -42,6 +42,7 @@ androidxWork = "2.10.0"
 hiltExt = "1.2.0"
 location = "21.3.0"
 androidxCoreSplashscreen = "1.0.1"
+jetbrainsKotlinJvm = "2.1.10"
 
 
 [libraries]
@@ -173,6 +174,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 google-protobuf-gp = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 
 
 

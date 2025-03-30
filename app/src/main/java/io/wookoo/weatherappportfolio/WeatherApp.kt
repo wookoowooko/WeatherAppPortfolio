@@ -14,12 +14,10 @@ class WeatherApp : Application(), Configuration.Provider {
     lateinit var workerFactory: HiltWorkerFactory
 
     override val workManagerConfiguration: Configuration
-        get() = Configuration.Builder()
-            .setWorkerFactory(workerFactory)
-            .build()
+        get() = Configuration.Builder().setWorkerFactory(workerFactory).build()
 
     override fun onCreate() {
         super.onCreate()
-        Sync.initializePeriodic(this@WeatherApp.applicationContext)
+        Sync.initializePeriodic(this)
     }
 }

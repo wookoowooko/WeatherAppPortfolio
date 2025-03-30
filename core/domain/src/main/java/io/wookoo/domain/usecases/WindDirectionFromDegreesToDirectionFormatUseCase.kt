@@ -1,6 +1,6 @@
 package io.wookoo.domain.usecases
 
-import io.wookoo.domain.units.WindDirection
+import io.wookoo.models.units.WindDirection
 import javax.inject.Inject
 
 class WindDirectionFromDegreesToDirectionFormatUseCase @Inject constructor() {

@@ -9,4 +9,8 @@ dependencies{
         implementation(kotlinx.datetime)
         testImplementation(junit)
     }
+    projects.core.apply {
+        api(models)
+    }
+
 }

@@ -3,12 +3,12 @@ package io.wookoo.weekly.adapters
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
+import io.wookoo.models.ui.DisplayableItem
 import io.wookoo.weekly.delegates.infocard.cardInfoAdapterDelegate
 import io.wookoo.weekly.delegates.other.otherAdapterDelegate
 import io.wookoo.weekly.delegates.precipitation.precipitationCardAdapterDelegate
 import io.wookoo.weekly.delegates.suncycles.sunCyclesCardAdapterDelegate
 import io.wookoo.weekly.delegates.windcard.windCardAdapterDelegate
-import io.wookoo.weekly.uimodels.DisplayableItem
 
 class MainAdapter : AsyncListDifferDelegationAdapter<DisplayableItem>(diffCallback) {
     init {

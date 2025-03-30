@@ -5,9 +5,5 @@ import io.wookoo.domain.utils.DataError
 import kotlinx.coroutines.flow.Flow
 
 interface ILocationProvider {
-//    fun getGeolocationFromGpsSensors(
-//        onSuccessfullyLocationReceived: (latitude: Double, longitude: Double) -> Unit,
-//        onError: (AppError) -> Unit,
-//    )
     fun getGeolocationFromGpsSensors(): Flow<AppResult<Pair<Double, Double>, DataError.Hardware>>
 }

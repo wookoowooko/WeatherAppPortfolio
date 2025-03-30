@@ -75,6 +75,8 @@ private fun CitiesScreenRoot(
                         sideEffect.geoItemId,
                         sideEffect.isNeedToUpdate
                     )
+
+                    null -> Unit
                 }
             }
         }

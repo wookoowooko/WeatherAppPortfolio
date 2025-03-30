@@ -1,6 +1,5 @@
 package io.wookoo.main.screen
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
@@ -48,8 +47,6 @@ fun MainPageScreen(
     state: MainPageState,
     onIntent: (MainPageIntent) -> Unit,
 ) {
-    BackHandler(enabled = state.isGeolocationSearchInProgress) {}
-
     Crossfade(
         animationSpec = tween(1000),
         targetState = when {
@@ -120,7 +117,6 @@ fun MainPageScreen(
                                     Spacer(modifier = Modifier.height(medium))
                                     WeatherProperties(state = state)
                                     TodayRowTitle(
-                                        state = state,
                                         modifier = Modifier.padding(horizontal = large),
                                         onNextSevenDaysClick = {
                                             onIntent(OnNavigateToWeekly(geoItemId = state.currentWeather.geoNameId))
