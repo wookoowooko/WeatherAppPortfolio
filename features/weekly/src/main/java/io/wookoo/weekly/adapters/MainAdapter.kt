@@ -12,6 +12,7 @@ import io.wookoo.weekly.delegates.windcard.windCardAdapterDelegate
 
 class MainAdapter : AsyncListDifferDelegationAdapter<DisplayableItem>(diffCallback) {
     init {
+        this.setHasStableIds(true)
         delegatesManager
             .addDelegate(cardInfoAdapterDelegate())
             .addDelegate(windCardAdapterDelegate())

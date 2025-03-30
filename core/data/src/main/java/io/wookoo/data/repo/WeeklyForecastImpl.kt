@@ -48,7 +48,6 @@ class WeeklyForecastImpl @Inject constructor(
      */
     override suspend fun sync(geoItemId: Long): AppResult<Unit, DataError> =
         withContext(ioDispatcher) {
-
             /**
              * Retrieves user settings and validates required preferences.
              */

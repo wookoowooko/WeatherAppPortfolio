@@ -38,12 +38,12 @@ fun WeeklyWeatherEntity.asWeeklyWeatherModel(): WeeklyWeatherModel {
                 snowfall = snowfallSum.getOrNull(index) ?: 0.0
             )
         },
-        sunCycles = io.wookoo.models.weather.current.additional.SunCyclesModel(
+        sunCycles = SunCyclesModel(
             sunrise = sunrise,
             sunset = sunset
         ),
         windData = windSpeedMax.mapIndexed { index, speed ->
-            io.wookoo.models.weather.current.additional.WindModel(
+            WindModel(
                 speed = speed,
                 direction = windDirectionMax.getOrNull(index)?.toInt() ?: 0,
                 gust = windGustsMax.getOrNull(index) ?: 0.0

@@ -42,14 +42,8 @@ internal fun WeeklyPageScreen(
     navBackStackEntry: NavBackStackEntry
 ) {
     val viewModel = hiltViewModel<WeeklyViewModel>()
-
     val args = navBackStackEntry.toRoute<WeeklyRoute>()
-
-    LaunchedEffect(Unit) {
-        Log.d(TAG, "WeeklyPageScreen: ${args.geoItemId}")
-    }
     val state = rememberFragmentState()
-
     val stateVm by viewModel.state.collectAsState()
 
     Scaffold(

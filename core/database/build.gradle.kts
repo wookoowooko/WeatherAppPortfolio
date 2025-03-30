@@ -11,4 +11,6 @@ android {
 
 dependencies {
     api(projects.core.domain)
+
+    androidTestImplementation(libs.bundles.android.test)
 }

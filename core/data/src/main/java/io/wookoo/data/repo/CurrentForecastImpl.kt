@@ -91,7 +91,6 @@ class CurrentForecastImpl @Inject constructor(
     override suspend fun sync(geoItemId: Long): AppResult<Unit, DataError> {
         var result: AppResult<Unit, DataError>
         withContext(ioDispatcher) {
-
             /**
              * Retrieves user settings and validates required preferences.
              */
@@ -140,7 +139,7 @@ class CurrentForecastImpl @Inject constructor(
                  */
                 currentWeatherDao.insertCurrentForecastWithDetails(
                     geo = GeoEntity(
-                        geoNameId = geoItemId,
+                        geoItemId = geoItemId,
                         countryName = geoInfo.country.orEmpty(),
                         cityName = geoInfo.name,
                         utcOffsetSeconds = weatherResponse.utcOffsetSeconds,
@@ -158,4 +157,3 @@ class CurrentForecastImpl @Inject constructor(
         return result
     }
 }
-
