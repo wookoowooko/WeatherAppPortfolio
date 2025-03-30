@@ -74,7 +74,7 @@ internal fun BottomContent(
                 .padding(medium),
             onPagerIndicatorClick = { pos ->
                 scope.launch {
-                    pagerState.animateScrollToPage(pos)
+                    pagerState.scrollToPage(pos)
                 }
             }
         )

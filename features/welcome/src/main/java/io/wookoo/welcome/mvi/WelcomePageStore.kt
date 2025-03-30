@@ -155,6 +155,7 @@ class WelcomePageStore @Inject constructor(
                     dispatch(OnSuccessFetchReversGeocodingFromApi(geoName))
                 } ?: run {
                     dispatch(OnErrorFetchReversGeocodingFromApi)
+                    // TODO: new error
                     emitSideEffect(WelcomeSideEffect.ShowSnackBar(DataError.Remote.UNKNOWN))
                 }
             }

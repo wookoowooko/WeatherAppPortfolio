@@ -1,7 +1,6 @@
 package io.wookoo.main.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -20,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.designsystem.ui.theme.ultraSmall
+import io.wookoo.designsystem.ui.utils.clickableSingle
 
 @Composable
 fun PagerIndicator(
@@ -40,7 +40,11 @@ fun PagerIndicator(
                 Icon(
                     Icons.Default.NearMe,
                     null,
-                    modifier = Modifier.size(large),
+                    modifier = Modifier
+                        .size(large)
+                        .clickableSingle {
+                            onPagerIndicatorClick(iteration)
+                        },
                     tint = color
                 )
             } else {
@@ -50,7 +54,7 @@ fun PagerIndicator(
                         .clip(CircleShape)
                         .background(color)
                         .size(medium)
-                        .clickable { onPagerIndicatorClick(iteration) }
+                        .clickableSingle { onPagerIndicatorClick(iteration) }
                 )
             }
         }
