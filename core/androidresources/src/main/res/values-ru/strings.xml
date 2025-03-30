@@ -117,6 +117,7 @@
     <string name="error_disk_full">Недостаточно места на диске</string>
     <string name="error_cannot_delete_data">Невозможно удалить данные</string>
     <string name="error_cannot_save_data">Не удалось сохранить данные</string>
+    <string name="local_storage_error">Ошибка хранилища</string>
     <string name="location_service_disabled">Служба определения местоположения отключена</string>
 
     <!-- Города -->

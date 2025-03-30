@@ -120,6 +120,7 @@
     <string name="error_cannot_delete_data">Can\'t delete data</string>
     <string name="error_cannot_save_data">Failed to save data</string>
     <string name="location_service_disabled">Location service disabled</string>
+    <string name="local_storage_error">Local storage error</string>
 
     <!--Cities-->
     <string name="locations">Locations</string>

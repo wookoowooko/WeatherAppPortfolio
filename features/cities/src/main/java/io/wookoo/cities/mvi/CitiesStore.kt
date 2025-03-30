@@ -163,6 +163,7 @@ class CitiesStore @Inject constructor(
                     dispatch(OnSuccessFetchReversGeocodingFromApi(geoName))
                 } ?: run {
                     dispatch(OnErrorFetchReversGeocodingFromApi)
+                        /// TODO: new error
                     emitSideEffect(CitiesSideEffect.ShowSnackBar(DataError.Remote.UNKNOWN))
                 }
             }
