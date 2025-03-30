@@ -5,9 +5,11 @@
     <string name="celsius">°C</string>
     <string name="unit_fahrenheit">°F</string>
     <string name="unit_kmh">km/h</string>
+    <string name="unit_mph">mp/h</string>
     <string name="unit_meter_sec">m/s</string>
     <string name="centimetres_unit">cm</string>
     <string name="millimeters_unit">mm</string>
+    <string name="inch_unit">inch</string>
     <string name="percent_unit">"%"</string>
     <string name="pressure_unit">hPa</string>
     <string name="sunrise_time">Sunrise time</string>
@@ -122,4 +124,7 @@
     <!--Cities-->
     <string name="locations">Locations</string>
     <string name="find_me_button">Find me</string>
+
+    <!--Settings-->
+    <string name="settings">Settings</string>
 </resources>

@@ -15,20 +15,20 @@ import kotlinx.coroutines.flow.Flow
 interface CurrentWeatherDao {
 
     @Query("UPDATE geo_entity SET is_current = 1 WHERE geo_name_id = :geoItemId")
-    fun setCurrentLocation(geoItemId: Long)
+    fun setSelectedCurrentForecastLocationAsDefault(geoItemId: Long)
 
     @Query("UPDATE geo_entity SET is_current = 0 WHERE geo_name_id != :geoItemId")
-    fun clearOtherLocations(geoItemId: Long)
+    fun clearOtherCurrentForecastLocations(geoItemId: Long)
 
     @Transaction
-    fun updateCurrentLocation(geoItemId: Long) {
-        setCurrentLocation(geoItemId)
-        clearOtherLocations(geoItemId)
+    fun updateCurrentForecastLocation(geoItemId: Long) {
+        setSelectedCurrentForecastLocationAsDefault(geoItemId)
+        clearOtherCurrentForecastLocations(geoItemId)
     }
 
     @Transaction
     @Query("SELECT * FROM geo_entity WHERE geo_name_id = :geoItemId")
-    fun getCurrentWeather(geoItemId: Long): Flow<WeatherWithDetails?>
+    fun getCurrentForecast(geoItemId: Long): Flow<WeatherWithDetails?>
 
     @Query(
         """
@@ -39,7 +39,7 @@ interface CurrentWeatherDao {
         city_name ASC
     """
     )
-    fun getCurrentWeatherIds(): Flow<List<Long>>
+    fun getCurrentForecastGeoItemIds(): Flow<List<Long>>
 
     @Transaction
     @Query(
@@ -50,17 +50,14 @@ interface CurrentWeatherDao {
         city_name ASC
         """
     )
-    fun getAllCitiesCurrentWeather(): Flow<List<WeatherWithDetails>>
+    fun getAllCurrentForecastLocations(): Flow<List<WeatherWithDetails>>
 
     @Transaction
     @Query("DELETE FROM geo_entity WHERE geo_name_id = :geoItemId")
-    suspend fun deleteWeatherWithDetailsByGeoId(geoItemId: Long)
+    suspend fun deleteCurrentForecastEntryByGeoId(geoItemId: Long)
 
     @Query("SELECT last_update FROM current_weather WHERE currentId = :geoItemId")
-    suspend fun getLastUpdateForCurrent(geoItemId: Long): Long
-
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    suspend fun insertGeo(geo: GeoEntity): Long
+    suspend fun getLastUpdateForCurrentForecast(geoItemId: Long): Long
 
     @Query(
         """
@@ -90,7 +87,7 @@ interface CurrentWeatherDao {
     suspend fun insertDaily(daily: DailyEntity)
 
     @Transaction
-    suspend fun insertFullWeather(
+    suspend fun insertCurrentForecastWithDetails(
         geo: GeoEntity,
         current: CurrentWeatherEntity,
         hourly: HourlyEntity,

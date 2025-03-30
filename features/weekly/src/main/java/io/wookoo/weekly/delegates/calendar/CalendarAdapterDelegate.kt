@@ -4,8 +4,8 @@ import com.google.android.material.color.MaterialColors
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import io.wookoo.common.ext.asLocalizedUiWeatherMap
 import io.wookoo.design.system.databinding.CalendarRecyclerItemBinding
-import io.wookoo.weekly.uimodels.DisplayableItem
-import io.wookoo.weekly.uimodels.UiCalendarDayModel
+import io.wookoo.models.ui.DisplayableItem
+import io.wookoo.models.ui.UiCalendarDayModel
 
 internal fun calendarAdapterDelegate(
     onItemClick: (index: Int) -> Unit,

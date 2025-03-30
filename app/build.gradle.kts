@@ -28,8 +28,6 @@ dependencies {
 
     projects.apply {
         implementation(core.data)
-        implementation(core.androidresources)
-        implementation(core.geolocation)
         implementation(core.permissions)
         implementation(core.connectivityObserver)
         implementation(core.worker)
@@ -37,6 +35,7 @@ dependencies {
         implementation(features.welcome)
         implementation(features.weekly)
         implementation(features.cities)
+        implementation(features.settings)
     }
 
     libs.apply {

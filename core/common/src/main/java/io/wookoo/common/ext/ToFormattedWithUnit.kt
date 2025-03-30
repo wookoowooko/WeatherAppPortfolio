@@ -1,7 +1,7 @@
 package io.wookoo.common.ext
 
 import android.content.Context
-import io.wookoo.domain.units.WeatherUnit
+import io.wookoo.models.units.WeatherUnit
 import java.util.Locale
 
 fun Number.asLocalizedUnitValueString(

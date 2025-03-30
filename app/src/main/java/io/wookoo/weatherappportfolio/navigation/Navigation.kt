@@ -13,6 +13,8 @@ import io.wookoo.cities.navigation.citiesScreen
 import io.wookoo.cities.navigation.navigateToCities
 import io.wookoo.main.navigation.MainRoute
 import io.wookoo.main.navigation.mainPage
+import io.wookoo.settings.navigation.navigateToSettingsPage
+import io.wookoo.settings.navigation.settingsPage
 import io.wookoo.weekly.navigation.navigateToWeeklyPage
 import io.wookoo.weekly.navigation.weeklyPage
 import io.wookoo.welcome.navigation.WelcomeRoute
@@ -59,11 +61,11 @@ internal fun Navigation(
         navigation<WelcomeGraph>(
             startDestination = WelcomeRoute,
 
-            ) {
+        ) {
             welcomePage(
                 onRequestLocationPermission = onRequestLocationPermission,
                 onShowSnackBar = onShowSnackBar,
-                onSyncRequest = onSyncRequest,
+                onSyncRequest = onSyncRequest
             )
         }
 
@@ -71,14 +73,16 @@ internal fun Navigation(
             startDestination = MainRoute,
         ) {
             mainPage(
-                onRequestLocationPermissions = onRequestLocationPermission,
                 onNavigateToWeekly = { geoItemId ->
                     navController.navigateToWeeklyPage(geoItemId)
                 },
                 onNavigateToCities = {
                     navController.navigateToCities()
                 },
-                onShowSnackBar = onShowSnackBar
+                onShowSnackBar = onShowSnackBar,
+                onNavigateToSettings = {
+                    navController.navigateToSettingsPage()
+                }
             )
             weeklyPage(
                 onBackIconClick = {
@@ -95,8 +99,13 @@ internal fun Navigation(
                 onShowSnackBar = onShowSnackBar,
                 onSyncRequest = onSyncRequest
             )
-        }
 
+            settingsPage(
+                onBackIconClick = {
+                    if (navController.canGoBack) navController.popBackStack()
+                }
+            )
+        }
     }
 }
 

@@ -6,7 +6,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.domain.service.IConnectivityObserver
-import io.wookoo.domain.settings.UserSettingsModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -25,8 +24,7 @@ fun rememberAppState(
     ) {
         AppState(
             coroutineScope = coroutineScope,
-            networkMonitor = networkMonitor,
-            dataStore = dataStore,
+            networkMonitor = networkMonitor
         )
     }
 }
@@ -35,7 +33,6 @@ fun rememberAppState(
 class AppState(
     coroutineScope: CoroutineScope,
     networkMonitor: IConnectivityObserver,
-    dataStore: IDataStoreRepo,
 ) {
 
     val isOffline = networkMonitor.isOnline
@@ -45,10 +42,4 @@ class AppState(
             started = SharingStarted.WhileSubscribed(5_000L),
             initialValue = false,
         )
-
-    val settings = dataStore.userSettings.stateIn(
-        scope = coroutineScope,
-        started = SharingStarted.WhileSubscribed(5_000L),
-        initialValue = UserSettingsModel(),
-    )
 }

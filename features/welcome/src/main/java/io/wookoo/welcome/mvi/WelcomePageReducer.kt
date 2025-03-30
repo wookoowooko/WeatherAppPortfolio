@@ -36,12 +36,31 @@ class WelcomePageReducer @Inject constructor() :
 
             is OnSuccessSearchLocation -> state.copy(results = intent.results)
 
+            is UpdateSelectedTemperature -> {
+                val dataUnit =
+                    state.temperatureUnitOptions.find { it.apiValue == intent.temperatureUnit }
+                state.copy(selectedTemperatureUnit = dataUnit ?: state.selectedTemperatureUnit)
+            }
+
+            is UpdateSelectedWindSpeed -> {
+                val dataUnit =
+                    state.windSpeedUnitOptions.find { it.apiValue == intent.windSpeedUnit }
+                state.copy(selectedWindSpeedUnit = dataUnit ?: state.selectedWindSpeedUnit)
+            }
+
+            is UpdateSelectedPrecipitation -> {
+                val dataUnit =
+                    state.precipitationUnitOptions.find { it.apiValue == intent.precipitationUnit }
+                state.copy(selectedPrecipitationUnit = dataUnit ?: state.selectedPrecipitationUnit)
+            }
+
             is Completable ->
                 state.copy(isLoading = false, isGeolocationSearchInProgress = false).let {
                     when (intent) {
                         is OnSuccessFetchReversGeocodingFromApi -> it.copy(
                             geoItem = intent.gpsItem,
                         )
+
                         is OnQueryIsEmptyClearResults -> it.copy(results = emptyList())
                         else -> it
                     }

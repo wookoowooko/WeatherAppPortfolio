@@ -4,8 +4,8 @@ import android.util.Log
 import io.wookoo.common.mvi.Store
 import io.wookoo.domain.annotations.StoreViewModelScope
 import io.wookoo.domain.repo.IDataStoreRepo
+import io.wookoo.domain.repo.IGeoRepo
 import io.wookoo.domain.repo.ILocationProvider
-import io.wookoo.domain.repo.IMasterWeatherRepo
 import io.wookoo.domain.service.IConnectivityObserver
 import io.wookoo.domain.utils.AppError
 import io.wookoo.domain.utils.DataError
@@ -30,7 +30,7 @@ import javax.inject.Inject
 
 class WelcomePageStore @Inject constructor(
     reducer: WelcomePageReducer,
-    private val masterRepository: IMasterWeatherRepo,
+    private val geoRepository: IGeoRepo,
     private val dataStore: IDataStoreRepo,
     private val weatherLocationManager: ILocationProvider,
     @StoreViewModelScope private val storeScope: CoroutineScope,
@@ -41,6 +41,19 @@ class WelcomePageStore @Inject constructor(
     reducer = reducer,
 ) {
     private var searchJob: Job? = null
+
+    private val settings = dataStore.userSettings
+        .onEach { settings ->
+            Log.d(TAG, "$settings")
+            dispatch(UpdateSelectedTemperature(settings.temperatureUnit))
+            dispatch(UpdateSelectedWindSpeed(settings.windSpeedUnit))
+            dispatch(UpdateSelectedPrecipitation(settings.precipitationUnit))
+        }
+        .stateIn(
+            scope = storeScope,
+            started = SharingStarted.Eagerly,
+            null
+        )
 
     private val isOffline = networkMonitor.isOnline
         .map(Boolean::not)
@@ -55,10 +68,19 @@ class WelcomePageStore @Inject constructor(
 
     override fun initializeObservers() {
         observeSearchQuery()
+        settings
     }
 
     override fun handleSideEffects(intent: WelcomePageIntent) {
         when (intent) {
+            is SaveSelectedTemperature -> storeScope.launch { dataStore.updateTemperatureUnit(intent.temperatureUnit) }
+            is SaveSelectedWindSpeed -> storeScope.launch { dataStore.updateWindSpeedUnit(intent.windSpeedUnit) }
+            is SaveSelectedPrecipitation -> storeScope.launch {
+                dataStore.updatePrecipitationUnit(
+                    intent.precipitationUnit
+                )
+            }
+
             is OnSearchGeoLocationClick -> storeScope.launch { getGeolocationFromGpsSensors() }
             is OnContinueButtonClick -> storeScope.launch { saveUserOnboardingDone() }
             is OnAppBarExpandChange ->
@@ -89,7 +111,7 @@ class WelcomePageStore @Inject constructor(
     // Functions
     private fun searchLocationFromApi(query: String) = storeScope.launch {
         dispatch(OnLoading)
-        masterRepository.searchLocationFromApiByQuery(query, language = "ru")
+        geoRepository.searchLocationFromApiByQuery(query, language = "ru")
             .onSuccess { searchResults ->
                 dispatch(OnSuccessSearchLocation(results = searchResults.results))
             }
@@ -101,28 +123,6 @@ class WelcomePageStore @Inject constructor(
                 dispatch(OnLoadingFinish)
             }
     }
-
-//    private fun getGeolocationFromGpsSensors() {
-//        if (isOffline.value) {
-//            emitSideEffect(WelcomeSideEffect.ShowSnackBar(DataError.Remote.NO_INTERNET))
-//            dispatch(OnLoadingFinish)
-//        } else {
-//            dispatch(OnLoading)
-//            weatherLocationManager.getGeolocationFromGpsSensors(
-//                onSuccessfullyLocationReceived = { lat, lon ->
-//                    fetchReversGeocoding(
-//                        latitude = lat,
-//                        longitude = lon
-//                    )
-//                },
-//                onError = { geoError: AppError ->
-//                    dispatch(OnErrorUpdateGeolocationFromGpsSensors)
-//                    emitSideEffect(WelcomeSideEffect.ShowSnackBar(geoError))
-//                    emitSideEffect(WelcomeSideEffect.OnShowSettingsDialog(geoError))
-//                }
-//            )
-//        }
-//    }
 
     private suspend fun getGeolocationFromGpsSensors() {
         if (isOffline.value) {
@@ -141,19 +141,6 @@ class WelcomePageStore @Inject constructor(
                     dispatch(OnErrorUpdateGeolocationFromGpsSensors)
                     emitSideEffect(WelcomeSideEffect.ShowSnackBar(geoError))
                     emitSideEffect(WelcomeSideEffect.OnShowSettingsDialog(geoError))
-
-//            weatherLocationManager.getGeolocationFromGpsSensors().collect {
-//                it.onSuccess { geoLocation ->
-//                    Log.d(TAG, "geoLocation: $geoLocation")
-//                    fetchReversGeocoding(
-//                        latitude = geoLocation.first,
-//                        longitude = geoLocation.second
-//                    )
-//                }.onError { geoError: AppError ->
-//                    dispatch(OnErrorUpdateGeolocationFromGpsSensors)
-//                    emitSideEffect(WelcomeSideEffect.ShowSnackBar(geoError))
-//                    emitSideEffect(WelcomeSideEffect.OnShowSettingsDialog(geoError))
-//                }
                 }
         }
     }
@@ -162,7 +149,7 @@ class WelcomePageStore @Inject constructor(
         latitude: Double,
         longitude: Double,
     ) = storeScope.launch {
-        masterRepository.getReverseGeocodingLocation(latitude, longitude, "ru")
+        geoRepository.getReverseGeocodingLocation(latitude, longitude, "ru")
             .onSuccess { gpsItems ->
                 gpsItems.results.firstOrNull()?.let { geoName ->
                     dispatch(OnSuccessFetchReversGeocodingFromApi(geoName))
@@ -176,34 +163,6 @@ class WelcomePageStore @Inject constructor(
                 emitSideEffect(WelcomeSideEffect.ShowSnackBar(apiError))
             }
     }
-
-//    private suspend fun saveUserOnboardingDone() {
-//        dispatch(OnLoading)
-//        if (isOffline.value) {
-//            emitSideEffect(WelcomeSideEffect.ShowSnackBar(DataError.Remote.NO_INTERNET))
-//        } else {
-//            Log.d(TAG, "startSynchronize:Onboarding")
-//            state.value.geoItem?.geoItemId?.let { id ->
-//                masterRepository.synchronizeCurrentWeather(
-//                    geoItemId = id
-//                ).onSuccess {
-//                    masterRepository.updateCurrentLocation(id)
-//                        .onSuccess {
-//                            dataStore.saveInitialLocationPicked(true)
-//                                .asEmptyDataResult()
-//                                .onError { prefError ->
-//                                    emitSideEffect(WelcomeSideEffect.ShowSnackBar(prefError))
-//                                }
-//                        }
-//                        .onError { dataBaseError ->
-//                            emitSideEffect(WelcomeSideEffect.ShowSnackBar(dataBaseError))
-//                        }
-//                }.onError { dataBaseError ->
-//                    emitSideEffect(WelcomeSideEffect.ShowSnackBar(dataBaseError))
-//                }
-//            }
-//        }
-//    }
 
     private suspend fun saveUserOnboardingDone() {
         dispatch(OnLoading)

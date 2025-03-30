@@ -2,7 +2,6 @@ package io.wookoo.cities.mvi
 
 import io.wookoo.cities.uimappers.asUiCity
 import io.wookoo.common.mvi.Reducer
-import io.wookoo.domain.model.weather.current.CurrentWeatherDomain
 import io.wookoo.domain.usecases.ConvertDateUseCase
 import io.wookoo.domain.usecases.ConvertWeatherCodeToEnumUseCase
 import javax.inject.Inject
@@ -25,7 +24,7 @@ class CitiesReducer @Inject constructor(
 
             is OnCitiesLoaded -> {
                 state.copy(
-                    cities = intent.cities.map { currentWeather: CurrentWeatherDomain ->
+                    cities = intent.cities.map { currentWeather: io.wookoo.models.weather.current.CurrentWeatherDomain ->
                         currentWeather.asUiCity(
                             convertWeatherCodeToEnumUseCase = convertWeatherCodeToEnumUseCase,
                             convertDateUseCase = convertDateUseCase

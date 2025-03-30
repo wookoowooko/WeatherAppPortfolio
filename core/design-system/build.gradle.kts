@@ -10,7 +10,7 @@ android {
 
 dependencies {
     projects.core.apply {
-        implementation(androidresources)
+        api(androidresources)
     }
 
     libs.apply {

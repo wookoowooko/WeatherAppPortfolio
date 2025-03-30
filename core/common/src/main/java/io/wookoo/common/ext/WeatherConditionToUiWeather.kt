@@ -2,7 +2,7 @@ package io.wookoo.common.ext
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import io.wookoo.domain.enums.WeatherCondition
+import io.wookoo.models.units.WeatherCondition
 
 typealias WeatherIconDrawable = Int
 typealias WeatherNameStringRes = Int

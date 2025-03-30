@@ -1,7 +1,7 @@
 package io.wookoo.cities.uimodels
 
-import io.wookoo.domain.enums.WeatherCondition
-import io.wookoo.domain.units.WeatherValueWithUnit
+import io.wookoo.models.units.WeatherCondition
+import io.wookoo.models.units.WeatherValueWithUnit
 
 data class UiCity(
     val isCurrentLocation: Boolean,
