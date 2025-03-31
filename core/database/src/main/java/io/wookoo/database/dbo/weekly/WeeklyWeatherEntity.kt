@@ -9,7 +9,7 @@ data class WeeklyWeatherEntity(
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo("geo_name_id")
-    val geoNameId: Long,
+    val geoItemId: Long,
 
     @ColumnInfo("city_name")
     val cityName: String,

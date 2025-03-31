@@ -32,8 +32,13 @@ protobuf {
 dependencies {
     libs.apply {
         implementation(bundles.datastore)
+        androidTestImplementation(androidx.datastore.core)
+        androidTestImplementation(bundles.android.test)
     }
+
     projects.apply {
         implementation(core.domain)
     }
+
+
 }

@@ -9,11 +9,9 @@ import kotlinx.coroutines.flow.Flow
 interface ICurrentForecastRepo : Syncable {
     suspend fun updateCurrentForecastLocation(geoItemId: Long): AppResult<Unit, DataError>
 
-    fun getCurrentForecast(geoNameId: Long): Flow<io.wookoo.models.weather.current.CurrentWeatherDomain>
+    fun getCurrentForecast(geoNameId: Long): Flow<CurrentWeatherDomain>
 
     fun getCurrentForecastGeoItemIds(): Flow<List<Long>>
 
-    fun getAllCurrentForecastLocations(): Flow<List<io.wookoo.models.weather.current.CurrentWeatherDomain>>
-
-    suspend fun deleteCurrentForecastEntryByGeoId(geoItemId: Long): AppResult<Unit, DataError>
+    fun getAllCurrentForecastLocations(): Flow<List<CurrentWeatherDomain>>
 }

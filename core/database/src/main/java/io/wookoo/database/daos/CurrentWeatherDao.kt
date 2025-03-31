@@ -9,27 +9,32 @@ import io.wookoo.database.dbo.DailyEntity
 import io.wookoo.database.dbo.GeoEntity
 import io.wookoo.database.dbo.HourlyEntity
 import io.wookoo.database.relations.WeatherWithDetails
+import io.wookoo.domain.annotations.CoveredByTest
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CurrentWeatherDao {
 
+    @CoveredByTest
     @Query("UPDATE geo_entity SET is_current = 1 WHERE geo_name_id = :geoItemId")
-    fun setSelectedCurrentForecastLocationAsDefault(geoItemId: Long)
+    suspend fun setSelectedCurrentForecastLocationAsDefault(geoItemId: Long)
 
+    @CoveredByTest
     @Query("UPDATE geo_entity SET is_current = 0 WHERE geo_name_id != :geoItemId")
-    fun clearOtherCurrentForecastLocations(geoItemId: Long)
+    suspend fun clearOtherCurrentForecastLocations(geoItemId: Long)
 
     @Transaction
-    fun updateCurrentForecastLocation(geoItemId: Long) {
+    suspend fun updateCurrentForecastLocation(geoItemId: Long) {
         setSelectedCurrentForecastLocationAsDefault(geoItemId)
         clearOtherCurrentForecastLocations(geoItemId)
     }
 
+    @CoveredByTest
     @Transaction
     @Query("SELECT * FROM geo_entity WHERE geo_name_id = :geoItemId")
     fun getCurrentForecast(geoItemId: Long): Flow<WeatherWithDetails?>
 
+    @CoveredByTest
     @Query(
         """
     SELECT geo_name_id 
@@ -41,6 +46,7 @@ interface CurrentWeatherDao {
     )
     fun getCurrentForecastGeoItemIds(): Flow<List<Long>>
 
+    @CoveredByTest
     @Transaction
     @Query(
         """
@@ -51,10 +57,6 @@ interface CurrentWeatherDao {
         """
     )
     fun getAllCurrentForecastLocations(): Flow<List<WeatherWithDetails>>
-
-    @Transaction
-    @Query("DELETE FROM geo_entity WHERE geo_name_id = :geoItemId")
-    suspend fun deleteCurrentForecastEntryByGeoId(geoItemId: Long)
 
     @Query("SELECT last_update FROM current_weather WHERE currentId = :geoItemId")
     suspend fun getLastUpdateForCurrentForecast(geoItemId: Long): Long
@@ -86,6 +88,7 @@ interface CurrentWeatherDao {
     @Insert
     suspend fun insertDaily(daily: DailyEntity)
 
+    @CoveredByTest
     @Transaction
     suspend fun insertCurrentForecastWithDetails(
         geo: GeoEntity,
@@ -94,7 +97,7 @@ interface CurrentWeatherDao {
         daily: DailyEntity,
     ) {
         val geoId = insertGeo(
-            geo.geoNameId,
+            geo.geoItemId,
             geo.cityName,
             geo.countryName,
             geo.utcOffsetSeconds,

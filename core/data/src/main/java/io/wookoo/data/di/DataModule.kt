@@ -6,10 +6,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.wookoo.data.repo.CurrentForecastImpl
 import io.wookoo.data.repo.DataStoreImpl
+import io.wookoo.data.repo.DeleteForecastsRepoImpl
 import io.wookoo.data.repo.GeoRepoImpl
 import io.wookoo.data.repo.WeeklyForecastImpl
 import io.wookoo.domain.repo.ICurrentForecastRepo
 import io.wookoo.domain.repo.IDataStoreRepo
+import io.wookoo.domain.repo.IDeleteForecastsRepo
 import io.wookoo.domain.repo.IGeoRepo
 import io.wookoo.domain.repo.ILocationProvider
 import io.wookoo.domain.repo.IWeeklyForecastRepo
@@ -43,4 +45,9 @@ interface DataModule {
     fun bindsCurrentForecastRepository(
         currentForecastImpl: CurrentForecastImpl,
     ): ICurrentForecastRepo
+
+    @Binds
+    fun bindsDeleteForecastsRepository(
+        deleteForecastsRepoImpl: DeleteForecastsRepoImpl,
+    ): IDeleteForecastsRepo
 }

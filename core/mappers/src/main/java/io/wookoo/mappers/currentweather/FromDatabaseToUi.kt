@@ -4,21 +4,13 @@ import io.wookoo.database.dbo.CurrentWeatherEntity
 import io.wookoo.database.dbo.DailyEntity
 import io.wookoo.database.dbo.HourlyEntity
 import io.wookoo.database.relations.WeatherWithDetails
-import io.wookoo.models.geocoding.GeocodingDomainUI
-import io.wookoo.models.weather.current.CurrentWeatherDomain
-import io.wookoo.models.weather.current.additional.CurrentDayModel
-import io.wookoo.models.weather.current.additional.DailyModel
-import io.wookoo.models.weather.current.additional.HourlyModel
-import io.wookoo.models.weather.current.additional.PrecipitationModel
-import io.wookoo.models.weather.current.additional.SunCyclesModel
-import io.wookoo.models.weather.current.additional.WindModel
 
 object FromDatabaseToUi {
 
     fun WeatherWithDetails.asCurrentWeatherDomainUi(): io.wookoo.models.weather.current.CurrentWeatherDomain {
         return io.wookoo.models.weather.current.CurrentWeatherDomain(
             geo = io.wookoo.models.geocoding.GeocodingDomainUI(
-                geoItemId = geo.geoNameId,
+                geoItemId = geo.geoItemId,
                 cityName = geo.cityName,
                 latitude = null,
                 longitude = null,
