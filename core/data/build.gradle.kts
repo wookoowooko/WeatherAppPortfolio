@@ -18,4 +18,5 @@ dependencies {
     api(projects.core.mappers)
     api(projects.core.synchronizer)
     api(projects.core.common)
+    implementation(libs.core.ktx)
 }

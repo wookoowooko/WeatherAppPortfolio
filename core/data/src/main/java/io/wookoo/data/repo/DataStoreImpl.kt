@@ -6,6 +6,7 @@ import io.wookoo.domain.annotations.Dispatcher
 import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.domain.utils.DataError
+import io.wookoo.domain.utils.EmptyResult
 import io.wookoo.models.settings.UserSettingsModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +19,7 @@ class DataStoreImpl @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
 ) : IDataStoreRepo {
 
-    override val userSettings: Flow<io.wookoo.models.settings.UserSettingsModel>
+    override val userSettings: Flow<UserSettingsModel>
         get() = dataStore.userData
 
     override suspend fun setInitialWeatherUnits(): AppResult<Unit, DataError.Local> =
@@ -44,7 +45,7 @@ class DataStoreImpl @Inject constructor(
 
     private suspend fun DataStoreImpl.executeDatastoreOperation(
         operation: suspend () -> Unit,
-    ): AppResult<Unit, DataError.Local> {
+    ): EmptyResult<DataError.Local> {
         return try {
             withContext(ioDispatcher) {
                 operation()
