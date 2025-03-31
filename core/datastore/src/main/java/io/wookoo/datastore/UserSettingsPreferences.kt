@@ -1,7 +1,7 @@
 package io.wookoo.datastore
 
-import android.util.Log
 import androidx.datastore.core.DataStore
+import io.wookoo.domain.annotations.CoveredByTest
 import io.wookoo.models.settings.UserSettingsModel
 import io.wookoo.models.units.WeatherUnit
 import kotlinx.coroutines.flow.map
@@ -10,10 +10,9 @@ import javax.inject.Inject
 class UserSettingsPreferences @Inject constructor(
     private val dataStore: DataStore<UserSettings>,
 ) {
+    @CoveredByTest
     val userData = dataStore.data.map { settings ->
-
-        Log.d(TAG, ": $settings")
-        io.wookoo.models.settings.UserSettingsModel(
+        UserSettingsModel(
             isLocationChoose = settings.isLocationChoose,
             temperatureUnit = settings.temperatureUnit,
             windSpeedUnit = settings.windSpeedUnit,
@@ -21,6 +20,7 @@ class UserSettingsPreferences @Inject constructor(
         )
     }
 
+    @CoveredByTest
     suspend fun setInitialWeatherUnits() {
         dataStore.updateData { data ->
             data.toBuilder()
@@ -31,6 +31,7 @@ class UserSettingsPreferences @Inject constructor(
         }
     }
 
+    @CoveredByTest
     suspend fun saveInitialLocationPicked(checked: Boolean) {
         dataStore.updateData { data ->
             data.toBuilder()
@@ -39,6 +40,7 @@ class UserSettingsPreferences @Inject constructor(
         }
     }
 
+    @CoveredByTest
     suspend fun updateTemperatureUnit(temperatureUnit: String) {
         dataStore.updateData { data ->
             data.toBuilder()
@@ -47,6 +49,7 @@ class UserSettingsPreferences @Inject constructor(
         }
     }
 
+    @CoveredByTest
     suspend fun updateWindSpeedUnit(windSpeedUnit: String) {
         dataStore.updateData { data ->
             data.toBuilder()
@@ -55,15 +58,12 @@ class UserSettingsPreferences @Inject constructor(
         }
     }
 
+    @CoveredByTest
     suspend fun updatePrecipitationUnit(precipitationUnit: String) {
         dataStore.updateData { data ->
             data.toBuilder()
                 .setPrecipitationUnit(precipitationUnit)
                 .build()
         }
-    }
-
-    companion object {
-        private const val TAG = "UserSettingsPreferences"
     }
 }

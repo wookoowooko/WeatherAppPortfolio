@@ -34,6 +34,8 @@ object DataStoreModule {
             serializer = userPreferencesSerializer,
             scope = CoroutineScope(scope.coroutineContext + ioDispatcher),
         ) {
-            context.dataStoreFile("user_preferences.pb")
+            context.dataStoreFile(DATA_STORE_FILE_NAME)
         }
+
+    private const val DATA_STORE_FILE_NAME = "user_preferences.pb"
 }

@@ -4,6 +4,7 @@ import android.util.Log
 import io.wookoo.common.mvi.Store
 import io.wookoo.domain.annotations.StoreViewModelScope
 import io.wookoo.domain.repo.ICurrentForecastRepo
+import io.wookoo.domain.repo.IDeleteForecastsRepo
 import io.wookoo.domain.repo.IGeoRepo
 import io.wookoo.domain.repo.ILocationProvider
 import io.wookoo.domain.service.IConnectivityObserver
@@ -33,6 +34,7 @@ class CitiesStore @Inject constructor(
     private val currentForecast: ICurrentForecastRepo,
     private val geoRepository: IGeoRepo,
     private val weatherLocationManager: ILocationProvider,
+    private val deleteForecastsRepo: IDeleteForecastsRepo,
     networkMonitor: IConnectivityObserver,
 ) : Store<CitiesState, CitiesIntent, CitiesSideEffect>(
     initialState = CitiesState(),
@@ -83,9 +85,9 @@ class CitiesStore @Inject constructor(
 
     private suspend fun deleteCity(geoItemId: Long) {
         dispatch(OnLoading)
-        currentForecast.deleteCurrentForecastEntryByGeoId(geoItemId)
-            .onError {
-                emitSideEffect(CitiesSideEffect.ShowSnackBar(it))
+        deleteForecastsRepo.deleteCityWithCurrentAndWeeklyForecasts(geoItemId)
+            .onError { dataError ->
+                emitSideEffect(CitiesSideEffect.ShowSnackBar(dataError))
             }
             .onFinally {
                 dispatch(OnLoadingFinish)
@@ -163,7 +165,7 @@ class CitiesStore @Inject constructor(
                     dispatch(OnSuccessFetchReversGeocodingFromApi(geoName))
                 } ?: run {
                     dispatch(OnErrorFetchReversGeocodingFromApi)
-                        /// TODO: new error
+                    // / TODO: new error
                     emitSideEffect(CitiesSideEffect.ShowSnackBar(DataError.Remote.UNKNOWN))
                 }
             }
