@@ -36,9 +36,9 @@ class OneTimeSyncWorker @AssistedInject constructor(
         if (geoItemId == DEFAULT_VALUE_GEO) return@withContext Result.failure()
 
         val syncResults = awaitAll(
-            async { synchronizer.synchronizeCurrentWeatherFromAPIAndSaveToCache(geoItemId) },
+            async { synchronizer.syncCurrentForecastFromAPIAndSaveToCache(geoItemId) },
             async {
-                synchronizer.syncWeeklyWeatherFromAPIAndSaveToCache(
+                synchronizer.syncWeeklyForecastFromAPIAndSaveToCache(
                     geoItemId
                 )
             }

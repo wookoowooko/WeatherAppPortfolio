@@ -12,13 +12,13 @@ class SynchronizerImpl @Inject constructor(
     private val currentRepo: ICurrentForecastRepo,
 ) : ISynchronizer {
 
-    override suspend fun syncWeeklyWeatherFromAPIAndSaveToCache(
+    override suspend fun syncWeeklyForecastFromAPIAndSaveToCache(
         geoItemId: Long,
     ): AppResult<Unit, DataError> {
         return weeklyRepo.sync(geoItemId)
     }
 
-    override suspend fun synchronizeCurrentWeatherFromAPIAndSaveToCache(
+    override suspend fun syncCurrentForecastFromAPIAndSaveToCache(
         geoItemId: Long,
     ): AppResult<Unit, DataError> {
         return currentRepo.sync(geoItemId)
