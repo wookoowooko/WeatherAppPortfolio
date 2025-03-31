@@ -47,9 +47,9 @@ class SyncWorker @AssistedInject constructor(
 
         geoItemIds.forEach { geoItemId ->
             val syncResults = awaitAll(
-                async { synchronizer.synchronizeCurrentWeatherFromAPIAndSaveToCache(geoItemId) },
+                async { synchronizer.syncCurrentForecastFromAPIAndSaveToCache(geoItemId) },
                 async {
-                    synchronizer.syncWeeklyWeatherFromAPIAndSaveToCache(
+                    synchronizer.syncWeeklyForecastFromAPIAndSaveToCache(
                         geoItemId
                     )
                 }
