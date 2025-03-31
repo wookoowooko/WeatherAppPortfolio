@@ -1,6 +1,5 @@
 package io.wookoo.cities.mvi
 
-import android.util.Log
 import io.wookoo.common.mvi.Store
 import io.wookoo.domain.annotations.StoreViewModelScope
 import io.wookoo.domain.repo.ICurrentForecastRepo
@@ -8,6 +7,7 @@ import io.wookoo.domain.repo.IDeleteForecastsRepo
 import io.wookoo.domain.repo.IGeoRepo
 import io.wookoo.domain.repo.ILocationProvider
 import io.wookoo.domain.service.IConnectivityObserver
+import io.wookoo.domain.usecases.MapCurrentForecastAsCityUseCase
 import io.wookoo.domain.utils.AppError
 import io.wookoo.domain.utils.DataError
 import io.wookoo.domain.utils.onError
@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 class CitiesStore @Inject constructor(
@@ -33,8 +34,9 @@ class CitiesStore @Inject constructor(
     reducer: CitiesReducer,
     private val currentForecast: ICurrentForecastRepo,
     private val geoRepository: IGeoRepo,
-    private val weatherLocationManager: ILocationProvider,
+    private val locationProvider: ILocationProvider,
     private val deleteForecastsRepo: IDeleteForecastsRepo,
+    private val mapCurrentForecastAsCityUseCase: MapCurrentForecastAsCityUseCase,
     networkMonitor: IConnectivityObserver,
 ) : Store<CitiesState, CitiesIntent, CitiesSideEffect>(
     initialState = CitiesState(),
@@ -66,7 +68,7 @@ class CitiesStore @Inject constructor(
             is OnSearchedGeoItemCardClick ->
                 emitSideEffect(
                     CitiesSideEffect.OnSyncRequest(
-                        geoItemId = intent.geoItem.geoItemId,
+                        geoItemId = intent.geoItem.geoItemId
                     )
                 )
 
@@ -115,7 +117,7 @@ class CitiesStore @Inject constructor(
     private fun observeCities() {
         currentForecast.getAllCurrentForecastLocations()
             .onEach { listOfCitiesEntity ->
-                dispatch(OnCitiesLoaded(listOfCitiesEntity))
+                dispatch(OnCitiesLoaded(listOfCitiesEntity.map { mapCurrentForecastAsCityUseCase(it) }))
             }
             .launchIn(storeScope)
     }
@@ -123,7 +125,10 @@ class CitiesStore @Inject constructor(
     // Functions
     private fun searchLocationFromApi(query: String) = storeScope.launch {
         dispatch(OnSearchInProgress)
-        geoRepository.searchLocationFromApiByQuery(query, language = "ru")
+        geoRepository.searchLocationFromApiByQuery(
+            query,
+            language = Locale.getDefault().language.lowercase()
+        )
             .onSuccess { searchResults ->
                 dispatch(OnSuccessSearchLocation(results = searchResults.results))
             }
@@ -140,9 +145,8 @@ class CitiesStore @Inject constructor(
         if (isOffline.value) {
             emitSideEffect(CitiesSideEffect.ShowSnackBar(DataError.Remote.NO_INTERNET))
         } else {
-            weatherLocationManager.getGeolocationFromGpsSensors().first()
+            locationProvider.getGeolocationFromGpsSensors().first()
                 .onSuccess { geoLocation ->
-                    Log.d(TAG, "geoLocation: $geoLocation")
                     fetchReversGeocoding(
                         latitude = geoLocation.first,
                         longitude = geoLocation.second
@@ -159,7 +163,11 @@ class CitiesStore @Inject constructor(
         latitude: Double,
         longitude: Double,
     ) = storeScope.launch {
-        geoRepository.getReverseGeocodingLocation(latitude, longitude, "ru")
+        geoRepository.getReverseGeocodingLocation(
+            latitude,
+            longitude,
+            Locale.getDefault().language.lowercase()
+        )
             .onSuccess { gpsItems ->
                 gpsItems.results.firstOrNull()?.let { geoName ->
                     dispatch(OnSuccessFetchReversGeocodingFromApi(geoName))
@@ -181,6 +189,5 @@ class CitiesStore @Inject constructor(
 
     companion object {
         private const val THRESHOLD = 500L
-        private const val TAG = "CitiesStore"
     }
 }

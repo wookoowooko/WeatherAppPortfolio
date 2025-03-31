@@ -26,7 +26,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.wookoo.cities.uimodels.UiCity
 import io.wookoo.common.ext.asLocalizedUiWeatherMap
 import io.wookoo.common.ext.asLocalizedUnitValueString
 import io.wookoo.designsystem.ui.components.SharedGradientText
@@ -37,6 +36,7 @@ import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.designsystem.ui.theme.rounded_shape_20_percent
 import io.wookoo.designsystem.ui.theme.small
+import io.wookoo.models.ui.UiCity
 import io.wookoo.models.units.WeatherCondition
 import io.wookoo.models.units.WeatherUnit
 import io.wookoo.models.units.WeatherValueWithUnit

@@ -6,7 +6,7 @@ import io.wookoo.models.units.WeatherValueWithUnit
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
-class PrepareCurrentForecastUseCase @Inject constructor(
+class MapCurrentForecastUseCase @Inject constructor(
     private val hourlyModelToHourlyListUseCase: HourlyModelToHourlyListUseCase,
     private val convertDateUseCase: ConvertDateUseCase,
     private val convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,
