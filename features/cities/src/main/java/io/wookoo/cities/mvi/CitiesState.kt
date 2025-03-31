@@ -1,7 +1,6 @@
 package io.wookoo.cities.mvi
 
-import io.wookoo.cities.uimodels.UiCity
-import io.wookoo.models.geocoding.GeocodingDomainUI
+import io.wookoo.models.ui.UiCity
 
 data class CitiesState(
     val isOffline: Boolean = false,

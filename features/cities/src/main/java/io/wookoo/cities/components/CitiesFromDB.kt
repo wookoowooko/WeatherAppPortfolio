@@ -19,11 +19,11 @@ import androidx.compose.ui.unit.dp
 import io.wookoo.cities.mvi.CitiesIntent
 import io.wookoo.cities.mvi.CitiesState
 import io.wookoo.cities.mvi.OnDeleteCity
-import io.wookoo.cities.uimodels.UiCity
 import io.wookoo.designsystem.ui.animateLazyItem
 import io.wookoo.designsystem.ui.components.SharedDraggableBox
 import io.wookoo.designsystem.ui.components.SharedSurfaceIcon
 import io.wookoo.designsystem.ui.theme.large
+import io.wookoo.models.ui.UiCity
 
 @Composable
 internal fun CitiesFromDB(

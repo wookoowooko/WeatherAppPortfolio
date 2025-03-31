@@ -1,7 +1,7 @@
 package io.wookoo.cities.mvi
 
 import io.wookoo.models.geocoding.GeocodingDomainUI
-import io.wookoo.models.weather.current.CurrentWeatherDomain
+import io.wookoo.models.ui.UiCity
 
 sealed interface CitiesIntent
 interface Completable : CitiesIntent
@@ -9,7 +9,7 @@ interface Completable : CitiesIntent
 data object OnLoading : CitiesIntent
 data object OnSearchInProgress : CitiesIntent
 data class OnSearchQueryChange(val query: String) : CitiesIntent
-data class OnCitiesLoaded(val cities: List<CurrentWeatherDomain>) : CitiesIntent
+data class OnCitiesLoaded(val cities: List<UiCity>) : CitiesIntent
 data class OnSearchedGeoItemCardClick(val geoItem: GeocodingDomainUI) : CitiesIntent
 data class OnChangeBottomSheetVisibility(val expandValue: Boolean) : CitiesIntent
 data class OnDeleteCity(val geoItemId: Long) : CitiesIntent
