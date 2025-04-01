@@ -1,8 +1,10 @@
 package io.wookoo.domain.usecases
 
+import io.wookoo.domain.annotations.CoveredByTest
 import io.wookoo.models.units.WindDirection
 import javax.inject.Inject
 
+@CoveredByTest
 class WindDirectionFromDegreesToDirectionFormatUseCase @Inject constructor() {
 
     operator fun invoke(degrees: Int): WindDirection {

@@ -1,5 +1,6 @@
 package io.wookoo.domain.usecases
 
+import io.wookoo.domain.annotations.CoveredByTest
 import io.wookoo.models.ui.MainWeatherUiModel
 import io.wookoo.models.ui.UIPrecipitationCardModel
 import io.wookoo.models.ui.UIWindCardModel
@@ -15,6 +16,7 @@ import io.wookoo.models.weather.weekly.WeeklyWeatherDomainUI
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
+@CoveredByTest
 class MapWeeklyWeatherToUiUseCase @Inject constructor(
     private val convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,
     private val formatWindDirectionUseCase: WindDirectionFromDegreesToDirectionFormatUseCase,
@@ -167,7 +169,6 @@ class MapWeeklyWeatherToUiUseCase @Inject constructor(
             snowSum = WeatherValueWithUnit(
                 this@asUiPrecipitationCardModel.weekly.precipitationData[selectedCalendarItemIndex].snowfall,
                 if (units.precipitation == WeatherUnit.MM) WeatherUnit.CM else WeatherUnit.INCH
-//
             ),
             precipitationProbability = WeatherValueWithUnit(
                 this@asUiPrecipitationCardModel.weekly.precipitationProbabilityMax[selectedCalendarItemIndex],

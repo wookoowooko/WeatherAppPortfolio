@@ -1,14 +1,16 @@
 package io.wookoo.domain.usecases
 
+import io.wookoo.domain.annotations.CoveredByTest
 import io.wookoo.models.ui.UiCity
 import io.wookoo.models.units.WeatherValueWithUnit
 import io.wookoo.models.weather.current.CurrentWeatherDomain
 import javax.inject.Inject
 
+@CoveredByTest
 class MapCurrentForecastAsCityUseCase @Inject constructor(
     private val convertDateUseCase: ConvertDateUseCase,
     private val convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,
-    private val defineCorrectUnits: DefineCorrectUnitsUseCase,
+    private val defineCorrectUnits: DefineCorrectUnitsUseCase
 ) {
     suspend operator fun invoke(data: CurrentWeatherDomain): UiCity {
         val units = defineCorrectUnits.defineCorrectUnits()

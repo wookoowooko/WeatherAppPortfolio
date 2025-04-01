@@ -36,6 +36,7 @@ import io.wookoo.weatherappportfolio.appstate.rememberAppState
 import io.wookoo.weatherappportfolio.navigation.Navigation
 import io.wookoo.weatherappportfolio.splash.SplashViewModel
 import io.wookoo.worker.utils.Sync
+import io.wookoo.worker.utils.Sync.initializeOneTime
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -147,7 +148,7 @@ class MainActivity : AppCompatActivity() {
                             isSnackBarVisible = true
                         },
                         onSyncRequest = { geoItemId, isNeedToUpdate ->
-                            Sync.initializeOneTime(
+                            initializeOneTime(
                                 context = this@MainActivity,
                                 locationId = geoItemId,
                                 isNeedToUpdate = isNeedToUpdate

@@ -1,8 +1,10 @@
 package io.wookoo.domain.usecases
 
+import io.wookoo.domain.annotations.CoveredByTest
 import io.wookoo.models.units.WeatherCondition
 import javax.inject.Inject
 
+@CoveredByTest
 class ConvertWeatherCodeToEnumUseCase @Inject constructor() {
 
     operator fun invoke(weatherCode: Int): WeatherCondition {

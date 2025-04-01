@@ -59,8 +59,7 @@ internal fun Navigation(
         },
     ) {
         navigation<WelcomeGraph>(
-            startDestination = WelcomeRoute,
-
+            startDestination = WelcomeRoute
         ) {
             welcomePage(
                 onRequestLocationPermission = onRequestLocationPermission,
@@ -70,7 +69,7 @@ internal fun Navigation(
         }
 
         navigation<MainGraph>(
-            startDestination = MainRoute,
+            startDestination = MainRoute
         ) {
             mainPage(
                 onNavigateToWeekly = { geoItemId ->

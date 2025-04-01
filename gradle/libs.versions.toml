@@ -49,6 +49,8 @@ androidxTestRunner = "1.6.2"
 androidxTestCore = "1.6.1"
 coreKtxVersion = "1.6.1"
 
+mockk = "1.13.17"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -70,7 +72,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidxTestCore" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-core" }
-
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
 
 #Datastore
@@ -85,7 +87,7 @@ androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscree
 
 
 #Location
-play-services-location = {module ="com.google.android.gms:play-services-location", version.ref = "location"}
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "location" }
 
 #Coroutines
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines-core" }
@@ -114,13 +116,13 @@ hilt-ext-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hi
 hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltExt" }
 
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
-hilt-nav-compose = {module =  "androidx.hilt:hilt-navigation-compose", version.ref="hilt-nav-compose"}
+hilt-nav-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-nav-compose" }
 
 #Serialization
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 #lottie
-lottie-compose = {module ="com.airbnb.android:lottie-compose", version.ref = "lottie"}
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie" }
 lottie-xml = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 
 #datetime
@@ -162,7 +164,7 @@ core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxV
 [plugins]
 
 #Own
-weather-app-application = { id = "weather.app.android.application" }
+
 weather-app-android-library = { id = "weather.app.android.library" }
 weather-app-feature = { id = "weather.app.feature" }
 weather-app-kotlinxSerialization = { id = "weather.app.kotlinxSerialization" }
@@ -212,7 +214,13 @@ android-test = [
     "androidx-test-core",
     "kotlinx-coroutines-test",
     "androidx-test-runner",
-    "androidx-junit"
+    "androidx-junit",
+    "mockk"
+]
+jvm-test = [
+    "kotlinx-coroutines-test",
+    "mockk",
+    "junit"
 ]
 
 

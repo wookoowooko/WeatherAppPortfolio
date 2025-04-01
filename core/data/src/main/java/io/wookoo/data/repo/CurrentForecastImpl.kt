@@ -49,8 +49,7 @@ class CurrentForecastImpl @Inject constructor(
             try {
                 currentWeatherDao.updateCurrentForecastLocation(geoItemId)
                 AppResult.Success(Unit)
-            } catch (e: SQLException) {
-                println(e)
+            } catch (_: SQLException) {
                 AppResult.Error(DataError.Local.DISK_FULL)
             }
         }

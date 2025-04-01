@@ -1,10 +1,12 @@
 package io.wookoo.domain.usecases
 
+import io.wookoo.domain.annotations.CoveredByTest
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import javax.inject.Inject
 
+@CoveredByTest
 class ConvertUnixTimeUseCase @Inject constructor() {
     fun executeList(
         input: List<Long>,
@@ -15,7 +17,7 @@ class ConvertUnixTimeUseCase @Inject constructor() {
                 .fromEpochSeconds(timestamp + utcOffsetSeconds)
                 .toLocalDateTime(TimeZone.UTC)
             "%02d:%02d".format(dateTime.hour, dateTime.minute)
-        }.sorted()
+        }
     }
 
     fun execute(
