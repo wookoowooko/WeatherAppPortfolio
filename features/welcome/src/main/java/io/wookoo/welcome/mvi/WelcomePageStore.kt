@@ -111,7 +111,7 @@ class WelcomePageStore @Inject constructor(
     // Functions
     private fun searchLocationFromApi(query: String) = storeScope.launch {
         dispatch(OnLoading)
-        geoRepository.searchLocationFromApiByQuery(query, language = "ru")
+        geoRepository.searchLocationFromApiByQuery(query)
             .onSuccess { searchResults ->
                 dispatch(OnSuccessSearchLocation(results = searchResults.results))
             }
@@ -149,7 +149,7 @@ class WelcomePageStore @Inject constructor(
         latitude: Double,
         longitude: Double,
     ) = storeScope.launch {
-        geoRepository.getReverseGeocodingLocation(latitude, longitude, "ru")
+        geoRepository.getReverseGeocodingLocation(latitude, longitude)
             .onSuccess { gpsItems ->
                 gpsItems.results.firstOrNull()?.let { geoName ->
                     dispatch(OnSuccessFetchReversGeocodingFromApi(geoName))

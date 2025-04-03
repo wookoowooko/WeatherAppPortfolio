@@ -144,7 +144,7 @@ class MapWeeklyWeatherToUiUseCaseTest {
                     if (testWeatherUnits.precipitation == WeatherUnit.MM) WeatherUnit.CM else WeatherUnit.INCH
                 ),
                 precipitationProbability = WeatherValueWithUnit(
-                    1.0,
+                    1,
                     WeatherUnit.PERCENT
                 )
             )
@@ -287,7 +287,7 @@ class MapWeeklyWeatherToUiUseCaseTest {
                     if (testWeatherUnits.precipitation == WeatherUnit.MM) WeatherUnit.CM else WeatherUnit.INCH
                 ),
                 precipitationProbability = WeatherValueWithUnit(
-                    1.0,
+                    1,
                     WeatherUnit.PERCENT
                 )
             )
@@ -353,7 +353,7 @@ class MapWeeklyWeatherToUiUseCaseTest {
                 dayLightDuration = listOf(10.0, 10.0),
                 sunshineDuration = listOf(10.0, 10.0),
                 uvIndexMax = listOf(6.0, 10.0),
-                precipitationProbabilityMax = listOf(1.0, 2.0),
+                precipitationProbabilityMax = listOf(1, 2),
                 precipitationData = listOf(precipitationTest, precipitationTest),
                 windData = listOf(windTest, windTest),
             )

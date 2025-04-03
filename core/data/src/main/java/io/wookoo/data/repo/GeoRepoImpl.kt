@@ -24,13 +24,11 @@ class GeoRepoImpl @Inject constructor(
 ) : IGeoRepo {
 
     override suspend fun searchLocationFromApiByQuery(
-        query: String,
-        language: String,
-    ): AppResult<io.wookoo.models.geocoding.GeocodingResponseDomainUi, DataError.Remote> {
+        query: String
+    ): AppResult<GeocodingResponseDomainUi, DataError.Remote> {
         return withContext(ioDispatcher) {
             geoCodingRemoteDataSource.searchLocation(
-                name = query,
-                language = language
+                name = query
             ).map { dto ->
                 dto.asGeocodingResponseModel()
             }
@@ -39,14 +37,12 @@ class GeoRepoImpl @Inject constructor(
 
     override suspend fun getReverseGeocodingLocation(
         latitude: Double,
-        longitude: Double,
-        language: String,
-    ): AppResult<io.wookoo.models.geocoding.GeocodingResponseDomainUi, DataError.Remote> {
+        longitude: Double
+    ): AppResult<GeocodingResponseDomainUi, DataError.Remote> {
         return withContext(ioDispatcher) {
             reverseGeoCodingRemoteDataSource.getReversedSearchedLocation(
                 latitude = latitude,
-                longitude = longitude,
-                language = language
+                longitude = longitude
             ).map { dto ->
                 dto.asReverseGeocodingResponseModel()
             }

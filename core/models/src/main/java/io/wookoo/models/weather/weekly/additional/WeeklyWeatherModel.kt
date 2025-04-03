@@ -16,7 +16,7 @@ data class WeeklyWeatherModel(
     val dayLightDuration: List<Double>,
     val sunshineDuration: List<Double>,
     val uvIndexMax: List<Double>,
-    val precipitationProbabilityMax: List<Double>,
+    val precipitationProbabilityMax: List<Int>,
     val precipitationData: List<PrecipitationModel>,
     val windData: List<WindModel>,
 )

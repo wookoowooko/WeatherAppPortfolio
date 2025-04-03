@@ -4,11 +4,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.wookoo.domain.annotations.GeoCodingApi
 import io.wookoo.domain.annotations.ReverseGeoCodingApi
 import io.wookoo.network.api.AppOkHttpClient
-import io.wookoo.network.api.geocoding.IGeocodingSearchRetrofit
-import io.wookoo.network.api.reversegeocoding.IReverseGeocodingSearchRetrofit
+import io.wookoo.network.api.reversegeocoding.IReverseGeocodingRetrofit
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
@@ -33,7 +31,7 @@ object ReverseGeoCodingModule {
 
     @Provides
     @Singleton
-    fun provideIReverseGeocodingSearch(@ReverseGeoCodingApi retrofit: Retrofit): IReverseGeocodingSearchRetrofit {
-        return retrofit.create(IReverseGeocodingSearchRetrofit::class.java)
+    fun provideIReverseGeocodingSearch(@ReverseGeoCodingApi retrofit: Retrofit): IReverseGeocodingRetrofit {
+        return retrofit.create(IReverseGeocodingRetrofit::class.java)
     }
 }

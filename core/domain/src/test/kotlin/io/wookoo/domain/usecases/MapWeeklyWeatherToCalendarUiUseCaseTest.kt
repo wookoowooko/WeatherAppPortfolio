@@ -91,7 +91,7 @@ class MapWeeklyWeatherToCalendarUiUseCaseTest {
                 dayLightDuration = listOf(1.0, 2.0),
                 sunshineDuration = listOf(1.0, 2.0),
                 uvIndexMax = listOf(1.0, 2.0),
-                precipitationProbabilityMax = listOf(1.0, 2.0),
+                precipitationProbabilityMax = listOf(1, 2),
                 precipitationData = listOf(precipitationTest, precipitationTest),
                 windData = listOf(windTest, windTest),
             )
