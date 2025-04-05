@@ -26,7 +26,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.Locale
 import javax.inject.Inject
 
 class CitiesStore @Inject constructor(
@@ -126,8 +125,7 @@ class CitiesStore @Inject constructor(
     private fun searchLocationFromApi(query: String) = storeScope.launch {
         dispatch(OnSearchInProgress)
         geoRepository.searchLocationFromApiByQuery(
-            query,
-            language = Locale.getDefault().language.lowercase()
+            query
         )
             .onSuccess { searchResults ->
                 dispatch(OnSuccessSearchLocation(results = searchResults.results))
@@ -165,8 +163,7 @@ class CitiesStore @Inject constructor(
     ) = storeScope.launch {
         geoRepository.getReverseGeocodingLocation(
             latitude,
-            longitude,
-            Locale.getDefault().language.lowercase()
+            longitude
         )
             .onSuccess { gpsItems ->
                 gpsItems.results.firstOrNull()?.let { geoName ->

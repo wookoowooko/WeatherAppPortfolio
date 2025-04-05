@@ -81,9 +81,9 @@ internal object TestData {
         rainSum = listOf(1.0, 2.0, 3.0),
         snowfallSum = listOf(1.0, 2.0, 3.0),
         showersSum = listOf(1.0, 2.0, 3.0),
-        precipitationProbabilityMax = listOf(1.0, 2.0, 3.0),
+        precipitationProbabilityMax = listOf(1, 2, 3),
         windSpeedMax = listOf(1.0, 2.0, 3.0),
-        windDirectionMax = listOf(1.0, 2.0, 3.0),
+        windDirectionMax = listOf(1, 2, 3),
         windGustsMax = listOf(1.0, 2.0, 3.0),
         utcOffsetSeconds = 123124124L
     )

@@ -20,8 +20,8 @@ data class WeeklyWeatherDto(
     @SerialName("rain_sum") val rainSum: List<Double>,
     @SerialName("showers_sum") val showersSum: List<Double>,
     @SerialName("snowfall_sum") val snowfallSum: List<Double>,
-    @SerialName("precipitation_probability_max") val precipitationProbabilityMax: List<Double>,
+    @SerialName("precipitation_probability_max") val precipitationProbabilityMax: List<Int>,
     @SerialName("wind_speed_10m_max") val windSpeedMax: List<Double>,
     @SerialName("wind_gusts_10m_max") val windGustsMax: List<Double>,
-    @SerialName("wind_direction_10m_dominant") val windDirectionMax: List<Double>,
+    @SerialName("wind_direction_10m_dominant") val windDirectionMax: List<Int>,
 )

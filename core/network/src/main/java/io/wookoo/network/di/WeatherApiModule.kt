@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.wookoo.domain.annotations.WeatherApi
 import io.wookoo.network.api.AppOkHttpClient
-import io.wookoo.network.api.weather.IWeatherRetrofit
+import io.wookoo.network.api.weather.IForecastRetrofit
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
@@ -31,8 +31,8 @@ object WeatherApiModule {
 
     @Provides
     @Singleton
-    fun provideIWeatherRetrofit(@WeatherApi retrofit: Retrofit): IWeatherRetrofit {
-        return retrofit.create(IWeatherRetrofit::class.java)
+    fun provideIWeatherRetrofit(@WeatherApi retrofit: Retrofit): IForecastRetrofit {
+        return retrofit.create(IForecastRetrofit::class.java)
     }
 
 }

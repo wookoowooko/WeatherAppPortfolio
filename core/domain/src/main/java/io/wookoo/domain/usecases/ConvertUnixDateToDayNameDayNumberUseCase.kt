@@ -1,5 +1,6 @@
 package io.wookoo.domain.usecases
 
+import io.wookoo.domain.annotations.CoveredByTest
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -10,6 +11,7 @@ import javax.inject.Inject
 typealias DayName = String
 typealias DayNumber = String
 
+@CoveredByTest
 class ConvertUnixDateToDayNameDayNumberUseCase @Inject constructor() {
 
     operator fun invoke(stamp: Long): Pair<DayName, DayNumber> = format(stamp)

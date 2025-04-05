@@ -1,5 +1,6 @@
 package io.wookoo.domain.usecases
 
+import io.wookoo.domain.annotations.CoveredByTest
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -7,6 +8,7 @@ import java.time.format.TextStyle
 import java.util.Locale
 import javax.inject.Inject
 
+@CoveredByTest
 class ConvertDateUseCase @Inject constructor() {
 
     operator fun invoke(stamp: Long, offset: Long): String = format(stamp, offset)

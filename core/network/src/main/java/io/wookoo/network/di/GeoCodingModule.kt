@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.wookoo.domain.annotations.GeoCodingApi
 import io.wookoo.network.api.AppOkHttpClient
-import io.wookoo.network.api.geocoding.IGeocodingSearchRetrofit
+import io.wookoo.network.api.geocoding.IGeocodingRetrofit
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
@@ -31,7 +31,7 @@ object GeoCodingModule {
 
     @Provides
     @Singleton
-    fun provideIGeocodingSearch(@GeoCodingApi retrofit: Retrofit): IGeocodingSearchRetrofit {
-        return retrofit.create(IGeocodingSearchRetrofit::class.java)
+    fun provideIGeocodingSearch(@GeoCodingApi retrofit: Retrofit): IGeocodingRetrofit {
+        return retrofit.create(IGeocodingRetrofit::class.java)
     }
 }

@@ -6,6 +6,11 @@ plugins {
 
 android {
     namespace = "io.wookoo.worker"
+
+    defaultConfig {
+        testInstrumentationRunner = "io.wookoo.worker.WeatherAppTestRunner"
+    }
+
 }
 
 dependencies {
@@ -15,4 +20,8 @@ dependencies {
     projects.core.apply {
         implementation(data)
     }
+
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.androidx.work.testing)
 }

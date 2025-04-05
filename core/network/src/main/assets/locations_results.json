@@ -1,0 +1,41 @@
+{
+  "results": [
+    {
+      "id": 2950159,
+      "name": "Berlin",
+      "latitude": 52.52437,
+      "longitude": 13.41053,
+      "elevation": 74.0,
+      "feature_code": "PPLC",
+      "country_code": "DE",
+      "admin1_id": 2950157,
+      "admin3_id": 6547383,
+      "admin4_id": 6547539,
+      "timezone": "Europe/Berlin",
+      "population": 3426354,
+      "postcodes": [
+        "10967",
+        "13347"
+      ],
+      "country_id": 2921044,
+      "country": "Germany",
+      "admin1": "Berlin, Stadt",
+      "admin3": "Berlin, Stadt",
+      "admin4": "Berlin"
+    },
+    {
+      "id": 1605651,
+      "name": "Thailand",
+      "latitude": 15.5,
+      "longitude": 101.0,
+      "elevation": 120.0,
+      "feature_code": "PCLI",
+      "country_code": "TH",
+      "timezone": "Asia/Bangkok",
+      "population": 69428524,
+      "country_id": 1605651,
+      "country": "Thailand"
+    }
+  ],
+  "generationtime_ms": 1.0360479
+}

@@ -1,5 +1,6 @@
 package io.wookoo.domain.usecases
 
+import io.wookoo.domain.annotations.CoveredByTest
 import io.wookoo.models.units.WeatherValueWithUnit
 import io.wookoo.models.weather.current.additional.HourlyModel
 import io.wookoo.models.weather.current.additional.HourlyModelItem
@@ -11,16 +12,17 @@ import javax.inject.Inject
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
-class HourlyModelToHourlyListUseCase @Inject constructor(
+@CoveredByTest
+class ConvertHourlyModelToHourlyListUseCase @Inject constructor(
     private val convertUnixTimeUseCase: ConvertUnixTimeUseCase,
     private val convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,
     private val defineCorrectUnitsUseCase: DefineCorrectUnitsUseCase,
 ) {
 
     suspend operator fun invoke(
-        hourlyModel: io.wookoo.models.weather.current.additional.HourlyModel,
+        hourlyModel: HourlyModel,
         utcOffsetSeconds: Long,
-    ): List<io.wookoo.models.weather.current.additional.HourlyModelItem> {
+    ): List<HourlyModelItem> {
         val units = defineCorrectUnitsUseCase.defineCorrectUnits()
 
         val listOfTime: List<Long> = hourlyModel.time
@@ -33,7 +35,7 @@ class HourlyModelToHourlyListUseCase @Inject constructor(
         val listOfCode: List<Int> = hourlyModel.weatherCode
 
         return convertedTimeList.mapIndexed { index, time ->
-            io.wookoo.models.weather.current.additional.HourlyModelItem(
+            HourlyModelItem(
                 time = time,
                 temperature = WeatherValueWithUnit(
                     value = listOfTemperature[index],

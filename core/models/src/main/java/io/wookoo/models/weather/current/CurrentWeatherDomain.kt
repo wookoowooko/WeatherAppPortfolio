@@ -8,9 +8,9 @@ import io.wookoo.models.weather.current.additional.HourlyModel
 data class CurrentWeatherDomain(
     val isCurrentLocation: Boolean,
     val time: Long,
-    val geo: io.wookoo.models.geocoding.GeocodingDomainUI,
-    val current: io.wookoo.models.weather.current.additional.CurrentDayModel,
-    val hourly: io.wookoo.models.weather.current.additional.HourlyModel,
-    val daily: io.wookoo.models.weather.current.additional.DailyModel,
-    val utcOffsetSeconds: Long,
+    val geo: GeocodingDomainUI,
+    val current: CurrentDayModel,
+    val hourly: HourlyModel,
+    val daily: DailyModel,
+    val utcOffsetSeconds: Long
 )

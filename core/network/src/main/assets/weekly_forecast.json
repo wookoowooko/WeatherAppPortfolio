@@ -1,0 +1,213 @@
+{
+  "latitude": 52.52,
+  "longitude": 13.419998,
+  "generationtime_ms": 0.34368038177490234,
+  "utc_offset_seconds": 7200,
+  "timezone": "Europe/Berlin",
+  "timezone_abbreviation": "GMT+2",
+  "elevation": 38.0,
+  "current_units": {
+    "time": "unixtime",
+    "interval": "seconds",
+    "is_day": ""
+  },
+  "current": {
+    "time": 1743680700,
+    "interval": 900,
+    "is_day": 1
+  },
+  "daily_units": {
+    "time": "unixtime",
+    "weather_code": "wmo code",
+    "temperature_2m_max": "°C",
+    "temperature_2m_min": "°C",
+    "apparent_temperature_max": "°C",
+    "apparent_temperature_min": "°C",
+    "sunrise": "unixtime",
+    "sunset": "unixtime",
+    "daylight_duration": "s",
+    "sunshine_duration": "s",
+    "uv_index_max": "",
+    "precipitation_sum": "mm",
+    "rain_sum": "mm",
+    "showers_sum": "mm",
+    "snowfall_sum": "cm",
+    "precipitation_probability_max": "%",
+    "wind_speed_10m_max": "km/h",
+    "wind_gusts_10m_max": "km/h",
+    "wind_direction_10m_dominant": "°"
+  },
+  "daily": {
+    "time": [
+      1743631200,
+      1743717600,
+      1743804000,
+      1743890400,
+      1743976800,
+      1744063200,
+      1744149600
+    ],
+    "weather_code": [
+      0,
+      3,
+      3,
+      2,
+      3,
+      2,
+      3
+    ],
+    "temperature_2m_max": [
+      18.5,
+      20.9,
+      12.1,
+      7.0,
+      12.7,
+      11.9,
+      15.3
+    ],
+    "temperature_2m_min": [
+      5.2,
+      8.5,
+      1.9,
+      -1.2,
+      0.5,
+      2.7,
+      0.4
+    ],
+    "apparent_temperature_max": [
+      16.0,
+      19.6,
+      9.6,
+      2.6,
+      8.1,
+      8.2,
+      11.4
+    ],
+    "apparent_temperature_min": [
+      2.0,
+      6.6,
+      -2.4,
+      -4.9,
+      -3.3,
+      -0.2,
+      -2.6
+    ],
+    "sunrise": [
+      1743654911,
+      1743741170,
+      1743827430,
+      1743913689,
+      1743999949,
+      1744086210,
+      1744172471
+    ],
+    "sunset": [
+      1743702233,
+      1743788738,
+      1743875244,
+      1743961749,
+      1744048254,
+      1744134759,
+      1744221265
+    ],
+    "daylight_duration": [
+      47310.89,
+      47556.80,
+      47802.66,
+      48048.35,
+      48293.70,
+      48538.57,
+      48782.79
+    ],
+    "sunshine_duration": [
+      42671.68,
+      42809.69,
+      41794.34,
+      44065.28,
+      43501.73,
+      44453.48,
+      44053.04
+    ],
+    "uv_index_max": [
+      4.70,
+      4.80,
+      4.85,
+      4.70,
+      4.25,
+      3.00,
+      3.30
+    ],
+    "precipitation_sum": [
+      0.00,
+      0.00,
+      0.00,
+      0.00,
+      0.00,
+      0.00,
+      0.00
+    ],
+    "rain_sum": [
+      0.00,
+      0.00,
+      0.00,
+      0.00,
+      0.00,
+      0.00,
+      0.00
+    ],
+    "showers_sum": [
+      0.00,
+      0.00,
+      0.00,
+      0.00,
+      0.00,
+      0.00,
+      0.00
+    ],
+    "snowfall_sum": [
+      0.00,
+      0.00,
+      0.00,
+      0.00,
+      0.00,
+      0.00,
+      0.00
+    ],
+    "precipitation_probability_max": [
+      0,
+      0,
+      0,
+      3,
+      5,
+      2,
+      3
+    ],
+    "wind_speed_10m_max": [
+      10.0,
+      11.4,
+      17.3,
+      10.5,
+      15.0,
+      9.4,
+      13.3
+    ],
+    "wind_gusts_10m_max": [
+      22.7,
+      24.8,
+      42.5,
+      28.1,
+      37.1,
+      25.2,
+      32.4
+    ],
+    "wind_direction_10m_dominant": [
+      65,
+      352,
+      25,
+      15,
+      305,
+      38,
+      294
+    ]
+  }
+}

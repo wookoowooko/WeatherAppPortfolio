@@ -1,13 +1,15 @@
 package io.wookoo.domain.usecases
 
+import io.wookoo.domain.annotations.CoveredByTest
 import io.wookoo.models.ui.UiCurrentWeatherModel
 import io.wookoo.models.units.WeatherUnit
 import io.wookoo.models.units.WeatherValueWithUnit
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
+@CoveredByTest
 class MapCurrentForecastUseCase @Inject constructor(
-    private val hourlyModelToHourlyListUseCase: HourlyModelToHourlyListUseCase,
+    private val convertHourlyModelToHourlyListUseCase: ConvertHourlyModelToHourlyListUseCase,
     private val convertDateUseCase: ConvertDateUseCase,
     private val convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,
     private val convertUnixTimeUseCase: ConvertUnixTimeUseCase,
@@ -21,7 +23,7 @@ class MapCurrentForecastUseCase @Inject constructor(
             city = data.geo.cityName,
             country = data.geo.countryName,
             geoNameId = data.geo.geoItemId,
-            hourlyList = hourlyModelToHourlyListUseCase(
+            hourlyList = convertHourlyModelToHourlyListUseCase(
                 hourlyModel = data.hourly,
                 utcOffsetSeconds = data.utcOffsetSeconds
             ),
