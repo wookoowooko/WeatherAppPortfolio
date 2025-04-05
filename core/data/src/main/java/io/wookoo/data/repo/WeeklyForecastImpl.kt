@@ -22,7 +22,6 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
 import java.sql.SQLException
-import java.util.Locale
 import javax.inject.Inject
 
 class WeeklyForecastImpl @Inject constructor(
@@ -64,8 +63,7 @@ class WeeklyForecastImpl @Inject constructor(
              * Fetches geo-information for the given location.
              */
             val geoResult = geoCodingService.getInfoByGeoItemId(
-                geoItemId,
-                Locale.getDefault().language.lowercase()
+                geoItemId
             )
             if (geoResult is AppResult.Error) return@withContext AppResult.Error(geoResult.error)
 

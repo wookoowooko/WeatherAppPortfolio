@@ -1,13 +1,14 @@
 package io.wookoo.network.api.weather
 
+import io.wookoo.domain.annotations.CoveredByTest
 import io.wookoo.network.dto.weather.current.CurrentWeatherResponseDto
 import io.wookoo.network.dto.weather.weekly.WeeklyWeatherResponseDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-
-interface IWeatherRetrofit {
+@CoveredByTest
+interface IForecastRetrofit {
 
     @GET("forecast")
     suspend fun getCurrentWeather(

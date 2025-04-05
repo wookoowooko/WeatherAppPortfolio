@@ -1,13 +1,15 @@
 package io.wookoo.domain.usecases
 
+import io.wookoo.domain.annotations.CoveredByTest
 import io.wookoo.models.ui.UiCalendarDayModel
 import io.wookoo.models.weather.weekly.WeeklyWeatherDomainUI
 import javax.inject.Inject
 
+@CoveredByTest
 class MapWeeklyWeatherToCalendarUiUseCase
 @Inject constructor(
     private val convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,
-    private val convertUnixDateToDayNameDayNumberUseCase: ConvertUnixDateToDayNameDayNumberUseCase
+    private val convertUnixDateToDayNameDayNumberUseCase: ConvertUnixDateToDayNameDayNumberUseCase,
 ) {
     operator fun invoke(weekResponse: WeeklyWeatherDomainUI): List<UiCalendarDayModel> {
         return List(weekResponse.weekly.time.size) { index ->

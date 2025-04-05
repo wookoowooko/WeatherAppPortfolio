@@ -7,10 +7,10 @@ dependencies{
     libs.apply {
         api(libs.javax.inject)
         implementation(kotlinx.datetime)
-        testImplementation(junit)
+        testImplementation(bundles.jvm.test)
     }
     projects.core.apply {
         api(models)
     }
-
+    testImplementation(kotlin("test"))
 }

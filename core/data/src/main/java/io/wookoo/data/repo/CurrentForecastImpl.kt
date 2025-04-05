@@ -25,7 +25,6 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
 import java.sql.SQLException
-import java.util.Locale
 import javax.inject.Inject
 
 class CurrentForecastImpl @Inject constructor(
@@ -49,8 +48,7 @@ class CurrentForecastImpl @Inject constructor(
             try {
                 currentWeatherDao.updateCurrentForecastLocation(geoItemId)
                 AppResult.Success(Unit)
-            } catch (e: SQLException) {
-                println(e)
+            } catch (_: SQLException) {
                 AppResult.Error(DataError.Local.DISK_FULL)
             }
         }
@@ -97,8 +95,7 @@ class CurrentForecastImpl @Inject constructor(
                  * Fetches geo-information for the given location.
                  */
                 val geoResult = geoCodingService.getInfoByGeoItemId(
-                    geoItemId = geoItemId,
-                    language = Locale.getDefault().language.lowercase()
+                    geoItemId = geoItemId
                 )
                 if (geoResult is AppResult.Error) {
                     result = AppResult.Error(geoResult.error)

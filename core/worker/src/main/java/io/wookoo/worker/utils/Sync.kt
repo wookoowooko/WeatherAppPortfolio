@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
-import io.wookoo.worker.workers.OneTimeSyncWorker
+import io.wookoo.worker.workers.OneTimeCurrentForecastSyncWorker
 import io.wookoo.worker.workers.SyncWorker
 
 object Sync {
@@ -14,7 +14,7 @@ object Sync {
             .enqueueUniqueWork(
                 ONETIME_SYNC_WORK_NAME,
                 ExistingWorkPolicy.REPLACE,
-                OneTimeSyncWorker.startUpSyncWork(locationId, isNeedToUpdate)
+                OneTimeCurrentForecastSyncWorker.startUpSyncWork(locationId, isNeedToUpdate)
             )
     }
 

@@ -1,0 +1,25 @@
+{
+  "geonames": [
+    {
+      "adminCode1": "NJ",
+      "lng": "-74.03236",
+      "distance": "1.95448",
+      "geonameId": 5099133,
+      "toponymName": "Hoboken",
+      "countryId": "6252001",
+      "fcl": "P",
+      "population": 53635,
+      "countryCode": "US",
+      "name": "Hoboken",
+      "fclName": "city, village,...",
+      "adminCodes1": {
+        "ISO3166_2": "NJ"
+      },
+      "countryName": "United States",
+      "fcodeName": "populated place",
+      "adminName1": "New Jersey",
+      "lat": "40.74399",
+      "fcode": "PPL"
+    }
+  ]
+}

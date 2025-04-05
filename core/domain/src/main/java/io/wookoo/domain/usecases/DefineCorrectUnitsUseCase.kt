@@ -1,11 +1,13 @@
 package io.wookoo.domain.usecases
 
+import io.wookoo.domain.annotations.CoveredByTest
 import io.wookoo.domain.repo.IDataStoreRepo
 import io.wookoo.models.units.WeatherUnit
 import io.wookoo.models.units.WeatherUnits
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
+@CoveredByTest
 class DefineCorrectUnitsUseCase @Inject constructor(
     private val dataStore: IDataStoreRepo,
 ) {

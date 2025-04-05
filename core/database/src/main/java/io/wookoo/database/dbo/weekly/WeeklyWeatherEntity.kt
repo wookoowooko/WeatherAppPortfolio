@@ -63,7 +63,7 @@ data class WeeklyWeatherEntity(
     val snowfallSum: List<Double>,
 
     @ColumnInfo("precipitation_probability_max")
-    val precipitationProbabilityMax: List<Double>,
+    val precipitationProbabilityMax: List<Int>,
 
     @ColumnInfo("wind_speed_10m_max")
     val windSpeedMax: List<Double>,
@@ -72,7 +72,7 @@ data class WeeklyWeatherEntity(
     val windGustsMax: List<Double>,
 
     @ColumnInfo("wind_direction_10m_dominant")
-    val windDirectionMax: List<Double>,
+    val windDirectionMax: List<Int>,
 
     @ColumnInfo("last_update")
     val lastUpdate: Long = System.currentTimeMillis(),

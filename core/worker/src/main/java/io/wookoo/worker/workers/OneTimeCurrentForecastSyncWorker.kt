@@ -20,7 +20,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 
 @HiltWorker
-class OneTimeSyncWorker @AssistedInject constructor(
+class OneTimeCurrentForecastSyncWorker @AssistedInject constructor(
     @Assisted private val appContext: Context,
     @Assisted workerParams: WorkerParameters,
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
@@ -66,7 +66,7 @@ class OneTimeSyncWorker @AssistedInject constructor(
         private const val ONE_TIME_SYNC_TAG = "OneTimeForecastSync"
 
         fun startUpSyncWork(geoItemId: Long, isNeedToUpdate: Boolean = false) =
-            OneTimeWorkRequestBuilder<OneTimeSyncWorker>()
+            OneTimeWorkRequestBuilder<OneTimeCurrentForecastSyncWorker>()
                 .setInputData(
                     workDataOf(
                         KEY_GEO_ITEM_ID to geoItemId,
