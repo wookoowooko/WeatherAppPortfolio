@@ -3,6 +3,7 @@ package io.wookoo.weekly.delegates.infocard
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import io.wookoo.common.ext.asLocalizedUiWeatherMap
 import io.wookoo.common.ext.asLocalizedUnitValueString
+import io.wookoo.common.ext.getWeatherDrawableGradient
 import io.wookoo.design.system.databinding.InfoCardItemBinding
 import io.wookoo.models.ui.DisplayableItem
 import io.wookoo.models.ui.UiCardInfoModel
@@ -13,6 +14,7 @@ internal fun cardInfoAdapterDelegate() =
     ) {
         bind {
             with(binding) {
+                infoCard.background = getWeatherDrawableGradient(item.weatherCondition)
                 tempMin.text = item.tempMin
                 tempMax.text =
                     item.tempMax.value.asLocalizedUnitValueString(item.tempMax.unit, context)

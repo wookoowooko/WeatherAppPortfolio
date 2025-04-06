@@ -14,7 +14,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -24,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import io.wookoo.common.ext.asLocalizedUiWeatherMap
 import io.wookoo.common.ext.asLocalizedUnitValueString
+import io.wookoo.common.ext.getWeatherGradient
 import io.wookoo.designsystem.ui.components.SharedGradientText
 import io.wookoo.designsystem.ui.components.SharedHeadlineText
 import io.wookoo.designsystem.ui.components.SharedText
@@ -45,12 +45,6 @@ fun MainCardConstraint(
     state: MainPageState,
     modifier: Modifier = Modifier,
 ) {
-    val linearGradient = Brush.linearGradient(
-        colors = listOf(
-            MaterialTheme.colorScheme.primary,
-            MaterialTheme.colorScheme.primary.copy(0.6f),
-        ),
-    )
     val context = LocalContext.current
 
     ConstraintLayout(
@@ -63,7 +57,7 @@ fun MainCardConstraint(
                 .fillMaxWidth()
                 .height(size_170)
                 .clip(shape = rounded_shape_20_percent)
-                .background(linearGradient)
+                .background(getWeatherGradient(state.currentWeather.weatherStatus))
                 .constrainAs(container) {
                     top.linkTo(parent.top, margin = padding_50)
                     bottom.linkTo(parent.bottom)

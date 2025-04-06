@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -28,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.wookoo.common.ext.asLocalizedUiWeatherMap
 import io.wookoo.common.ext.asLocalizedUnitValueString
+import io.wookoo.common.ext.getWeatherGradient
 import io.wookoo.designsystem.ui.components.SharedGradientText
 import io.wookoo.designsystem.ui.components.SharedHeadlineText
 import io.wookoo.designsystem.ui.components.SharedText
@@ -46,12 +46,6 @@ fun CityCard(
     uiCity: UiCity,
     modifier: Modifier = Modifier,
 ) {
-    val linearGradient = Brush.linearGradient(
-        colors = listOf(
-            MaterialTheme.colorScheme.primary,
-            MaterialTheme.colorScheme.primary.copy(0.6f),
-        )
-    )
     val context = LocalContext.current
     Box(
         modifier = modifier
@@ -62,7 +56,6 @@ fun CityCard(
         Box(
             modifier = Modifier
                 .clip(shape = rounded_shape_20_percent)
-//                .background(linearGradient),
                 .background(getWeatherGradient(uiCity.weatherStatus)),
         ) {
             Column {
@@ -201,34 +194,7 @@ fun CityCard(
 
 @Composable
 @Preview
-private fun CityCardPreview() {
-    WeatherAppPortfolioTheme {
-        CityCard(
-            uiCity = UiCity(
-                weatherStatus = WeatherCondition.OVERCAST_3,
-                cityName = "Петропавловвско камчатский национальный парк",
-                countryName = "UK",
-                temperature = WeatherValueWithUnit(
-                    value = 18.0,
-                    unit = WeatherUnit.CELSIUS
-                ),
-                temperatureFeelsLike =
-                WeatherValueWithUnit(
-                    value = 18.0,
-                    unit = WeatherUnit.CELSIUS
-                ),
-                isDay = true,
-                geoItemId = 1,
-                date = "Sunday, 22 Mar.",
-                isCurrentLocation = true
-            ),
-        )
-    }
-}
-
-@Composable
-@Preview
-private fun CityCardPreview2() {
+private fun CLEAR_SKY_0() {
     WeatherAppPortfolioTheme {
         CityCard(
             uiCity = UiCity(
@@ -256,94 +222,329 @@ private fun CityCardPreview2() {
     }
 }
 
-fun getWeatherGradient(condition: WeatherCondition): Brush {
-    return Brush.linearGradient(
-        colors = when (condition) {
-            WeatherCondition.CLEAR_SKY_0 -> listOf(
-                Color(0xFF87CEEB), // Light Sky Blue
-                Color(0xFFADD8E6) // Light Blue
-            )
+@Composable
+@Preview
+private fun PARTLY_CLOUDY_1_OR_2() {
+    WeatherAppPortfolioTheme {
+        CityCard(
+            uiCity = UiCity(
+                weatherStatus = WeatherCondition.PARTLY_CLOUDY_1_OR_2,
+                cityName = "Лондон",
+                countryName = "UK",
+                temperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                isDay = false,
+                geoItemId = 1,
+                minTemperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                maxTemperature = WeatherValueWithUnit(
+                    value = 21.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                date = "Sunday, 22 Mar.",
+                isCurrentLocation = false
+            ),
+        )
+    }
+}
 
-            WeatherCondition.PARTLY_CLOUDY_1_OR_2 -> listOf(
-                Color(0xFFB0E0E6), // Powder Blue
-                Color(0xFF87CEEB) // Light Sky Blue
-            )
+@Composable
+@Preview
+private fun OVERCAST_3() {
+    WeatherAppPortfolioTheme {
+        CityCard(
+            uiCity = UiCity(
+                weatherStatus = WeatherCondition.OVERCAST_3,
+                cityName = "Петропавловвско камчатский национальный парк",
+                countryName = "UK",
+                temperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                temperatureFeelsLike =
+                WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                isDay = true,
+                geoItemId = 1,
+                date = "Sunday, 22 Mar.",
+                isCurrentLocation = true
+            ),
+        )
+    }
+}
 
-            WeatherCondition.OVERCAST_3 -> listOf(
-                Color(0xFF778899), // Light Slate Gray
-                Color(0xFF708090) // Slate Gray
-            )
+@Composable
+@Preview
+private fun FOG_45_OR_48() {
+    WeatherAppPortfolioTheme {
+        CityCard(
+            uiCity = UiCity(
+                weatherStatus = WeatherCondition.FOG_45_OR_48,
+                cityName = "Лондон",
+                countryName = "UK",
+                temperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                isDay = false,
+                geoItemId = 1,
+                minTemperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                maxTemperature = WeatherValueWithUnit(
+                    value = 21.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                date = "Sunday, 22 Mar.",
+                isCurrentLocation = false
+            ),
+        )
+    }
+}
 
-            WeatherCondition.FOG_45_OR_48 -> listOf(
-                Color(0xFF696969), // Dim Gray
-                Color(0xFF808080) // Gray
-            )
+@Composable
+@Preview
+private fun DRIZZLE_51_53_55() {
+    WeatherAppPortfolioTheme {
+        CityCard(
+            uiCity = UiCity(
+                weatherStatus = WeatherCondition.DRIZZLE_LIGHT_51,
+                cityName = "Лондон",
+                countryName = "UK",
+                temperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                isDay = false,
+                geoItemId = 1,
+                minTemperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                maxTemperature = WeatherValueWithUnit(
+                    value = 21.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                date = "Sunday, 22 Mar.",
+                isCurrentLocation = false
+            ),
+        )
+    }
+}
 
-            WeatherCondition.DRIZZLE_LIGHT_51,
-            WeatherCondition.DRIZZLE_MODERATE_53,
-            WeatherCondition.DRIZZLE_HEAVY_55,
-            -> listOf(
-                Color(0xFF4682B4), // Steel Blue
-                Color(0xFF5F9EA0) // Cadet Blue
-            )
+@Composable
+@Preview
+private fun FREEZING_DRIZZLE_56_57() {
+    WeatherAppPortfolioTheme {
+        CityCard(
+            uiCity = UiCity(
+                weatherStatus = WeatherCondition.FREEZING_DRIZZLE_HEAVY_57,
+                cityName = "Лондон",
+                countryName = "UK",
+                temperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                isDay = false,
+                geoItemId = 1,
+                minTemperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                maxTemperature = WeatherValueWithUnit(
+                    value = 21.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                date = "Sunday, 22 Mar.",
+                isCurrentLocation = false
+            ),
+        )
+    }
+}
 
-            WeatherCondition.FREEZING_DRIZZLE_LIGHT_56,
-            WeatherCondition.FREEZING_DRIZZLE_HEAVY_57,
-            -> listOf(
-                Color(0xFF6A5ACD), // Slate Blue
-                Color(0xFF483D8B) // Dark Slate Blue
-            )
+@Composable
+@Preview
+private fun HEAVY_RAIN_61_63_65() {
+    WeatherAppPortfolioTheme {
+        CityCard(
+            uiCity = UiCity(
+                weatherStatus = WeatherCondition.HEAVY_RAIN_65,
+                cityName = "Лондон",
+                countryName = "UK",
+                temperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                isDay = false,
+                geoItemId = 1,
+                minTemperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                maxTemperature = WeatherValueWithUnit(
+                    value = 21.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                date = "Sunday, 22 Mar.",
+                isCurrentLocation = false
+            ),
+        )
+    }
+}
 
-            WeatherCondition.RAIN_LIGHT_61,
-            WeatherCondition.RAIN_MODERATE_63,
-            WeatherCondition.HEAVY_RAIN_65,
-            -> listOf(
-                Color(0xFF4169E1), // Royal Blue
-                Color(0xFF00008B) // Dark Blue
-            )
+@Composable
+@Preview
+private fun FREEZING_RAIN_LIGHT_66_67() {
+    WeatherAppPortfolioTheme {
+        CityCard(
+            uiCity = UiCity(
+                weatherStatus = WeatherCondition.FREEZING_RAIN_LIGHT_66,
+                cityName = "Лондон",
+                countryName = "UK",
+                temperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                isDay = false,
+                geoItemId = 1,
+                minTemperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                maxTemperature = WeatherValueWithUnit(
+                    value = 21.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                date = "Sunday, 22 Mar.",
+                isCurrentLocation = false
+            ),
+        )
+    }
+}
 
-            WeatherCondition.FREEZING_RAIN_LIGHT_66,
-            WeatherCondition.FREEZING_RAIN_HEAVY_67,
-            -> listOf(
-                Color(0xFF000080), // Navy
-                Color(0xFF191970) // Midnight Blue
-            )
+@Composable
+@Preview
+private fun SNOW_LIGHT_71_73_75_77() {
+    WeatherAppPortfolioTheme {
+        CityCard(
+            uiCity = UiCity(
+                weatherStatus = WeatherCondition.SNOW_LIGHT_71,
+                cityName = "Лондон",
+                countryName = "UK",
+                temperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                isDay = false,
+                geoItemId = 1,
+                minTemperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                maxTemperature = WeatherValueWithUnit(
+                    value = 21.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                date = "Sunday, 22 Mar.",
+                isCurrentLocation = false
+            ),
+        )
+    }
+}
 
-            WeatherCondition.SNOW_LIGHT_71,
-            WeatherCondition.SNOW_MODERATE_73,
-            WeatherCondition.SNOW_HEAVY_75,
-            WeatherCondition.SNOW_GRAINS_77,
-            -> listOf(
-                Color(0xFFE0FFFF), // Light Cyan
-                Color(0xFFAFEEEE) // Pale Turquoise
-            )
+@Composable
+@Preview
+private fun RAIN_SHOWERS_LIGHT_80_81_82() {
+    WeatherAppPortfolioTheme {
+        CityCard(
+            uiCity = UiCity(
+                weatherStatus = WeatherCondition.RAIN_SHOWERS_LIGHT_80,
+                cityName = "Лондон",
+                countryName = "UK",
+                temperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                isDay = false,
+                geoItemId = 1,
+                minTemperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                maxTemperature = WeatherValueWithUnit(
+                    value = 21.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                date = "Sunday, 22 Mar.",
+                isCurrentLocation = false
+            ),
+        )
+    }
+}
 
-            WeatherCondition.RAIN_SHOWERS_LIGHT_80,
-            WeatherCondition.RAIN_SHOWERS_MODERATE_81,
-            WeatherCondition.RAIN_SHOWERS_HEAVY_82,
-            -> listOf(
-                Color(0xFF1E90FF), // Dodger Blue
-                Color(0xFF0000CD) // Medium Blue
-            )
+@Composable
+@Preview
+private fun SNOW_SHOWERS_LIGHT_85_86() {
+    WeatherAppPortfolioTheme {
+        CityCard(
+            uiCity = UiCity(
+                weatherStatus = WeatherCondition.SNOW_SHOWERS_LIGHT_85,
+                cityName = "Лондон",
+                countryName = "UK",
+                temperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                isDay = false,
+                geoItemId = 1,
+                minTemperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                maxTemperature = WeatherValueWithUnit(
+                    value = 21.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                date = "Sunday, 22 Mar.",
+                isCurrentLocation = false
+            ),
+        )
+    }
+}
 
-            WeatherCondition.SNOW_SHOWERS_LIGHT_85,
-            WeatherCondition.SNOW_SHOWERS_HEAVY_86,
-            -> listOf(
-                Color(0xFFF0F8FF), // Alice Blue
-                Color(0xFFE6E6FA) // Lavender
-            )
-
-            WeatherCondition.THUNDERSTORM_95,
-            WeatherCondition.THUNDERSTORM_HAIL_96_OR_99,
-            -> listOf(
-                Color(0xFF00008B), // Dark Blue
-                Color(0xFF000000) // Black
-            )
-
-            WeatherCondition.UNKNOWN -> listOf(
-                Color(0xFFA9A9A9), // Dark Gray
-                Color(0xFF808080) // Gray
-            )
-        }
-    )
+@Composable
+@Preview
+private fun THUNDERSTORM_95_96_99() {
+    WeatherAppPortfolioTheme {
+        CityCard(
+            uiCity = UiCity(
+                weatherStatus = WeatherCondition.THUNDERSTORM_95,
+                cityName = "Лондон",
+                countryName = "UK",
+                temperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                isDay = false,
+                geoItemId = 1,
+                minTemperature = WeatherValueWithUnit(
+                    value = 18.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                maxTemperature = WeatherValueWithUnit(
+                    value = 21.0,
+                    unit = WeatherUnit.CELSIUS
+                ),
+                date = "Sunday, 22 Mar.",
+                isCurrentLocation = false
+            ),
+        )
+    }
 }
