@@ -1,7 +1,6 @@
 package io.wookoo.weekly.screen
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,7 +60,7 @@ class WeeklyFragment : Fragment() {
 //            v.setPadding(0, 0, 0, systemBars.bottom)
 //            insets
 //        }
-        Log.d(TAG, "onViewCreated")
+
         with(binding) {
             mainRecycler.adapter = mainAdapter
             calendarRecycler.adapter = calendarAdapter
@@ -124,9 +123,5 @@ class WeeklyFragment : Fragment() {
         lottieLoader.visibility = state.loadingIndicator
         calendarRecycler.visibility = state.calendarRecycler
         mainRecycler.visibility = state.mainRecycler
-    }
-
-    companion object {
-        private const val TAG = "WeeklyFragment"
     }
 }
