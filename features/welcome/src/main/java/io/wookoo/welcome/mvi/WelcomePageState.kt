@@ -6,15 +6,16 @@ import io.wookoo.models.units.WeatherUnit
 
 data class WelcomePageState(
     val isOffline: Boolean = false,
-    val geoItem: io.wookoo.models.geocoding.GeocodingDomainUI? = null,
+    val geoItem: GeocodingDomainUI? = null,
     val isSearchExpanded: Boolean = false,
     val isLoading: Boolean = false,
     val errorMessage: AppError? = null,
     val searchQuery: String = "",
-    val results: List<io.wookoo.models.geocoding.GeocodingDomainUI> = emptyList(),
+    val results: List<GeocodingDomainUI> = emptyList(),
     val latitude: Double = 0.0,
     val longitude: Double = 0.0,
     val isGeolocationSearchInProgress: Boolean = false,
+    val isDialogVisible: Boolean = false,
 
     val temperatureUnitOptions: List<WeatherDataUnit> = listOf(
         WeatherUnit.CELSIUS,
@@ -22,7 +23,8 @@ data class WelcomePageState(
     ).map { it.toWeatherDataUnit() },
     val windSpeedUnitOptions: List<WeatherDataUnit> = listOf(
         WeatherUnit.KMH,
-        WeatherUnit.MPH
+        WeatherUnit.MPH,
+        WeatherUnit.MS
     ).map { it.toWeatherDataUnit() },
     val precipitationUnitOptions: List<WeatherDataUnit> = listOf(
         WeatherUnit.MM,

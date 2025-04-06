@@ -105,6 +105,9 @@
     <string name="precipitation">Осадки</string>
     <string name="total">Всего: </string>
     <string name="suncycles">Солнечные циклы</string>
+    <string name="units_of_measurement">Единицы измерения</string>
+    <string name="units_of_measurement_short">Единицы</string>
+    <string name="temperature">Температура</string>
 
     <!-- Ошибки -->
     <string name="error_request_timeout">Время ожидания запроса истекло</string>

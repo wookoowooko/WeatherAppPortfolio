@@ -107,6 +107,9 @@
     <string name="precipitation">Precipitation</string>
     <string name="total">Total: </string>
     <string name="suncycles">Sun Cycles</string>
+    <string name="units_of_measurement">Units of measurement</string>
+    <string name="units_of_measurement_short">Units</string>
+    <string name="temperature">Temperature</string>
 
     <!--Error-->
     <string name="error_request_timeout">Request timed out</string>

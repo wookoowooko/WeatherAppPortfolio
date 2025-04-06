@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 @CoveredByTest
 class DefineCorrectUnitsUseCase @Inject constructor(
-    private val dataStore: IDataStoreRepo,
+    private val dataStore: IDataStoreRepo
 ) {
     suspend fun defineCorrectUnits(): WeatherUnits {
         val settings = dataStore.userSettings.first()
@@ -27,6 +27,7 @@ class DefineCorrectUnitsUseCase @Inject constructor(
             windSpeed = when (settings.windSpeedUnit) {
                 WeatherUnit.KMH.apiValue -> WeatherUnit.KMH
                 WeatherUnit.MPH.apiValue -> WeatherUnit.MPH
+                WeatherUnit.MS.apiValue -> WeatherUnit.MS
                 else -> WeatherUnit.KMH
             }
         )
