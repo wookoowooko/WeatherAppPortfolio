@@ -54,6 +54,8 @@ class WelcomePageReducer @Inject constructor() :
                 state.copy(selectedPrecipitationUnit = dataUnit ?: state.selectedPrecipitationUnit)
             }
 
+            is OnChangeUnitsDialogState -> state.copy(isDialogVisible = intent.state)
+
             is Completable ->
                 state.copy(isLoading = false, isGeolocationSearchInProgress = false).let {
                     when (intent) {

@@ -31,25 +31,32 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.wookoo.common.ext.asUnitString
 import io.wookoo.designsystem.ui.components.SharedHeadlineText
 import io.wookoo.designsystem.ui.components.SharedLottieLoader
-import io.wookoo.designsystem.ui.components.SharedRadioGroup
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
-import io.wookoo.designsystem.ui.theme.small
+import io.wookoo.designsystem.ui.theme.size_100
 import io.wookoo.models.geocoding.GeocodingDomainUI
 import io.wookoo.welcome.components.ChooseYourLocationCard
 import io.wookoo.welcome.components.ContinueButton
 import io.wookoo.welcome.components.DetectGeolocationCard
+import io.wookoo.welcome.components.UnitsButton
+import io.wookoo.welcome.components.UnitsDialog
 import io.wookoo.welcome.components.WelcomeSearchBar
-import io.wookoo.welcome.mvi.SaveSelectedPrecipitation
-import io.wookoo.welcome.mvi.SaveSelectedTemperature
-import io.wookoo.welcome.mvi.SaveSelectedWindSpeed
 import io.wookoo.welcome.mvi.WelcomePageIntent
 import io.wookoo.welcome.mvi.WelcomePageState
+
+
+@Composable
+@Preview
+private fun ContinueButtonPreview() {
+    ContinueButton(
+        onIntent = {}
+    )
+}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,7 +70,11 @@ fun WelcomePageScreen(
         floatingActionButton = {
             if (!state.isGeolocationSearchInProgress || !state.isLoading) {
                 if (!state.geoItem?.cityName.isNullOrBlank()) {
-                    ContinueButton(onIntent)
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        UnitsButton(onIntent)
+                        ContinueButton(onIntent)
+                    }
+
                 }
             }
         },
@@ -73,12 +84,12 @@ fun WelcomePageScreen(
             if (!isSearchBarVisible) {
                 TopAppBar(
                     windowInsets = (
-                        TopAppBarDefaults.windowInsets.add(
-                            WindowInsets.displayCutout.only(
-                                WindowInsetsSides.Horizontal
+                            TopAppBarDefaults.windowInsets.add(
+                                WindowInsets.displayCutout.only(
+                                    WindowInsetsSides.Horizontal
+                                )
                             )
-                        )
-                        ),
+                            ),
                     title = {
                         SharedText(
                             stringResource(io.wookoo.androidresources.R.string.choose_your_location)
@@ -101,11 +112,17 @@ fun WelcomePageScreen(
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            if (state.isDialogVisible) {
+                UnitsDialog(
+                    modifier = Modifier,
+                    state, onIntent
+                )
+            }
             Image(
                 painter = painterResource(io.wookoo.design.system.R.drawable.search_stub),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(150.dp)
+                    .size(size_100)
                     .padding(medium),
                 contentScale = ContentScale.Crop,
             )
@@ -160,48 +177,6 @@ fun WelcomePageScreen(
                                 modifier = Modifier.padding(vertical = medium)
                             )
 
-                            SharedText(
-                                style = MaterialTheme.typography.titleMedium,
-                                text = "Единицы измерения",
-                                modifier = Modifier.padding(horizontal = medium)
-                            )
-
-                            SharedRadioGroup(
-                                modifier = Modifier.padding(small),
-                                radioOptions = state.windSpeedUnitOptions.map { options ->
-                                    stringResource(options.stringValue.asUnitString())
-                                },
-                                selectedOption = stringResource(state.selectedWindSpeedUnit.stringValue.asUnitString()),
-                                onOptionSelect = { index ->
-                                    onIntent(SaveSelectedWindSpeed(state.windSpeedUnitOptions[index].apiValue))
-                                }
-                            )
-                            SharedRadioGroup(
-                                modifier = Modifier.padding(small),
-                                radioOptions = state.precipitationUnitOptions.map { options ->
-                                    stringResource(options.stringValue.asUnitString())
-                                },
-                                selectedOption = stringResource(
-                                    state.selectedPrecipitationUnit.stringValue.asUnitString()
-                                ),
-                                onOptionSelect = { index ->
-                                    onIntent(
-                                        SaveSelectedPrecipitation(state.precipitationUnitOptions[index].apiValue)
-                                    )
-                                }
-                            )
-                            SharedRadioGroup(
-                                modifier = Modifier.padding(small),
-                                radioOptions = state.temperatureUnitOptions.map { options ->
-                                    stringResource(options.stringValue.asUnitString())
-                                },
-                                selectedOption = stringResource(
-                                    state.selectedTemperatureUnit.stringValue.asUnitString()
-                                ),
-                                onOptionSelect = { index ->
-                                    onIntent(SaveSelectedTemperature(state.temperatureUnitOptions[index].apiValue))
-                                }
-                            )
                         }
                     }
                 }
@@ -210,13 +185,14 @@ fun WelcomePageScreen(
     }
 }
 
+
 @Composable
 @Preview(showBackground = true)
 private fun WelcomePagePreview() {
     WeatherAppPortfolioTheme {
         WelcomePageScreen(
             state = WelcomePageState(
-                geoItem = io.wookoo.models.geocoding.GeocodingDomainUI(
+                geoItem = GeocodingDomainUI(
                     cityName = "Seoul",
                     countryName = "Korea",
                     geoItemId = 1,

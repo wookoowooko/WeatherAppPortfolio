@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.designsystem.ui.theme.large
+import io.wookoo.designsystem.ui.theme.small
 
 @Composable
 fun SharedRadioGroup(
@@ -31,8 +32,7 @@ fun SharedRadioGroup(
                 )
                 SharedText(
                     text = text,
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(start = large)
+                    style = MaterialTheme.typography.bodyLarge
                 )
             }
         }

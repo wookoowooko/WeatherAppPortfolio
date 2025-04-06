@@ -7,7 +7,7 @@ enum class WeatherUnit(val apiValue: String = "") {
     MPH("mph"),
     HOUR,
     MINUTE,
-    MS,
+    MS("ms"),
     PERCENT,
     PRESSURE,
     MM("mm"),
