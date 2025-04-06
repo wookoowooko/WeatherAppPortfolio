@@ -48,16 +48,6 @@ import io.wookoo.welcome.components.WelcomeSearchBar
 import io.wookoo.welcome.mvi.WelcomePageIntent
 import io.wookoo.welcome.mvi.WelcomePageState
 
-
-@Composable
-@Preview
-private fun ContinueButtonPreview() {
-    ContinueButton(
-        onIntent = {}
-    )
-}
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WelcomePageScreen(
@@ -74,7 +64,6 @@ fun WelcomePageScreen(
                         UnitsButton(onIntent)
                         ContinueButton(onIntent)
                     }
-
                 }
             }
         },
@@ -84,12 +73,10 @@ fun WelcomePageScreen(
             if (!isSearchBarVisible) {
                 TopAppBar(
                     windowInsets = (
-                            TopAppBarDefaults.windowInsets.add(
-                                WindowInsets.displayCutout.only(
-                                    WindowInsetsSides.Horizontal
-                                )
-                            )
-                            ),
+                        TopAppBarDefaults.windowInsets.add(
+                            WindowInsets.displayCutout.only(WindowInsetsSides.Horizontal)
+                        )
+                        ),
                     title = {
                         SharedText(
                             stringResource(io.wookoo.androidresources.R.string.choose_your_location)
@@ -115,7 +102,8 @@ fun WelcomePageScreen(
             if (state.isDialogVisible) {
                 UnitsDialog(
                     modifier = Modifier,
-                    state, onIntent
+                    state = state,
+                    onIntent = onIntent
                 )
             }
             Image(
@@ -176,7 +164,6 @@ fun WelcomePageScreen(
                             HorizontalDivider(
                                 modifier = Modifier.padding(vertical = medium)
                             )
-
                         }
                     }
                 }
@@ -184,7 +171,6 @@ fun WelcomePageScreen(
         }
     }
 }
-
 
 @Composable
 @Preview(showBackground = true)

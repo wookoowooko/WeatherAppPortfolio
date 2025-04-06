@@ -11,7 +11,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.utils.SingleClickHandler.singleClick
-import io.wookoo.welcome.R
 import io.wookoo.welcome.mvi.OnChangeUnitsDialogState
 import io.wookoo.welcome.mvi.WelcomePageIntent
 

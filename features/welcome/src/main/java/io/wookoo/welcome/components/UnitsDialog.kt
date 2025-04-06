@@ -1,6 +1,5 @@
 package io.wookoo.welcome.components
 
-
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BasicAlertDialog
@@ -31,9 +30,9 @@ import io.wookoo.welcome.mvi.WelcomePageState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UnitsDialog(
-    modifier: Modifier = Modifier,
     state: WelcomePageState,
-    onIntent: (WelcomePageIntent) -> Unit,
+    modifier: Modifier = Modifier,
+    onIntent: (WelcomePageIntent) -> Unit
 ) {
     BasicAlertDialog(
         properties = DialogProperties(),
@@ -49,9 +48,9 @@ fun UnitsDialog(
                 text = stringResource(R.string.units_of_measurement),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(medium), textAlign = TextAlign.Center
+                    .padding(medium),
+                textAlign = TextAlign.Center
             )
-
 
             SharedText(
                 style = MaterialTheme.typography.titleMedium,
@@ -112,8 +111,6 @@ fun UnitsDialog(
             )
         }
     }
-
-
 }
 
 @Composable
