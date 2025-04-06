@@ -7,7 +7,6 @@ val ultraSmall = 2.dp
 val small = 4.dp
 val medium = 8.dp
 val large = 16.dp
-val ultraLarge = 32.dp
 val padding_50 = 50.dp
 
 val size_30 = 30.dp

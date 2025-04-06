@@ -1,7 +1,6 @@
 package io.wookoo.designsystem.ui.components
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
@@ -10,7 +9,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
-import io.wookoo.designsystem.ui.theme.large
 
 @Composable
 fun SharedRadioGroup(
@@ -31,8 +29,7 @@ fun SharedRadioGroup(
                 )
                 SharedText(
                     text = text,
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(start = large)
+                    style = MaterialTheme.typography.bodyLarge
                 )
             }
         }

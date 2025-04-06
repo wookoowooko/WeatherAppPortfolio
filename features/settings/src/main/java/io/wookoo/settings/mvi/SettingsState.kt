@@ -10,7 +10,8 @@ data class SettingsState(
     ).map { it.toWeatherDataUnit() },
     val windSpeedUnitOptions: List<io.wookoo.models.units.WeatherDataUnit> = listOf(
         WeatherUnit.KMH,
-        WeatherUnit.MPH
+        WeatherUnit.MPH,
+        WeatherUnit.MS
     ).map { it.toWeatherDataUnit() },
     val precipitationUnitOptions: List<io.wookoo.models.units.WeatherDataUnit> = listOf(
         WeatherUnit.MM,
