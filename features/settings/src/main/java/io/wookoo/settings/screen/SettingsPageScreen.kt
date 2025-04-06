@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -19,10 +21,15 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import io.wookoo.androidresources.R
 import io.wookoo.common.ext.asUnitString
 import io.wookoo.designsystem.ui.components.SharedRadioGroup
 import io.wookoo.designsystem.ui.components.SharedText
+import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
+import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.designsystem.ui.theme.small
 import io.wookoo.settings.mvi.SaveSelectedPrecipitation
@@ -64,44 +71,75 @@ internal fun SettingsPageScreen(
         }
     ) {
         Column(Modifier.padding(it)) {
-            SharedText(
-                style = MaterialTheme.typography.titleMedium,
-                text = "Единицы измерения",
-                modifier = Modifier.padding(horizontal = medium)
-            )
+            Card(modifier = Modifier.padding(large)) {
+                SharedText(
+                    weight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleMedium,
+                    text = stringResource(R.string.units_of_measurement),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(medium),
+                    textAlign = TextAlign.Center
+                )
 
-            SharedRadioGroup(
-                modifier = Modifier.padding(small),
-                radioOptions = state.windSpeedUnitOptions.map { options ->
-                    stringResource(options.stringValue.asUnitString())
-                },
-                selectedOption = stringResource(state.selectedWindSpeedUnit.stringValue.asUnitString()),
-                onOptionSelect = { index ->
-                    onIntent(SaveSelectedWindSpeed(state.windSpeedUnitOptions[index].apiValue))
-                }
-            )
-            SharedRadioGroup(
-                modifier = Modifier.padding(small),
-                radioOptions = state.precipitationUnitOptions.map { options ->
-                    stringResource(options.stringValue.asUnitString())
-                },
-                selectedOption = stringResource(state.selectedPrecipitationUnit.stringValue.asUnitString()),
-                onOptionSelect = { index ->
-                    onIntent(
-                        SaveSelectedPrecipitation(state.precipitationUnitOptions[index].apiValue)
-                    )
-                }
-            )
-            SharedRadioGroup(
-                modifier = Modifier.padding(small),
-                radioOptions = state.temperatureUnitOptions.map { options ->
-                    stringResource(options.stringValue.asUnitString())
-                },
-                selectedOption = stringResource(state.selectedTemperatureUnit.stringValue.asUnitString()),
-                onOptionSelect = { index ->
-                    onIntent(SaveSelectedTemperature(state.temperatureUnitOptions[index].apiValue))
-                }
-            )
+                SharedText(
+                    style = MaterialTheme.typography.titleMedium,
+                    text = stringResource(R.string.wind),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = medium)
+                )
+                SharedRadioGroup(
+                    modifier = Modifier.padding(small),
+                    radioOptions = state.windSpeedUnitOptions.map { options ->
+                        stringResource(options.stringValue.asUnitString())
+                    },
+                    selectedOption = stringResource(state.selectedWindSpeedUnit.stringValue.asUnitString()),
+                    onOptionSelect = { index ->
+                        onIntent(SaveSelectedWindSpeed(state.windSpeedUnitOptions[index].apiValue))
+                    }
+                )
+                SharedText(
+                    style = MaterialTheme.typography.titleMedium,
+                    text = stringResource(R.string.precipitation),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = medium)
+                )
+                SharedRadioGroup(
+                    modifier = Modifier.padding(small),
+                    radioOptions = state.precipitationUnitOptions.map { options ->
+                        stringResource(options.stringValue.asUnitString())
+                    },
+                    selectedOption = stringResource(
+                        state.selectedPrecipitationUnit.stringValue.asUnitString()
+                    ),
+                    onOptionSelect = { index ->
+                        onIntent(
+                            SaveSelectedPrecipitation(state.precipitationUnitOptions[index].apiValue)
+                        )
+                    }
+                )
+                SharedText(
+                    style = MaterialTheme.typography.titleMedium,
+                    text = stringResource(R.string.temperature),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = medium)
+                )
+                SharedRadioGroup(
+                    modifier = Modifier.padding(small),
+                    radioOptions = state.temperatureUnitOptions.map { options ->
+                        stringResource(options.stringValue.asUnitString())
+                    },
+                    selectedOption = stringResource(
+                        state.selectedTemperatureUnit.stringValue.asUnitString()
+                    ),
+                    onOptionSelect = { index ->
+                        onIntent(SaveSelectedTemperature(state.temperatureUnitOptions[index].apiValue))
+                    }
+                )
+            }
         }
     }
 }
@@ -109,9 +147,11 @@ internal fun SettingsPageScreen(
 @Composable
 @Preview
 private fun SettingsPageScreenPreview() {
-    SettingsPageScreen(
-        onBackIconClick = {},
-        state = SettingsState(),
-        onIntent = {}
-    )
+    WeatherAppPortfolioTheme {
+        SettingsPageScreen(
+            onBackIconClick = {},
+            state = SettingsState(),
+            onIntent = {}
+        )
+    }
 }

@@ -149,7 +149,7 @@ fun WelcomePageScreen(
                                         repeatDelayMillis = 300,
                                         spacing = MarqueeSpacing(20.dp)
                                     )
-                                    .padding(horizontal = medium)
+                                    .padding(horizontal = medium, vertical = medium)
                             )
                             SharedText(
                                 text = geo.countryName,
