@@ -34,7 +34,7 @@ import io.wookoo.designsystem.ui.theme.medium
 import io.wookoo.main.components.BottomContent
 import io.wookoo.main.components.Header
 import io.wookoo.main.components.HourlyRow
-import io.wookoo.main.components.MainCardMedium
+import io.wookoo.main.components.MainCardConstraint
 import io.wookoo.main.components.TodayRowTitle
 import io.wookoo.main.components.WeatherProperties
 import io.wookoo.main.mvi.MainPageIntent
@@ -109,7 +109,7 @@ fun MainPageScreen(
                                         modifier = Modifier.padding(horizontal = large)
                                     )
 
-                                    MainCardMedium(
+                                    MainCardConstraint(
                                         state = state,
                                         modifier = Modifier.padding(horizontal = large)
                                     )
