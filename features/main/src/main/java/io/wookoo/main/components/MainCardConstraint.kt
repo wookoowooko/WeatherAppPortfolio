@@ -2,19 +2,16 @@ package io.wookoo.main.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.MarqueeSpacing
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -23,6 +20,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import io.wookoo.common.ext.asLocalizedUiWeatherMap
 import io.wookoo.common.ext.asLocalizedUnitValueString
 import io.wookoo.designsystem.ui.components.SharedGradientText
@@ -42,7 +41,7 @@ import io.wookoo.models.units.WeatherUnit
 import io.wookoo.models.units.WeatherValueWithUnit
 
 @Composable
-fun MainCardMedium(
+fun MainCardConstraint(
     state: MainPageState,
     modifier: Modifier = Modifier,
 ) {
@@ -54,85 +53,89 @@ fun MainCardMedium(
     )
     val context = LocalContext.current
 
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(Color.Transparent)
+    ConstraintLayout(
+        modifier = modifier.fillMaxWidth()
     ) {
+        val (image, container, weatherStatus, temperature, feelsLikeText, feelsLikeTemperature) = createRefs()
+
         Box(
             modifier = Modifier
-                .padding(top = padding_50)
+                .fillMaxWidth()
                 .height(size_170)
                 .clip(shape = rounded_shape_20_percent)
-                .background(linearGradient),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxSize(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.Bottom),
-                    contentAlignment = Alignment.TopStart
-                ) {
-                    Column(
-                        Modifier
-                            .padding(large),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.Start
-                    ) {
-                        SharedHeadlineText(
-                            modifier = Modifier.padding(bottom = medium),
-                            color = Color.White,
-                            text = stringResource(
-                                state.currentWeather.weatherStatus.asLocalizedUiWeatherMap(
-                                    state.currentWeather.isDay
-                                ).second
-                            ),
-                            style = MaterialTheme.typography.headlineSmall,
-                        )
-                    }
-                }
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.Top),
-                    contentAlignment = Alignment.TopStart
-                ) {
-                    Column(
-                        Modifier.padding(large),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        SharedGradientText(
-                            text = state.currentWeather.temperature.value.asLocalizedUnitValueString(
-                                state.currentWeather.temperature.unit,
-                                context
-                            ),
-                            style = MaterialTheme.typography.displayMedium,
-                        )
-                        Row {
-                            SharedText(
-                                color = Color.White,
-                                text = stringResource(
-                                    io.wookoo.androidresources.R.string.feels_like,
-                                ),
-                                style = MaterialTheme.typography.titleSmall,
-                            )
-                            SharedText(
-                                modifier = Modifier.padding(start = small),
-                                color = Color.White,
-                                text = state.currentWeather.temperatureFeelsLike.value.asLocalizedUnitValueString(
-                                    state.currentWeather.temperatureFeelsLike.unit,
-                                    context
-                                ),
-                                style = MaterialTheme.typography.titleSmall,
-                            )
-                        }
-                    }
-                }
+                .background(linearGradient)
+                .constrainAs(container) {
+                    top.linkTo(parent.top, margin = padding_50)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                },
+        ) {}
+
+        SharedText(
+            color = Color.White,
+            text = state.currentWeather.temperatureFeelsLike.value.asLocalizedUnitValueString(
+                state.currentWeather.temperatureFeelsLike.unit,
+                context
+            ),
+            style = MaterialTheme.typography.titleSmall,
+            modifier = Modifier.constrainAs(feelsLikeTemperature) {
+                top.linkTo(temperature.bottom, margin = small)
+                end.linkTo(parent.end, margin = large)
             }
-        }
+        )
+
+        SharedText(
+            color = Color.White,
+            text = stringResource(
+                io.wookoo.androidresources.R.string.feels_like,
+            ),
+            style = MaterialTheme.typography.titleSmall,
+
+            modifier = Modifier.constrainAs(
+                feelsLikeText
+            ) {
+                end.linkTo(feelsLikeTemperature.start, margin = small)
+                top.linkTo(temperature.bottom, margin = small)
+            }
+        )
+
+        SharedGradientText(
+            text = state.currentWeather.temperature.value.asLocalizedUnitValueString(
+                state.currentWeather.temperature.unit,
+                context
+            ),
+            style = MaterialTheme.typography.displayMedium,
+            modifier = Modifier.constrainAs(
+                temperature
+            ) {
+                end.linkTo(parent.end, margin = large)
+                top.linkTo(container.top, margin = large)
+            }
+        )
+
+        SharedHeadlineText(
+            maxLines = 1,
+            modifier = Modifier
+                .padding(bottom = medium)
+                .constrainAs(weatherStatus) {
+                    bottom.linkTo(parent.bottom, margin = medium)
+                    start.linkTo(image.start, margin = medium)
+                }
+                .basicMarquee(
+                    iterations = Int.MAX_VALUE,
+                    repeatDelayMillis = 300,
+                    spacing = MarqueeSpacing(20.dp)
+                ),
+            color = Color.White,
+            text = stringResource(
+                state.currentWeather.weatherStatus.asLocalizedUiWeatherMap(
+                    state.currentWeather.isDay
+                ).second
+            ),
+            style = MaterialTheme.typography.headlineSmall,
+        )
+
         Image(
             painter = painterResource(
                 id = state.currentWeather.weatherStatus.asLocalizedUiWeatherMap(
@@ -143,6 +146,10 @@ fun MainCardMedium(
             modifier = Modifier
                 .size(size_170)
                 .padding(large)
+                .constrainAs(image) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start, margin = medium)
+                }
         )
     }
 }
@@ -151,7 +158,7 @@ fun MainCardMedium(
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun ClearSkySunny0() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -170,10 +177,32 @@ private fun ClearSkySunny0() {
 }
 
 @Composable
+@Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_YES, locale = "ru")
+private fun TestRuLongText() {
+    WeatherAppPortfolioTheme {
+        MainCardConstraint(
+            state = MainPageState(
+                currentWeather = UiCurrentWeatherModel(
+                    temperature = WeatherValueWithUnit(
+                        value = 25.0,
+                        unit = WeatherUnit.CELSIUS
+                    ),
+                    temperatureFeelsLike = WeatherValueWithUnit(
+                        value = 32.0,
+                        unit = WeatherUnit.CELSIUS
+                    ),
+                    weatherStatus = WeatherCondition.FREEZING_DRIZZLE_LIGHT_56,
+                )
+            )
+        )
+    }
+}
+
+@Composable
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_NO)
 private fun PartlyCloudy1_or_2() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -195,7 +224,7 @@ private fun PartlyCloudy1_or_2() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun Overcast3() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -217,7 +246,7 @@ private fun Overcast3() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_NO)
 private fun Fog45_48() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -239,7 +268,7 @@ private fun Fog45_48() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun DrizzleLight51() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -261,7 +290,7 @@ private fun DrizzleLight51() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_NO)
 private fun DrizzleModerate53() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -283,7 +312,7 @@ private fun DrizzleModerate53() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun DrizzleHeavy55() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -305,7 +334,7 @@ private fun DrizzleHeavy55() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_NO)
 private fun FreezingDrizzleLight56() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -327,7 +356,7 @@ private fun FreezingDrizzleLight56() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun FreezingDrizzleHeavy57() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -349,7 +378,7 @@ private fun FreezingDrizzleHeavy57() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_NO)
 private fun RainLight61() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -371,7 +400,7 @@ private fun RainLight61() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun RainModerate63() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -393,7 +422,7 @@ private fun RainModerate63() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_NO)
 private fun HeavyRain65() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -415,7 +444,7 @@ private fun HeavyRain65() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun FreezingRainLight66() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -437,7 +466,7 @@ private fun FreezingRainLight66() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_NO)
 private fun FreezingRainHeavy67() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -459,7 +488,7 @@ private fun FreezingRainHeavy67() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun SnowLight71() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -481,7 +510,7 @@ private fun SnowLight71() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_NO)
 private fun SnowModerate73() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -503,7 +532,7 @@ private fun SnowModerate73() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun SnowHeavy75() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -525,7 +554,7 @@ private fun SnowHeavy75() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_NO)
 private fun SnowGrains77() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -547,7 +576,7 @@ private fun SnowGrains77() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun RainShowersLight80() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -569,7 +598,7 @@ private fun RainShowersLight80() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_NO)
 private fun RainShowersModerate81() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -591,7 +620,7 @@ private fun RainShowersModerate81() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun RainShowersHeavy82() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -613,7 +642,7 @@ private fun RainShowersHeavy82() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_NO)
 private fun SnowShowersLight85() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -635,7 +664,7 @@ private fun SnowShowersLight85() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun SnowShowersHeavy86() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -657,7 +686,7 @@ private fun SnowShowersHeavy86() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_NO)
 private fun ThunderStorm95() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(
@@ -679,7 +708,7 @@ private fun ThunderStorm95() {
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun ThunderStormHail96_99() {
     WeatherAppPortfolioTheme {
-        MainCardMedium(
+        MainCardConstraint(
             state = MainPageState(
                 currentWeather = UiCurrentWeatherModel(
                     temperature = WeatherValueWithUnit(

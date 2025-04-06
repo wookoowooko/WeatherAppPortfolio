@@ -26,6 +26,7 @@ class FeatureConventionPlugin : Plugin<Project> {
             add("implementation", libs.findLibrary("navigation-compose").get())
             add("implementation", libs.findLibrary("kotlinx-serialization").get())
             add("implementation", libs.findLibrary("hilt-nav-compose").get())
+            add("implementation", libs.findLibrary("constraint-compose").get())
             add("api", project(":core:common"))
         }
     }
