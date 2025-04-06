@@ -30,10 +30,13 @@ class CitiesReducer @Inject constructor() : Reducer<CitiesState, CitiesIntent> {
                 isProcessing = true
             )
 
+            is OnSearchQuery -> state.copy(isSearchInProgress = true)
+
             is OnChangeBottomSheetVisibility -> state.copy(bottomSheetExpanded = intent.expandValue)
 
             is Completable ->
                 state.copy(
+                    isSearchInProgress = false,
                     isLoading = false,
                     isProcessing = false
                 ).let {

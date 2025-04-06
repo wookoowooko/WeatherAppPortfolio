@@ -15,6 +15,7 @@ fun AppError.asLocalizedString(context: Context): String {
         DataError.Remote.TOO_MANY_REQUESTS -> context.getString(
             io.wookoo.androidresources.R.string.error_too_many_requests
         )
+        DataError.Remote.LOCATION_NOT_FOUND -> context.getString(io.wookoo.androidresources.R.string.error_cant_sync)
 
         DataError.Local.UNKNOWN -> context.getString(io.wookoo.androidresources.R.string.error_unknown)
         DataError.Local.DISK_FULL -> context.getString(io.wookoo.androidresources.R.string.error_disk_full)

@@ -8,6 +8,7 @@ data class CitiesState(
     val bottomSheetExpanded: Boolean = false,
     val isLoading: Boolean = false,
     val isProcessing: Boolean = false,
+    val isSearchInProgress: Boolean = false,
     val searchQuery: String = "",
     val cities: List<UiCity> = emptyList(),
     val results: List<io.wookoo.models.geocoding.GeocodingDomainUI> = emptyList(),
