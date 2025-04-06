@@ -1,19 +1,23 @@
 package io.wookoo.cities.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.NearMe
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -38,10 +42,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import io.wookoo.cities.mvi.CitiesIntent
 import io.wookoo.cities.mvi.CitiesState
 import io.wookoo.cities.mvi.OnGPSClick
@@ -84,6 +90,10 @@ internal fun CitiesSearchBar(
         onExpandedChange = {},
         inputField = {
             TextField(
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Search
+                ),
+                maxLines = 1,
                 textStyle = MaterialTheme.typography.bodyLarge.copy(
                     color = if (state.isProcessing) {
                         MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
@@ -98,7 +108,8 @@ internal fun CitiesSearchBar(
                     unfocusedIndicatorColor = Color.Transparent,
                     disabledTextColor = Color.Transparent,
                     disabledLabelColor = Color.Transparent,
-                    disabledContainerColor = Color.Transparent
+                    disabledContainerColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent
                 ),
                 value = textFieldValue,
                 onValueChange = { newValue ->
@@ -151,8 +162,12 @@ internal fun CitiesSearchBar(
     ) {
         if (state.isProcessing) {
             LinearProgressIndicator(
+                color = MaterialTheme.colorScheme.primary,
+                trackColor = Color.Transparent,
                 modifier = Modifier.fillMaxWidth()
             )
+        } else {
+            Spacer(modifier = Modifier.height(4.dp))
         }
         TextButton(
             enabled = !state.isProcessing,
@@ -197,14 +212,20 @@ internal fun CitiesSearchBar(
             Box(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                SharedText(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(io.wookoo.androidresources.R.string.no_results_found),
-                    style = MaterialTheme.typography.labelLarge.copy(
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                    ),
-                    textAlign = TextAlign.Center
-                )
+                if (state.isSearchInProgress) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                } else {
+                    SharedText(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = stringResource(io.wookoo.androidresources.R.string.no_results_found),
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                        ),
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         } else {
             SearchResults(state, onIntent)

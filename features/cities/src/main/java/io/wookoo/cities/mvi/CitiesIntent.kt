@@ -8,12 +8,13 @@ interface Completable : CitiesIntent
 
 data object OnLoading : CitiesIntent
 data object OnSearchInProgress : CitiesIntent
+data object OnSearchQuery : CitiesIntent
 data class OnSearchQueryChange(val query: String) : CitiesIntent
 data class OnCitiesLoaded(val cities: List<UiCity>) : CitiesIntent
 data class OnSearchedGeoItemCardClick(val geoItem: GeocodingDomainUI) : CitiesIntent
 data class OnChangeBottomSheetVisibility(val expandValue: Boolean) : CitiesIntent
 data class OnDeleteCity(val geoItemId: Long) : CitiesIntent
-data object OnSearchInProgressDone : Completable
+data object OnSearchQueryDone : Completable
 
 data object OnLoadingFinish : Completable
 data object OnErrorUpdateGeolocationFromGpsSensors : Completable

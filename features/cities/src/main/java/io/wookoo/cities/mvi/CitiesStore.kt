@@ -84,17 +84,6 @@ class CitiesStore @Inject constructor(
         }
     }
 
-    private suspend fun deleteCity(geoItemId: Long) {
-        dispatch(OnLoading)
-        deleteForecastsRepo.deleteCityWithCurrentAndWeeklyForecasts(geoItemId)
-            .onError { dataError ->
-                emitSideEffect(CitiesSideEffect.ShowSnackBar(dataError))
-            }
-            .onFinally {
-                dispatch(OnLoadingFinish)
-            }
-    }
-
     // Observers
     @OptIn(FlowPreview::class)
     private fun observeSearchQuery() {
@@ -123,10 +112,8 @@ class CitiesStore @Inject constructor(
 
     // Functions
     private fun searchLocationFromApi(query: String) = storeScope.launch {
-        dispatch(OnSearchInProgress)
-        geoRepository.searchLocationFromApiByQuery(
-            query
-        )
+        dispatch(OnSearchQuery)
+        geoRepository.searchLocationFromApiByQuery(query)
             .onSuccess { searchResults ->
                 dispatch(OnSuccessSearchLocation(results = searchResults.results))
             }
@@ -135,7 +122,7 @@ class CitiesStore @Inject constructor(
                 emitSideEffect(CitiesSideEffect.ShowSnackBar(error))
             }
             .onFinally {
-                dispatch(OnSearchInProgressDone)
+                dispatch(OnSearchQueryDone)
             }
     }
 
@@ -170,13 +157,23 @@ class CitiesStore @Inject constructor(
                     dispatch(OnSuccessFetchReversGeocodingFromApi(geoName))
                 } ?: run {
                     dispatch(OnErrorFetchReversGeocodingFromApi)
-                    // / TODO: new error
-                    emitSideEffect(CitiesSideEffect.ShowSnackBar(DataError.Remote.UNKNOWN))
+                    emitSideEffect(CitiesSideEffect.ShowSnackBar(DataError.Remote.LOCATION_NOT_FOUND))
                 }
             }
             .onError { apiError ->
                 dispatch(OnErrorFetchReversGeocodingFromApi)
                 emitSideEffect(CitiesSideEffect.ShowSnackBar(apiError))
+            }
+    }
+
+    private suspend fun deleteCity(geoItemId: Long) {
+        dispatch(OnLoading)
+        deleteForecastsRepo.deleteCityWithCurrentAndWeeklyForecasts(geoItemId)
+            .onError { dataError ->
+                emitSideEffect(CitiesSideEffect.ShowSnackBar(dataError))
+            }
+            .onFinally {
+                dispatch(OnLoadingFinish)
             }
     }
 

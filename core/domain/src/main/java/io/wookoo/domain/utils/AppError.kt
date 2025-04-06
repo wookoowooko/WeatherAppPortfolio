@@ -10,6 +10,7 @@ sealed interface DataError : AppError {
         SERVER,
         SERIALIZATION,
         CANT_SYNC,
+        LOCATION_NOT_FOUND,
         UNKNOWN
     }
 

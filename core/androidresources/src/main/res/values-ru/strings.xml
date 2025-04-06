@@ -115,6 +115,7 @@
     <string name="error_no_internet">Нет подключения к интернету</string>
     <string name="error_serialization">Ошибка обработки данных</string>
     <string name="error_cant_sync">Ошибка синхронизации</string>
+    <string name="error_location_not_found">Локация не найдена</string>
     <string name="error_too_many_requests">Слишком много запросов</string>
     <string name="error_unknown">Произошла неизвестная ошибка</string>
     <string name="error_disk_full">Недостаточно места на диске</string>
