@@ -16,6 +16,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.common.ext.hasLocationPermissions
+import io.wookoo.designsystem.ui.adaptive.Device
+import io.wookoo.designsystem.ui.adaptive.Orientation
+import io.wookoo.designsystem.ui.adaptive.rememberPane
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
@@ -33,6 +36,14 @@ internal fun DetectGeolocationCard(
 ) {
     val context = LocalContext.current
 
+    val cardModifier = when (val pane = rememberPane()) {
+        is Device.Smartphone -> Modifier.fillMaxWidth()
+        is Device.Tablet -> when (pane.orientation) {
+            Orientation.Portrait -> Modifier.fillMaxWidth(0.7f)
+            Orientation.Landscape -> Modifier.fillMaxWidth(0.7f)
+        }
+    }
+
     Card(
         enabled = !state.isGeolocationSearchInProgress,
         onClick = {
@@ -47,9 +58,9 @@ internal fun DetectGeolocationCard(
         ),
         shape = rounded_shape_50_percent,
         modifier = Modifier
-            .fillMaxWidth()
             .padding(small)
             .padding(horizontal = large)
+            then (cardModifier)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

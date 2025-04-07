@@ -13,6 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import io.wookoo.androidresources.R
+import io.wookoo.designsystem.ui.adaptive.Device
+import io.wookoo.designsystem.ui.adaptive.Orientation
+import io.wookoo.designsystem.ui.adaptive.rememberPane
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.large
 import io.wookoo.designsystem.ui.theme.medium
@@ -24,9 +28,17 @@ import io.wookoo.welcome.mvi.WelcomePageState
 
 @Composable
 internal fun ChooseYourLocationCard(
-    onIntent: (WelcomePageIntent) -> Unit,
     state: WelcomePageState,
+    onIntent: (WelcomePageIntent) -> Unit,
 ) {
+    val cardModifier = when (val pane = rememberPane()) {
+        is Device.Smartphone -> Modifier.fillMaxWidth()
+        is Device.Tablet -> when (pane.orientation) {
+            Orientation.Portrait -> Modifier.fillMaxWidth(0.7f)
+            Orientation.Landscape -> Modifier.fillMaxWidth(0.7f)
+        }
+    }
+
     Card(
         enabled = !state.isGeolocationSearchInProgress || !state.isLoading,
         onClick = {
@@ -34,16 +46,15 @@ internal fun ChooseYourLocationCard(
         },
         shape = rounded_shape_50_percent,
         modifier = Modifier
-            .fillMaxWidth()
             .padding(small)
             .padding(horizontal = large)
+            .then(cardModifier)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(small)
-
         ) {
             Icon(
                 Icons.Default.LocationOn,
@@ -53,7 +64,7 @@ internal fun ChooseYourLocationCard(
 
             val text =
                 if (state.geoItem?.cityName.isNullOrEmpty()) {
-                    stringResource(io.wookoo.androidresources.R.string.choose_your_location)
+                    stringResource(R.string.choose_your_location)
                 } else {
                     state.geoItem?.cityName.orEmpty()
                 }
