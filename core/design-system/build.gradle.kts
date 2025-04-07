@@ -22,5 +22,6 @@ dependencies {
         implementation(lottie.compose)
         api(androidx.ui.text.google.fonts)
         api(androidx.core.splashscreen)
+        api(androidx.material3.adaptive)
     }
 }

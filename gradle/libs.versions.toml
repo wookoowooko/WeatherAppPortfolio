@@ -54,6 +54,8 @@ mockwebserver = "4.12.0"
 
 constraintcompose = "1.1.1"
 
+material3Adaptive = "1.1.0"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -84,6 +86,8 @@ hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testi
 #constraintcompose
 constraint-compose = {module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintcompose"}
 
+#adaptive
+androidx-material3-adaptive = { module = "androidx.compose.material3.adaptive:adaptive", version.ref = "material3Adaptive" }
 
 #Datastore
 androidx-datastore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastore" }
