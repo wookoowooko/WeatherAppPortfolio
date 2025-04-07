@@ -3,6 +3,7 @@ package io.wookoo.designsystem.ui.adaptive
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
@@ -27,36 +28,36 @@ import androidx.window.core.layout.WindowWidthSizeClass
 
 interface Pane
 
-sealed interface Orientation {
-    data object Portrait : Orientation
-    data object Landscape : Orientation
-}
+enum class Orientation { Portrait, Landscape }
 
-sealed interface DeviceConfiguration : Pane {
-    data class Smartphone(val orientation: Orientation = Orientation.Portrait) : DeviceConfiguration
-    data class Tablet(val orientation: Orientation) : DeviceConfiguration
+sealed interface Device : Pane {
+    data object Smartphone : Device
+    data class Tablet(val orientation: Orientation) : Device
 }
 
 @Composable
-fun isSmallDevice(): Boolean {
-    val adaptiveInfo = currentWindowAdaptiveInfo()
-    val widthSizeClass = adaptiveInfo.windowSizeClass.windowWidthSizeClass
-    val heightSizeClass = adaptiveInfo.windowSizeClass.windowHeightSizeClass
-    return widthSizeClass == WindowWidthSizeClass.COMPACT ||
-        heightSizeClass == WindowHeightSizeClass.COMPACT
+fun isCompactDevice(): Boolean {
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    return remember(windowSizeClass) {
+        windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT ||
+            windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT
+    }
 }
 
 @Composable
-fun definePane(): Pane {
+fun rememberPane(): Device {
     val configuration = LocalConfiguration.current
-    return if (isSmallDevice()) {
-        DeviceConfiguration.Smartphone()
-    } else {
-        when (configuration.orientation) {
-            ORIENTATION_LANDSCAPE -> DeviceConfiguration.Tablet(orientation = Orientation.Landscape)
-            else -> {
-                DeviceConfiguration.Tablet(orientation = Orientation.Portrait)
+    val isCompact = isCompactDevice()
+
+    return remember(isCompact, configuration.orientation) {
+        if (isCompact) {
+            Device.Smartphone
+        } else {
+            val orientation = when (configuration.orientation) {
+                ORIENTATION_LANDSCAPE -> Orientation.Landscape
+                else -> Orientation.Portrait
             }
+            Device.Tablet(orientation)
         }
     }
 }

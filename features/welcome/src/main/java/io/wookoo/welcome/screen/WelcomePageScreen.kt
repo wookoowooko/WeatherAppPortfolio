@@ -114,7 +114,7 @@ fun WelcomePageScreen(
                     .padding(medium),
                 contentScale = ContentScale.Crop,
             )
-            ChooseYourLocationCard(onIntent, state)
+            ChooseYourLocationCard(state, onIntent)
             SharedText(
                 text = stringResource(io.wookoo.androidresources.R.string.or),
                 style = MaterialTheme.typography.titleMedium.copy(
