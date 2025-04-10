@@ -134,4 +134,9 @@
 
     <!--Settings-->
     <string name="settings">Settings</string>
+
+    <!--Widgets-->
+    <string name="current_forecast_widget_name">Forecast</string>
+    <string name="current_forecast_widget_description">Forecast desc</string>
+
 </resources>
