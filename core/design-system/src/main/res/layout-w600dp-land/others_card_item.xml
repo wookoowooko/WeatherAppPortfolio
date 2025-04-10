@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/others_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/large"
+        android:paddingTop="@dimen/dimen_20"
+        android:paddingBottom="@dimen/dimen_20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/others_container">
+
+
+        <TextView
+            android:id="@+id/dayLightDurationValue"
+            style="?attr/textAppearanceTitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/sunriseText"
+            app:layout_constraintTop_toBottomOf="@+id/sunriseText"
+            tools:text="11 h 31 m" />
+
+        <TextView
+            android:id="@+id/sunShineDurationValue"
+            style="?attr/textAppearanceTitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/sunsetText"
+            app:layout_constraintTop_toBottomOf="@+id/sunsetText"
+            tools:text="3 h 52 m" />
+
+        <ImageView
+            android:id="@+id/dayLightDurationIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/dimen_20"
+            android:background="@drawable/round_border"
+            android:contentDescription="@null"
+            android:padding="@dimen/small"
+            android:src="@drawable/ic_daylight_duration"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/sunshineDurationIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/medium"
+            android:background="@drawable/round_border"
+            android:contentDescription="@null"
+            android:padding="@dimen/small"
+            android:src="@drawable/ic_sunshine_duration"
+            app:layout_constraintStart_toStartOf="@+id/dayLightDurationIcon"
+            app:layout_constraintTop_toBottomOf="@+id/dayLightDurationIcon" />
+
+        <ImageView
+            android:id="@+id/uvIndexIcon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/dimen_20"
+            android:background="@drawable/round_border"
+            android:contentDescription="@null"
+            android:padding="@dimen/small"
+            android:src="@drawable/ic_uv_index"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/maxUvIndexText" />
+
+
+        <TextView
+            android:id="@+id/sunriseText"
+            style="?attr/textAppearanceTitleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small"
+            android:fontFamily="@font/lexend"
+            android:text="@string/daylight_duration"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/dayLightDurationIcon"
+            app:layout_constraintTop_toTopOf="@+id/dayLightDurationIcon" />
+
+        <TextView
+            android:id="@+id/maxUvIndexText"
+            style="?attr/textAppearanceTitleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend"
+            android:text="@string/maximum_uv_index"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/sunriseText" />
+
+        <TextView
+            android:id="@+id/maxUvIndexValue"
+            style="?attr/textAppearanceDisplayLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/uvIndexIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/uvIndexIcon"
+            app:layout_constraintTop_toTopOf="@+id/uvIndexIcon"
+            tools:text="10" />
+
+        <TextView
+            android:id="@+id/sunsetText"
+            style="?attr/textAppearanceTitleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small"
+            android:fontFamily="@font/lexend"
+            android:text="@string/sunshine_duration"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/sunshineDurationIcon"
+            app:layout_constraintTop_toTopOf="@+id/sunshineDurationIcon" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package io.wookoo.weekly.screen
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,12 +8,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.AsyncDifferConfig
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import dev.androidbroadcast.vbpd.viewBinding
 import io.wookoo.common.ext.asLocalizedString
 import io.wookoo.common.ext.collectWithLifecycle
 import io.wookoo.designsystem.ui.Crossfade
+import io.wookoo.models.ui.UiCardInfoModel
 import io.wookoo.weekly.adapters.MainAdapter
 import io.wookoo.weekly.adapters.diffCallback
 import io.wookoo.weekly.databinding.FragmentWeeklyBinding
@@ -55,18 +59,31 @@ class WeeklyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        ViewCompat.setOnApplyWindowInsetsListener(binding.ordersRecycler) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(0, 0, 0, systemBars.bottom)
-//            insets
-//        }
-
-        with(binding) {
-            mainRecycler.adapter = mainAdapter
-            calendarRecycler.adapter = calendarAdapter
-        }
+        setupRecyclerViews()
         collectState()
         collectEffects()
+    }
+
+    private fun setupRecyclerViews() {
+        val isLandscape = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+        binding.mainRecycler.layoutManager = if (isLandscape) {
+            GridLayoutManager(requireContext(), 2).apply {
+                spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                    override fun getSpanSize(position: Int): Int {
+                        return when (mainAdapter.items[position]) {
+                            is UiCardInfoModel -> 2
+                            else -> 1
+                        }
+                    }
+                }
+            }
+        } else {
+            LinearLayoutManager(requireContext())
+        }
+
+        binding.mainRecycler.adapter = mainAdapter
+        binding.calendarRecycler.adapter = calendarAdapter
     }
 
     private fun collectEffects() {

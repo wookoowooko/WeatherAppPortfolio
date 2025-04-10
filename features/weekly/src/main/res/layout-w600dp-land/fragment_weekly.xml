@@ -6,28 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".screen.WeeklyFragment">
 
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/calendar_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="calendar_recycler" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendar_recycler"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/small"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/calendar_recycler_item" />
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mainRecycler"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendar_recycler" />
+        app:layout_constraintStart_toEndOf="@id/calendar_barrier"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieLoader"
