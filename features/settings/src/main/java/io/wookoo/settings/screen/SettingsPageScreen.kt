@@ -1,6 +1,7 @@
 package io.wookoo.settings.screen
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.displayCutout
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
@@ -19,6 +21,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -26,6 +29,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.androidresources.R
 import io.wookoo.common.ext.asUnitString
+import io.wookoo.designsystem.ui.adaptive.Device
+import io.wookoo.designsystem.ui.adaptive.Orientation
+import io.wookoo.designsystem.ui.adaptive.rememberPane
 import io.wookoo.designsystem.ui.components.SharedRadioGroup
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
@@ -70,8 +76,29 @@ internal fun SettingsPageScreen(
             )
         }
     ) {
-        Column(Modifier.padding(it)) {
-            Card(modifier = Modifier.padding(large)) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(it)
+                .windowInsetsPadding(
+                    WindowInsets.displayCutout.only(
+                        WindowInsetsSides.Horizontal
+                    )
+                )
+        ) {
+            val cardModifier = when (val pane = rememberPane()) {
+                is Device.Smartphone -> Modifier.fillMaxWidth()
+                is Device.Tablet -> when (pane.orientation) {
+                    Orientation.Portrait -> Modifier.fillMaxWidth(0.5f)
+                    Orientation.Landscape -> Modifier.fillMaxWidth(0.5f)
+                }
+            }
+
+            Card(
+                modifier = Modifier.padding(large)
+                    then (cardModifier)
+            ) {
                 SharedText(
                     weight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleMedium,
