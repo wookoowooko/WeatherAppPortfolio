@@ -1,7 +1,6 @@
 package io.wookoo.weatherappportfolio
 
 import android.Manifest
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -26,7 +25,6 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import io.wookoo.common.ext.hasLocationPermissions
 import io.wookoo.common.ext.openAndroidSettings
-import io.wookoo.designsystem.ui.adaptive.isCompactDevice
 import io.wookoo.designsystem.ui.components.SharedCustomSnackBar
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import io.wookoo.domain.repo.IDataStoreRepo
@@ -74,8 +72,8 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         setContent {
-            requestedOrientation =
-                if (isCompactDevice()) ActivityInfo.SCREEN_ORIENTATION_PORTRAIT else ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+//            requestedOrientation =
+//                if (isCompactDevice()) ActivityInfo.SCREEN_ORIENTATION_PORTRAIT else ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 
             val startScreenState by splashViewModel.splashState.collectAsState()
             val startDestination = startScreenState.startDestination()

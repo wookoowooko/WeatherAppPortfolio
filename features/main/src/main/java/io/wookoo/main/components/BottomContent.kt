@@ -31,14 +31,15 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun BottomContent(
-    onIntent: (MainPageIntent) -> Unit,
     state: MainPageState,
     pagerState: PagerState,
+    modifier: Modifier = Modifier,
+    onIntent: (MainPageIntent) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(small),
         verticalAlignment = Alignment.CenterVertically,
