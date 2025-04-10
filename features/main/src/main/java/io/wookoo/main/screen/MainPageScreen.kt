@@ -185,11 +185,13 @@ private fun TabletLandscape(state: MainPageState) {
         )
 
         Spacer(modifier = Modifier.height(medium))
-        WeatherProperties(state = state, modifier = Modifier
-            .fillMaxWidth()
-            .weight(3f))
+        WeatherProperties(
+            state = state,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(3f)
+        )
     }
-
 }
 
 @Composable
