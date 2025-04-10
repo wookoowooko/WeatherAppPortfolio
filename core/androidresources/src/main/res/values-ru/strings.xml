@@ -127,6 +127,7 @@
     <!-- Города -->
     <string name="locations">Местоположения</string>
     <string name="find_me_button">Найти меня</string>
+    <string name="delete_city">Удалить %1$s ?</string>
 
     <!--Settings-->
     <string name="settings">Настройки</string>

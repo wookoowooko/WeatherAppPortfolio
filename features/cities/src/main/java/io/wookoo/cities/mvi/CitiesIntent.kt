@@ -21,7 +21,7 @@ data object OnErrorUpdateGeolocationFromGpsSensors : Completable
 data object OnErrorFetchReversGeocodingFromApi : Completable
 
 data class OnSuccessFetchReversGeocodingFromApi(
-    val gpsItem: GeocodingDomainUI
+    val gpsItem: GeocodingDomainUI,
 ) : Completable
 
 data object OnQueryIsEmpty : Completable
@@ -33,3 +33,4 @@ data object OnRequestGeoLocationPermission : CitiesIntent
 data object OnGPSClick : CitiesIntent
 data class OnUpdateNetworkState(val isOffline: Boolean) : CitiesIntent
 data class OnUpdateCurrentGeo(val geoItemId: Long) : Completable
+data class OnChangeDeleteDialogVisibility(val dialogState: Boolean, val city: UiCity? = null) : CitiesIntent

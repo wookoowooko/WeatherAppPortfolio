@@ -3,6 +3,7 @@ package io.wookoo.cities.mvi
 import io.wookoo.models.ui.UiCity
 
 data class CitiesState(
+    val deleteCityDialogState: Boolean = false,
     val isOffline: Boolean = false,
     val gpsItem: io.wookoo.models.geocoding.GeocodingDomainUI? = null,
     val bottomSheetExpanded: Boolean = false,
@@ -11,5 +12,6 @@ data class CitiesState(
     val isSearchInProgress: Boolean = false,
     val searchQuery: String = "",
     val cities: List<UiCity> = emptyList(),
+    val city: UiCity? = null,
     val results: List<io.wookoo.models.geocoding.GeocodingDomainUI> = emptyList(),
 )

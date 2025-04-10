@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
@@ -22,6 +23,7 @@ fun SharedHeadlineText(
         MaterialTheme.typography.headlineSmall
     },
     maxLines: Int = Int.MAX_VALUE,
+    textAlign: TextAlign = TextAlign.Start,
 ) {
     Text(
         overflow = TextOverflow.Ellipsis,
@@ -31,6 +33,7 @@ fun SharedHeadlineText(
         modifier = modifier,
         text = text,
         style = style,
+        textAlign = textAlign
     )
 }
 
