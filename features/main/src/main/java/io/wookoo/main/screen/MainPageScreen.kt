@@ -2,8 +2,8 @@ package io.wookoo.main.screen
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -26,6 +26,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import io.wookoo.designsystem.ui.adaptive.Device
+import io.wookoo.designsystem.ui.adaptive.Orientation
+import io.wookoo.designsystem.ui.adaptive.rememberPane
 import io.wookoo.designsystem.ui.components.SharedLottieLoader
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
@@ -67,11 +70,27 @@ fun MainPageScreen(
                         .fillMaxSize(),
                     bottomBar = {
                         BottomAppBar {
-                            BottomContent(onIntent, state, pagerState)
+                            BottomContent(
+                                modifier = Modifier
+                                    .windowInsetsPadding(
+                                        WindowInsets.displayCutout.only(
+                                            WindowInsetsSides.Horizontal
+                                        )
+                                    ),
+                                onIntent = onIntent,
+                                state = state,
+                                pagerState = pagerState
+                            )
                         }
                     },
                     topBar = {
                         TopAppBar(
+                            modifier = Modifier
+                                .windowInsetsPadding(
+                                    WindowInsets.displayCutout.only(
+                                        WindowInsetsSides.Horizontal
+                                    )
+                                ),
                             title = {
                                 SharedText(
                                     stringResource(io.wookoo.androidresources.R.string.weather_app_bar_title)
@@ -84,7 +103,8 @@ fun MainPageScreen(
                         state = pagerState,
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(paddings)
+                            .padding(paddings),
+                        verticalAlignment = Alignment.Top
                     ) {
                         LazyColumn(
                             Modifier
@@ -94,14 +114,13 @@ fun MainPageScreen(
                                         WindowInsetsSides.Horizontal
                                     )
                                 ),
-                            verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             item {
                                 Column(
                                     Modifier
                                         .fillMaxWidth(),
-                                    verticalArrangement = Arrangement.Center,
+
                                     horizontalAlignment = Alignment.Start
                                 ) {
                                     Header(
@@ -109,13 +128,16 @@ fun MainPageScreen(
                                         modifier = Modifier.padding(horizontal = large)
                                     )
 
-                                    MainCardConstraint(
-                                        state = state,
-                                        modifier = Modifier.padding(horizontal = large)
-                                    )
+                                    when (val pane = rememberPane()) {
+                                        Device.Smartphone -> Portrait(state)
+                                        is Device.Tablet -> {
+                                            when (pane.orientation) {
+                                                Orientation.Portrait -> Portrait(state)
+                                                Orientation.Landscape -> TabletLandscape(state)
+                                            }
+                                        }
+                                    }
 
-                                    Spacer(modifier = Modifier.height(medium))
-                                    WeatherProperties(state = state)
                                     TodayRowTitle(
                                         modifier = Modifier.padding(horizontal = large),
                                         onNextSevenDaysClick = {
@@ -135,6 +157,39 @@ fun MainPageScreen(
             else -> Unit
         }
     }
+}
+
+@Composable
+private fun Portrait(state: MainPageState) {
+    MainCardConstraint(
+        state = state,
+        modifier = Modifier.padding(horizontal = large)
+    )
+
+    Spacer(modifier = Modifier.height(medium))
+    WeatherProperties(state = state)
+}
+
+@Composable
+private fun TabletLandscape(state: MainPageState) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.Bottom
+    ) {
+        MainCardConstraint(
+            state = state,
+            modifier = Modifier
+                .padding(horizontal = large)
+                .weight(2f)
+        )
+
+        Spacer(modifier = Modifier.height(medium))
+        WeatherProperties(state = state, modifier = Modifier
+            .fillMaxWidth()
+            .weight(3f))
+    }
+
 }
 
 @Composable

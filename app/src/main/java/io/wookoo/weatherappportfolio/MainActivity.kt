@@ -74,8 +74,8 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         setContent {
-            requestedOrientation =
-                if (isCompactDevice()) ActivityInfo.SCREEN_ORIENTATION_PORTRAIT else ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+//            requestedOrientation =
+//                if (isCompactDevice()) ActivityInfo.SCREEN_ORIENTATION_PORTRAIT else ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 
             val startScreenState by splashViewModel.splashState.collectAsState()
             val startDestination = startScreenState.startDestination()
