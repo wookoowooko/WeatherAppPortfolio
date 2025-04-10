@@ -34,6 +34,11 @@ class CitiesReducer @Inject constructor() : Reducer<CitiesState, CitiesIntent> {
 
             is OnChangeBottomSheetVisibility -> state.copy(bottomSheetExpanded = intent.expandValue)
 
+            is OnChangeDeleteDialogVisibility -> state.copy(
+                deleteCityDialogState = intent.dialogState,
+                city = intent.city
+            )
+
             is Completable ->
                 state.copy(
                     isSearchInProgress = false,

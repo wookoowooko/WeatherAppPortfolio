@@ -1,13 +1,16 @@
 package io.wookoo.cities.screen
 
+import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
@@ -28,12 +31,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import io.wookoo.cities.components.CitiesFromDB
 import io.wookoo.cities.components.CitiesSearchBar
+import io.wookoo.cities.components.DeleteCityDialog
 import io.wookoo.cities.mvi.CitiesIntent
 import io.wookoo.cities.mvi.CitiesState
 import io.wookoo.cities.mvi.OnChangeBottomSheetVisibility
+import io.wookoo.cities.mvi.OnChangeDeleteDialogVisibility
+import io.wookoo.cities.mvi.OnDeleteCity
+import io.wookoo.designsystem.ui.adaptive.isCompactDevice
 import io.wookoo.designsystem.ui.components.SharedLottieLoader
 import io.wookoo.designsystem.ui.components.SharedText
 import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
+import io.wookoo.models.ui.UiCity
+import io.wookoo.models.units.WeatherCondition
+import io.wookoo.models.units.WeatherUnit
+import io.wookoo.models.units.WeatherValueWithUnit
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,7 +65,7 @@ internal fun CitiesScreen(
         topBar = {
             TopAppBar(
                 windowInsets = TopAppBarDefaults.windowInsets.add(
-                    androidx.compose.foundation.layout.WindowInsets.displayCutout.only(
+                    WindowInsets.displayCutout.only(
                         WindowInsetsSides.Horizontal
                     )
                 ),
@@ -75,9 +86,14 @@ internal fun CitiesScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                onIntent(OnChangeBottomSheetVisibility(true))
-            }) {
+            FloatingActionButton(
+                modifier = Modifier.windowInsetsPadding(
+                    WindowInsets.displayCutout.only(WindowInsetsSides.Horizontal)
+                ),
+                onClick = {
+                    onIntent(OnChangeBottomSheetVisibility(true))
+                }
+            ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = null)
             }
         }
@@ -92,7 +108,28 @@ internal fun CitiesScreen(
             when (screenState) {
                 io.wookoo.designsystem.ui.Crossfade.LOADING -> SharedLottieLoader()
                 io.wookoo.designsystem.ui.Crossfade.CONTENT -> {
-                    CitiesFromDB(state, modifier = Modifier.padding(it), onIntent = onIntent)
+                    val compactDevice = isCompactDevice()
+                    CitiesFromDB(
+                        state = state,
+                        modifier = Modifier.padding(it),
+                        onDeleteCity = { uiCity ->
+                            if (compactDevice) {
+                                onIntent(OnDeleteCity(uiCity.geoItemId))
+                            } else {
+                                onIntent(OnChangeDeleteDialogVisibility(true, uiCity))
+                            }
+                        }
+                    )
+
+                    if (state.deleteCityDialogState) {
+                        state.city?.let { uiCity ->
+                            DeleteCityDialog(
+                                onIntent = onIntent,
+                                city = uiCity
+                            )
+                        }
+                    }
+
                     if (state.bottomSheetExpanded) {
                         ModalBottomSheet(
                             containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -126,12 +163,132 @@ internal fun CitiesScreen(
 }
 
 @Composable
-@Preview
+@Preview(
+    name = "phone portrait - light",
+    device = "spec:width=360dp,height=640dp,dpi=480",
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
+@Preview(
+    name = "phone portrait - dark",
+    device = "spec:width=360dp,height=640dp,dpi=480",
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Preview(name = "foldable portrait", device = "spec:width=673dp,height=841dp,dpi=480")
+@Preview(name = "foldable landscape", device = "spec:width=841dp,height=673dp,dpi=480")
+@Preview(name = "tablet landscape", device = "spec:width=1280dp,height=800dp,dpi=480")
+@Preview(name = "tablet portrait", device = "spec:width=800dp,height=1280dp,dpi=480")
 private fun CitiesScreenPreview() {
     WeatherAppPortfolioTheme {
         CitiesScreen(
             state = CitiesState(
-                isLoading = false
+                isLoading = false,
+                cities = listOf(
+                    UiCity(
+                        weatherStatus = WeatherCondition.CLEAR_SKY_0,
+                        cityName = "Лондон",
+                        countryName = "UK",
+                        temperature = WeatherValueWithUnit(
+                            value = 18.0,
+                            unit = WeatherUnit.CELSIUS
+                        ),
+                        isDay = true,
+                        geoItemId = 1,
+                        minTemperature = WeatherValueWithUnit(
+                            value = 18.0,
+                            unit = WeatherUnit.CELSIUS
+                        ),
+                        maxTemperature = WeatherValueWithUnit(
+                            value = 21.0,
+                            unit = WeatherUnit.CELSIUS
+                        ),
+                        date = "Sunday, 22 Mar.",
+                        isCurrentLocation = true
+                    ),
+                    UiCity(
+                        weatherStatus = WeatherCondition.SNOW_SHOWERS_HEAVY_86,
+                        cityName = "Лондон",
+                        countryName = "UK",
+                        temperature = WeatherValueWithUnit(
+                            value = 18.0,
+                            unit = WeatherUnit.CELSIUS
+                        ),
+                        isDay = false,
+                        geoItemId = 2,
+                        minTemperature = WeatherValueWithUnit(
+                            value = 18.0,
+                            unit = WeatherUnit.CELSIUS
+                        ),
+                        maxTemperature = WeatherValueWithUnit(
+                            value = 21.0,
+                            unit = WeatherUnit.CELSIUS
+                        ),
+                        date = "Sunday, 22 Mar.",
+                        isCurrentLocation = false
+                    ),
+                    UiCity(
+                        weatherStatus = WeatherCondition.SNOW_HEAVY_75,
+                        cityName = "Лондон",
+                        countryName = "UK",
+                        temperature = WeatherValueWithUnit(
+                            value = 18.0,
+                            unit = WeatherUnit.CELSIUS
+                        ),
+                        isDay = true,
+                        geoItemId = 3,
+                        minTemperature = WeatherValueWithUnit(
+                            value = 18.0,
+                            unit = WeatherUnit.CELSIUS
+                        ),
+                        maxTemperature = WeatherValueWithUnit(
+                            value = 21.0,
+                            unit = WeatherUnit.CELSIUS
+                        ),
+                        date = "Sunday, 22 Mar.",
+                        isCurrentLocation = false
+                    ),
+                    UiCity(
+                        weatherStatus = WeatherCondition.RAIN_LIGHT_61,
+                        cityName = "Лондон",
+                        countryName = "UK",
+                        temperature = WeatherValueWithUnit(
+                            value = 18.0,
+                            unit = WeatherUnit.CELSIUS
+                        ),
+                        isDay = false,
+                        geoItemId = 4,
+                        minTemperature = WeatherValueWithUnit(
+                            value = 18.0,
+                            unit = WeatherUnit.CELSIUS
+                        ),
+                        maxTemperature = WeatherValueWithUnit(
+                            value = 21.0,
+                            unit = WeatherUnit.CELSIUS
+                        ),
+                        date = "Sunday, 22 Mar.",
+                        isCurrentLocation = false
+                    ),
+                    UiCity(
+                        weatherStatus = WeatherCondition.OVERCAST_3,
+                        cityName = "Лондон",
+                        countryName = "UK",
+                        temperature = WeatherValueWithUnit(
+                            value = 18.0,
+                            unit = WeatherUnit.CELSIUS
+                        ),
+                        isDay = false,
+                        geoItemId = 5,
+                        minTemperature = WeatherValueWithUnit(
+                            value = 18.0,
+                            unit = WeatherUnit.CELSIUS
+                        ),
+                        maxTemperature = WeatherValueWithUnit(
+                            value = 21.0,
+                            unit = WeatherUnit.CELSIUS
+                        ),
+                        date = "Sunday, 22 Mar.",
+                        isCurrentLocation = false
+                    ),
+                ),
             ),
             onIntent = {},
             onBackIconClick = {}

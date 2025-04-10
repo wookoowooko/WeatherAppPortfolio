@@ -195,7 +195,12 @@ internal fun CitiesSearchBar(
                 isCurrent = true,
                 modifier = Modifier
                     .padding(horizontal = large)
-                    .padding(bottom = medium),
+                    .padding(bottom = medium)
+                    .windowInsetsPadding(
+                        WindowInsets.displayCutout.only(
+                            WindowInsetsSides.Horizontal
+                        )
+                    ),
                 countryName = gpsItem.countryName,
                 cityName = gpsItem.cityName,
                 urbanArea = gpsItem.urbanArea,

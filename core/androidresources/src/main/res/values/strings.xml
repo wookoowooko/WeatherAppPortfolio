@@ -129,6 +129,8 @@
     <!--Cities-->
     <string name="locations">Locations</string>
     <string name="find_me_button">Find me</string>
+    <string name="delete_city">Delete %1$s ?</string>
+
 
     <!--Settings-->
     <string name="settings">Settings</string>
