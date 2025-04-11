@@ -19,6 +19,7 @@ dependencies {
     implementation(libs.androidx.work.ktx)
     projects.core.apply {
         implementation(data)
+        implementation(widgets)
     }
 
     androidTestImplementation(libs.androidx.test.runner)

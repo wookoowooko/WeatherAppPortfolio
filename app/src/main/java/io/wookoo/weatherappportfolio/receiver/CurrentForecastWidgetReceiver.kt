@@ -18,12 +18,10 @@
 
 package io.wookoo.weatherappportfolio.receiver
 
-import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
-import io.wookoo.widgets.CurrentForecastWidget
+import io.wookoo.widgets.currentforecast.CurrentForecastWidget
 
 class CurrentForecastWidgetReceiver : GlanceAppWidgetReceiver() {
 
-    override val glanceAppWidget: GlanceAppWidget
-        get() = CurrentForecastWidget()
+    override val glanceAppWidget = CurrentForecastWidget()
 }

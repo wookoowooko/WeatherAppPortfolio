@@ -1,4 +1,3 @@
-
 /*
  * Author - Ruslan Gaivoronskii https://github.com/wookoowooko
  * Copyright 2025 The Android Open Source Project
@@ -16,19 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.wookoo.weatherappportfolio.widget
 
-import android.app.Activity
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import io.wookoo.weatherappportfolio.MainActivity
+package io.wookoo.domain.repo.widgets
 
-@Module
-@InstallIn(SingletonComponent::class)
-object WidgetModule {
-
-    @Provides
-    fun provideTargetActivity(): Class<out Activity> = MainActivity::class.java
+interface ICurrentForecastGlanceWidget {
+    suspend fun forecastSynchronized()
 }

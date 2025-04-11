@@ -2,7 +2,7 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:description="@string/current_forecast_widget_description"
     android:initialLayout="@layout/glance_default_loading_layout"
-    android:previewLayout="@layout/current_forecast_preview_layout"
+    android:previewImage="@drawable/current_forecast_widget_preview"
     android:resizeMode="none"
     android:targetCellWidth="2"
     android:targetCellHeight="2"

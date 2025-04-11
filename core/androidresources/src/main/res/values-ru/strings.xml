@@ -134,6 +134,6 @@
 
     <!--Widgets-->
     <string name="current_forecast_widget_name">Прогноз</string>
-    <string name="current_forecast_widget_description">Forecast desc</string>
+    <string name="current_forecast_widget_description">Погода сейчас</string>
 
 </resources>
