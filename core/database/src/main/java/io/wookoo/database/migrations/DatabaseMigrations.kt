@@ -216,4 +216,81 @@ internal object DatabaseMigrations {
             db.execSQL("ALTER TABLE geo_entity ADD COLUMN is_current INTEGER NOT NULL DEFAULT 0")
         }
     }
+    val MIGRATION_12_13 = object : Migration(12, 13) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("DROP INDEX IF EXISTS index_daily_dailyId") // Удаляем старый индекс
+
+            db.execSQL(
+                """
+            CREATE TABLE IF NOT EXISTS daily_temp (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                dailyId INTEGER NOT NULL,
+                sunrise TEXT NOT NULL,
+                sunset TEXT NOT NULL,
+                FOREIGN KEY (dailyId) REFERENCES geo_entity(geo_name_id) ON DELETE CASCADE
+            )
+                """.trimIndent()
+            )
+
+            // переносим только нужные поля
+            db.execSQL(
+                """
+            INSERT INTO daily_temp (id, dailyId, sunrise, sunset)
+            SELECT id, dailyId, sunrise, sunset FROM daily
+                """.trimIndent()
+            )
+
+            db.execSQL("DROP TABLE daily")
+
+            db.execSQL("ALTER TABLE daily_temp RENAME TO daily")
+
+            // Повторно создаем индекс
+            db.execSQL("CREATE INDEX index_daily_dailyId ON daily(dailyId)")
+        }
+    }
+
+    val MIGRATION_13_14 = object : Migration(13, 14) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE daily ADD COLUMN uv_index REAL NOT NULL DEFAULT 0.0")
+        }
+    }
+
+    val MIGRATION_14_15 = object : Migration(14, 15) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("DROP INDEX IF EXISTS index_daily_dailyId") // Удаляем старый индекс
+
+            db.execSQL(
+                """
+            CREATE TABLE IF NOT EXISTS daily_temp (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                dailyId INTEGER NOT NULL,
+                sunrise TEXT NOT NULL,
+                sunset TEXT NOT NULL,
+                FOREIGN KEY (dailyId) REFERENCES geo_entity(geo_name_id) ON DELETE CASCADE
+            )
+                """.trimIndent()
+            )
+
+            // переносим только нужные поля
+            db.execSQL(
+                """
+            INSERT INTO daily_temp (id, dailyId, sunrise, sunset)
+            SELECT id, dailyId, sunrise, sunset FROM daily
+                """.trimIndent()
+            )
+
+            db.execSQL("DROP TABLE daily")
+
+            db.execSQL("ALTER TABLE daily_temp RENAME TO daily")
+
+            // Повторно создаем индекс
+            db.execSQL("CREATE INDEX index_daily_dailyId ON daily(dailyId)")
+        }
+    }
+
+    val MIGRATION_15_16 = object : Migration(15, 16) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE current_weather ADD COLUMN uv_index REAL NOT NULL DEFAULT 0.0")
+        }
+    }
 }

@@ -30,8 +30,5 @@ data class DailyEntity(
     val sunrise: List<Long>,
 
     @ColumnInfo("sunset")
-    val sunset: List<Long>,
-
-    @ColumnInfo("uv_index_max")
-    val uvIndexMax: List<Float>,
+    val sunset: List<Long>
 )

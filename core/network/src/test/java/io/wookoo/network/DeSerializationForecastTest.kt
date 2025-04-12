@@ -53,7 +53,8 @@ class DeSerializationForecastTest {
                 windGusts = 15.5,
                 cloudCover = 0,
                 snowfall = 0.00,
-                pressureMSL = 1028.9
+                pressureMSL = 1028.9,
+                uvIndex = 3.0,
             ),
             hourly = HourlyDto(
                 time = listOf(
@@ -163,8 +164,7 @@ class DeSerializationForecastTest {
             ),
             daily = DailyDto(
                 sunrise = listOf(1743654911),
-                sunset = listOf(1743702233),
-                uvIndexMax = listOf(4.70f)
+                sunset = listOf(1743702233)
             ),
             utcOffsetSeconds = 7200
         )

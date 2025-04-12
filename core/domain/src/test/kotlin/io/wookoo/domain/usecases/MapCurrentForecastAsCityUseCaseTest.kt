@@ -140,6 +140,7 @@ class MapCurrentForecastAsCityUseCaseTest {
             cloudCover = 1,
             pressureMSL = 1.0,
             weatherStatus = 1,
+            uvIndex = 1.0
         )
         private val sunCyclesTest = SunCyclesModel(
             sunrise = listOf(1L, 2L, 3L),
@@ -148,7 +149,6 @@ class MapCurrentForecastAsCityUseCaseTest {
 
         private val dailyTest = DailyModel(
             sunCycles = sunCyclesTest,
-            uvIndexMax = listOf(1f, 2f, 3f),
         )
 
         fun createTestCurrentWeatherDomain() = CurrentWeatherDomain(

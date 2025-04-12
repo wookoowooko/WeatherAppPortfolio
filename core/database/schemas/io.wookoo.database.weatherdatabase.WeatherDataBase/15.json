@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 12,
-    "identityHash": "23296ed60c3674bcc1d91f73929419b3",
+    "version": 15,
+    "identityHash": "58651b253b1ad311443099f2172e8e17",
     "entities": [
       {
         "tableName": "geo_entity",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "daily",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dailyId` INTEGER NOT NULL, `sunrise` TEXT NOT NULL, `sunset` TEXT NOT NULL, `uv_index` REAL NOT NULL, FOREIGN KEY(`dailyId`) REFERENCES `geo_entity`(`geo_name_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dailyId` INTEGER NOT NULL, `sunrise` TEXT NOT NULL, `sunset` TEXT NOT NULL, FOREIGN KEY(`dailyId`) REFERENCES `geo_entity`(`geo_name_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -74,12 +74,6 @@
             "fieldPath": "sunset",
             "columnName": "sunset",
             "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "uvIndexMax",
-            "columnName": "uv_index",
-            "affinity": "REAL",
             "notNull": true
           }
         ],
@@ -492,7 +486,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '23296ed60c3674bcc1d91f73929419b3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '58651b253b1ad311443099f2172e8e17')"
     ]
   }
 }

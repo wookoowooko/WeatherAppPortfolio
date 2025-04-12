@@ -28,8 +28,6 @@ import io.wookoo.widgets.hilt.ext.getTargetActivity
 class UvIndexWidget : GlanceAppWidget() {
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-
-
         provideContent {
             GlanceTheme {
                 UvIndexWidgetContent(
@@ -41,4 +39,3 @@ class UvIndexWidget : GlanceAppWidget() {
         }
     }
 }
-

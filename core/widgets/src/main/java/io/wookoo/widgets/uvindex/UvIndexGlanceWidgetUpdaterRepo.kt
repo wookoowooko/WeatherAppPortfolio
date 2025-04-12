@@ -28,14 +28,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 
-
 class UvIndexGlanceWidgetUpdaterRepo(
     @ApplicationContext private val appContext: Context,
     private val currentForecastRepo: ICurrentForecastRepo,
 ) : IGlanceWidgetUpdater, DataStore<String> {
     override val data: Flow<String> = flow {
         val forecast: CurrentWeatherDomain = currentForecastRepo.getAllCurrentForecastLocations().first().first()
-        emit(forecast.current.)
+//        emit(forecast.current.)
     }
 
     override suspend fun updateData(transform: suspend (t: String) -> String): String {
@@ -46,4 +45,3 @@ class UvIndexGlanceWidgetUpdaterRepo(
         updateWidget(appContext, UvIndexWidget::class.java)
     }
 }
-

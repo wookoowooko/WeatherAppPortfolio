@@ -20,9 +20,7 @@ package io.wookoo.widgets.uvindex
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 
-
 class UvIndexWidgetReceiver : GlanceAppWidgetReceiver() {
 
     override val glanceAppWidget: GlanceAppWidget = UvIndexWidget()
-
 }

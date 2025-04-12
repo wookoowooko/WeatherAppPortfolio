@@ -11,4 +11,5 @@ data class CurrentDayModel(
     val pressureMSL: Double,
     val wind: WindModel,
     val weatherStatus: Int,
+    val uvIndex: Double
 )

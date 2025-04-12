@@ -57,7 +57,7 @@ class MapCurrentForecastUseCase @Inject constructor(
                 value = data.current.pressureMSL,
                 unit = WeatherUnit.PRESSURE
             ),
-            uvIndex = data.daily.uvIndexMax.first().roundToInt().toString(),
+            uvIndex = data.current.uvIndex.roundToInt().toString(),
             weatherStatus = convertWeatherCodeToEnumUseCase(data.current.weatherStatus),
             sunriseTime = convertUnixTimeUseCase.executeList(
                 data.daily.sunCycles.sunrise,

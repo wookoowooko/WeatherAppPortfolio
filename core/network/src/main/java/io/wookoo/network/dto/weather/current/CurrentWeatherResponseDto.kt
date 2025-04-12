@@ -12,5 +12,5 @@ data class CurrentWeatherResponseDto(
     @SerialName("daily")
     val daily: DailyDto,
     @SerialName("utc_offset_seconds")
-    val utcOffsetSeconds: Long,
+    val utcOffsetSeconds: Long
 )

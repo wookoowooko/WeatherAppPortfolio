@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 12,
-    "identityHash": "23296ed60c3674bcc1d91f73929419b3",
+    "version": 16,
+    "identityHash": "2a948288132d848f2bc1628273974bc2",
     "entities": [
       {
         "tableName": "geo_entity",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "daily",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dailyId` INTEGER NOT NULL, `sunrise` TEXT NOT NULL, `sunset` TEXT NOT NULL, `uv_index` REAL NOT NULL, FOREIGN KEY(`dailyId`) REFERENCES `geo_entity`(`geo_name_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dailyId` INTEGER NOT NULL, `sunrise` TEXT NOT NULL, `sunset` TEXT NOT NULL, FOREIGN KEY(`dailyId`) REFERENCES `geo_entity`(`geo_name_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -74,12 +74,6 @@
             "fieldPath": "sunset",
             "columnName": "sunset",
             "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "uvIndexMax",
-            "columnName": "uv_index",
-            "affinity": "REAL",
             "notNull": true
           }
         ],
@@ -188,7 +182,7 @@
       },
       {
         "tableName": "current_weather",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `currentId` INTEGER NOT NULL, `time` INTEGER NOT NULL, `temperature_2m` REAL NOT NULL, `relative_humidity_2m` INTEGER NOT NULL, `apparent_temperature` REAL NOT NULL, `is_day` INTEGER NOT NULL, `precipitation` REAL NOT NULL, `rain` REAL NOT NULL, `showers` REAL NOT NULL, `snowfall` REAL NOT NULL, `cloud_cover` INTEGER NOT NULL, `pressure_msl` REAL NOT NULL, `wind_direction_10m` INTEGER NOT NULL, `wind_speed_10m` REAL NOT NULL, `wind_gusts_10m` REAL NOT NULL, `weather_code` INTEGER NOT NULL, `last_update` INTEGER NOT NULL, FOREIGN KEY(`currentId`) REFERENCES `geo_entity`(`geo_name_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `currentId` INTEGER NOT NULL, `time` INTEGER NOT NULL, `temperature_2m` REAL NOT NULL, `relative_humidity_2m` INTEGER NOT NULL, `apparent_temperature` REAL NOT NULL, `is_day` INTEGER NOT NULL, `precipitation` REAL NOT NULL, `rain` REAL NOT NULL, `showers` REAL NOT NULL, `snowfall` REAL NOT NULL, `cloud_cover` INTEGER NOT NULL, `pressure_msl` REAL NOT NULL, `wind_direction_10m` INTEGER NOT NULL, `wind_speed_10m` REAL NOT NULL, `wind_gusts_10m` REAL NOT NULL, `weather_code` INTEGER NOT NULL, `last_update` INTEGER NOT NULL, `uv_index` REAL NOT NULL, FOREIGN KEY(`currentId`) REFERENCES `geo_entity`(`geo_name_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -296,6 +290,12 @@
             "fieldPath": "lastUpdate",
             "columnName": "last_update",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uvIndex",
+            "columnName": "uv_index",
+            "affinity": "REAL",
             "notNull": true
           }
         ],
@@ -492,7 +492,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '23296ed60c3674bcc1d91f73929419b3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2a948288132d848f2bc1628273974bc2')"
     ]
   }
 }

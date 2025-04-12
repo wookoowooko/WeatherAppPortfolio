@@ -28,12 +28,12 @@ object FromApiToDatabase {
             weatherCode = weatherCode,
             currentId = 0,
             id = 0,
+            uvIndex = uvIndex
         )
     }
 
     fun DailyDto.asDailyEntity(): DailyEntity {
         return DailyEntity(
-            uvIndexMax = uvIndexMax,
             sunrise = sunrise,
             sunset = sunset,
             dailyId = 0,

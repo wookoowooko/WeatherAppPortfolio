@@ -35,7 +35,8 @@ internal object TestData {
         pressureMSL = 1013.25,
         windDirection = 270,
         windGusts = 5.0,
-        weatherCode = 200
+        weatherCode = 200,
+        uvIndex = 3.0,
     )
 
     val hourlyWeather = HourlyEntity(
@@ -52,7 +53,6 @@ internal object TestData {
         dailyId = 1L,
         sunrise = listOf(1609444800L),
         sunset = listOf(1609490400L),
-        uvIndexMax = listOf(6.0f)
     )
 
     val testWeatherWithDetails = WeatherWithDetails(
