@@ -148,4 +148,7 @@
     <string name="humidity_widget_name">Humidity</string>
     <string name="humidity_widget_description">Humidity Information</string>
 
+    <string name="wind_widget_name">Wind</string>
+    <string name="wind_widget_description">Wind Information</string>
+
 </resources>

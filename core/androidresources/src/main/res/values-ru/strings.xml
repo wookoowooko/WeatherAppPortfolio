@@ -145,6 +145,9 @@
     <string name="humidity_widget_name">Влажность</string>
     <string name="humidity_widget_description">Информация о влажности</string>
 
+    <string name="wind_widget_name">Ветер</string>
+    <string name="wind_widget_description">Информация о ветре</string>
+
 
 
 </resources>

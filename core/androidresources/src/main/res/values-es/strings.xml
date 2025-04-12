@@ -145,5 +145,8 @@
     <string name="humidity_widget_name">Humedad</string>
     <string name="humidity_widget_description">Información sobre la humedad</string>
 
+    <string name="wind_widget_name">Viento</string>
+    <string name="wind_widget_description">Información sobre el viento</string>
+
 
 </resources>

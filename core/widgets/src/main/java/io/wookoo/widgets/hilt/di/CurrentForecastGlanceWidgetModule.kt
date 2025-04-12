@@ -27,6 +27,7 @@ import io.wookoo.widgets.currentforecast.CurrentForecastGlanceWidgetUpdaterRepo
 import io.wookoo.widgets.humidity.HumidityGlanceWidgetUpdaterRepo
 import io.wookoo.widgets.suncycle.SunCycleGlanceWidgetUpdaterRepo
 import io.wookoo.widgets.uvindex.UvIndexGlanceWidgetUpdaterRepo
+import io.wookoo.widgets.wind.WindGlanceWidgetUpdaterRepo
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -63,4 +64,13 @@ object CurrentForecastGlanceWidgetModule {
     ): IGlanceWidgetUpdater {
         return humidityGlanceWidgetUpdaterRepo
     }
+
+    @Provides
+    @IntoSet
+    fun provideWindGlanceWidgetUpdaterRepo(
+        windGlanceWidgetUpdaterRepo: WindGlanceWidgetUpdaterRepo,
+    ): IGlanceWidgetUpdater {
+        return windGlanceWidgetUpdaterRepo
+    }
+
 }
