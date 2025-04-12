@@ -42,13 +42,13 @@ import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import io.wookoo.designsystem.ui.theme.size_100
 import io.wookoo.designsystem.ui.theme.small
+import io.wookoo.models.widgets.UvIndexWidgetModel
 import io.wookoo.widgets.R
 
 @Composable
 internal fun UvIndexWidgetContent(
-    currentState: Int,
+    currentState: UvIndexWidgetModel,
     targetActivity: Class<out Activity>,
-    text: String,
 ) {
     Box(
         modifier = GlanceModifier
@@ -64,7 +64,7 @@ internal fun UvIndexWidgetContent(
                 .padding(small)
         ) {
             Text(
-                text = text,
+                text = currentState.text,
                 modifier = GlanceModifier.fillMaxWidth(),
                 style = TextStyle(
                     fontSize = MaterialTheme.typography.titleLarge.fontSize,
@@ -81,10 +81,10 @@ internal fun UvIndexWidgetContent(
                     .padding(bottom = small)
             )
             Text(
-                text = currentState.toString(),
+                text = currentState.uvIndex,
                 modifier = GlanceModifier.fillMaxWidth(),
                 style = TextStyle(
-                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                    fontSize = MaterialTheme.typography.headlineLarge.fontSize,
                     color = ColorProvider(Color.White),
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center

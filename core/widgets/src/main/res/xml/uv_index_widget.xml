@@ -4,6 +4,6 @@
     android:initialLayout="@layout/glance_default_loading_layout"
     android:minWidth="100dp"
     android:minHeight="100dp"
-    android:previewImage="@drawable/current_forecast_widget_preview"
+    android:previewImage="@drawable/uv_index_widget_preview"
     android:resizeMode="vertical|horizontal"
     android:updatePeriodMillis="0" />

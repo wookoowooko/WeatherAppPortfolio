@@ -25,6 +25,7 @@ import dagger.multibindings.IntoSet
 import io.wookoo.domain.repo.IGlanceWidgetUpdater
 import io.wookoo.widgets.currentforecast.CurrentForecastGlanceWidgetUpdaterRepo
 import io.wookoo.widgets.suncycle.SunCycleGlanceWidgetUpdaterRepo
+import io.wookoo.widgets.uvindex.UvIndexGlanceWidgetUpdaterRepo
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -44,5 +45,13 @@ object CurrentForecastGlanceWidgetModule {
         sunCycleGlanceWidgetUpdaterRepo: SunCycleGlanceWidgetUpdaterRepo,
     ): IGlanceWidgetUpdater {
         return sunCycleGlanceWidgetUpdaterRepo
+    }
+
+    @Provides
+    @IntoSet
+    fun provideUvIndexGlanceWidgetUpdaterRepo(
+        uvIndexGlanceWidgetUpdaterRepo: UvIndexGlanceWidgetUpdaterRepo,
+    ): IGlanceWidgetUpdater {
+        return uvIndexGlanceWidgetUpdaterRepo
     }
 }

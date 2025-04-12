@@ -41,11 +41,12 @@ class CurrentForecastWidget : GlanceAppWidget() {
                 context: Context,
                 fileKey: String,
             ): DataStore<CurrentForecastWidgetModel> {
-                val glanceWidgetUpdaters =
+                val glanceWidgetUpdaters: Set<IGlanceWidgetUpdater> =
                     getFromEntryPoint<IGlanceWidgetUpdaterEntryPoint, Set<IGlanceWidgetUpdater>>(
                         context = context,
                     ) { getGlanceWidgetUpdater() }
-                val currentForecastUpdater = glanceWidgetUpdaters
+
+                val currentForecastUpdater: CurrentForecastGlanceWidgetUpdaterRepo = glanceWidgetUpdaters
                     .filterIsInstance<CurrentForecastGlanceWidgetUpdaterRepo>()
                     .firstOrNull()
                     ?: throw IllegalArgumentException("CurrentForecastGlanceWidgetUpdaterRepo not found")

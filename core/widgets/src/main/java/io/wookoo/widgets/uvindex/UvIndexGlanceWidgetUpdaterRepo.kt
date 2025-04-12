@@ -23,21 +23,31 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import io.wookoo.domain.repo.ICurrentForecastRepo
 import io.wookoo.domain.repo.IGlanceWidgetUpdater
 import io.wookoo.models.weather.current.CurrentWeatherDomain
+import io.wookoo.models.widgets.UvIndexWidgetModel
 import io.wookoo.widgets.updateWidget
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
+import kotlin.math.roundToInt
 
-class UvIndexGlanceWidgetUpdaterRepo(
+class UvIndexGlanceWidgetUpdaterRepo @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val currentForecastRepo: ICurrentForecastRepo,
-) : IGlanceWidgetUpdater, DataStore<String> {
-    override val data: Flow<String> = flow {
-        val forecast: CurrentWeatherDomain = currentForecastRepo.getAllCurrentForecastLocations().first().first()
-//        emit(forecast.current.)
+) : IGlanceWidgetUpdater, DataStore<UvIndexWidgetModel> {
+
+    override val data: Flow<UvIndexWidgetModel> = flow {
+        val forecast: CurrentWeatherDomain =
+            currentForecastRepo.getAllCurrentForecastLocations().first().first()
+        emit(
+            UvIndexWidgetModel(
+                uvIndex = forecast.current.uvIndex.roundToInt().toString(),
+                text = appContext.getString(io.wookoo.androidresources.R.string.uv_index)
+            )
+        )
     }
 
-    override suspend fun updateData(transform: suspend (t: String) -> String): String {
+    override suspend fun updateData(transform: suspend (t: UvIndexWidgetModel) -> UvIndexWidgetModel): UvIndexWidgetModel {
         throw NotImplementedError("Not implemented in Current Data Store")
     }
 
