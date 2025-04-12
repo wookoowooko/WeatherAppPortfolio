@@ -15,8 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package io.wookoo.widgets.currentforecast
+package io.wookoo.widgets.suncycle
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -27,43 +26,41 @@ import androidx.glance.appwidget.provideContent
 import androidx.glance.currentState
 import androidx.glance.state.GlanceStateDefinition
 import io.wookoo.domain.repo.IGlanceWidgetUpdater
-import io.wookoo.models.widgets.CurrentForecastWidgetModel
+import io.wookoo.models.widgets.SunCycleWidgetModel
 import io.wookoo.widgets.hilt.entrypoints.IGlanceWidgetUpdaterEntryPoint
 import io.wookoo.widgets.hilt.ext.getFromEntryPoint
 import io.wookoo.widgets.hilt.ext.getTargetActivity
 import java.io.File
 
-class CurrentForecastWidget : GlanceAppWidget() {
+class SunCycleWidget : GlanceAppWidget() {
 
-    override val stateDefinition: GlanceStateDefinition<CurrentForecastWidgetModel>
-        get() = object : GlanceStateDefinition<CurrentForecastWidgetModel> {
+    override val stateDefinition: GlanceStateDefinition<SunCycleWidgetModel>
+        get() = object : GlanceStateDefinition<SunCycleWidgetModel> {
             override suspend fun getDataStore(
                 context: Context,
                 fileKey: String,
-            ): DataStore<CurrentForecastWidgetModel> {
+            ): DataStore<SunCycleWidgetModel> {
                 val glanceWidgetUpdaters =
                     getFromEntryPoint<IGlanceWidgetUpdaterEntryPoint, Set<IGlanceWidgetUpdater>>(
                         context = context,
                     ) { getGlanceWidgetUpdater() }
-                val currentForecastUpdater = glanceWidgetUpdaters
-                    .filterIsInstance<CurrentForecastGlanceWidgetUpdaterRepoRepo>()
+                val sunCycleUpdater = glanceWidgetUpdaters
+                    .filterIsInstance<SunCycleGlanceWidgetUpdaterRepoRepo>()
                     .firstOrNull()
-                    ?: throw IllegalArgumentException("CurrentForecastGlanceWidgetUpdaterRepo not found")
+                    ?: throw IllegalArgumentException("SunCycleGlanceWidgetUpdaterRepo not found")
 
-                return currentForecastUpdater
+                return sunCycleUpdater
             }
 
             override fun getLocation(context: Context, fileKey: String): File {
-                throw NotImplementedError("Not implemented for CurrentForecast Widget State Definition")
+                throw NotImplementedError("Not implemented for SunCycleWidget State Definition")
             }
         }
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-        val activity = getTargetActivity(context.applicationContext)
-
         provideContent {
             GlanceTheme {
-                CurrentForecastContent(currentState(), activity)
+                SunCycleWidgetContent(currentState(), getTargetActivity(context.applicationContext))
             }
         }
     }

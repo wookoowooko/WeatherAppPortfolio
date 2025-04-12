@@ -1,4 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+
+        <receiver
+            android:name=".currentforecast.CurrentForecastWidgetReceiver"
+            android:exported="true"
+            android:label="@string/current_forecast_widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/current_widget" />
+        </receiver>
+
+        <receiver
+            android:name=".suncycle.SynCycleWidgetReceiver"
+            android:exported="true"
+            android:label="@string/sun_cycle_widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/sun_cycle_widget" />
+        </receiver>
+
+
+    </application>
 
 </manifest>

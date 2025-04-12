@@ -15,13 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package io.wookoo.widgets.hilt.ext
 
-package io.wookoo.weatherappportfolio.receiver
+import android.content.Context
+import dagger.hilt.EntryPoints
 
-import androidx.glance.appwidget.GlanceAppWidgetReceiver
-import io.wookoo.widgets.currentforecast.CurrentForecastWidget
-
-class CurrentForecastWidgetReceiver : GlanceAppWidgetReceiver() {
-
-    override val glanceAppWidget = CurrentForecastWidget()
+inline fun <reified EntryPoint : Any, reified T> getFromEntryPoint(
+    context: Context,
+    crossinline provider: EntryPoint.() -> T,
+): T {
+    val entryPoint = EntryPoints.get(context, EntryPoint::class.java)
+    return provider(entryPoint)
 }

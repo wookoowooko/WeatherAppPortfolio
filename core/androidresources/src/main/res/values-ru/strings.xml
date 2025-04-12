@@ -136,4 +136,7 @@
     <string name="current_forecast_widget_name">Прогноз</string>
     <string name="current_forecast_widget_description">Погода сейчас</string>
 
+    <string name="sun_cycle_widget_name">Цикл Солнца</string>
+    <string name="sun_cycle_widget_description">Информация о восходе и закате солнца</string>
+
 </resources>

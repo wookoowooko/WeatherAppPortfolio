@@ -134,4 +134,7 @@
     <!--Widgets-->
     <string name="current_forecast_widget_name">Pronóstico</string>
     <string name="current_forecast_widget_description">Clima actual</string>
+
+    <string name="sun_cycle_widget_name">Ciclo Solar</string>
+    <string name="sun_cycle_widget_description">Información sobre la salida y puesta del sol</string>
 </resources>

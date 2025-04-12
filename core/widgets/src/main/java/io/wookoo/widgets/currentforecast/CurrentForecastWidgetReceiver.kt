@@ -16,8 +16,11 @@
  * limitations under the License.
  */
 
-package io.wookoo.domain.repo.widgets
+package io.wookoo.widgets.currentforecast
 
-interface ICurrentForecastGlanceWidget {
-    suspend fun forecastSynchronized()
+import androidx.glance.appwidget.GlanceAppWidgetReceiver
+
+class CurrentForecastWidgetReceiver : GlanceAppWidgetReceiver() {
+
+    override val glanceAppWidget = CurrentForecastWidget()
 }

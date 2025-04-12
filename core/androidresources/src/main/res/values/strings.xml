@@ -138,5 +138,7 @@
     <!--Widgets-->
     <string name="current_forecast_widget_name">Forecast</string>
     <string name="current_forecast_widget_description">Current weather</string>
+    <string name="sun_cycle_widget_name">Sun Cycle</string>
+    <string name="sun_cycle_widget_description">Sun Cycle Information</string>
 
 </resources>

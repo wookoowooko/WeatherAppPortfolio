@@ -12,7 +12,7 @@ import dagger.assisted.AssistedInject
 import io.wookoo.domain.annotations.AppDispatchers
 import io.wookoo.domain.annotations.Dispatcher
 import io.wookoo.domain.repo.ICurrentForecastRepo
-import io.wookoo.domain.repo.widgets.ICurrentForecastGlanceWidget
+import io.wookoo.domain.repo.IGlanceWidgetUpdater
 import io.wookoo.domain.sync.ISynchronizer
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.worker.utils.Constraints
@@ -34,7 +34,7 @@ class SyncWorker @AssistedInject constructor(
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     private val synchronizer: ISynchronizer,
     currentForecast: ICurrentForecastRepo,
-    private val currentForecastGlanceWidget: ICurrentForecastGlanceWidget,
+    private val glanceWidgetUpdater: Set<@JvmSuppressWildcards IGlanceWidgetUpdater>,
 ) : CoroutineWorker(appContext, workerParams) {
 
     private val weatherList: Flow<List<Long>> = currentForecast.getCurrentForecastGeoItemIds()
@@ -62,7 +62,9 @@ class SyncWorker @AssistedInject constructor(
             }
         }
         if (syncedSuccessfully) {
-            currentForecastGlanceWidget.forecastSynchronized()
+            glanceWidgetUpdater.forEach { widgetUpdater ->
+                widgetUpdater.forecastSynchronized()
+            }
             return@withContext Result.success()
         } else {
             return@withContext Result.retry()

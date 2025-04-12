@@ -18,20 +18,15 @@
 
 package io.wookoo.widgets.currentforecast
 
-import android.app.Activity
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.glance.appwidget.GlanceAppWidgetManager
-import dagger.hilt.EntryPoint
-import dagger.hilt.EntryPoints
-import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
 import io.wookoo.common.ext.asLocalizedUiWeatherMap
 import io.wookoo.common.ext.asLocalizedUnitValueString
 import io.wookoo.domain.repo.ICurrentForecastRepo
+import io.wookoo.domain.repo.IGlanceWidgetUpdater
 import io.wookoo.domain.repo.IWeeklyForecastRepo
-import io.wookoo.domain.repo.widgets.ICurrentForecastGlanceWidget
 import io.wookoo.domain.usecases.ConvertWeatherCodeToEnumUseCase
 import io.wookoo.domain.usecases.DefineCorrectUnitsUseCase
 import io.wookoo.models.widgets.CurrentForecastWidgetModel
@@ -40,48 +35,19 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class CurrentForecastGlanceWidgetRepo @Inject constructor(
+class CurrentForecastGlanceWidgetUpdaterRepoRepo @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val currentForecastRepo: ICurrentForecastRepo,
     private val weeklyForecastRepo: IWeeklyForecastRepo,
     private val defineCorrectUnitsUseCase: DefineCorrectUnitsUseCase,
     private val convertWeatherCodeToEnumUseCase: ConvertWeatherCodeToEnumUseCase,
-) : ICurrentForecastGlanceWidget, DataStore<CurrentForecastWidgetModel> {
+) : IGlanceWidgetUpdater, DataStore<CurrentForecastWidgetModel> {
 
     override suspend fun forecastSynchronized() {
         GlanceAppWidgetManager(appContext).getGlanceIds(CurrentForecastWidget::class.java)
             .forEach { id ->
                 CurrentForecastWidget().update(appContext, id)
             }
-    }
-
-    @EntryPoint
-    @InstallIn(SingletonComponent::class)
-    interface ICurrentForecastGlanceWidgetEntryPoint {
-        fun getCurrentForecastWidgetRepo(): ICurrentForecastGlanceWidget
-    }
-
-    @EntryPoint
-    @InstallIn(SingletonComponent::class)
-    interface IActivityProvider {
-        val targetActivity: Class<out Activity>
-    }
-
-    companion object {
-        fun get(appContext: Context): ICurrentForecastGlanceWidget {
-            val widgetModelRepositoryEntryPoint: ICurrentForecastGlanceWidgetEntryPoint =
-                EntryPoints.get(
-                    appContext,
-                    ICurrentForecastGlanceWidgetEntryPoint::class.java
-                )
-            return widgetModelRepositoryEntryPoint.getCurrentForecastWidgetRepo()
-        }
-
-        fun getTargetActivity(appContext: Context): Class<out Activity> {
-            val activityProvider: IActivityProvider =
-                EntryPoints.get(appContext, IActivityProvider::class.java)
-            return activityProvider.targetActivity
-        }
     }
 
     override val data: Flow<CurrentForecastWidgetModel> = flow {

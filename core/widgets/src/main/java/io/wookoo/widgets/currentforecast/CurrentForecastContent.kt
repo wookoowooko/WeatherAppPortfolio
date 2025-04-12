@@ -33,6 +33,7 @@ import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.ContentScale
 import androidx.glance.layout.Row
+import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
@@ -47,21 +48,26 @@ import io.wookoo.models.widgets.CurrentForecastWidgetModel
 import io.wookoo.widgets.R
 
 @Composable
-fun Content(
+internal fun CurrentForecastContent(
     data: CurrentForecastWidgetModel,
-    activity: Class<out Activity>,
+    activity: Class<out Activity>
 ) {
     Box(
         modifier = GlanceModifier
             .clickable(actionStartActivity(activity))
-            .fillMaxWidth()
+            .fillMaxSize()
             .padding(small)
-            .background(ImageProvider(R.drawable.glance_back), ContentScale.Crop)
+            .background(ImageProvider(R.drawable.glance_back), ContentScale.Crop),
+        contentAlignment = Alignment(
+            horizontal = Alignment.Horizontal.CenterHorizontally,
+            vertical = Alignment.Vertical.CenterVertically
+        )
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = GlanceModifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(small)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
