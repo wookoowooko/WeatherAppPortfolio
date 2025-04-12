@@ -3,7 +3,9 @@
     android:description="@string/current_forecast_widget_description"
     android:initialLayout="@layout/glance_default_loading_layout"
     android:previewImage="@drawable/current_forecast_widget_preview"
-    android:resizeMode="none"
+    android:resizeMode="vertical|horizontal"
     android:targetCellWidth="2"
     android:targetCellHeight="2"
+    android:minWidth="100dp"
+    android:minHeight="100dp"
     android:updatePeriodMillis="0" />
