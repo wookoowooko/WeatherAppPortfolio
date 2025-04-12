@@ -41,6 +41,18 @@
                 android:resource="@xml/uv_index_widget" />
         </receiver>
 
+        <receiver
+            android:name=".humidity.HumidityWidgetReceiver"
+            android:exported="true"
+            android:label="@string/humidity_widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/humidity_widget" />
+        </receiver>
+
 
     </application>
 

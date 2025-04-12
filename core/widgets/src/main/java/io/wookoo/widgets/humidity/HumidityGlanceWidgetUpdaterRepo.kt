@@ -15,44 +15,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.wookoo.widgets.uvindex
+
+package io.wookoo.widgets.humidity
 
 import android.content.Context
 import androidx.datastore.core.DataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
+import io.wookoo.common.ext.asLocalizedUnitValueString
 import io.wookoo.domain.repo.ICurrentForecastRepo
 import io.wookoo.domain.repo.IGlanceWidgetUpdater
-import io.wookoo.models.weather.current.CurrentWeatherDomain
-import io.wookoo.models.widgets.UvIndexWidgetModel
+import io.wookoo.models.units.WeatherUnit
+import io.wookoo.models.widgets.HumidityWidgetModel
 import io.wookoo.widgets.updateWidget
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
-class UvIndexGlanceWidgetUpdaterRepo @Inject constructor(
+class HumidityGlanceWidgetUpdaterRepo @Inject constructor(
     @ApplicationContext private val appContext: Context,
-    private val currentForecastRepo: ICurrentForecastRepo
-) : IGlanceWidgetUpdater, DataStore<UvIndexWidgetModel> {
+    private val currentForecastRepo: ICurrentForecastRepo,
+) : IGlanceWidgetUpdater, DataStore<HumidityWidgetModel> {
 
-    override val data: Flow<UvIndexWidgetModel> = flow {
+    override suspend fun forecastSynchronized() {
+        updateWidget(appContext, HumidityWidget::class.java)
+    }
 
-        val forecast: CurrentWeatherDomain =
-            currentForecastRepo.getAllCurrentForecastLocations().first().first()
+    override val data: Flow<HumidityWidgetModel> = flow {
+
+        val forecast = currentForecastRepo.getAllCurrentForecastLocations().first().first()
+
         emit(
-            UvIndexWidgetModel(
-                uvIndex = forecast.current.uvIndex.roundToInt().toString(),
-                text = appContext.getString(io.wookoo.androidresources.R.string.uv_index)
+            HumidityWidgetModel(
+                humidity = forecast.current.relativeHumidity.asLocalizedUnitValueString(
+                    WeatherUnit.PERCENT,
+                    appContext
+                ),
+                title = appContext.getString(io.wookoo.androidresources.R.string.humidity_prop)
             )
         )
     }
 
-    override suspend fun updateData(transform: suspend (t: UvIndexWidgetModel) -> UvIndexWidgetModel): UvIndexWidgetModel {
+    override suspend fun updateData(transform: suspend (t: HumidityWidgetModel) -> HumidityWidgetModel): HumidityWidgetModel {
         throw NotImplementedError("Not implemented in Current Data Store")
-    }
-
-    override suspend fun forecastSynchronized() {
-        updateWidget(appContext, UvIndexWidget::class.java)
     }
 }

@@ -145,4 +145,7 @@
     <string name="uv_index_widget_name">UV Index</string>
     <string name="uv_index_widget_description">UV Index Information</string>
 
+    <string name="humidity_widget_name">Humidity</string>
+    <string name="humidity_widget_description">Humidity Information</string>
+
 </resources>

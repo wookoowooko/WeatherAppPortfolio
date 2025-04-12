@@ -142,5 +142,9 @@
     <string name="uv_index_widget_name">Индекс УФ</string>
     <string name="uv_index_widget_description">Информация об индексе УФ-излучения</string>
 
+    <string name="humidity_widget_name">Влажность</string>
+    <string name="humidity_widget_description">Информация о влажности</string>
+
+
 
 </resources>

@@ -142,4 +142,8 @@
     <string name="uv_index_widget_name">Índice UV</string>
     <string name="uv_index_widget_description">Información sobre el índice UV</string>
 
+    <string name="humidity_widget_name">Humedad</string>
+    <string name="humidity_widget_description">Información sobre la humedad</string>
+
+
 </resources>
