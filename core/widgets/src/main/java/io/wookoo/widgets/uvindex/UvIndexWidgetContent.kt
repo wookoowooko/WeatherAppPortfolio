@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.wookoo.widgets.suncycle
+package io.wookoo.widgets.uvindex
 
 import android.app.Activity
 import androidx.compose.material3.MaterialTheme
@@ -40,19 +40,19 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import io.wookoo.designsystem.ui.theme.size_80
+import io.wookoo.designsystem.ui.theme.size_100
 import io.wookoo.designsystem.ui.theme.small
-import io.wookoo.models.widgets.SunCycleWidgetModel
 import io.wookoo.widgets.R
 
 @Composable
-internal fun SunCycleWidgetContent(
-    currentState: SunCycleWidgetModel,
-    activity: Class<out Activity>
+internal fun UvIndexWidgetContent(
+    currentState: Int,
+    targetActivity: Class<out Activity>,
+    text: String,
 ) {
     Box(
         modifier = GlanceModifier
-            .clickable(actionStartActivity(activity))
+            .clickable(actionStartActivity(targetActivity))
             .padding(small)
             .background(ImageProvider(R.drawable.glance_back), ContentScale.Crop),
     ) {
@@ -63,14 +63,8 @@ internal fun SunCycleWidgetContent(
                 .fillMaxSize()
                 .padding(small)
         ) {
-            Image(
-                provider = ImageProvider(io.wookoo.design.system.R.drawable.ic_sunrise),
-                contentDescription = null,
-                modifier = GlanceModifier.size(size_80)
-                    .padding(bottom = small)
-            )
             Text(
-                text = currentState.sunrise,
+                text = text,
                 modifier = GlanceModifier.fillMaxWidth(),
                 style = TextStyle(
                     fontSize = MaterialTheme.typography.titleLarge.fontSize,
@@ -81,13 +75,13 @@ internal fun SunCycleWidgetContent(
                 maxLines = 1
             )
             Image(
-                provider = ImageProvider(io.wookoo.design.system.R.drawable.ic_sunset),
+                provider = ImageProvider(io.wookoo.design.system.R.drawable.ic_uv_index),
                 contentDescription = null,
-                modifier = GlanceModifier.size(size_80)
+                modifier = GlanceModifier.size(size_100)
                     .padding(bottom = small)
             )
             Text(
-                text = currentState.sunset,
+                text = currentState.toString(),
                 modifier = GlanceModifier.fillMaxWidth(),
                 style = TextStyle(
                     fontSize = MaterialTheme.typography.titleLarge.fontSize,

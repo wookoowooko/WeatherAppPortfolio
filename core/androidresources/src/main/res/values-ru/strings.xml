@@ -139,4 +139,8 @@
     <string name="sun_cycle_widget_name">Цикл Солнца</string>
     <string name="sun_cycle_widget_description">Информация о восходе и закате солнца</string>
 
+    <string name="uv_index_widget_name">Индекс УФ</string>
+    <string name="uv_index_widget_description">Информация об индексе УФ-излучения</string>
+
+
 </resources>

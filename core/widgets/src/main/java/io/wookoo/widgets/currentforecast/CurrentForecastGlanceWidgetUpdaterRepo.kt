@@ -20,7 +20,6 @@ package io.wookoo.widgets.currentforecast
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.glance.appwidget.GlanceAppWidgetManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.wookoo.common.ext.asLocalizedUiWeatherMap
 import io.wookoo.common.ext.asLocalizedUnitValueString
@@ -30,12 +29,13 @@ import io.wookoo.domain.repo.IWeeklyForecastRepo
 import io.wookoo.domain.usecases.ConvertWeatherCodeToEnumUseCase
 import io.wookoo.domain.usecases.DefineCorrectUnitsUseCase
 import io.wookoo.models.widgets.CurrentForecastWidgetModel
+import io.wookoo.widgets.updateWidget
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class CurrentForecastGlanceWidgetUpdaterRepoRepo @Inject constructor(
+class CurrentForecastGlanceWidgetUpdaterRepo @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val currentForecastRepo: ICurrentForecastRepo,
     private val weeklyForecastRepo: IWeeklyForecastRepo,
@@ -44,10 +44,7 @@ class CurrentForecastGlanceWidgetUpdaterRepoRepo @Inject constructor(
 ) : IGlanceWidgetUpdater, DataStore<CurrentForecastWidgetModel> {
 
     override suspend fun forecastSynchronized() {
-        GlanceAppWidgetManager(appContext).getGlanceIds(CurrentForecastWidget::class.java)
-            .forEach { id ->
-                CurrentForecastWidget().update(appContext, id)
-            }
+        updateWidget(appContext, CurrentForecastWidget::class.java)
     }
 
     override val data: Flow<CurrentForecastWidgetModel> = flow {

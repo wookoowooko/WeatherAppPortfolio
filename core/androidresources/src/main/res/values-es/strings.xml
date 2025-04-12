@@ -138,4 +138,8 @@
 
     <string name="sun_cycle_widget_name">Ciclo Solar</string>
     <string name="sun_cycle_widget_description">Información sobre la salida y puesta del sol</string>
+
+    <string name="uv_index_widget_name">Índice UV</string>
+    <string name="uv_index_widget_description">Información sobre el índice UV</string>
+
 </resources>

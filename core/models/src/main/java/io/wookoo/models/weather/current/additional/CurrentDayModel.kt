@@ -6,9 +6,9 @@ data class CurrentDayModel(
     val relativeHumidity: Int,
     val feelsLike: Double,
     val isDay: Boolean,
-    val precipitation: io.wookoo.models.weather.current.additional.PrecipitationModel,
+    val precipitation: PrecipitationModel,
     val cloudCover: Int,
     val pressureMSL: Double,
-    val wind: io.wookoo.models.weather.current.additional.WindModel,
+    val wind: WindModel,
     val weatherStatus: Int,
 )

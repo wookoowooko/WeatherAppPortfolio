@@ -45,7 +45,7 @@ class SunCycleWidget : GlanceAppWidget() {
                         context = context,
                     ) { getGlanceWidgetUpdater() }
                 val sunCycleUpdater = glanceWidgetUpdaters
-                    .filterIsInstance<SunCycleGlanceWidgetUpdaterRepoRepo>()
+                    .filterIsInstance<SunCycleGlanceWidgetUpdaterRepo>()
                     .firstOrNull()
                     ?: throw IllegalArgumentException("SunCycleGlanceWidgetUpdaterRepo not found")
 

@@ -46,7 +46,7 @@ class CurrentForecastWidget : GlanceAppWidget() {
                         context = context,
                     ) { getGlanceWidgetUpdater() }
                 val currentForecastUpdater = glanceWidgetUpdaters
-                    .filterIsInstance<CurrentForecastGlanceWidgetUpdaterRepoRepo>()
+                    .filterIsInstance<CurrentForecastGlanceWidgetUpdaterRepo>()
                     .firstOrNull()
                     ?: throw IllegalArgumentException("CurrentForecastGlanceWidgetUpdaterRepo not found")
 

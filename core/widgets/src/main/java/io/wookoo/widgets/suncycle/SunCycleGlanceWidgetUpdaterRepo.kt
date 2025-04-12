@@ -20,28 +20,25 @@ package io.wookoo.widgets.suncycle
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.glance.appwidget.GlanceAppWidgetManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.wookoo.domain.repo.ICurrentForecastRepo
 import io.wookoo.domain.repo.IGlanceWidgetUpdater
 import io.wookoo.domain.usecases.ConvertUnixTimeUseCase
 import io.wookoo.models.widgets.SunCycleWidgetModel
+import io.wookoo.widgets.updateWidget
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class SunCycleGlanceWidgetUpdaterRepoRepo @Inject constructor(
+class SunCycleGlanceWidgetUpdaterRepo @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val currentForecastRepo: ICurrentForecastRepo,
     private val convertUnixTimeUseCase: ConvertUnixTimeUseCase,
 ) : IGlanceWidgetUpdater, DataStore<SunCycleWidgetModel> {
 
     override suspend fun forecastSynchronized() {
-        GlanceAppWidgetManager(appContext).getGlanceIds(SunCycleWidget::class.java)
-            .forEach { id ->
-                SunCycleWidget().update(appContext, id)
-            }
+        updateWidget(appContext, SunCycleWidget::class.java)
     }
 
     override val data: Flow<SunCycleWidgetModel> = flow {

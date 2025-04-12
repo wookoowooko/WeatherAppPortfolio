@@ -142,4 +142,7 @@
     <string name="sun_cycle_widget_name">Sun Cycle</string>
     <string name="sun_cycle_widget_description">Sun Cycle Information</string>
 
+    <string name="uv_index_widget_name">UV Index</string>
+    <string name="uv_index_widget_description">UV Index Information</string>
+
 </resources>

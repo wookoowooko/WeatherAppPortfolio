@@ -65,7 +65,6 @@ internal fun CurrentForecastContent(
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalAlignment = Alignment.CenterVertically,
             modifier = GlanceModifier
                 .fillMaxSize()
                 .padding(small)
