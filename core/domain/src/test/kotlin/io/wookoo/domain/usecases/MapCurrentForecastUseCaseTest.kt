@@ -122,7 +122,7 @@ class MapCurrentForecastUseCaseTest {
                 value = testCurrentWeatherDomain.current.pressureMSL,
                 unit = WeatherUnit.PRESSURE
             ),
-            uvIndex = testCurrentWeatherDomain.daily.uvIndexMax.first().roundToInt().toString(),
+            uvIndex = testCurrentWeatherDomain.current.uvIndex.roundToInt().toString(),
             weatherStatus = expectedWeatherStatus,
             sunriseTime = expectedDate,
             sunsetTime = expectedDate,
@@ -189,6 +189,7 @@ class MapCurrentForecastUseCaseTest {
             cloudCover = 1,
             pressureMSL = 1.0,
             weatherStatus = 1,
+            uvIndex = 3.0,
         )
         private val sunCyclesTest = SunCyclesModel(
             sunrise = listOf(1L, 2L, 3L),
@@ -196,8 +197,7 @@ class MapCurrentForecastUseCaseTest {
         )
 
         private val dailyTest = DailyModel(
-            sunCycles = sunCyclesTest,
-            uvIndexMax = listOf(1f, 2f, 3f),
+            sunCycles = sunCyclesTest
         )
 
         fun createTestCurrentWeatherDomain() = CurrentWeatherDomain(

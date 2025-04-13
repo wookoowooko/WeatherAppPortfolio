@@ -56,7 +56,7 @@ internal fun SettingsPageScreen(
         topBar = {
             TopAppBar(
                 windowInsets = TopAppBarDefaults.windowInsets.add(
-                    androidx.compose.foundation.layout.WindowInsets.displayCutout.only(
+                    WindowInsets.displayCutout.only(
                         WindowInsetsSides.Horizontal
                     )
                 ),
@@ -154,6 +154,7 @@ internal fun SettingsPageScreen(
                         .fillMaxWidth()
                         .padding(horizontal = medium)
                 )
+
                 SharedRadioGroup(
                     modifier = Modifier.padding(small),
                     radioOptions = state.temperatureUnitOptions.map { options ->

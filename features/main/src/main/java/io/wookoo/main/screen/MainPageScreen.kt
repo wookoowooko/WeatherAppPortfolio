@@ -118,9 +118,7 @@ fun MainPageScreen(
                         ) {
                             item {
                                 Column(
-                                    Modifier
-                                        .fillMaxWidth(),
-
+                                    Modifier.fillMaxWidth(),
                                     horizontalAlignment = Alignment.Start
                                 ) {
                                     Header(

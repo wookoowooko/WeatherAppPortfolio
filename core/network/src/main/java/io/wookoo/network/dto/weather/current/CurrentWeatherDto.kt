@@ -35,4 +35,6 @@ data class CurrentWeatherDto(
     val windGusts: Double,
     @SerialName("weather_code")
     val weatherCode: Int,
+    @SerialName("uv_index")
+    val uvIndex: Double
 )

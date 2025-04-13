@@ -131,4 +131,25 @@
 
     <!--Settings-->
     <string name="settings">Настройки</string>
+
+    <!--Widgets-->
+    <string name="current_forecast_widget_name">Прогноз</string>
+    <string name="current_forecast_widget_description">Актуальные сведения о погоде будут обновляться на основании выбранной геопозици</string>
+
+    <string name="sun_cycle_widget_name">Цикл Солнца</string>
+    <string name="sun_cycle_widget_description">Информация о восходе и закате солнца</string>
+
+    <string name="uv_index_widget_name">Индекс УФ</string>
+    <string name="uv_index_widget_description">Информация об индексе УФ-излучения</string>
+
+    <string name="humidity_widget_name">Влажность</string>
+    <string name="humidity_widget_description">Информация о влажности</string>
+
+    <string name="wind_widget_name">Ветер</string>
+    <string name="wind_widget_description">Информация о ветре</string>
+
+    <string name="extended_forecast_widget_name">Расширенный прогноз</string>
+    <string name="extended_forecast_widget_description">Расширенный прогноз показывает информацию по часам</string>
+    <string name="extended_forecast_widget_now">Сейчас</string>
+
 </resources>

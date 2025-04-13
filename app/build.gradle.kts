@@ -31,6 +31,7 @@ dependencies {
         implementation(core.permissions)
         implementation(core.connectivityObserver)
         implementation(core.worker)
+        implementation(core.widgets)
         implementation(features.main)
         implementation(features.welcome)
         implementation(features.weekly)

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="celsius">°C</string>
+    <string name="unit_fahrenheit">°F</string>
+    <string name="unit_kmh">km/h</string>
+    <string name="unit_mph">mp/h</string>
+    <string name="unit_meter_sec">m/s</string>
+    <string name="centimetres_unit">cm</string>
+    <string name="millimeters_unit">mm</string>
+    <string name="inch_unit">pulgada</string>
+    <string name="percent_unit">"%"</string>
+    <string name="pressure_unit">hPa</string>
+    <string name="sunrise_time">Hora del amanecer</string>
+    <string name="sunset_time">Hora del atardecer</string>
+    <string name="daylight_duration">Duración del día</string>
+    <string name="sunshine_duration">Duración del sol</string>
+    <string name="maximum_uv_index">Índice UV máximo</string>
+    <string name="total_precipitation">Precipitación total</string>
+    <string name="total_rainfall">Lluvia total</string>
+    <string name="total_showers">Chubascos totales</string>
+    <string name="total_snowfall">Nieve total</string>
+    <string name="precipitation_probability">Probabilidad de precipitación</string>
+    <string name="maximum_wind_speed_10m">Velocidad máxima del viento</string>
+    <string name="maximum_wind_gusts_10m">Ráfagas de viento máximas</string>
+    <string name="wind_direction_10m">Dirección del viento</string>
+    <string name="min_unit">min</string>
+    <string name="hour_unit">h</string>
+
+    <string name="north_east">Noreste</string>
+    <string name="north">Norte</string>
+    <string name="east">Este</string>
+    <string name="south_east">Sureste</string>
+    <string name="south">Sur</string>
+    <string name="south_west">Suroeste</string>
+    <string name="west">Oeste</string>
+    <string name="north_west">Noroeste</string>
+    <string name="undetected">No detectado</string>
+
+    <string name="clear_sky">Cielo despejado</string>
+    <string name="partly_cloudy">Parcialmente nublado</string>
+    <string name="overcast">Nublado</string>
+    <string name="fog">Niebla</string>
+    <string name="drizzle_light">Llovizna ligera</string>
+    <string name="drizzle_moderate">Llovizna moderada</string>
+    <string name="drizzle_heavy">Llovizna intensa</string>
+    <string name="freezing_drizzle_light">Llovizna helada ligera</string>
+    <string name="freezing_drizzle_heavy">Llovizna helada intensa</string>
+    <string name="rain_light">Lluvia ligera</string>
+    <string name="rain_moderate">Lluvia moderada</string>
+    <string name="rain_heavy">Lluvia intensa</string>
+    <string name="freezing_rain_light">Lluvia helada ligera</string>
+    <string name="freezing_rain_heavy">Lluvia helada intensa</string>
+    <string name="snow_light">Nieve ligera</string>
+    <string name="snow_moderate">Nieve moderada</string>
+    <string name="snow_heavy">Nieve intensa</string>
+    <string name="snow_grains">Granos de nieve</string>
+    <string name="rain_showers_light">Chubascos ligeros</string>
+    <string name="rain_showers_moderate">Chubascos moderados</string>
+    <string name="rain_showers_heavy">Chubascos intensos</string>
+    <string name="snow_showers_light">Nevadas ligeras</string>
+    <string name="snow_showers_heavy">Nevadas intensas</string>
+    <string name="thunderstorm">Tormenta eléctrica</string>
+    <string name="thunderstorm_hail">Tormenta con granizo</string>
+    <string name="weather_error">Sin datos meteorológicos</string>
+    <string name="search_your_location">Buscar tu ubicación…</string>
+    <string name="no_results_found">No se encontraron resultados</string>
+    <string name="min">Mín</string>
+    <string name="max">Máx</string>
+    <string name="delimeter">/</string>
+    <string name="feels_like_weekly">Sensación térmica</string>
+
+    <!--Permissions-->
+    <string name="denied_permanently">Parece que has rechazado permanentemente el permiso de ubicación. Puedes ir a los ajustes de la app para otorgarlo.</string>
+    <string name="denied_perm">Esta aplicación necesita acceso a tu ubicación</string>
+    <string name="permission_required">Permiso requerido</string>
+    <string name="confirm">Confirmar</string>
+    <string name="dismiss">Cancelar</string>
+
+    <!--Main-->
+    <string name="feels_like">Sensación térmica</string>
+    <string name="today_titile">Hoy</string>
+    <string name="next_7_days_title">Próximos 7 días</string>
+    <string name="humidity_prop">Humedad</string>
+    <string name="wind_speed_prop">Velocidad</string>
+    <string name="wind_direction_prop">Dirección</string>
+    <string name="wind_gust_prop">Ráfaga</string>
+    <string name="precipitation_prop">Precipitación</string>
+    <string name="sunrise">Amanecer</string>
+    <string name="sunset">Atardecer</string>
+    <string name="pressure">Presión</string>
+    <string name="uv_index">Índice UV</string>
+    <string name="weather_app_bar_title">Clima</string>
+
+    <!--Welcome-->
+    <string name="choose_your_location">Elige tu ubicación</string>
+    <string name="continue_string">Continuar</string>
+    <string name="or">o</string>
+    <string name="detect_automatically">Detectar automáticamente</string>
+    <string name="wind">Viento</string>
+    <string name="maximum_wind_speed">Velocidad máxima del viento</string>
+    <string name="wind_direction">Dirección del viento</string>
+    <string name="precipitation">Precipitación</string>
+    <string name="total">Total: </string>
+    <string name="suncycles">Ciclos solares</string>
+    <string name="units_of_measurement">Unidades de medida</string>
+    <string name="units_of_measurement_short">Unidades</string>
+    <string name="temperature">Temperatura</string>
+
+    <!--Error-->
+    <string name="error_request_timeout">Tiempo de espera agotado</string>
+    <string name="error_server">Error del servidor</string>
+    <string name="error_no_internet">Sin conexión a Internet</string>
+    <string name="error_serialization">Error al procesar datos</string>
+    <string name="error_cant_sync">Error de sincronización</string>
+    <string name="error_location_not_found">Ubicación no encontrada</string>
+    <string name="error_too_many_requests">Demasiadas solicitudes</string>
+    <string name="error_unknown">Ocurrió un error desconocido</string>
+    <string name="error_disk_full">Almacenamiento lleno</string>
+    <string name="error_cannot_delete_data">No se pueden borrar los datos</string>
+    <string name="error_cannot_save_data">No se pudieron guardar los datos</string>
+    <string name="location_service_disabled">Servicio de ubicación desactivado</string>
+    <string name="local_storage_error">Error de almacenamiento local</string>
+
+    <!--Cities-->
+    <string name="locations">Ubicaciones</string>
+    <string name="find_me_button">Encuéntrame</string>
+    <string name="delete_city">¿Eliminar %1$s?</string>
+
+    <!--Settings-->
+    <string name="settings">Configuración</string>
+
+    <!--Widgets-->
+    <string name="current_forecast_widget_name">Pronóstico</string>
+    <string name="current_forecast_widget_description">La información actual del clima se actualizará según la geolocalización seleccionada.</string>
+
+
+    <string name="sun_cycle_widget_name">Ciclo Solar</string>
+    <string name="sun_cycle_widget_description">Información sobre la salida y puesta del sol</string>
+
+    <string name="uv_index_widget_name">Índice UV</string>
+    <string name="uv_index_widget_description">Información sobre el índice UV</string>
+
+    <string name="humidity_widget_name">Humedad</string>
+    <string name="humidity_widget_description">Información sobre la humedad</string>
+
+    <string name="wind_widget_name">Viento</string>
+    <string name="wind_widget_description">Información sobre el viento</string>
+
+    <string name="extended_forecast_widget_name">Pronóstico extendido</string>
+    <string name="extended_forecast_widget_description">El pronóstico extendido mostrará información por hora</string>
+    <string name="extended_forecast_widget_now">Ahora</string>
+
+</resources>

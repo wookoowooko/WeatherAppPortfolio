@@ -12,5 +12,6 @@ data class CurrentWeatherDomain(
     val current: CurrentDayModel,
     val hourly: HourlyModel,
     val daily: DailyModel,
-    val utcOffsetSeconds: Long
+    val utcOffsetSeconds: Long,
+
 )

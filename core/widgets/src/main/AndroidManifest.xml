@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+
+        <receiver
+            android:name=".currentforecast.CurrentForecastWidgetReceiver"
+            android:exported="true"
+            android:label="@string/current_forecast_widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/current_widget" />
+        </receiver>
+
+        <receiver
+            android:name=".suncycle.SynCycleWidgetReceiver"
+            android:exported="true"
+            android:label="@string/sun_cycle_widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/sun_cycle_widget" />
+        </receiver>
+
+        <receiver
+            android:name=".uvindex.UvIndexWidgetReceiver"
+            android:exported="true"
+            android:label="@string/uv_index_widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/uv_index_widget" />
+        </receiver>
+
+        <receiver
+            android:name=".humidity.HumidityWidgetReceiver"
+            android:exported="true"
+            android:label="@string/humidity_widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/humidity_widget" />
+        </receiver>
+
+        <receiver
+            android:name=".wind.WindWidgetReceiver"
+            android:exported="true"
+            android:label="@string/wind_widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/wind_widget" />
+        </receiver>
+
+        <receiver android:name=".extendedforecast.ExtendedForecastWidgetReceiver"
+            android:exported="true"
+            android:label="@string/extended_forecast_widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/extended_widget" />
+        </receiver>
+
+
+    </application>
+
+</manifest>
