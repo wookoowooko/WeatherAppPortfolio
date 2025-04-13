@@ -1,0 +1,8 @@
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/humidity_widget_name"
+    android:initialLayout="@layout/glance_default_loading_layout"
+    android:minWidth="100dp"
+    android:minHeight="100dp"
+    android:previewImage="@drawable/humidity_widget_preview"
+    android:resizeMode="vertical|horizontal"
+    android:updatePeriodMillis="0" />

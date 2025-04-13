@@ -7,14 +7,14 @@ import io.wookoo.network.dto.geocoding.GeocodingSearchDto
 import io.wookoo.network.dto.reversegeocoding.ReverseGeocodingResponseDto
 import io.wookoo.network.dto.reversegeocoding.ReverseGeocodingSearchDto
 
-fun GeocodingResponseDto.asGeocodingResponseModel(): io.wookoo.models.geocoding.GeocodingResponseDomainUi {
-    return io.wookoo.models.geocoding.GeocodingResponseDomainUi(
+fun GeocodingResponseDto.asGeocodingResponseModel(): GeocodingResponseDomainUi {
+    return GeocodingResponseDomainUi(
         results = results?.map { it.asGeocodingSearchModel() }.orEmpty()
     )
 }
 
-fun GeocodingSearchDto.asGeocodingSearchModel(): io.wookoo.models.geocoding.GeocodingDomainUI {
-    return io.wookoo.models.geocoding.GeocodingDomainUI(
+fun GeocodingSearchDto.asGeocodingSearchModel(): GeocodingDomainUI {
+    return GeocodingDomainUI(
         cityName = name,
         latitude = latitude,
         longitude = longitude,
@@ -24,14 +24,14 @@ fun GeocodingSearchDto.asGeocodingSearchModel(): io.wookoo.models.geocoding.Geoc
     )
 }
 
-fun ReverseGeocodingResponseDto.asReverseGeocodingResponseModel(): io.wookoo.models.geocoding.GeocodingResponseDomainUi {
-    return io.wookoo.models.geocoding.GeocodingResponseDomainUi(
+fun ReverseGeocodingResponseDto.asReverseGeocodingResponseModel(): GeocodingResponseDomainUi {
+    return GeocodingResponseDomainUi(
         results = geonames?.map { it.asReverseGeocodingSearchModel() }.orEmpty()
     )
 }
 
-fun ReverseGeocodingSearchDto.asReverseGeocodingSearchModel(): io.wookoo.models.geocoding.GeocodingDomainUI {
-    return io.wookoo.models.geocoding.GeocodingDomainUI(
+fun ReverseGeocodingSearchDto.asReverseGeocodingSearchModel(): GeocodingDomainUI {
+    return GeocodingDomainUI(
         cityName = cityName,
         latitude = 0.0,
         longitude = 0.0,

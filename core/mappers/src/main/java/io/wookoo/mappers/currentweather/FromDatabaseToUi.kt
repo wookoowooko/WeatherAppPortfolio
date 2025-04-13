@@ -46,6 +46,7 @@ object FromDatabaseToUi {
             ),
             weatherStatus = weatherCode,
             cloudCover = cloudCover,
+            uvIndex = uvIndex
         )
     }
 
@@ -64,7 +65,6 @@ object FromDatabaseToUi {
                 sunrise = sunrise,
                 sunset = sunset
             ),
-            uvIndexMax = uvIndexMax
         )
     }
 }

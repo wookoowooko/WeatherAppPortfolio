@@ -9,8 +9,5 @@ data class DailyDto(
     val sunrise: List<Long>,
 
     @SerialName("sunset")
-    val sunset: List<Long>,
-
-    @SerialName("uv_index_max")
-    val uvIndexMax: List<Float>,
+    val sunset: List<Long>
 )

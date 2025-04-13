@@ -2,14 +2,14 @@
   "formatVersion": 1,
   "database": {
     "version": 12,
-    "identityHash": "d8e216d9842dfd84593a4d5d490d63e8",
+    "identityHash": "23296ed60c3674bcc1d91f73929419b3",
     "entities": [
       {
         "tableName": "geo_entity",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`geo_name_id` INTEGER NOT NULL, `city_name` TEXT NOT NULL, `country_name` TEXT NOT NULL, `utc_offset_seconds` INTEGER NOT NULL, `is_current` INTEGER NOT NULL, PRIMARY KEY(`geo_name_id`))",
         "fields": [
           {
-            "fieldPath": "geoNameId",
+            "fieldPath": "geoItemId",
             "columnName": "geo_name_id",
             "affinity": "INTEGER",
             "notNull": true
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "daily",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dailyId` INTEGER NOT NULL, `sunrise` TEXT NOT NULL, `sunset` TEXT NOT NULL, `uv_index_max` TEXT NOT NULL, FOREIGN KEY(`dailyId`) REFERENCES `geo_entity`(`geo_name_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dailyId` INTEGER NOT NULL, `sunrise` TEXT NOT NULL, `sunset` TEXT NOT NULL, `uv_index` REAL NOT NULL, FOREIGN KEY(`dailyId`) REFERENCES `geo_entity`(`geo_name_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -78,8 +78,8 @@
           },
           {
             "fieldPath": "uvIndexMax",
-            "columnName": "uv_index_max",
-            "affinity": "TEXT",
+            "columnName": "uv_index",
+            "affinity": "REAL",
             "notNull": true
           }
         ],
@@ -335,7 +335,7 @@
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`geo_name_id` INTEGER NOT NULL, `city_name` TEXT NOT NULL, `is_day` INTEGER NOT NULL, `time` TEXT NOT NULL, `weather_code` TEXT NOT NULL, `temperature_2m_max` TEXT NOT NULL, `temperature_2m_min` TEXT NOT NULL, `apparent_temperature_max` TEXT NOT NULL, `apparent_temperature_min` TEXT NOT NULL, `sunrise` TEXT NOT NULL, `sunset` TEXT NOT NULL, `daylight_duration` TEXT NOT NULL, `sunshine_duration` TEXT NOT NULL, `uv_index_max` TEXT NOT NULL, `precipitation_sum` TEXT NOT NULL, `rain_sum` TEXT NOT NULL, `showers_sum` TEXT NOT NULL, `snowfall_sum` TEXT NOT NULL, `precipitation_probability_max` TEXT NOT NULL, `wind_speed_10m_max` TEXT NOT NULL, `wind_gusts_10m_max` TEXT NOT NULL, `wind_direction_10m_dominant` TEXT NOT NULL, `last_update` INTEGER NOT NULL, `utc_offset_seconds` INTEGER NOT NULL, PRIMARY KEY(`geo_name_id`))",
         "fields": [
           {
-            "fieldPath": "geoNameId",
+            "fieldPath": "geoItemId",
             "columnName": "geo_name_id",
             "affinity": "INTEGER",
             "notNull": true
@@ -492,7 +492,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd8e216d9842dfd84593a4d5d490d63e8')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '23296ed60c3674bcc1d91f73929419b3')"
     ]
   }
 }
