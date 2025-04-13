@@ -66,7 +66,6 @@ internal fun WindWidgetContent(
                 .fillMaxSize()
                 .padding(small)
         ) {
-
             Text(
                 modifier = GlanceModifier.fillMaxWidth().padding(medium),
                 text = currentState.widgetTitle,
@@ -118,16 +117,17 @@ internal fun WindWidgetContent(
                         maxLines = 1
                     )
 
-                Text(
-                    modifier = GlanceModifier.padding(start = medium),
-                    text = currentState.windSpeed,
-                    style = TextStyle(
-                        fontSize = MaterialTheme.typography.bodySmall.fontSize,
-                        color = ColorProvider(Color.White),
-                        textAlign = TextAlign.Center
-                    ),
-                    maxLines = 1
-                )}
+                    Text(
+                        modifier = GlanceModifier.padding(start = medium),
+                        text = currentState.windSpeed,
+                        style = TextStyle(
+                            fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                            color = ColorProvider(Color.White),
+                            textAlign = TextAlign.Center
+                        ),
+                        maxLines = 1
+                    )
+                }
             }
 
             Row(
@@ -179,7 +179,6 @@ internal fun WindWidgetContent(
                     )
                 }
             }
-
 
             Row(
                 modifier = GlanceModifier.fillMaxWidth()

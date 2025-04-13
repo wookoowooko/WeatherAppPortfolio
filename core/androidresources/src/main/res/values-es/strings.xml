@@ -148,5 +148,8 @@
     <string name="wind_widget_name">Viento</string>
     <string name="wind_widget_description">Información sobre el viento</string>
 
+    <string name="extended_forecast_widget_name">Pronóstico extendido</string>
+    <string name="extended_forecast_widget_description">El pronóstico extendido mostrará información por hora</string>
+    <string name="extended_forecast_widget_now">Ahora</string>
 
 </resources>

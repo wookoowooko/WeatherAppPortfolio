@@ -151,4 +151,8 @@
     <string name="wind_widget_name">Wind</string>
     <string name="wind_widget_description">Wind Information</string>
 
+    <string name="extended_forecast_widget_name">Extended Forecast</string>
+    <string name="extended_forecast_widget_description">Extended forecast will show information by hour</string>
+    <string name="extended_forecast_widget_now">Now</string>
+
 </resources>

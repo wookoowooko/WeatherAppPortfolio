@@ -1,16 +1,11 @@
 package io.wookoo.domain.usecases
 
 import io.wookoo.domain.annotations.CoveredByTest
+import io.wookoo.domain.utils.defineIsNow
 import io.wookoo.models.units.WeatherValueWithUnit
 import io.wookoo.models.weather.current.additional.HourlyModel
 import io.wookoo.models.weather.current.additional.HourlyModelItem
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import javax.inject.Inject
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
 @CoveredByTest
 class ConvertHourlyModelToHourlyListUseCase @Inject constructor(
@@ -49,20 +44,5 @@ class ConvertHourlyModelToHourlyListUseCase @Inject constructor(
                 isDay = listOfIsDay.getOrElse(index) { false },
             )
         }
-    }
-
-    private fun defineIsNow(input: Long, offset: Long): Boolean {
-        val now = Clock.System.now()
-            .plus(offset.toDuration(DurationUnit.SECONDS))
-            .toLocalDateTime(TimeZone.UTC)
-            .time
-            .hour
-
-        val inputTime = Instant.fromEpochSeconds((input + offset))
-            .toLocalDateTime(TimeZone.UTC)
-            .time
-            .hour
-
-        return now == inputTime
     }
 }

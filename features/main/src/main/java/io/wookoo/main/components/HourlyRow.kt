@@ -45,8 +45,7 @@ internal fun HourlyRow(
         items(
             items = state.currentWeather.hourlyList,
             key = { item -> item.time }
-        ) { item: io.wookoo.models.weather.current.additional.HourlyModelItem ->
-
+        ) { item: HourlyModelItem ->
             SharedHourlyComponent(
                 modifier = Modifier.padding(medium),
                 image = item.weatherCode.asLocalizedUiWeatherMap(isDay = item.isDay).first,

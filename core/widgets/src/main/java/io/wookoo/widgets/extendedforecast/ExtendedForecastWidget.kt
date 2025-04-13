@@ -15,8 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package io.wookoo.widgets.wind
+package io.wookoo.widgets.extendedforecast
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -27,44 +26,46 @@ import androidx.glance.appwidget.provideContent
 import androidx.glance.currentState
 import androidx.glance.state.GlanceStateDefinition
 import io.wookoo.domain.repo.IGlanceWidgetUpdater
-import io.wookoo.models.widgets.WindWidgetModel
+import io.wookoo.models.widgets.ExtendedCurrentForecastWidgetModel
 import io.wookoo.widgets.hilt.entrypoints.IGlanceWidgetUpdaterEntryPoint
 import io.wookoo.widgets.hilt.ext.getFromEntryPoint
 import io.wookoo.widgets.hilt.ext.getTargetActivity
 import java.io.File
 
-class WindWidget : GlanceAppWidget() {
+class ExtendedForecastWidget : GlanceAppWidget() {
 
-    override val stateDefinition: GlanceStateDefinition<WindWidgetModel>
-        get() = object : GlanceStateDefinition<WindWidgetModel> {
+    override val stateDefinition: GlanceStateDefinition<ExtendedCurrentForecastWidgetModel>
+        get() = object : GlanceStateDefinition<ExtendedCurrentForecastWidgetModel> {
             override suspend fun getDataStore(
                 context: Context,
                 fileKey: String,
-            ): DataStore<WindWidgetModel> {
+            ): DataStore<ExtendedCurrentForecastWidgetModel> {
                 val glanceWidgetUpdaters: Set<IGlanceWidgetUpdater> =
                     getFromEntryPoint<IGlanceWidgetUpdaterEntryPoint, Set<IGlanceWidgetUpdater>>(
                         context = context,
                     ) { getGlanceWidgetUpdater() }
 
-                val widgetUpdater: WindGlanceWidgetUpdaterRepo = glanceWidgetUpdaters
-                    .filterIsInstance<WindGlanceWidgetUpdaterRepo>()
-                    .firstOrNull()
-                    ?: throw IllegalArgumentException("WindGlanceWidgetUpdaterRepo not found")
+                val extendedCurrentForecastUpdater: ExtendedForecastGlanceWidgetUpdaterRepo =
+                    glanceWidgetUpdaters
+                        .filterIsInstance<ExtendedForecastGlanceWidgetUpdaterRepo>()
+                        .firstOrNull()
+                        ?: throw IllegalArgumentException("ExtendedCurrentForecastGlanceWidgetUpdaterRepo not found")
 
-                return widgetUpdater
+                return extendedCurrentForecastUpdater
             }
 
             override fun getLocation(context: Context, fileKey: String): File {
-                throw NotImplementedError("Not implemented for Wind Widget State Definition")
+                throw NotImplementedError("Not implemented for ExtendedCurrentForecast Widget State Definition")
             }
         }
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
             GlanceTheme {
-                WindWidgetContent(
+                ExtendedForecastWidgetContent(
                     currentState(),
-                    getTargetActivity(context.applicationContext)
+                    getTargetActivity(appContext = context.applicationContext),
+                    context.getString(io.wookoo.androidresources.R.string.extended_forecast_widget_now)
                 )
             }
         }

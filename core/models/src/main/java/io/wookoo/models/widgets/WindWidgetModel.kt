@@ -7,5 +7,5 @@ data class WindWidgetModel(
     val windSpeedTitle: String,
     val windDirectionTitle: String,
     val windGustTitle: String,
-    val widgetTitle : String,
+    val widgetTitle: String,
 )

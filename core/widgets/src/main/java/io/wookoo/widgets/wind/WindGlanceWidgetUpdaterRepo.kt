@@ -33,7 +33,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-
 class WindGlanceWidgetUpdaterRepo @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val currentForecastRepo: ICurrentForecastRepo,

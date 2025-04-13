@@ -24,6 +24,7 @@ import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import io.wookoo.domain.repo.IGlanceWidgetUpdater
 import io.wookoo.widgets.currentforecast.CurrentForecastGlanceWidgetUpdaterRepo
+import io.wookoo.widgets.extendedforecast.ExtendedForecastGlanceWidgetUpdaterRepo
 import io.wookoo.widgets.humidity.HumidityGlanceWidgetUpdaterRepo
 import io.wookoo.widgets.suncycle.SunCycleGlanceWidgetUpdaterRepo
 import io.wookoo.widgets.uvindex.UvIndexGlanceWidgetUpdaterRepo
@@ -73,4 +74,11 @@ object CurrentForecastGlanceWidgetModule {
         return windGlanceWidgetUpdaterRepo
     }
 
+    @Provides
+    @IntoSet
+    fun provideExtendedForecastGlanceWidgetUpdaterRepo(
+        extendedForecastGlanceWidgetUpdaterRepo: ExtendedForecastGlanceWidgetUpdaterRepo,
+    ): IGlanceWidgetUpdater {
+        return extendedForecastGlanceWidgetUpdaterRepo
+    }
 }
