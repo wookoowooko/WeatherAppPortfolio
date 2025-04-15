@@ -55,14 +55,19 @@
 - [Android SplashScreen](https://developer.android.com/develop/ui/views/launch/splash-screen)
 - [ViewBindingPropertyDelegate](https://github.com/androidbroadcast/ViewBindingPropertyDelegate)
 - [Android Compose Fragment](https://developer.android.com/develop/ui/compose/migrate/interoperability-apis/compose-in-views)
-- [Lottie](https://github.com/airbnb/lottie-android) — анимации
-- [Adapter Delegates](https://github.com/sockeqwe/AdapterDelegates) — для работы со списками и RecyclerView
+- [Lottie](https://github.com/airbnb/lottie-android)
+- [Adapter Delegates](https://github.com/sockeqwe/AdapterDelegates)
 
 
 ### 🧬 Асинхронность
 
-- Kotlin Coroutines
-- Flows
+- [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)
+- [Kotlin Flows](https://kotlinlang.org/docs/flow.html#flow-cancellation-basics)
+
+### ♻️ Бэкграунд
+
+- [Work Manager](https://developer.android.com/develop/background-work/background-tasks/persistent/getting-started)
+
 
 ### 📦 DI
 
@@ -72,7 +77,7 @@
 
 - [Retrofit](https://square.github.io/retrofit/)
 - [OkHttp](https://square.github.io/okhttp/)
-- [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization)
+- [Kotlinx serialization](https://github.com/Kotlin/kotlinx.serialization)
 
 ### 💾 Хранение данных
 
@@ -99,10 +104,53 @@
 
 ### 📅 Работа с датой и временем
 
-- [kotlinx-datetime](https://github.com/Kotlin/kotlinx-datetime)
+- [Kotlinx Date Time](https://github.com/Kotlin/kotlinx-datetime)
 
 ### 🎨 Code Style и анализ
 
 - [Detekt](https://detekt.dev/)
 - [Detekt Compose Rules](https://github.com/appKODE/detekt-rules-compose)
+
+
+## 📦 Модули проекта
+
+Проект построен на **модульной архитектуре**, что упрощает масштабирование, повторное использование и тестирование.
+
+### 🔧 Build Logic
+
+- [`build-logic`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/build-logic) — Gradle-плагины и конфигурации сборки
+
+### 🚀 Главный модуль
+
+- [`app`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/app) — точка входа в приложение, инициализация, навигация
+
+### 🧩 Core-модули
+
+- [`androidresources`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/core/androidresources) — строковые ресурсы, переводы (RU, EN, ES)
+- [`common`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/core/common) — базовые интерфейсы, утилиты
+- [`connectivity-observer`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/core/connectivity-observer) — мониторинг интернет-соединения
+- [`data`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/core/data) — общие интерфейсы и реализации репозиториев
+- [`database`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/core/database) — реализация локального хранилища (Room)
+- [`datastore`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/core/datastore) — реализация локального хранилища (Proto DataStore)
+- [`design-system`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/core/design-system) — UI-компоненты и тема (Compose + XML)
+- [`domain`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/core/domain) — бизнес-логика и use-cases
+- [`geolocation`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/core/geolocation) — определение координат 
+- [`mappers`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/core/mappers) — преобразование данных между слоями
+- [`models`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/core/models) — модели данных (DTO, Domain, UI, Entity)
+- [`network`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/core/network) — Retrofit, OkHttp, API-интерфейсы
+- [`permissions`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/core/permissions) — управление runtime-разрешениями
+- [`synchronizer`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/core/synchronizer) — логика синхронизации данных
+- [`widgets`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/core/widgets) — виджеты
+- [`worker`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/core/worker) — фоновые задачи через WorkManager
+
+### 🧩 Feature-модули
+
+Каждый отвечает за конкретный функционал и реализован в стиле feature-based архитектуры:
+
+- [`cities`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/features/cities) — поиск и управление списком городов
+- [`main`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/features/main) — главный экран с текущей погодой
+- [`settings`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/features/settings) — настройки приложения
+- [`weekly`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/features/weekly) — экран прогноза на неделю
+- [`welcome`](https://github.com/wookoowooko/WeatherAppPortfolio/tree/master/features/welcome) — онбординг
+
 
