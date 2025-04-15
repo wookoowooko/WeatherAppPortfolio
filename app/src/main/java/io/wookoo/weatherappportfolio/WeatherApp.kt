@@ -18,6 +18,6 @@ class WeatherApp : Application(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
-        Sync.initializePeriodic(this)
+        Sync.initializePeriodicSyncTask(this)
     }
 }
