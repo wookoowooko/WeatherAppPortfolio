@@ -1,12 +1,9 @@
 package io.wookoo.designsystem.ui.components
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -17,13 +14,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.tooling.preview.Preview
+import io.wookoo.designsystem.ui.theme.WeatherAppPortfolioTheme
 import kotlinx.coroutines.delay
-import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,39 +27,36 @@ fun SharedCustomSnackBar(
     isVisible: Boolean,
     onDismiss: () -> Unit,
     snackBarColor: Color,
+    modifier: Modifier = Modifier,
 ) {
-    val localDensity = LocalDensity.current
-    val topAppBarPadding = TopAppBarDefaults.windowInsets.asPaddingValues().calculateTopPadding()
-    val systemBars = WindowInsets.systemBars.asPaddingValues().calculateTopPadding()
-    val statusBarHeight = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
-    val finalHeight = topAppBarPadding + systemBars + statusBarHeight
-
-    val animatedOffset by animateFloatAsState(
-        targetValue = if (isVisible) 0f else -with(localDensity) { finalHeight.toPx() },
-        label = "snackbarOffset"
-    )
-
     if (message.isNotEmpty()) {
-        CenterAlignedTopAppBar(
-            modifier = Modifier
-                .offset { IntOffset(0, animatedOffset.roundToInt()) }
-                .fillMaxWidth(),
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = snackBarColor
-            ),
-            title = {
-                SharedText(
-                    text = message,
-                    color = Color.White,
-                    style = MaterialTheme.typography.titleMedium,
-                )
-            },
-            actions = {
-                IconButton(onClick = onDismiss) {
-                    Icon(Icons.Default.Close, contentDescription = null)
+        AnimatedVisibility(
+            modifier = modifier,
+            visible = isVisible,
+            enter = slideInVertically { -it },
+            exit = slideOutVertically { -it }
+        ) {
+            CenterAlignedTopAppBar(
+                modifier = Modifier.fillMaxWidth(),
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = snackBarColor),
+                title = {
+                    SharedText(
+                        text = message,
+                        color = Color.White,
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                },
+                actions = {
+                    IconButton(onClick = onDismiss) {
+                        Icon(
+                            Icons.Default.Close,
+                            contentDescription = null,
+                            tint = Color.White
+                        )
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 
     LaunchedEffect(isVisible) {
@@ -72,5 +64,18 @@ fun SharedCustomSnackBar(
             delay(3500)
             onDismiss()
         }
+    }
+}
+
+@Preview
+@Composable
+private fun SharedCustomSnackBarPreview() {
+    WeatherAppPortfolioTheme {
+        SharedCustomSnackBar(
+            message = "This is a custom snackbar",
+            isVisible = true,
+            onDismiss = {},
+            snackBarColor = Color.Red
+        )
     }
 }

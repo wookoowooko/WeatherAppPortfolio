@@ -152,4 +152,8 @@
     <string name="extended_forecast_widget_description">Расширенный прогноз показывает информацию по часам</string>
     <string name="extended_forecast_widget_now">Сейчас</string>
 
+    <string name="no_internet_connection">Нет подключения к интернету</string>
+    <string name="internet_connection_restore">Подключение к интернету восстановлено</string>
+
+
 </resources>

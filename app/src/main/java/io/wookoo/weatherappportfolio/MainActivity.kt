@@ -9,19 +9,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import io.wookoo.common.ext.hasLocationPermissions
@@ -38,7 +30,7 @@ import io.wookoo.weatherappportfolio.appstate.rememberAppState
 import io.wookoo.weatherappportfolio.navigation.Navigation
 import io.wookoo.weatherappportfolio.splash.SplashViewModel
 import io.wookoo.worker.utils.Sync
-import io.wookoo.worker.utils.Sync.initializeOneTime
+import io.wookoo.worker.utils.Sync.initializeOneTimeSyncTask
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -79,10 +71,6 @@ class MainActivity : AppCompatActivity() {
 
             val startScreenState by splashViewModel.splashState.collectAsState()
             val startDestination = startScreenState.startDestination()
-            val appState = rememberAppState(
-                networkMonitor = connectivityObserver,
-                dataStore = dataStore,
-            )
             val locationPermissionResultLauncher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.RequestPermission(),
                 onResult = { isGranted ->
@@ -93,28 +81,10 @@ class MainActivity : AppCompatActivity() {
                 }
             )
 
-            val isOffline by appState.isOffline.collectAsStateWithLifecycle()
-            var snackBarMessage by rememberSaveable { mutableStateOf("") }
-            var isSnackBarVisible by rememberSaveable { mutableStateOf(false) }
-            val notConnectedMessage =
-                stringResource(io.wookoo.androidresources.R.string.error_no_internet)
-            var firstLaunched by rememberSaveable { mutableStateOf(true) }
-            var snackBarColor by remember { mutableStateOf(Color.Red) }
-
-            LaunchedEffect(isOffline) {
-                if (isOffline) {
-                    snackBarMessage = notConnectedMessage
-                    isSnackBarVisible = true
-                    snackBarColor = Color.Red
-                    firstLaunched = false
-                } else {
-                    if (!firstLaunched) {
-                        snackBarMessage = "Internet restored"
-                        isSnackBarVisible = true
-                        snackBarColor = Color.Green
-                    }
-                }
-            }
+            val appState = rememberAppState(networkMonitor = connectivityObserver)
+            val snackBarMessage by appState.snackBarMessage.collectAsState()
+            val isSnackBarVisible by appState.isSnackBarVisible.collectAsState()
+            val snackBarColor by appState.snackBarColor.collectAsState()
 
             LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
                 if (this.hasLocationPermissions()) {
@@ -149,11 +119,10 @@ class MainActivity : AppCompatActivity() {
                             )
                         },
                         onShowSnackBar = { message ->
-                            snackBarMessage = message
-                            isSnackBarVisible = true
+                            appState.showSnackBar(message)
                         },
                         onSyncRequest = { geoItemId, isNeedToUpdate ->
-                            initializeOneTime(
+                            initializeOneTimeSyncTask(
                                 context = this@MainActivity,
                                 locationId = geoItemId,
                                 isNeedToUpdate = isNeedToUpdate
@@ -166,7 +135,7 @@ class MainActivity : AppCompatActivity() {
                     snackBarColor = snackBarColor,
                     message = snackBarMessage,
                     isVisible = isSnackBarVisible,
-                    onDismiss = { isSnackBarVisible = false }
+                    onDismiss = { appState.dismissSnackBar() }
                 )
             }
         }
