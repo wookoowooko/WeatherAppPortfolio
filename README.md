@@ -33,7 +33,7 @@
 
 - **[Open-Meteo Weather API](https://open-meteo.com/)** — для получения прогноза погоды (температура, ветер, влажность и пр.)
 - **[Open-Meteo Geocoding API](https://geocoding-api.open-meteo.com/)** — геокодинг и определение координат по названию города
-- **[GeoNames](https://www.geonames.org/)**  — ркверс геокодинг. Требуется бесплатный API-ключ:
+- **[GeoNames](https://www.geonames.org/)**  — реверс геокодинг. Требуется бесплатный API-ключ:
 
 > 🔐 Для использования GeoNames необходимо получить **бесплатный API-ключ**. Зарегистрируйтесь на [geonames.org](https://www.geonames.org/login) и создайте пользователя, укажите ключ в `gradle.properties`:
 >
@@ -43,29 +43,21 @@
 
 ## 🧰 Стек и библиотеки
 
-Проект построен на базе **Kotlin 2+** и **AGP 8.8+**, с акцентом на модульную архитектуру, современные подходы к UI и производительность.
+Проект построен на базе **Kotlin 2+** , **KSP** , **AGP 8.8+**
 
 ### 🖼️ UI
 
+- [XML View с ViewBindings](https://developer.android.com/topic/libraries/view-binding)
 - [Jetpack Compose](https://developer.android.com/jetpack/compose)
 - [Compose ConstraintLayout](https://developer.android.com/jetpack/compose/layouts/constraintlayout)
-- [Material 3 Adaptive](https://developer.android.com/jetpack/compose/adaptive)
-- [Material Icons Extended](https://developer.android.com/reference/kotlin/androidx/compose/material/icons/extended/package-summary)
+- [Material 3 Adaptive](https://m3.material.io/foundations/adaptive-design)
+- [Material Icons Extended](https://mvnrepository.com/artifact/androidx.compose.material/material-icons-extended)
 - [Android SplashScreen](https://developer.android.com/develop/ui/views/launch/splash-screen)
-- XML View System с ViewBindings
 - [ViewBindingPropertyDelegate](https://github.com/androidbroadcast/ViewBindingPropertyDelegate)
-- Фрагменты с поддержкой Compose (`androidx.fragment:fragment-ktx`)
+- [Android Compose Fragment](https://developer.android.com/develop/ui/compose/migrate/interoperability-apis/compose-in-views)
 - [Lottie](https://github.com/airbnb/lottie-android) — анимации
+- [Adapter Delegates](https://github.com/sockeqwe/AdapterDelegates) — для работы со списками и RecyclerView
 
-### 🗂️ Архитектура
-
-- Модульная структура (features, core, build-logic)
-- Presentation: Compose + XML
-- Поддержка **адаптивного дизайна**:
-    - Планшеты
-    - Складные устройства (foldables)
-    - Горизонтальная и вертикальная ориентация
-- Мультиязычность: 🇷🇺 🇪🇸 🇺🇸 (ru, es, en)
 
 ### 🧬 Асинхронность
 
@@ -113,8 +105,4 @@
 
 - [Detekt](https://detekt.dev/)
 - [Detekt Compose Rules](https://github.com/appKODE/detekt-rules-compose)
-
-### ♻️ Дополнительно
-
-- [Adapter Delegates](https://github.com/sockeqwe/AdapterDelegates) — для работы со списками и RecyclerView
 
