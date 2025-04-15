@@ -1,10 +1,25 @@
+/*
+ * Copyright 2025  - Ruslan Gaivoronskii (aka wookoowookoo) https://github.com/wookoowooko
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.wookoo.geolocation
 
 import android.Manifest.permission
 import android.content.Context
 import android.location.LocationManager
 import android.os.Looper
-import android.util.Log
 import androidx.annotation.RequiresPermission
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.Granularity
@@ -17,115 +32,12 @@ import io.wookoo.common.ext.hasLocationPermissions
 import io.wookoo.domain.repo.ILocationProvider
 import io.wookoo.domain.utils.AppResult
 import io.wookoo.domain.utils.DataError
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-// class WeatherLocationManager @Inject constructor(
-//    @ApplicationContext private val context: Context,
-// ) :
-//    LocationListener, ILocationProvider {
-//    private val locationManager =
-//        context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//
-//    private var onSuccessfullyLocationReceived: ((latitude: Double, longitude: Double) -> Unit)? =
-//        null
-//    private var onError: ((AppError) -> Unit)? = null
-//
-//    @RequiresPermission(anyOf = [permission.ACCESS_COARSE_LOCATION, permission.ACCESS_FINE_LOCATION])
-//    override fun getGeolocationFromGpsSensors(
-//        onSuccessfullyLocationReceived: (latitude: Double, longitude: Double) -> Unit,
-//        onError: (AppError) -> Unit,
-//    ) {
-//        try {
-//            if (!context.isFineLocationPermissionGranted()) return
-//
-//            this.onSuccessfullyLocationReceived = onSuccessfullyLocationReceived
-//            this.onError = onError
-//
-//            val provider = when {
-//                locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) -> LocationManager.GPS_PROVIDER
-//                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) -> LocationManager.NETWORK_PROVIDER
-//                else -> null
-//            }
-//            if (provider == null) {
-//                onError(DataError.Hardware.LOCATION_SERVICE_DISABLED)
-//                return
-//            }
-//            locationManager.requestLocationUpdates(provider, 0L, 0f, this@WeatherLocationManager)
-//        } catch (e: SecurityException) {
-//            Log.e(TAG, "security", e)
-//            onError(DataError.Hardware.UNKNOWN)
-//        }
-//    }
-//
-//    override fun onLocationChanged(location: Location) {
-//        onSuccessfullyLocationReceived?.invoke(location.latitude, location.longitude)
-//        locationManager.removeUpdates(this)
-//    }
-//
-//    private companion object {
-//        private const val TAG = "WeatherLocationManager"
-//    }
-// }
-
-// class WeatherLocationManager @Inject constructor(
-//    @ApplicationContext private val context: Context,
-// ) : ILocationProvider {
-//
-//    private val locationManager =
-//        context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//
-//    @RequiresPermission(anyOf = [permission.ACCESS_COARSE_LOCATION, permission.ACCESS_FINE_LOCATION])
-//    override fun getGeolocationFromGpsSensors(): Flow<AppResult<Pair<Double, Double>, DataError.Hardware>> =
-//        callbackFlow {
-//            if (!context.isFineLocationPermissionGranted()) {
-//                trySend(AppResult.Error(DataError.Hardware.LOCATION_SERVICE_DISABLED))
-//                close()
-//                return@callbackFlow
-//            }
-//
-//            val provider = when {
-//                locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) -> LocationManager.GPS_PROVIDER
-//                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) -> LocationManager.NETWORK_PROVIDER
-//                else -> null
-//            }
-//
-//            if (provider == null) {
-//                trySend(AppResult.Error(DataError.Hardware.LOCATION_SERVICE_DISABLED))
-//                close()
-//                return@callbackFlow
-//            }
-//
-//            val locationListener = object : LocationListener {
-//                override fun onLocationChanged(location: Location) {
-//                    trySend(AppResult.Success(location.latitude to location.longitude))
-//                }
-//
-//                override fun onProviderDisabled(provider: String) {
-//                    trySend(AppResult.Error(DataError.Hardware.LOCATION_SERVICE_DISABLED))
-//                }
-//            }
-//
-//
-//            locationManager.requestLocationUpdates(provider, 0L, 0f, locationListener)
-//
-//            awaitClose {
-//                Log.d(TAG, "removed: ")
-//                locationManager.removeUpdates(locationListener)
-//            }
-//
-//
-//        }
-//    companion object{
-//        private const val TAG = "WeatherLocationManager"
-//    }
-// }
-
-@OptIn(ExperimentalCoroutinesApi::class)
 class WeatherLocationManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val client: FusedLocationProviderClient,
@@ -163,7 +75,6 @@ class WeatherLocationManager @Inject constructor(
                 override fun onLocationResult(result: LocationResult) {
                     super.onLocationResult(result)
                     result.locations.lastOrNull()?.let { location ->
-                        Log.d(TAG, "$location: ")
                         launch { send(AppResult.Success(location.latitude to location.longitude)) }
                     }
                 }
@@ -176,7 +87,6 @@ class WeatherLocationManager @Inject constructor(
             )
 
             awaitClose {
-                Log.d(TAG, "removed: ")
                 client.removeLocationUpdates(locationCallback)
                 client.flushLocations()
             }
@@ -184,6 +94,5 @@ class WeatherLocationManager @Inject constructor(
 
     companion object {
         private const val INTERVAL = 10000L
-        private const val TAG = "WeatherLocationManager"
     }
 }

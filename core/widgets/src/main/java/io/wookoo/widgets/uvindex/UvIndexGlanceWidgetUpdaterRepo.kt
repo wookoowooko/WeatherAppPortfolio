@@ -1,7 +1,5 @@
 /*
- * Author - Ruslan Gaivoronskii https://github.com/wookoowooko
- * Copyright 2025 The Android Open Source Project
- *
+ * Copyright 2025  - Ruslan Gaivoronskii (aka wookoowookoo) https://github.com/wookoowooko
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.wookoo.widgets.uvindex
 
 import android.content.Context

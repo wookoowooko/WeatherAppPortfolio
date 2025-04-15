@@ -1,17 +1,5 @@
-package io.wookoo.designsystem.ui.adaptive
-
-import android.content.res.Configuration.ORIENTATION_LANDSCAPE
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.window.core.layout.WindowHeightSizeClass
-import androidx.window.core.layout.WindowWidthSizeClass
-
 /*
- * Author - Ruslan Gaivoronskii https://github.com/wookoowooko
- * Copyright 2025 The Android Open Source Project
- *
+ * Copyright 2025  - Ruslan Gaivoronskii (aka wookoowookoo) https://github.com/wookoowooko
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +13,16 @@ import androidx.window.core.layout.WindowWidthSizeClass
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package io.wookoo.designsystem.ui.adaptive
+
+import android.content.res.Configuration.ORIENTATION_LANDSCAPE
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 
 interface Pane
 
