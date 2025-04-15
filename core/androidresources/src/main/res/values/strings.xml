@@ -155,4 +155,9 @@
     <string name="extended_forecast_widget_description">Extended forecast will show information by hour</string>
     <string name="extended_forecast_widget_now">Now</string>
 
+    <!--SnackBar-->
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="internet_connection_restore">Internet connection restored</string>
+
+
 </resources>

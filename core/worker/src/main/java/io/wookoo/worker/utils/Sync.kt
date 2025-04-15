@@ -9,7 +9,7 @@ import io.wookoo.worker.workers.SyncWorker
 
 object Sync {
 
-    fun initializeOneTime(context: Context, locationId: Long, isNeedToUpdate: Boolean) {
+    fun initializeOneTimeSyncTask(context: Context, locationId: Long, isNeedToUpdate: Boolean) {
         WorkManager.getInstance(context)
             .enqueueUniqueWork(
                 ONETIME_SYNC_WORK_NAME,
@@ -18,7 +18,7 @@ object Sync {
             )
     }
 
-    fun initializePeriodic(context: Context) {
+    fun initializePeriodicSyncTask(context: Context) {
         WorkManager.getInstance(context)
             .enqueueUniquePeriodicWork(
                 PERIODIC_SYNC_WORK_NAME,
